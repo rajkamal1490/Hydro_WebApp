@@ -8,41 +8,10 @@
         <div class="sidebar-inner">
             <div class="sidebar-top big-img">
                 <div class="user-image">
-                  <img ng-src="{{vm.authentication.user.profileImageURL}}" alt="{{vm.authentication.user.displayName}}" class="img-responsive img-circle" >
+                  <img ng-src="/{{vm.authentication.user.profileImageURL}}" alt="{{vm.authentication.user.displayName}}" class="img-responsive img-circle" >
                 </div>
                 <h4 style="text-align: center;">{{vm.authentication.user.displayName}}</h4>
-                <!-- <div class="dropdown user-login">
-                  <button class="btn btn-xs dropdown-toggle btn-rounded" type="button" data-toggle="dropdown" data-hover="dropdown" data-close-others="true" data-delay="300">
-                  <i class="online"></i><span>Available</span> <i class="fa fa-angle-down"></i>
-                  </button>
-                  <ul class="dropdown-menu">
-                    <li>
-                      <a href="#"><i class="busy"></i><span>Busy</span></a>
-                    </li>
-                    <li>
-                      <a href="#"><i class="turquoise"></i> 
-                      <span>Invisible</span></a>
-                    </li>
-                    <li>
-                      <a href="#"><i class="away"></i> 
-                      <span>Away</span></a>
-                    </li>
-                  </ul>
-                </div> -->
-            </div>
-            <!-- <div class="menu-title">
-                Navigation 
-            <div class="pull-right menu-settings">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true" data-delay="300"> 
-            <i class="icon-settings"></i>
-            </a>
-            <ul class="dropdown-menu">
-            <li><a href="#" id="reorder-menu" class="reorder-menu">Reorder menu</a></li>
-            <li><a href="#" id="remove-menu" class="remove-menu">Remove elements</a></li>
-            <li><a href="#" id="hide-top-sidebar" class="hide-top-sidebar">Hide user &amp; search</a></li>
-            </ul>
-            </div> 
-            </div>-->
+            </div>           
             <ul class="nav nav-sidebar">
                 <li ng-class="{ 'nav-active active': isActive('/') }"><a href="/">
                     <i class="mdi-action-dashboard"></i><span>Dashboard</span></a>
@@ -52,19 +21,19 @@
                     <i class="mdi-action-assignment"></i><span>Tasks</span></a>
                 </li>
                                 
-                <li class="nav-parent" ng-show="vm.CommonService.hasVp(vm.authentication)">
+                <li class="nav-parent" ng-class="{ 'nav-active active': isActive('/meetings/list, /meetings/create') }">
                     <a href=""><i class="fa fa-calendar"></i><span>My Calendar</span><span class="fa arrow"></span></a>
                     <ul class="children collapse">
-                        <li><a href="ecommerce-cart.html">Attendance</a></li>
-                        <li><a href="ecommerce-invoice.html">Meetings</a></li>
+                        <li ng-class="{ 'active': isChildrenActive('/meetings/list') }"><a ui-sref="meetings.list">Attendance</a></li>
+                        <li ng-class="{ 'active': isChildrenActive('/meetings/create') }"><a ui-sref="meetings.create">Meetings</a></li>
                     </ul>
-                </li>
+                </li>             
 
-                <li ng-class="{ 'nav-active active': isActive('/admin/accounts') }"><a href="/">
+                <li ng-class="{ 'nav-active active': isActive('/admin/accounts') }"><a href="">
                     <i class="mdi-action-account-balance-wallet"></i><span>Accounts</span></a>
                 </li>
 
-                <li class="nav-parent">
+               <!--  <li class="nav-parent">
                     <a href=""><i class="icon-cup"></i><span>Extra </span><span class="fa arrow"></span></a>
                     <ul class="children collapse">
                         <li><a href="extra-fullcalendar.html"><span class="pull-right badge badge-primary">New</span> Fullcalendar</a></li>
@@ -75,7 +44,7 @@
                         <li><a href="maps-vector.html"> Vector Maps</a></li>
                         <li><a href="extra-translation.html"> Translation</a></li>
                     </ul>
-                </li>
+                </li> -->
 
                 <li class="nav-parent" ng-class="{ 'nav-active active': isActive('/admin/users, /admin/createuser') }" ng-show="vm.CommonService.hasExecutive(vm.authentication) || vm.CommonService.hasVp(vm.authentication)">
                     <a href=""><i class="icon-user"></i><span>Users </span><span class="fa arrow"></span></a>
@@ -87,32 +56,16 @@
             </ul>
             <!-- SIDEBAR WIDGET FOLDERS -->
             <div class="sidebar-widgets">
-                <p class="menu-title widget-title">Folders <span class="pull-right"><a href="#" class="new-folder"> <i class="icon-plus"></i></a></span></p>
+                <p class="menu-title widget-title">Directives</p>
                 <ul class="folders">
                     <li>
                         <a href="#"><i class="icon-doc c-primary"></i>My documents</a> 
                     </li>
                     <li>
-                        <a href="#"><i class="icon-picture"></i>My images</a> 
-                    </li>
-                    <li>
-                        <a href="#"><i class="icon-lock"></i>Secure data</a> 
-                    </li>
-                    <li class="add-folder">
-                        <input type="text" placeholder="Folder's name..." class="form-control input-sm">
-                    </li>
+                        <a ui-sref="contacts.list"><i class="icon-docs"></i>Contacts</a> 
+                    </li>                   
                 </ul>
-            </div>
-            <!--  <div class="sidebar-footer clearfix">
-            <a class="pull-left footer-settings" href="#" data-rel="tooltip" data-placement="top" data-original-title="Settings">
-            <i class="icon-settings"></i></a>
-            <a class="pull-left toggle_fullscreen" href="#" data-rel="tooltip" data-placement="top" data-original-title="Fullscreen">
-            <i class="icon-size-fullscreen"></i></a>
-            <a class="pull-left" href="user-lockscreen.html" data-rel="tooltip" data-placement="top" data-original-title="Lockscreen">
-            <i class="icon-lock"></i></a>
-            <a class="pull-left btn-effect" href="user-login-v1.html" data-modal="modal-1" data-rel="tooltip" data-placement="top" data-original-title="Logout">
-            <i class="icon-power"></i></a>
-            </div> -->
+            </div>          
         </div>    
     </div>
 </div>

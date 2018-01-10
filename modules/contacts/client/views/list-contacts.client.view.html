@@ -16,6 +16,7 @@
       <h4 class="list-group-item-heading" ng-bind="contact.name"></h4>
     </a>
   </div>
+  <a ui-sref="contacts.create" class="btn btn-primary"><i class="icon-plus"></i></a>
   <div class="alert alert-warning text-center" ng-if="vm.contacts.$resolved && !vm.contacts.length">
     No Contacts yet, why don't you <a ui-sref="contacts.create">create one</a>?
   </div>

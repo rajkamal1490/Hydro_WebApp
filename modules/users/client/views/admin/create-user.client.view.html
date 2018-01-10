@@ -1,12 +1,12 @@
 <div class="col-md-12">
               <div class="panel panel-default no-bd">
-                <div class="panel-header bg-light">
-                  <h2 style="color: black" class="panel-title"><strong>Create</strong> new user</h2>
+                <div class="panel-header bg-dark">
+                  <h2 class="panel-title"><strong>Create</strong> new user</h2>
                 </div>
                 <div class="panel-body bg-white">
                   <div class="row">
                     <div class="col-md-12 col-sm-12 col-xs-12">
-                      <form name="vm.userForm" ng-submit="vm.signup(vm.userForm.$valid)" autocomplete="off" novalidate>
+                      <form name="vm.userForm" ng-submit="vm.signup(vm.userForm.$valid)" autocomplete="off" novalidate autocomplete="off">
                         <!-- <div class="row">
                           <div class="col-sm-6">
                             <div class="form-group" show-errors>
@@ -305,7 +305,7 @@
                         <div layout="row" flex>
                           <md-input-container flex>
                             <label class="my-label">Date Of Birth</label>
-                            <input type="text" name="dob" ng-model="vm.credentials.dob" class="b-datepicker" data-view="2"/>
+                            <input required type="text" name="dob" ng-model="vm.credentials.dob" class="b-datepicker" data-view="2"/>
                             <div ng-messages="vm.userForm.dob.$error">
                               <div ng-message="required">DOB is required.</div>
                             </div>
@@ -347,9 +347,8 @@
                         </div>
 
                         <div layout="row" flex>
-                          <md-input-container flex="30">
-                            <label class="my-label">Select user group</label>
-                                <md-select required 
+                            <md-input-container flex="50">
+                                <md-select required
                                     name="usergroup"
                                     ng-model="vm.credentials.userGroup">
                                     <md-option ng-value="usergroup.code" ng-repeat="usergroup in vm.userGroups">{{usergroup.name}}</md-option>

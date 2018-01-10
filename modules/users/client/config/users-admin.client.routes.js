@@ -34,6 +34,12 @@
         controller: 'CreateUserController',
         controllerAs: 'vm'
       })
+      .state('admin.add-contact', {
+        url: '/addcontact',
+        templateUrl: '/modules/users/client/views/admin/create-contact.client.view.html',
+        controller: 'CreateUserController',
+        controllerAs: 'vm'
+      })
       .state('admin.user-edit', {
         url: '/users/:userId/edit',
         templateUrl: '/modules/users/client/views/admin/edit-user.client.view.html',
