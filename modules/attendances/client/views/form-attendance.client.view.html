@@ -1,0 +1,24 @@
+<section>
+  <div class="page-header">
+    <h1>{{vm.attendance._id ? 'Edit Attendance' : 'New Attendance'}}</h1>
+  </div>
+  <div class="col-md-12">
+    <form name="vm.form.attendanceForm" class="form-horizontal" ng-submit="vm.save(vm.form.attendanceForm.$valid)" novalidate>
+      <fieldset>
+        <div class="form-group" show-errors>
+          <label class="control-label" for="name">Name</label>
+          <input name="name" type="text" ng-model="vm.attendance.name" id="name" class="form-control" placeholder="Name" required>
+          <div ng-messages="vm.form.attendanceForm.name.$error" role="alert">
+            <p class="help-block error-text" ng-message="required">Attendance name is required.</p>
+          </div>
+        </div>
+        <div class="form-group">
+          <button type="submit" class="btn btn-default">{{vm.attendance._id ? 'Update' : 'Create'}}</button>
+        </div>
+        <div ng-show="vm.error" class="text-danger">
+          <strong ng-bind="vm.error"></strong>
+        </div>
+      </fieldset>
+    </form>
+  </div>
+</section>

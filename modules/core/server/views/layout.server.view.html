@@ -1,0 +1,147 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+   <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+  <title page-title></title>
+  <meta name="description" content="{{description}}">
+  <meta name="fragment" content="!">
+
+  <!-- Apple META -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+  <!-- Facebook META -->
+  <meta property="fb:app_id" content="{{facebookAppId}}">
+  <meta property="og:site_name" content="{{title}}">
+  <meta property="og:title" content="{{title}}">
+  <meta property="og:description" content="{{description}}">
+  <meta property="og:url" content="{{url}}">
+  <meta property="og:image" content="{{logo}}">
+  <meta property="og:type" content="website">
+
+  <!-- Twitter META -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:site" content="{{twitterUsername}}">
+  <meta name="twitter:title" content="{{title}}">
+  <meta name="twitter:description" content="{{description}}">
+  <meta name="twitter:image" content="{{logo}}">
+
+  <!-- Fav Icon -->
+  <link href="/{{favicon}}" rel="shortcut icon" type="image/x-icon">
+
+  <!-- Application CSS Files -->
+  {{#each cssFiles}}<link rel="stylesheet" href="/{{this}}">{{/each}}
+
+    <link href="/assets/global/css/style.css" rel="stylesheet">
+    <link href="/assets/global/css/theme.css" rel="stylesheet">
+    <link href="/assets/global/css/ui.css" rel="stylesheet">
+    <link href="/assets/admin/{{css}}/material-design/css/material.css" rel="stylesheet">
+    <link href="/assets/admin/{{css}}/css/layout.css" rel="stylesheet">
+    <!-- BEGIN PAGE STYLE -->
+    <link href="/assets/global/plugins/metrojs/metrojs.min.css" rel="stylesheet">
+    <link href="/assets/global/plugins/maps-amcharts/ammap/ammap.css" rel="stylesheet">
+    <link href="/assets/global/plugins/bootstrap-datepicker/css/bootstrap-datepicker3.min.css" rel="stylesheet">
+    <!-- END PAGE STYLE -->
+    <script src="/assets/global/plugins/modernizr/modernizr-2.6.2-respond-1.1.0.min.js"></script>
+  </head>
+  <!-- LAYOUT: Apply "submenu-hover" class to body element to have sidebar submenu show on mouse hover -->
+  <!-- LAYOUT: Apply "sidebar-collapsed" class to body element to have collapsed sidebar -->
+  <!-- LAYOUT: Apply "sidebar-top" class to body element to have sidebar on top of the page -->
+  <!-- LAYOUT: Apply "sidebar-hover" class to body element to show sidebar only when your mouse is on left / right corner -->
+  <!-- LAYOUT: Apply "submenu-hover" class to body element to show sidebar submenu on mouse hover -->
+  <!-- LAYOUT: Apply "fixed-sidebar" class to body to have fixed sidebar -->
+  <!-- LAYOUT: Apply "fixed-topbar" class to body to have fixed topbar -->
+  <!-- LAYOUT: Apply "rtl" class to body to put the sidebar on the right side -->
+  <!-- LAYOUT: Apply "boxed" class to body to have your page with 1200px max width -->
+
+  <!-- THEME STYLE: Apply "theme-sdtl" for Sidebar Dark / Topbar Light -->
+  <!-- THEME STYLE: Apply  "theme sdtd" for Sidebar Dark / Topbar Dark -->
+  <!-- THEME STYLE: Apply "theme sltd" for Sidebar Light / Topbar Dark -->
+  <!-- THEME STYLE: Apply "theme sltl" for Sidebar Light / Topbar Light -->
+  
+  <!-- THEME COLOR: Apply "color-default" for dark color: #2B2E33 -->
+  <!-- THEME COLOR: Apply "color-primary" for primary color: #319DB5 -->
+  <!-- THEME COLOR: Apply "color-red" for red color: #C9625F -->
+  <!-- THEME COLOR: Apply "color-green" for green color: #18A689 -->
+  <!-- THEME COLOR: Apply "color-orange" for orange color: #B66D39 -->
+  <!-- THEME COLOR: Apply "color-purple" for purple color: #6E62B5 -->
+  <!-- THEME COLOR: Apply "color-blue" for blue color: #4A89DC -->
+  <!-- BEGIN BODY -->
+
+  <body class="{{bodyClass}}" data-page="{{dataPage}}">
+    <!--[if lt IE 7]>
+    <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+    <![endif]-->
+    <section>
+      <!-- BEGIN SIDEBAR -->      
+      <span ng-include="'/modules/core/client/views/sidebar.client.view.html'"></span>      
+      <!-- END SIDEBAR -->
+      <div class="{{mainContent}}">
+        <!-- BEGIN TOPBAR -->
+        <span ng-include="'/modules/core/client/views/header.client.view.html'"></span>
+        <!-- END TOPBAR -->
+        <!-- BEGIN PAGE CONTENT -->
+        <div class="page-content page-thin">
+          <div class="container-fluid">
+              <div class="row">
+                {{{block "content"}}}
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- END PAGE CONTENT -->
+      </div>     
+    </section>
+
+    <!-- BEGIN PRELOADER -->
+    <div class="loader-overlay">
+      <div class="spinner">
+        <div class="bounce1"></div>
+        <div class="bounce2"></div>
+        <div class="bounce3"></div>
+      </div>
+    </div>
+
+    <a href="#" class="scrollup"><i class="fa fa-angle-up"></i></a> 
+
+    <noscript>
+      <style>
+        [ng\:cloak], [ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+          display: block !important;
+        }
+      </style>
+      <div class="alert alert-warning">
+        <strong>This page requires JavaScript.</strong> Please enable it in your browser.
+      </div>
+    </noscript>
+
+    <!--Embedding The User Object-->
+    <script type="text/javascript">
+      var user = {{{ user }}};
+      var env = "{{ env }}";
+    </script>
+  
+    <!--Load The Socket.io File-->
+    <script type="text/javascript" src="/socket.io/socket.io.js"></script>
+
+    <script src="https://apis.google.com/js/client.js"></script>
+
+  <!--Application JavaScript Files-->    
+
+    {{#each jsFiles}}<script type="text/javascript" src="/{{this}}"></script>{{/each}}    
+      <!--owasp config sync-->
+    <script type="text/javascript">
+      var sharedConfig = {{{ sharedConfig }}};
+      owaspPasswordStrengthTest.config(sharedConfig.owasp);
+    </script>
+
+    {{#if livereload}}
+    <!--Livereload script rendered -->
+    <script type="text/javascript" src="{{host}}:35729/livereload.js"></script>
+    {{/if}}
+  </body>
+</html>
+

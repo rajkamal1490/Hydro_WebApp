@@ -1,0 +1,72 @@
+<section>
+  <div class="page-content">
+          <div class="header">
+            <h2>Users <strong>List</strong></h2>
+            <!-- <div class="breadcrumb-wrapper">
+              <ol class="breadcrumb">
+                <li><a href="dashboard">Make</a>
+                </li>
+                <li><a href="tables">Tables</a>
+                </li>
+                <li class="active">Tables Editable</li>
+              </ol>
+            </div> -->
+          </div>
+          <div class="row">
+            <div class="col-lg-12 portlets">
+              <div class="panel">
+                <!-- <div class="panel-header panel-controls">
+                  <h3><i class="fa fa-table"></i> <strong>Editable</strong> Tables</h3>
+                </div> -->
+                <div class="panel-content">                  
+                  <table class="table table-hover dataTable" id="table-editable">
+                    <thead>
+                      <tr>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>Email</th>
+                        <th>User Group</th>
+                        <th class="text-right">Action</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr ng-repeat="user in vm.pagedItems | orderBy: 'firstName'">
+                        <td>{{user.firstName}}</td>
+                        <td>{{user.lastName}}</td>
+                        <td>{{user.email}}</td>
+                        <td>
+                          <div ng-repeat="userGroup in user.userGroup" class="nav nav-pills"><span class="text-default">{{vm.getUserGroupName(userGroup)}}</span>
+                          </div>
+                      </td>
+                        <td class="text-right"><button class="edit btn btn-sm btn-default" ng-click="vm.editUser(user)"><i class="icon-note"></i></button>  <button class="delete btn btn-sm btn-danger" ng-click="vm.remove()" ng-disabled="vm.isContextUserSelf(user.email)""><i class="icons-office-52"></i></button>
+                        </td>
+                      </tr>                      
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+  <!-- <div class="page-header">
+    <div class="row">
+      <div class="col-md-4">
+        <h1>Users</h1>
+      </div>
+      <div class="col-md-4" style="margin-top: 2em">
+        <input class="form-control col-md-4" type="text" ng-model="vm.search" placeholder="Search" ng-change="vm.figureOutItemsToDisplay()" />
+      </div>
+    </div>
+  </div>
+  <div class="list-group">
+    <a ng-repeat="user in vm.pagedItems" ui-sref="admin.user({userId: user._id})" class="list-group-item">
+      <h4 class="list-group-item-heading" ng-bind="user.username"></h4>
+      <p class="list-group-item-text pull-right small" ng-bind="user.roles"></p>
+      <p class="list-group-item-text" ng-bind="user.email"></p>
+    </a>
+  </div>
+
+  <uib-pagination boundary-links="true" max-size="8" items-per-page="vm.itemsPerPage" total-items="vm.filterLength" ng-model="vm.currentPage" ng-change="vm.pageChanged()"></uib-pagination> -->
+</section>
+
+
