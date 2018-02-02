@@ -78,10 +78,11 @@
     </div>
   </div>
   <uib-pagination boundary-links="true" max-size="10" items-per-page="vm.itemsPerPage" total-items="vm.filterLength" ng-model="vm.currentPage" ng-change="vm.pageChanged()"  ng-if="vm.pagedItems.length > 0"></uib-pagination>  
-
+<div class="page-content">
   <div class="alert alert-warning text-center" ng-if="vm.pagedItems.length <= 0">
     No Tasks yet, <a style="color: #000; cursor: pointer;" ng-click="createOrUpdateTask(null, false)"> Click here to create</a>
   </div>
+</div>
 </section>
 
 
