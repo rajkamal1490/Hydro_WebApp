@@ -17,7 +17,7 @@
                     <i class="mdi-action-dashboard"></i><span>Dashboard</span></a>
                 </li>
 
-                <li ng-class="{ 'nav-active active': isActive('/admin/tasks') }"><a href="/">
+                <li ng-class="{ 'nav-active active': isActive('/tasks') }"><a href="/tasks">
                     <i class="mdi-action-assignment"></i><span>Tasks</span></a>
                 </li>
                                 
@@ -25,7 +25,7 @@
                     <a href=""><i class="fa fa-calendar"></i><span>My Calendar</span><span class="fa arrow"></span></a>
                     <ul class="children collapse">
                         <li ng-class="{ 'active': isChildrenActive('/meetings/list') }"><a ui-sref="meetings.list">Attendance</a></li>
-                        <li ng-class="{ 'active': isChildrenActive('/meetings/create') }"><a ui-sref="meetings.create">Meetings</a></li>
+                        <li ng-class="{ 'active': isChildrenActive('/meetings') }"><a href="/meetings">Meetings</a></li>
                     </ul>
                 </li>             
 
@@ -62,9 +62,12 @@
                         <a href="#"><i class="icon-doc c-primary"></i>My documents</a> 
                     </li>
                     <li>
-                        <a ui-sref="contacts.list"><i class="icon-docs"></i>Contacts</a> 
-                    </li>                   
+                        <a href="/contacts"><i class="icon-docs"></i>Contacts</a> 
+                    </li>
                 </ul>
+                <div class="pull-right">
+                    <a style="cursor: pointer" ng-click="takeABreak()"><i class="fa fa-coffee" style="font-size: 40px"></i> </a>
+                </div> 
             </div>          
         </div>    
     </div>

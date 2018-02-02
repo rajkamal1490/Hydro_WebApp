@@ -1,22 +1,18 @@
-<section>
-  <div class="page-header">
-    <h1>Meetings</h1>
-  </div>
-  <div class="list-group">
-    <a ng-repeat="meeting in vm.meetings"
-       ui-sref="meetings.view({ meetingId: meeting._id })"
-       class="list-group-item">
-      <small class="list-group-item-text">
-        Posted on
-        <span ng-bind="meeting.created | date:'mediumDate'"></span>
-        by
-        <span ng-if="meeting.user" ng-bind="meeting.user.displayName"></span>
-        <span ng-if="!meeting.user">Deleted User</span>
-      </small>
-      <h4 class="list-group-item-heading" ng-bind="meeting.name"></h4>
-    </a>
-  </div>
-  <div class="alert alert-warning text-center" ng-if="vm.meetings.$resolved && !vm.meetings.length">
-    No Meetings yet, why don't you <a ui-sref="meetings.create">create one</a>?
-  </div>
+<section ng-init="loadInitial()">
+	<div class="page-content">
+		<div class="header">
+			<h2><strong>Meetings</strong></h2>
+		</div> 
+
+		<div class="panel">
+			<div class="control-btn">
+                <a href="#" class="panel-reload hidden"><i class="icon-reload"></i></a>
+             </div>
+			<div class="page-content">
+				<div layout="row">
+					<div flex=100 id="calendar" class="calendar" ng-model="eventSources" config="uiConfig.calendar" ui-calendar="uiConfig.calendar"></div>
+				</div>
+			</div>
+		</div>
+	</div>
 </section>

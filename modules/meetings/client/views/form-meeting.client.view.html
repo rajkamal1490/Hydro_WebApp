@@ -1,24 +1,77 @@
-<section>
-  <div class="page-header">
-    <h1>{{vm.meeting._id ? 'Edit Meeting' : 'New Meeting'}}</h1>
-  </div>
-  <div class="col-md-12">
-    <form name="vm.form.meetingForm" class="form-horizontal" ng-submit="vm.save(vm.form.meetingForm.$valid)" novalidate>
-      <fieldset>
-        <div class="form-group" show-errors>
-          <label class="control-label" for="name">Name</label>
-          <input name="name" type="text" ng-model="vm.meeting.name" id="name" class="form-control" placeholder="Name" required>
-          <div ng-messages="vm.form.meetingForm.name.$error" role="alert">
-            <p class="help-block error-text" ng-message="required">Meeting name is required.</p>
-          </div>
-        </div>
-        <div class="form-group">
-          <button type="submit" class="btn btn-default">{{vm.meeting._id ? 'Update' : 'Create'}}</button>
-        </div>
-        <div ng-show="vm.error" class="text-danger">
-          <strong ng-bind="vm.error"></strong>
-        </div>
-      </fieldset>
-    </form>
-  </div>
-</section>
+<md-dialog flex="70" style="left: 7%"> 
+  <form name="vm.meetingForm" novalidate autocomplete="off">
+    <div class="modal-header bg-primary">
+      <h4>{{vm.meeting._id ? 'Edit Meeting' : 'Create Meeting'}}</h4>
+    </div>
+       <md-dialog-content style="padding-left: 24px">
+            <div layout="column" flex>
+              <md-input-container flex>
+                <label class="my-label">Title</label>
+                <input required type="text" name="title" ng-model="vm.meeting.title"/>
+                <div ng-messages="vm.meetingForm.title.$error">
+                  <div ng-message="required">Title is required.</div>
+                </div>
+              </md-input-container>
+            </div>
+
+            <div layout="row" flex>
+
+              <md-input-container flex>
+            <label class="my-label"><b>Start time</b></label>
+              <div ng-click="showStartTimePicker($event)">
+                <input style="color: #000066; font-weight: bold;" required name="start" ng-model="vm.meeting.startTime" onfocus="this.blur()" readonly></input>
+              </div>
+              <div ng-messages="vm.meetingForm.start.$error">
+                <div ng-message="required">Start time is required.</div>
+                <div ng-message="lesser">Event start time should be before the end time.</div>
+              </div>
+          </md-input-container>
+
+          <md-input-container flex>
+            <label class="my-label"><b>End time</b></label>
+              <div ng-click="showEndTimePicker($event)">
+                <input style="color: #000066; font-weight: bold;" required name="end" ng-model="vm.meeting.endTime" onfocus="this.blur()" readonly></input>
+              </div>
+              <div ng-messages="vm.meetingForm.end.$error">
+                <div ng-message="required">End time is required.</div>
+                <div ng-message="greater">Event end time should be after the start time.</div>
+              </div>
+          </md-input-container>
+            </div>
+
+            <div layout="column" flex>
+               <md-input-container flex>
+                  <label class="my-label">Location</label>
+                  <input required type="text" name="location" ng-model="vm.meeting.location"/>
+                  <div ng-messages="vm.meetingForm.location.$error">
+                    <div ng-message="required">Location is required.</div>
+                  </div>
+              </md-input-container>
+              <md-input-container flex>
+                  <label class="my-label">Attendees</label>
+                  <input required type="text" name="attendees" ng-model="vm.meeting.attendees"/>
+                  <div ng-messages="vm.meetingForm.attendees.$error">
+                    <div ng-message="required">Attendees is required.</div>
+                  </div>
+              </md-input-container>
+              <md-input-container flex>
+                  <label class="my-label">Facilitator</label>
+                  <input required type="text" name="facilitator" ng-model="vm.meeting.facilitator"/>
+                  <div ng-messages="vm.meetingForm.facilitator.$error">
+                    <div ng-message="required">Facilitator is required.</div>
+                  </div>
+              </md-input-container>
+            </div>
+      </md-dialog-content>
+     <md-dialog-actions layout="row">  
+        <span flex></span>
+        <md-button class="btn btn-next btn-fill btn-success btn-wd"  ng-hide="ui.isMeetingInProgress" flex ng-click="vm.save(vm.meetingForm.$valid)" type="submit">{{vm.meeting._id ? 'Update' : 'Create'}}</md-button>
+        <md-button class="btn btn-next btn-fill btn-success btn-wd"  ng-disabled="true" flex ng-show="ui.isMeetingInProgress" type="submit"><i class="fa fa-spinpinner fa-spin"></i> {{vm.meeting._id ? 'Updating' : 'Creating'}}</md-button>
+        <span flex></span>
+        <md-button class="btn btn-next btn-fill btn-danger btn-wd" ng-show="ui.viewMode" flex ng-click="deleteMeeting()" type="submit">Delete</md-button>
+        <span flex></span>
+        <md-button class="btn btn-next btn-fill btn-warning btn-wd" flex ng-click="vm.cancel()" type="submit">Cancel</md-button>
+        <span flex></span>
+      </md-dialog-actions>   
+  </form>
+</md-dialog>

@@ -1,51 +1,141 @@
-<section>
-  <div class="page-header">
-    <div class="row">
-      <div class="col-md-6">
-        <h1 ng-bind="vm.user.username"></h1>
-      </div>
-      <div class="col-md-4">
-        <a class="btn btn-primary" ui-sref="admin.user-edit({userId: vm.user._id})">
-          <i class="glyphicon glyphicon-edit"></i>
-        </a>
-        <a class="btn btn-primary" ng-click="vm.remove()" ng-if="!vm.isContextUserSelf()">
-          <i class="glyphicon glyphicon-trash"></i>
-        </a>
-      </div>
+<md-dialog flex="70" style="left: 7%"> 
+  <form name="vm.userForm" ng-submit="vm.update(vm.userForm.$valid)" novalidate>
+    <div class="modal-header bg-primary">
+      <h4>Edit User Info</h4>
     </div>
-  </div>
+       <md-dialog-content style="padding-left: 24px">
+            <div layout="row" flex>
+              <md-input-container flex>
+                <label class="my-label">Firstname</label>
+                <input required type="text" name="firstname" ng-model="vm.user.firstName"/>
+                <div ng-messages="vm.userForm.firstname.$error">
+                  <div ng-message="required">Firstname is required.</div>
+                </div>
+              </md-input-container>
 
-  <div class="row">
-    <div class="col-md-8">
-      <div class="row">
-        <div class="col-md-3"><strong>First Name</strong></div>
-        <div class="col-md-6" ng-bind="vm.user.firstName"></div>
-      </div>
-      <hr/>
-      <div class="row">
-        <div class="col-md-3"><strong>Last Name</strong></div>
-        <div class="col-md-6" ng-bind="vm.user.lastName"></div>
-      </div>
-      <hr/>
-      <div class="row">
-        <div class="col-md-3"><strong>Email</strong></div>
-        <div class="col-md-6" ng-bind="vm.user.email"></div>
-      </div>
-      <hr/>
-      <div class="row">
-        <div class="col-md-3"><strong>Provider</strong></div>
-        <div class="col-md-6" ng-bind="vm.user.provider"></div>
-      </div>
-      <hr/>
-      <div class="row">
-        <div class="col-md-3"><strong>Created</strong></div>
-        <div class="col-md-6" ng-bind="vm.user.created"></div>
-      </div>
-      <hr/>
-      <div class="row">
-        <div class="col-md-3"><strong>Roles</strong></div>
-        <div class="col-md-6" ng-bind="vm.user.roles"></div>
-      </div>
-    </div>
-  </div>
-</section>
+              <md-input-container flex>
+                  <label class="my-label">Lastname</label>
+                  <input required type="text" name="lastname" ng-model="vm.user.lastName"/>
+                  <div ng-messages="vm.userForm.lastname.$error">
+                    <div ng-message="required">Lastname is required.</div>
+                  </div>
+              </md-input-container>
+
+              <md-input-container flex>
+                <label class="my-label">Email Address</label>
+                <input required type="email" name="email" ng-model="vm.user.email" ng-disabled="true"/>
+                <div ng-messages="vm.userForm.email.$error">
+                  <div ng-message="required">Email address is required.</div>
+                  <div ng-message="email">Email address is invalid.</div>
+                </div>
+              </md-input-container>
+            </div>
+
+            <div layout="row" flex>
+
+              <md-input-container flex>
+                <label class="my-label">Phone Number</label>
+                <input required type="text" name="mobile" ng-model="vm.user.mobileNumber"/>
+                <div ng-messages="vm.userForm.mobile.$error">
+                  <div ng-message="required">Phone Number is required.</div>
+                </div>
+              </md-input-container>
+            
+              <md-input-container flex>
+                <label class="my-label">Current Address</label>
+                <input required type="text" name="currentaddress" ng-model="vm.user.currentAddress"/>
+                <div ng-messages="vm.userForm.currentaddress.$error">
+                  <div ng-message="required">Current Address is required.</div>
+                </div>
+              </md-input-container>
+
+              <md-input-container flex>
+                  <label class="my-label">Permanent Address</label>
+                  <input required type="text" name="permanentaddress" ng-model="vm.user.permanentAddress"/>
+                  <div ng-messages="vm.userForm.permanentaddress.$error">
+                    <div ng-message="required">Permanent Address is required.</div>
+                  </div>
+              </md-input-container>
+            </div>
+
+            <div layout="row" flex>
+               <md-input-container flex>
+                  <label class="my-label">Designation</label>
+                  <input required type="text" name="designation" ng-model="vm.user.designation"/>
+                  <div ng-messages="vm.userForm.designation.$error">
+                    <div ng-message="required">Designation is required.</div>
+                  </div>
+              </md-input-container>
+
+              <md-input-container flex>
+                  <label class="my-label">Department</label>
+                  <input required type="text" name="department" ng-model="vm.user.department" />
+                  <div ng-messages="vm.userForm.department.$error">
+                    <div ng-message="required">Department is required.</div>
+                  </div>
+              </md-input-container>
+            
+              <md-input-container flex>
+                <label class="my-label">Degree</label>
+                <input required type="text" name="degree" ng-model="vm.user.degree"/>
+                <div ng-messages="vm.userForm.degree.$error">
+                  <div ng-message="required">Degree is required.</div>
+                </div>
+              </md-input-container>
+            </div>
+
+            <div layout="row" flex>
+
+              <md-input-container flex>
+                  <label class="my-label">Work Experience</label>
+                  <input required type="text" name="workexperience" ng-model="vm.user.workExperience"/>
+                  <div ng-messages="vm.userForm.workexperience.$error">
+                    <div ng-message="required">Work Experience is required.</div>
+                  </div>
+              </md-input-container>
+            
+              <md-input-container flex>
+                <label class="my-label">Date Of Birth</label>
+                <input required type="text" name="dob" ng-model="vm.user.dob" class="b-datepicker" data-view="2"/>
+                <div ng-messages="vm.userForm.dob.$error">
+                  <div ng-message="required">DOB is required.</div>
+                </div>
+              </md-input-container>
+
+              <md-input-container flex>
+                  <label class="my-label">Blood Group</label>
+                  <input required type="text" name="bloodgroup" ng-model="vm.user.bloodGroup"/>
+                  <div ng-messages="vm.userForm.bloodgroup.$error">
+                    <div ng-message="required">Blood Group is required.</div>
+                  </div>
+              </md-input-container>
+            </div>
+
+            <div layout="row" flex>          
+
+              <md-input-container flex>
+                  <label class="my-label">Linked in</label>
+                  <input type="url" name="linkedin" id="password" ng-model="vm.user.linkedin"/>
+                  <div ng-messages="vm.userForm.linkedin.$error">
+                    <div ng-message="url">Enter valid Linked URL.</div>
+                  </div>
+              </md-input-container>
+            
+              <md-input-container flex="50">
+                  <md-select required
+                      name="usergroup"
+                      ng-model="vm.user.userGroup[0]">
+                      <md-option ng-value="usergroup.code" ng-repeat="usergroup in vm.userGroups">{{usergroup.name}}</md-option>
+                  </md-select>
+              </md-input-container>
+            </div>
+      </md-dialog-content>
+     <md-dialog-actions layout="row">  
+        <span flex></span>
+        <input type="submit" value="Update" class="btn btn-primary">
+        <span flex></span>
+        <input ng-click="vm.cancel()" class="btn btn-next btn-fill btn-warning btn-wd" name="cancel" value="Cancel" type="button">
+        <span flex></span>
+      </md-dialog-actions>   
+  </form>
+</md-dialog>

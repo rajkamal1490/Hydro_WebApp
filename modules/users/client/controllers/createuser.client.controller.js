@@ -14,6 +14,10 @@
     // vm.getPopoverMsg = PasswordValidator.getPopoverMsg;
     vm.signup = signup;
     vm.userGroups = USER_GROUPS;
+
+    $scope.ui = {
+      isUserInProgress: false
+    };
    
 
     function signup(isValid) {
@@ -24,6 +28,12 @@
         return false;
       }
 
+      if ($scope.ui.isUserInProgress) {
+        return;
+      } else {
+        $scope.ui.isUserInProgress = true;
+      }
+
       UsersService.userSignup(vm.credentials)
         .then(onUserSignupSuccess)
         .catch(onUserSignupError);
@@ -32,6 +42,7 @@
     // Authentication Callbacks
 
     function onUserSignupSuccess(response) {
+      $scope.ui.isUserInProgress = false;
       // If successful we assign the response to the global user model
       // vm.authentication.user = response;
       Notification.success({ message: '<i class="glyphicon glyphicon-ok"></i> User created successful!' });
@@ -40,6 +51,7 @@
     }
 
     function onUserSignupError(response) {
+      $scope.ui.isUserInProgress = false;
       Notification.error({ message: response.data.message, title: '<i class="glyphicon glyphicon-remove"></i> Signup Error!', delay: 6000 });
     }
   }

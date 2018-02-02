@@ -17,6 +17,9 @@ module.exports = function(app) {
     .put(tasks.update)
     .delete(tasks.delete);
 
+  app.route('/api/tasks/assignee/:assigneeId')/*.all(tasksPolicy.isAllowed)*/
+    .get(tasks.getTasksByAssignee);
+
   // Finish by binding the Task middleware
   app.param('taskId', tasks.taskByID);
 };

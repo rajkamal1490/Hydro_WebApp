@@ -5,7 +5,10 @@
  */
 var path = require('path'),
   mongoose = require('mongoose'),
+  fs = require('fs'),
   Contact = mongoose.model('Contact'),
+  multer = require('multer'),
+  config = require(path.resolve('./config/config')),
   errorHandler = require(path.resolve('./modules/core/server/controllers/errors.server.controller')),
   _ = require('lodash');
 
@@ -66,6 +69,10 @@ exports.update = function(req, res) {
 exports.delete = function(req, res) {
   var contact = req.contact;
 
+  if(contact.photoIdPath != 'modules/users/client/img/profile/default.png') {
+    fs.unlink(contact.photoIdPath);
+  }
+
   contact.remove(function(err) {
     if (err) {
       return res.status(400).send({
@@ -90,6 +97,101 @@ exports.list = function(req, res) {
       res.jsonp(contacts);
     }
   });
+};
+
+/**
+ * Update photoid picture
+ */
+exports.changeContactPicture = function(req, res) {  
+  var existingImageUrl;
+  var contact = req.contact;
+
+  // Filtering to upload only images
+  var multerConfig = config.uploads.contact.image;
+  multerConfig.fileFilter = require(path.resolve('./config/lib/multer')).imageFileFilter;
+  var upload = multer(multerConfig).single('newProfilePicture');
+
+  //My code
+  existingImageUrl = contact.photoIdPath;
+  if(existingImageUrl && existingImageUrl != 'modules/users/client/img/profile/default.png') {
+    fs.unlink(existingImageUrl);
+  }
+  uploadImage()
+    .then(function() {
+      var photoIdImageURL = config.uploads.contact.image.dest + req.file.filename;
+      var resPath = {
+        path: photoIdImageURL
+      };
+      res.json(resPath);
+    })
+    .catch(function(err) {
+      res.status(422).send(err);
+    });
+
+  function uploadImage() {
+    return new Promise(function(resolve, reject) {
+      upload(req, res, function(uploadError) {
+        if (uploadError) {
+          reject(errorHandler.getErrorMessage(uploadError));
+        } else {
+          resolve();
+        }
+      });
+    });
+  }
+
+  function deleteOldImage() {
+    return new Promise(function(resolve, reject) {
+      fs.unlink(existingImageUrl, function(unlinkError) {
+        if (unlinkError) {
+          console.log(unlinkError);
+          reject({
+            message: 'Error occurred while deleting old profile picture'
+          });
+        } else {
+          resolve();
+        }
+      });
+    });
+  }
+
+};
+
+/**
+ * Delete photoid picture
+ */
+exports.deletePhotoIdPicture = function(req, res) {
+  var existingImageUrl;
+
+  // Filtering to upload only images
+
+  //My code
+  existingImageUrl = req.body.photoIdPath;
+  deleteOldImage()
+    .then(function() {      
+      res.json({
+        'status': 'success'
+      });
+    })
+    .catch(function(err) {
+      res.status(422).send(err);
+    });
+  
+  function deleteOldImage() {
+    return new Promise(function(resolve, reject) {
+      fs.unlink(existingImageUrl, function(unlinkError) {
+        if (unlinkError) {
+          console.log(unlinkError);
+          reject({
+            message: 'Error occurred while deleting old profile picture'
+          });
+        } else {
+          resolve();
+        }
+      });
+    });
+  }
+
 };
 
 /**

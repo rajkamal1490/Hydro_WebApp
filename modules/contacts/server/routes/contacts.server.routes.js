@@ -17,6 +17,8 @@ module.exports = function(app) {
     .put(contacts.update)
     .delete(contacts.delete);
 
+  app.route('/api/contacts/picture/:contactId').post(contacts.changeContactPicture);
+
   // Finish by binding the Contact middleware
   app.param('contactId', contacts.contactByID);
 };

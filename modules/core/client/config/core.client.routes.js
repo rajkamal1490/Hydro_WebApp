@@ -31,7 +31,15 @@
         url: '/',
         templateUrl: '/modules/core/client/views/home.client.view.html',
         controller: 'HomeController',
-        controllerAs: 'vm'
+        controllerAs: 'vm',
+        resolve: {
+          taskResolve: ['$injector', '$q', function($injector, $q) {
+            return $injector.invoke(taskData).$promise;   // cached, otherwise we would have called IncidentNoteTitle.query().
+          }],
+          userResolve: ['$injector', '$q', function($injector, $q) {
+            return $injector.invoke(userData).$promise;   // cached, otherwise we would have called IncidentNoteTitle.query().
+          }]
+        },
       })
       .state('not-found', {
         url: '/not-found',
@@ -69,4 +77,17 @@
         }
       });
   }
+
+  taskData.$inject = ['TasksService'];
+
+  function taskData(TasksService) {
+    return TasksService.query();
+  }
+
+  userData.$inject = ['AdminService'];
+
+  function userData(AdminService) {
+    return AdminService.query();
+  }
+
 }());

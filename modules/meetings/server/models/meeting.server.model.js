@@ -10,19 +10,48 @@ var mongoose = require('mongoose'),
  * Meeting Schema
  */
 var MeetingSchema = new Schema({
-  name: {
+  title: {
     type: String,
+    trim: true,
     default: '',
-    required: 'Please fill Meeting name',
-    trim: true
+    required: 'Please fill in your title'
+  },
+  startDateTime: {
+    type: Date
+  },
+  endDateTime: {
+    type: Date
+  },
+  startTime: {
+    type: String,
+  },
+  endTime: {
+    type: String,
+  },
+  location: {
+    type: String,
+    trim: true,
+    default: '',
+    required: 'Please fill in your location'
+  },
+  attendees: {
+    type: String,
+    trim: true,
+    default: '',
+    required: 'Please fill in attendees'
+  },
+  facilitator: {
+    type: String,
+    trim: true,
+    default: '',
+    required: 'Please fill in facilitator'
+  },
+  updated: {
+    type: Date
   },
   created: {
     type: Date,
     default: Date.now
-  },
-  user: {
-    type: Schema.ObjectId,
-    ref: 'User'
   }
 });
 

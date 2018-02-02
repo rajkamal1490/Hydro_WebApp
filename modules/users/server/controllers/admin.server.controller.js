@@ -25,7 +25,17 @@ exports.update = function (req, res) {
   user.firstName = req.body.firstName;
   user.lastName = req.body.lastName;
   user.displayName = user.firstName + ' ' + user.lastName;
-  user.roles = req.body.roles;
+  user.mobileNumber = req.body.mobileNumber;
+  user.currentAddress = req.body.currentAddress;
+  user.permanentAddress = req.body.permanentAddress;
+  user.designation = req.body.designation;
+  user.department = req.body.department;
+  user.degree = req.body.degree;
+  user.workExperience = req.body.workExperience;
+  user.dob = req.body.dob;
+  user.bloodGroup = req.body.bloodGroup;
+  user.linkedin = req.body.linkedin;
+  user.userGroup = req.body.userGroup;
 
   user.save(function (err) {
     if (err) {

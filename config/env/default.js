@@ -53,6 +53,14 @@ module.exports = {
           fileSize: 1 * 1024 * 1024 // Max file size in bytes (1 MB)
         }
       }
+    },
+    contact: {
+      image: {
+        dest: './modules/contacts/client/img/photoid/uploads/',
+        limits: {
+          fileSize: 1 * 1024 * 1024 // Max file size in bytes (1 MB)
+        }
+      }
     }
   },
   shared: {

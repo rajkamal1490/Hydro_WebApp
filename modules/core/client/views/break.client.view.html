@@ -1,0 +1,17 @@
+<md-dialog flex="25" class="bg-primary"> 
+  <form name="vm.breakForm" novalidate autocomplete="off">
+      <div class="modal-header">         
+            <h4 class="modal-title" style="font-size: 16px"><i class="fa fa-calendar" style="font-size: 25px"></i> Today: {{currentDateTime}}</h4>
+      </div>    
+       <md-dialog-content>        
+          <div class="col-md-offset-4">       
+            <span flex></span>
+            <div><i class="mdi-image-timer"  style="font-size: 30px"> {{ clock }} </i></div>
+            <span flex></span>
+            <br/>
+            <md-button class="btn btn-rounded btn-blue" flex ng-click="vm.stop()" type="submit">STOP</md-button>
+            <span flex></span>
+          </div>                      
+      </md-dialog-content>           
+  </form>
+</md-dialog>

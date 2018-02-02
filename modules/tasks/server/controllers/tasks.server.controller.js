@@ -93,6 +93,23 @@ exports.list = function(req, res) {
 };
 
 /**
+ * List of Tasks by Assignee
+ */
+exports.getTasksByAssignee = function(req, res) {  
+  Task.find({
+      assignee: req.user._id
+    }, function(err, entries) {
+    if (err) {
+      return res.status(400).send({
+        message: errorHandler.getErrorMessage(err)
+      });
+    } else {
+      res.jsonp(entries);
+    }
+  });
+}; 
+
+/**
  * Task middleware
  */
 exports.taskByID = function(req, res, next, id) {

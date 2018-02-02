@@ -21,7 +21,15 @@
         controllerAs: 'vm',
         data: {
           pageTitle: 'Tasks List'
-        }
+        },
+        resolve: {
+          taskResolve: ['$injector', '$q', function($injector, $q) {
+            return $injector.invoke(taskData).$promise;   // cached, otherwise we would have called IncidentNoteTitle.query().
+          }],
+          userResolve: ['$injector', '$q', function($injector, $q) {
+            return $injector.invoke(userData).$promise;   // cached, otherwise we would have called IncidentNoteTitle.query().
+          }]
+        },
       })
       .state('tasks.create', {
         url: '/create',
@@ -76,4 +84,17 @@
   function newTask(TasksService) {
     return new TasksService();
   }
+
+  taskData.$inject = ['TasksService'];
+
+  function taskData(TasksService) {
+    return TasksService.query();
+  }
+
+  userData.$inject = ['AdminService'];
+
+  function userData(AdminService) {
+    return AdminService.query();
+  }
+
 }());

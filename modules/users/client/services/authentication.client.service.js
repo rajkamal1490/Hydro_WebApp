@@ -11,7 +11,8 @@
 
   function Authentication($window) {
     var auth = {
-      user: $window.user
+      user: $window.user,
+      todayCheckIn: []
     };
 
     return auth;

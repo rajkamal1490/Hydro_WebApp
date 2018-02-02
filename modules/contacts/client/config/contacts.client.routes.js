@@ -21,21 +21,26 @@
         controllerAs: 'vm',
         data: {
           pageTitle: 'Contacts List'
-        }
-      })
-      .state('contacts.create', {
-        url: '/create',
-        templateUrl: 'modules/contacts/client/views/form-contact.client.view.html',
-        controller: 'ContactsController',
-        controllerAs: 'vm',
-        resolve: {
-          contactResolve: newContact
         },
-        data: {
-          roles: ['user', 'admin'],
-          pageTitle: 'Contacts Create'
-        }
+        resolve: {
+          contactResolve: ['$injector', '$q', function($injector, $q) {
+            return $injector.invoke(contactData).$promise;   // cached, otherwise we would have called IncidentNoteTitle.query().
+          }]
+        },
       })
+      // .state('contacts.create', {
+      //   url: '/create',
+      //   templateUrl: 'modules/contacts/client/views/form-contact.client.view.html',
+      //   controller: 'ContactsController',
+      //   controllerAs: 'vm',
+      //   resolve: {
+      //     contactResolve: newContact
+      //   },
+      //   data: {
+      //     roles: ['user', 'admin'],
+      //     pageTitle: 'Contacts Create'
+      //   }
+      // })
       .state('contacts.edit', {
         url: '/:contactId/edit',
         templateUrl: 'modules/contacts/client/views/form-contact.client.view.html',
@@ -76,4 +81,11 @@
   function newContact(ContactsService) {
     return new ContactsService();
   }
+
+  contactData.$inject = ['ContactsService'];
+
+  function contactData(ContactsService) {
+    return ContactsService.query();
+  }
+
 }());

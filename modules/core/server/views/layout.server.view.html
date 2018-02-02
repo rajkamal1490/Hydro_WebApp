@@ -35,6 +35,8 @@
   <!-- Application CSS Files -->
   {{#each cssFiles}}<link rel="stylesheet" href="/{{this}}">{{/each}}
 
+  <link href="/assets/global/plugins/fullcalendar/fullcalendar.min.css" rel="stylesheet">
+
     <link href="/assets/global/css/style.css" rel="stylesheet">
     <link href="/assets/global/css/theme.css" rel="stylesheet">
     <link href="/assets/global/css/ui.css" rel="stylesheet">
@@ -84,16 +86,29 @@
         <span ng-include="'/modules/core/client/views/header.client.view.html'"></span>
         <!-- END TOPBAR -->
         <!-- BEGIN PAGE CONTENT -->
-        <div class="page-content page-thin">
+        <!-- <div class="page-content page-thin"> -->
+        <div>
           <div class="container-fluid">
               <div class="row">
                 {{{block "content"}}}
               </div>
-            </div>
           </div>
         </div>
-        <!-- END PAGE CONTENT -->
-      </div>     
+       <!--  <div class="footer">
+            <div class="copyright">
+              <p class="pull-left sm-pull-reset">
+                <span>Copyright <span class="copyright">©</span> 2016 </span>
+                <span>THEMES LAB</span>.
+                <span>All rights reserved. </span>
+              </p>
+              <p class="pull-right sm-pull-reset">
+                <span><a href="#" class="m-r-10">Support</a> | <a href="#" class="m-l-10 m-r-10">Terms of use</a> | <a href="#" class="m-l-10">Privacy Policy</a></span>
+              </p>
+            </div>
+          </div>
+        </div> -->
+
+      </div>   
     </section>
 
     <!-- BEGIN PRELOADER -->

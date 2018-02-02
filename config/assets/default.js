@@ -12,10 +12,10 @@ module.exports = {
         'public/lib/angular-ui-notification/dist/angular-ui-notification.css',
         'public/lib/angular-material/angular-material.css',
         'public/lib/angular-bootstrap/ui-bootstrap-csp.css',
-        'modules/core/client/css/mdPickers.css',
+        'public/css/mdPickers.css',
         'public/lib/perfect-scrollbar/css/perfect-scrollbar.min.css',
         'public/lib/sweetalert/dist/sweetalert.css',
-        'modules/core/client/css/material-datepicker.css',
+        'public/css/material-datepicker.css',
         'public/assets/global/plugins/input-text/style.min.css'
         // endbower
       ],
@@ -108,7 +108,7 @@ module.exports = {
         // 'public/lib/fullcalendar/dist/gcal.js',
         // 'public/lib/chart.js/dist/Chart.min.js',
         // 'public/lib/angular-chart.js/dist/angular-chart.min.js',
-        // 'public/js/mdPickers.js',
+        'public/js/mdPickers.js',
         // 'public/lib/perfect-scrollbar/js/perfect-scrollbar.jquery.min.js',
         // 'public/lib/angular-perfect-scrollbar/src/angular-perfect-scrollbar.js',
         // 'public/lib/sweetalert/dist/sweetalert.min.js',

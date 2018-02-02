@@ -26,7 +26,7 @@
 
     function buildPager() {
       vm.pagedItems = [];
-      vm.itemsPerPage = 15;
+      vm.itemsPerPage = 10;
       vm.currentPage = 1;
       vm.figureOutItemsToDisplay();
     }
@@ -55,18 +55,23 @@
     }
 
     function editUser(user) {
-      // $mdDialog.show({
-      //     controller: 'UserController',
-      //     templateUrl: 'modules/users/client/views/admin/view-user.client.view.html',
-      //     parent: angular.element(document.body),
-      //     clickOutsideToClose: false,
-      //     fullscreen: true, 
-      //      resolve: {
-      //         userResolve: function() {
-      //           return user;
-      //         }
-      //      }
-      //   });
+      $mdDialog.show({
+        controller: 'UserController',
+        controllerAs: 'vm',
+        templateUrl: '/modules/users/client/views/admin/view-user.client.view.html',
+        parent: angular.element(document.body),
+        clickOutsideToClose: false,
+        fullscreen: true, 
+        resolve: {
+          userResolve: function() {
+            return user;
+          }
+        }
+      }).then(function(updatedItem) {
+        vm.user = updatedItem;
+      }, function() {
+        console.log('You cancelled the dialog.');
+      });
     }
   }
 }());

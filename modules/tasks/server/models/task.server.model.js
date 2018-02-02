@@ -10,19 +10,56 @@ var mongoose = require('mongoose'),
  * Task Schema
  */
 var TaskSchema = new Schema({
-  name: {
+  title: {
     type: String,
+    trim: true,
     default: '',
-    required: 'Please fill Task name',
-    trim: true
+    required: 'Please fill in task title'
+  },
+  description: {
+    type: String,
+    trim: true,
+    default: '',
+    required: 'Please fill in task description'
+  },
+  startDateTime: {
+    type: Date
+  },
+  dueDateTime: {
+    type: Date
+  },  
+  assignee: {
+    type: Schema.ObjectId,
+    required: 'Please select your assignee',
+    ref: 'User'
+  },  
+  priority: {
+    type: String,
+    trim: true,
+    default: '',
+    required: 'Please select your priority'
+  },
+  status: {
+    type: String,
+    trim: true,
+    default: 'pending'
+  },
+  createdBy: {
+    type: String,
+  },
+  isViewed: {
+    type: Boolean,
+    default: false
+  },
+  taskID:{
+    type:Number
+  },
+  updated: {
+    type: Date
   },
   created: {
     type: Date,
     default: Date.now
-  },
-  user: {
-    type: Schema.ObjectId,
-    ref: 'User'
   }
 });
 

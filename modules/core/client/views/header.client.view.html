@@ -214,7 +214,7 @@
               <a href="#"><i class="icon-calendar"></i><span>My Calendar</span></a>
             </li>
             <li>
-              <a href="/api/auth/signout" target="_self"><i class="icon-logout"></i><span>Logout</span></a>
+              <a ng-click="logout($event, vm.authentication.todayCheckIn[0])" target="_self"><i class="icon-logout"></i><span>Logout</span></a>
             </li>
           </ul>
         </li>

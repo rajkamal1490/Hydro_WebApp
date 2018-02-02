@@ -1,0 +1,22 @@
+<md-dialog flex="40" class="bg-primary"> 
+  <form name="vm.checkinform" novalidate autocomplete="off">
+      <div class="modal-header">
+         <div class="col-md-2">
+                <div class="user-image">
+                  <img ng-src="/{{vm.authentication.user.profileImageURL}}" alt="{{vm.authentication.user.displayName}}" class="img-responsive img-circle" >
+                </div>
+                
+            </div> 
+            <h4 class="modal-title">Welcome <strong>{{vm.authentication.user.displayName}}</strong></h4>
+      </div>    
+       <md-dialog-content>
+        <h2 class="modal-title text-center">Make Your Presence</h2> 
+          <div class="col-md-offset-4" style="margin-top:20px">       
+            <span flex></span>
+            <md-button class="btn btn-rounded btn-blue" flex ng-click="vm.checkIn()" type="submit">CHECK IN</md-button>
+            <span flex></span>
+          </div>  
+          <p  class="text-center"><small><i class="icon-info"></i> Click the above button to give your daily attendence</small></p>               
+      </md-dialog-content>           
+  </form>
+</md-dialog>

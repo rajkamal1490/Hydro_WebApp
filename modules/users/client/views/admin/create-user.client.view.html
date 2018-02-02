@@ -1,367 +1,163 @@
 <div class="col-md-12">
-              <div class="panel panel-default no-bd">
-                <div class="panel-header bg-dark">
-                  <h2 class="panel-title"><strong>Create</strong> new user</h2>
-                </div>
-                <div class="panel-body bg-white">
-                  <div class="row">
-                    <div class="col-md-12 col-sm-12 col-xs-12">
-                      <form name="vm.userForm" ng-submit="vm.signup(vm.userForm.$valid)" autocomplete="off" novalidate autocomplete="off">
-                        <!-- <div class="row">
-                          <div class="col-sm-6">
-                            <div class="form-group" show-errors>
-                              <label class="control-label">Firstname</label>
-                              <div class="append-icon">
-                                <input type="text" name="firstname" class="form-control" placeholder="Firstname..." ng-model="vm.credentials.firstName" required>
-                                <i class="icon-user"></i>
-                              </div>
-                              <div ng-messages="vm.userForm.firstname.$error" role="alert">
-                                    <p class="help-block form-error" style="color: #FF0000"  ng-message="required">Firstname is required.</p>
-                                </div>
-                            </div>
-                          </div>
-                          <div class="col-sm-6">
-                            <div class="form-group" show-errors>
-                              <label class="control-label">Lastname</label>
-                              <div class="append-icon">
-                                <input type="text" name="lastname" class="form-control" placeholder="Firstname..." ng-model="vm.credentials.lastName" required>
-                                <i class="icon-user"></i>
-                              </div>
-                              <div ng-messages="vm.userForm.lastname.$error" role="alert">
-                                    <p class="help-block form-error" style="color: #FF0000"  ng-message="required">Lastname is required.</p>
-                                </div>
-                            </div>
-                          </div>                        
-                        </div>
-                        <div class="row">
-                          <div class="col-sm-6">
-                            <div class="form-group" show-errors>
-                              <label class="control-label">Email Address</label>
-                              <div class="append-icon">
-                                <input type="email" name="email" class="form-control" placeholder="Enter your email..." ng-model="vm.credentials.email" required>
-                                <i class="icon-envelope"></i>
-                                <div ng-messages="vm.userForm.email.$error" role="alert">
-                                    <p class="help-block form-error" style="color: #FF0000"  ng-message="required">Email address is required.</p>
-                                    <p class="help-block form-error" style="color: #FF0000"  ng-message="email">Email address is invalid.</p>
-                                </div>
-                              </div>                                
-                            </div>
-                          </div>
-                          <div class="col-sm-6">
-                            <div class="form-group" show-errors>
-                              <label class="control-label">Phone Number</label>
-                              <div class="append-icon">
-                                <input type="text" name="mobile" class="form-control" placeholder="Mobile Number..." ng-model="vm.credentials.mobileNumber" required>
-                                <i class="icon-screen-smartphone"></i>
-                              </div>
-                              <div ng-messages="vm.userForm.mobile.$error" role="alert">
-                                    <p class="help-block form-error" style="color: #FF0000"  ng-message="required">Phone Number is required.</p>
-                                </div>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="row">
-                          <div class="col-sm-6">
-                            <div class="form-group" show-errors>
-                              <label class="control-label">Current Address</label>
-                              <div class="append-icon">
-                                <input type="text" name="currentaddress" class="form-control" placeholder="Current Address..." ng-model="vm.credentials.currentAddress" required>
-                                <i class="icon-screen-smartphone"></i>
-                              </div>
-                               <div ng-messages="vm.userForm.currentaddress.$error" role="alert">
-                                    <p class="help-block form-error" style="color: #FF0000"  ng-message="required">Current Address is required.</p>
-                                </div>
-                            </div>
-                          </div>
-                          <div class="col-sm-6">
-                            <div class="form-group" show-errors>
-                              <label class="control-label">Permanent Address</label>
-                              <div class="append-icon">
-                                <input type="text" name="permanentaddress" class="form-control" placeholder="Permanent Address..." ng-model="vm.credentials.permanentAddress" required>
-                                <i class="icon-screen-smartphone"></i>
-                              </div>
-                              <div ng-messages="vm.userForm.permanentaddress.$error" role="alert">
-                                    <p class="help-block form-error" style="color: #FF0000"  ng-message="required">Permanent Address is required.</p>
-                                </div>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="row">
-                          <div class="col-sm-6">
-                            <div class="form-group" show-errors>
-                              <label class="control-label">Designation</label>
-                              <div class="append-icon">
-                                <input type="text" name="designation" class="form-control" placeholder="Designation..." ng-model="vm.credentials.designation" required>
-                                <i class="icon-screen-smartphone"></i>
-                              </div>
-                              <div ng-messages="vm.userForm.designation.$error" role="alert">
-                                    <p class="help-block form-error" style="color: #FF0000"  ng-message="required">Designation is required.</p>
-                                </div>
-                            </div>
-                          </div>
-                          <div class="col-sm-6">
-                            <div class="form-group" show-errors>
-                              <label class="control-label">Department</label>
-                              <div class="append-icon">
-                                <input type="text" name="department" class="form-control" placeholder="Department..." ng-model="vm.credentials.department" required>
-                                <i class="icon-screen-smartphone"></i>
-                              </div>
-                              <div ng-messages="vm.userForm.department.$error" role="alert">
-                                    <p class="help-block form-error" style="color: #FF0000"  ng-message="required">Department is required.</p>
-                                </div>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="row">
-                          <div class="col-sm-6">
-                            <div class="form-group" show-errors>
-                              <label class="control-label">Degree</label>
-                              <div class="append-icon">
-                                <input type="text" name="degree" class="form-control" ng-model="vm.credentials.degree" placeholder="Degree..." required>
-                                <i class="icon-screen-smartphone"></i>
-                              </div>
-                               <div ng-messages="vm.userForm.degree.$error" role="alert">
-                                    <p class="help-block form-error" style="color: #FF0000"  ng-message="required">Degree is required.</p>
-                                </div>
-                            </div>
-                          </div>
-                          <div class="col-sm-6">
-                            <div class="form-group" show-errors>
-                              <label class="control-label">Work Experience</label>
-                              <div class="append-icon">
-                                <input type="text" name="workexperience" class="form-control" placeholder="Work Experience..." ng-model="vm.credentials.workExperience" required>
-                                <i class="icon-screen-smartphone"></i>
-                              </div>
-                              <div ng-messages="vm.userForm.workexperience.$error" role="alert">
-                                    <p class="help-block form-error" style="color: #FF0000"  ng-message="required">Work Experience is required.</p>
-                                </div>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="row">
-                          <div class="col-sm-6">
-                            <div class="form-group" show-errors>
-                              <label class="control-label">Date Of Birth</label>                             
-                              <div class="prepend-icon">
-                                <input type="text" name="dob" class="form-control" placeholder="DD/MM/YYYY" ng-model="vm.credentials.dob"  required>
-                                <i class="icon-calendar"></i>
-                              </div>
-                               <div ng-messages="vm.userForm.dob.$error" role="alert">
-                                    <p class="help-block form-error" style="color: #FF0000"  ng-message="required">DOB is required.</p>
-                                </div>
-                            </div>
-                          </div>
-                          <div class="col-sm-6">
-                            <div class="form-group" show-errors>
-                              <label class="control-label">Blood Group</label>
-                              <div class="append-icon">
-                                <input type="text" name="bloodgroup" class="form-control" placeholder="Blood Group..." ng-model="vm.credentials.bloodGroup" required>
-                                <i class="icon-screen-smartphone"></i>
-                              </div>
-                              <div ng-messages="vm.userForm.bloodgroup.$error" role="alert">
-                                    <p class="help-block form-error" style="color: #FF0000"  ng-message="required">Blood Group is required.</p>
-                                </div>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="row">
-                          <div class="col-sm-6">
-                            <div class="form-group" show-errors>
-                              <label class="control-label">Password</label>
-                              <div class="append-icon">
-                                <input type="password" id="password" name="password" class="form-control" ng-model="vm.credentials.password" placeholder="Password" uib-popover="{{vm.getPopoverMsg()}}" popover-trigger="outsideClick" password-validator required>          
-                                <i class="icon-lock"></i>
-                                <div style="margin-top: -30px">
-                                 <uib-progressbar value="requirementsProgress" type="{{requirementsColor}}"><span style="color:white; white-space:nowrap; margin-top:">{{requirementsProgress}}%</span>
-                                    </uib-progressbar>
-                                </div>
-                              </div>
-                            <div ng-messages="vm.userForm.password.$error" role="alert">
-                                <p class="help-block error-text" ng-message="required">Password is required.</p>
-                                <div ng-repeat="passwordError in passwordErrors">
-                                    <p class="help-block error-text" style="color: #FF0000" ng-show="vm.userForm.password.$error.requirements">{{passwordError}}</p>
-                                </div>
-                            </div>
-                            </div>
-                          </div>
-                          <div class="col-sm-6">
-                            <div class="form-group" show-errors>
-                              <label class="control-label">Linked in</label>
-                              <div class="append-icon">
-                                <input type="url" name="linkedin" id="password" class="form-control" placeholder="Linked in" ng-model="vm.credentials.linkedin" >
-                                <i class="icon-lock"></i>
-                              </div>
-                              <div ng-messages="vm.userForm.linkedin.$error" role="alert">
-                                    <p class="help-block form-error" style="color: #FF0000"  ng-message="url">Enter valid Linked URL.</p>
-                                </div>
-                            </div>
-                          </div>
-                        </div>  
-                        <div class="row">                          
-                            <div class="form-group" show-errors>
-                              <p><strong>User Group</strong></p>
-                              <div class="input-group">
-                                  <md-select required
-                                    name="usergroup"
-                                    ng-model="vm.credentials.userGroup"
-                                    style="width: 500px">
-                                    <md-option ng-value="usergroup.code" ng-repeat="usergroup in vm.userGroups">{{usergroup.name}}</md-option>
-                                  </md-select>
-                              </div>
-                            </div>
-                        </div> -->     
-
-                        <div layout="row" flex>
-                          <md-input-container flex>
-                            <label class="my-label">Firstname</label>
-                            <input required type="text" name="firstname" ng-model="vm.credentials.firstName"/>
-                            <div ng-messages="vm.userForm.firstname.$error">
-                              <div ng-message="required">Firstname is required.</div>
-                            </div>
-                          </md-input-container>
-
-                          <md-input-container flex>
-                              <label class="my-label">Lastname</label>
-                              <input required type="text" name="lastname" ng-model="vm.credentials.lastName"/>
-                              <div ng-messages="vm.userForm.lastname.$error">
-                                <div ng-message="required">Lastname is required.</div>
-                              </div>
-                          </md-input-container>
-                        </div>  
-
-                        <div layout="row" flex>
-                          <md-input-container flex>
-                            <label class="my-label">Email Address</label>
-                            <input required type="email" name="email" ng-model="vm.credentials.email"/>
-                            <div ng-messages="vm.userForm.email.$error">
-                              <div ng-message="required">Email address is required.</div>
-                              <div ng-message="email">Email address is invalid.</div>
-                            </div>
-                          </md-input-container>
-
-                          <md-input-container flex>
-                            <label class="my-label">Phone Number</label>
-                            <input required type="text" name="mobile" ng-model="vm.credentials.mobileNumber"/>
-                            <div ng-messages="vm.userForm.mobile.$error">
-                              <div ng-message="required">Phone Number is required.</div>
-                            </div>
-                          </md-input-container>
-                        </div>
-
-                        <div layout="row" flex>
-                          <md-input-container flex>
-                            <label class="my-label">Current Address</label>
-                            <input required type="text" name="currentaddress" ng-model="vm.credentials.currentAddress"/>
-                            <div ng-messages="vm.userForm.currentaddress.$error">
-                              <div ng-message="required">Current Address is required.</div>
-                            </div>
-                          </md-input-container>
-
-                          <md-input-container flex>
-                              <label class="my-label">Permanent Address</label>
-                              <input required type="text" name="permanentaddress" ng-model="vm.credentials.permanentAddress"/>
-                              <div ng-messages="vm.userForm.permanentaddress.$error">
-                                <div ng-message="required">Permanent Address is required.</div>
-                              </div>
-                          </md-input-container>
-                        </div>
-
-                        <div layout="row" flex>
-                           <md-input-container flex>
-                              <label class="my-label">Designation</label>
-                              <input required type="text" name="designation" ng-model="vm.credentials.designation"/>
-                              <div ng-messages="vm.userForm.designation.$error">
-                                <div ng-message="required">Designation is required.</div>
-                              </div>
-                          </md-input-container>
-
-                          <md-input-container flex>
-                              <label class="my-label">Department</label>
-                              <input required type="text" name="department" ng-model="vm.credentials.department" />
-                              <div ng-messages="vm.userForm.department.$error">
-                                <div ng-message="required">Department is required.</div>
-                              </div>
-                          </md-input-container>
-                        </div>
-
-                        <div layout="row" flex>
-                          <md-input-container flex>
-                            <label class="my-label">Degree</label>
-                            <input required type="text" name="degree" ng-model="vm.credentials.degree"/>
-                            <div ng-messages="vm.userForm.degree.$error">
-                              <div ng-message="required">Degree is required.</div>
-                            </div>
-                          </md-input-container>
-
-                          <md-input-container flex>
-                              <label class="my-label">Work Experience</label>
-                              <input required type="text" name="workexperience" ng-model="vm.credentials.workExperience"/>
-                              <div ng-messages="vm.userForm.workexperience.$error">
-                                <div ng-message="required">Work Experience is required.</div>
-                              </div>
-                          </md-input-container>
-                        </div>
-
-                        <div layout="row" flex>
-                          <md-input-container flex>
-                            <label class="my-label">Date Of Birth</label>
-                            <input required type="text" name="dob" ng-model="vm.credentials.dob" class="b-datepicker" data-view="2"/>
-                            <div ng-messages="vm.userForm.dob.$error">
-                              <div ng-message="required">DOB is required.</div>
-                            </div>
-                          </md-input-container>
-
-                          <md-input-container flex>
-                              <label class="my-label">Blood Group</label>
-                              <input required type="text" name="bloodgroup" ng-model="vm.credentials.bloodGroup"/>
-                              <div ng-messages="vm.userForm.bloodgroup.$error">
-                                <div ng-message="required">Blood Group is required.</div>
-                              </div>
-                          </md-input-container>
-                        </div>
-
-                        <div layout="row" flex>
-                          <md-input-container flex>
-                            <label class="my-label">Password</label>
-                            <input required type="password" id="password" name="password"  ng-model="vm.credentials.password" uib-popover="{{vm.getPopoverMsg()}}" popover-trigger="outsideClick" password-validator/>
-
-                            <div ng-show='passwordErrors.length > 0 || vm.credentials.password'>
-                                 <uib-progressbar value="requirementsProgress" type="{{requirementsColor}}"><span>{{requirementsProgress}}%</span>
-                                    </uib-progressbar>
-                                </div>
-                                <div ng-messages="vm.userForm.password.$error">
-                              <div ng-message="required">Password is required.</div>
-                              <div ng-repeat="passwordError in passwordErrors">
-                                    <p class="help-block error-text" style="color: #FF0000" ng-show="vm.userForm.password.$error.requirements">{{passwordError}}</p>
-                                </div>
-                            </div>
-                          </md-input-container>
-
-                          <md-input-container flex>
-                              <label class="my-label">Linked in</label>
-                              <input type="url" name="linkedin" id="password" ng-model="vm.credentials.linkedin"/>
-                              <div ng-messages="vm.userForm.linkedin.$error">
-                                <div ng-message="url">Enter valid Linked URL.</div>
-                              </div>
-                          </md-input-container>
-                        </div>
-
-                        <div layout="row" flex>
-                            <md-input-container flex="50">
-                                <md-select required
-                                    name="usergroup"
-                                    ng-model="vm.credentials.userGroup">
-                                    <md-option ng-value="usergroup.code" ng-repeat="usergroup in vm.userGroups">{{usergroup.name}}</md-option>
-                                </md-select>
-                            </md-input-container>
-                        </div>
-                        <div class="text-center  m-t-20">
-                          <button type="submit" class="btn btn-embossed btn-primary">Sign Up</button>
-                          <button type="reset" class="cancel btn btn-embossed btn-default m-b-10 m-r-0">Cancel</button>
-                        </div>
-                      </form>
-                    </div>
+  <div class="page-content">
+    <div class="panel-header">
+      <h2><strong>Create</strong> new user</h2>
+    </div>
+    <div class="panel">
+      <div class="panel-content">
+        <div class="row">
+          <div class="col-md-12 col-sm-12 col-xs-12">
+            <form name="vm.userForm" ng-submit="vm.signup(vm.userForm.$valid)" autocomplete="off" novalidate>
+              <div layout="row" flex>
+                <md-input-container flex>
+                  <label class="my-label">Firstname</label>
+                  <input required type="text" name="firstname" ng-model="vm.credentials.firstName"/>
+                  <div ng-messages="vm.userForm.firstname.$error">
+                    <div ng-message="required">Firstname is required.</div>
                   </div>
-                </div>
+                </md-input-container>
+
+                <md-input-container flex>
+                    <label class="my-label">Lastname</label>
+                    <input required type="text" name="lastname" ng-model="vm.credentials.lastName"/>
+                    <div ng-messages="vm.userForm.lastname.$error">
+                      <div ng-message="required">Lastname is required.</div>
+                    </div>
+                </md-input-container>
+              </div>  
+
+              <div layout="row" flex>
+                <md-input-container flex>
+                  <label class="my-label">Email Address</label>
+                  <input required type="email" name="email" ng-model="vm.credentials.email"/>
+                  <div ng-messages="vm.userForm.email.$error">
+                    <div ng-message="required">Email address is required.</div>
+                    <div ng-message="email">Email address is invalid.</div>
+                  </div>
+                </md-input-container>
+
+                <md-input-container flex>
+                  <label class="my-label">Phone Number</label>
+                  <input required type="text" name="mobile" ng-model="vm.credentials.mobileNumber"/>
+                  <div ng-messages="vm.userForm.mobile.$error">
+                    <div ng-message="required">Phone Number is required.</div>
+                  </div>
+                </md-input-container>
               </div>
-            </div>
+
+              <div layout="row" flex>
+                <md-input-container flex>
+                  <label class="my-label">Current Address</label>
+                  <input required type="text" name="currentaddress" ng-model="vm.credentials.currentAddress"/>
+                  <div ng-messages="vm.userForm.currentaddress.$error">
+                    <div ng-message="required">Current Address is required.</div>
+                  </div>
+                </md-input-container>
+
+                <md-input-container flex>
+                    <label class="my-label">Permanent Address</label>
+                    <input required type="text" name="permanentaddress" ng-model="vm.credentials.permanentAddress"/>
+                    <div ng-messages="vm.userForm.permanentaddress.$error">
+                      <div ng-message="required">Permanent Address is required.</div>
+                    </div>
+                </md-input-container>
+              </div>
+
+              <div layout="row" flex>
+                 <md-input-container flex>
+                    <label class="my-label">Designation</label>
+                    <input required type="text" name="designation" ng-model="vm.credentials.designation"/>
+                    <div ng-messages="vm.userForm.designation.$error">
+                      <div ng-message="required">Designation is required.</div>
+                    </div>
+                </md-input-container>
+
+                <md-input-container flex>
+                    <label class="my-label">Department</label>
+                    <input required type="text" name="department" ng-model="vm.credentials.department" />
+                    <div ng-messages="vm.userForm.department.$error">
+                      <div ng-message="required">Department is required.</div>
+                    </div>
+                </md-input-container>
+              </div>
+
+              <div layout="row" flex>
+                <md-input-container flex>
+                  <label class="my-label">Degree</label>
+                  <input required type="text" name="degree" ng-model="vm.credentials.degree"/>
+                  <div ng-messages="vm.userForm.degree.$error">
+                    <div ng-message="required">Degree is required.</div>
+                  </div>
+                </md-input-container>
+
+                <md-input-container flex>
+                    <label class="my-label">Work Experience</label>
+                    <input required type="text" name="workexperience" ng-model="vm.credentials.workExperience"/>
+                    <div ng-messages="vm.userForm.workexperience.$error">
+                      <div ng-message="required">Work Experience is required.</div>
+                    </div>
+                </md-input-container>
+              </div>
+
+              <div layout="row" flex>
+                <md-input-container flex>
+                  <label class="my-label">Date Of Birth</label>
+                  <input required type="text" name="dob" ng-model="vm.credentials.dob" class="b-datepicker" data-view="2"/>
+                  <div ng-messages="vm.userForm.dob.$error">
+                    <div ng-message="required">DOB is required.</div>
+                  </div>
+                </md-input-container>
+
+                <md-input-container flex>
+                    <label class="my-label">Blood Group</label>
+                    <input required type="text" name="bloodgroup" ng-model="vm.credentials.bloodGroup"/>
+                    <div ng-messages="vm.userForm.bloodgroup.$error">
+                      <div ng-message="required">Blood Group is required.</div>
+                    </div>
+                </md-input-container>
+              </div>
+
+              <div layout="row" flex>
+                <md-input-container flex>
+                  <label class="my-label">Password</label>
+                  <input required type="password" id="password" name="password"  ng-model="vm.credentials.password" uib-popover="{{vm.getPopoverMsg()}}" popover-trigger="outsideClick" password-validator/>
+
+                  <div ng-show='passwordErrors.length > 0 || vm.credentials.password'>
+                       <uib-progressbar value="requirementsProgress" type="{{requirementsColor}}"><span>{{requirementsProgress}}%</span>
+                          </uib-progressbar>
+                      </div>
+                      <div ng-messages="vm.userForm.password.$error">
+                    <div ng-message="required">Password is required.</div>
+                    <div ng-repeat="passwordError in passwordErrors">
+                          <p class="help-block error-text" style="color: #FF0000" ng-show="vm.userForm.password.$error.requirements">{{passwordError}}</p>
+                      </div>
+                  </div>
+                </md-input-container>
+
+                <md-input-container flex>
+                    <label class="my-label">Linked in</label>
+                    <input type="url" name="linkedin" id="password" ng-model="vm.credentials.linkedin"/>
+                    <div ng-messages="vm.userForm.linkedin.$error">
+                      <div ng-message="url">Enter valid Linked URL.</div>
+                    </div>
+                </md-input-container>
+              </div>
+
+              <div layout="row" flex>
+                  <md-input-container flex="50">
+                      <md-select required
+                          name="usergroup"
+                          ng-model="vm.credentials.userGroup">
+                          <md-option ng-value="usergroup.code" ng-repeat="usergroup in vm.userGroups">{{usergroup.name}}</md-option>
+                      </md-select>
+                  </md-input-container>
+              </div>
+              <div class="text-center  m-t-20">
+                <button type="submit" class="btn btn-embossed btn-primary">Sign Up</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

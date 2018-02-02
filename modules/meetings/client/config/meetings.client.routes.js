@@ -21,7 +21,12 @@
         controllerAs: 'vm',
         data: {
           pageTitle: 'Meetings List'
-        }
+        },
+        resolve: {
+          meetingResolve: ['$injector', '$q', function($injector, $q) {
+            return $injector.invoke(bookedEventData).$promise;   // cached, otherwise we would have called IncidentNoteTitle.query().
+          }]
+        },
       })
       .state('meetings.create', {
         url: '/create',
@@ -76,4 +81,11 @@
   function newMeeting(MeetingsService) {
     return new MeetingsService();
   }
+
+  bookedEventData.$inject = ['MeetingsService'];
+
+  function bookedEventData(MeetingsService) {
+    return MeetingsService.query();
+  }
+
 }());

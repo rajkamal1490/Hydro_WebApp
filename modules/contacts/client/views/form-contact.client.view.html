@@ -1,38 +1,67 @@
-<div class="col-md-12">
-  <div class="panel panel-default no-bd">
-    <div class="panel-header bg-dark">
-      <h2 class="panel-title"><strong>Add</strong> contact</h2>
+<md-dialog flex="70" style="left: 7%"> 
+  <form name="vm.contactForm" novalidate autocomplete="off">
+    <div class="modal-header bg-primary">
+      <h4>{{vm.contact._id ? 'Edit Contact' : 'Create Contact'}}</h4>
     </div>
-    <div class="panel-body bg-white">
-      <div class="row">
-        <div class="col-md-4 col-sm-4 col-xs-4">
-          <img ng-src="/{{vm.authentication.user.profileImageURL}}" class="img-thumbnail user-profile-picture" ngf-drop>
-        </div>
-        <div class="col-md-8 col-sm-8 col-xs-8">
-          <form name="vm.userForm" ng-submit="vm.contact(vm.userForm.$valid)" autocomplete="off" novalidate autocomplete="off">
+       <md-dialog-content style="padding-left: 24px">
+         <div class="col-md-4 col-sm-4 col-xs-4">            
+            <div class="panel-content">
+              <div class="form-group text-center">
+                  <img ngf-src="vm.fileSelected ? vm.picFile : vm.contact._id ? '/' + vm.contact.photoIdPath : 'modules/users/client/img/profile/default.png'" alt="{{vm.user.displayName}}" class="img-thumbnail user-profile-picture" ngf-drop>
+                </div>
+                <div ng-show="vm.loading" class="form-group text-center">
+                  <img ng-src="/modules/core/client/img/loaders/loader.gif" height="50" width="50" alt="Loading image...">
+                </div>
+                <div ng-show="!vm.fileSelected" class="text-center form-group">                
+                  <md-button class="btn btn-primary"  ngf-select="(vm.fileSelected = true) && (vm.loading = false)" ng-model="vm.picFile" accept="image/*" ngf-before-model-change="vm.loading = true" ngf-resize="{width: 400}" ngf-resize-if="$width > 400 || $height > 400">Select picture</md-button>
+                </div>
+                <div ng-show="vm.fileSelected" class="text-center form-group">                
+                  <!-- <md-button class="btn btn-danger"  ng-click="upload(vm.picFile)">Use this picture</md-button> -->
+                  <md-button class="btn btn-warning" ng-click="vm.fileSelected = false">Cancel</md-button>
+                </div>
+               <!--  <div ng-show="vm.fileSelected" class="progress text-center">
+                  <div class="progress-bar" role="progressbar" aria-valuenow="{{vm.progress}}" aria-valuemin="0" aria-valuemax="100" style="width:{{vm.progress}}%" ng-bind="vm.progress + '%'">
+                    <span class="sr-only">{{vm.progress}}% Complete</span>
+                  </div>
+                </div> -->
+              <!-- <div class="form-group text-center">                
+                <img ngf-src="ui.fileSelected ? ui.photoIdFile : '/modules/users/client/img/profile/default.png'" class="img-thumbnail user-profile-picture" ngf-drop>
+              </div>
+              <div ng-show="vm.loading" class="form-group text-center">
+                <img ng-src="/modules/core/client/img/loaders/loader.gif" height="50" width="50" alt="Loading image...">
+              </div>
+              <div ng-show="!ui.fileSelected" class="text-center form-group">
+                <button class="btn btn-default btn-file btn btn-next btn-fill btn-rose btn-wd" ngf-select="(vm.fileSelected = true) && (vm.loading = false); onFileSelected($files, $event, b)" accept="image/*" ngf-before-model-change="vm.loading = true" ngf-resize="{width: 400}" ngf-resize-if="$width > 400 || $height > 400">Browse</button>
+              </div>
+              <div ng-show="ui.fileSelected" class="text-center form-group">                
+                <md-button class="btn btn-warning" ng-click="ui.fileSelected = false; ui.photoIdFile = ''">Cancel</md-button>
+              </div>  -->
+            </div>
+          </div>
+          <div class="col-md-8 col-sm-8 col-xs-8">
             <div layout="row" flex>
               <md-input-container flex>
                 <label class="my-label">Firstname</label>
-                <input required type="text" name="firstname" ng-model="vm.credentials.firstName"/>
-                <div ng-messages="vm.userForm.firstname.$error">
+                <input required type="text" name="firstname" ng-model="vm.contact.firstName"/>
+                <div ng-messages="vm.contactForm.firstname.$error">
                   <div ng-message="required">Firstname is required.</div>
                 </div>
               </md-input-container>
 
               <md-input-container flex>
                   <label class="my-label">Lastname</label>
-                  <input required type="text" name="lastname" ng-model="vm.credentials.lastName"/>
-                  <div ng-messages="vm.userForm.lastname.$error">
+                  <input required type="text" name="lastname" ng-model="vm.contact.lastName"/>
+                  <div ng-messages="vm.contactForm.lastname.$error">
                     <div ng-message="required">Lastname is required.</div>
                   </div>
               </md-input-container>
             </div>  
 
-            <div layout="column" flex>
+            <div layout="row" flex>
               <md-input-container flex>
                 <label class="my-label">Email Address</label>
-                <input required type="email" name="email" ng-model="vm.credentials.email"/>
-                <div ng-messages="vm.userForm.email.$error">
+                <input required type="email" name="email" ng-model="vm.contact.email"/>
+                <div ng-messages="vm.contactForm.email.$error">
                   <div ng-message="required">Email address is required.</div>
                   <div ng-message="email">Email address is invalid.</div>
                 </div>
@@ -40,49 +69,58 @@
 
               <md-input-container flex>
                 <label class="my-label">Phone Number</label>
-                <input required type="text" name="mobile" ng-model="vm.credentials.mobileNumber"/>
-                <div ng-messages="vm.userForm.mobile.$error">
+                <input required type="text" name="mobile" ng-model="vm.contact.mobileNumber"/>
+                <div ng-messages="vm.contactForm.mobile.$error">
                   <div ng-message="required">Phone Number is required.</div>
                 </div>
               </md-input-container>
-           
+            </div>  
+
+            <div layout="row" flex>           
                <md-input-container flex>
                   <label class="my-label">Designation</label>
-                  <input required type="text" name="designation" ng-model="vm.credentials.designation"/>
-                  <div ng-messages="vm.userForm.designation.$error">
+                  <input required type="text" name="designation" ng-model="vm.contact.designation"/>
+                  <div ng-messages="vm.contactForm.designation.$error">
                     <div ng-message="required">Designation is required.</div>
                   </div>
               </md-input-container>
 
               <md-input-container flex>
                   <label class="my-label">Department</label>
-                  <input required type="text" name="department" ng-model="vm.credentials.department" />
-                  <div ng-messages="vm.userForm.department.$error">
+                  <input required type="text" name="department" ng-model="vm.contact.department" />
+                  <div ng-messages="vm.contactForm.department.$error">
                     <div ng-message="required">Department is required.</div>
                   </div>
               </md-input-container>
 
+            </div>  
+
+            <div layout="row" flex>
               <md-input-container flex>
                   <label class="my-label">State</label>
-                  <input required type="text" name="state" ng-model="vm.credentials.state"/>
-                  <div ng-messages="vm.userForm.state.$error">
+                  <input required type="text" name="state" ng-model="vm.contact.state"/>
+                  <div ng-messages="vm.contactForm.state.$error">
                     <div ng-message="required">State is required.</div>
                   </div>
               </md-input-container>  
 
               <md-input-container flex>
                   <label class="my-label">Board/Company</label>
-                  <input required type="text" name="company" ng-model="vm.credentials.company"/>
-                  <div ng-messages="vm.userForm.company.$error">
+                  <input required type="text" name="company" ng-model="vm.contact.company"/>
+                  <div ng-messages="vm.contactForm.company.$error">
                     <div ng-message="required">Board/Company is required.</div>
                   </div>
               </md-input-container>
-              <md-input-container>
+
+            </div>  
+
+            <div layout="row" flex>
+              <md-input-container flex>
                 <label class="my-label">Visible To:</label>
                 <md-select  multiple 
                       required
                       name="visible"
-                      ng-model="vm.credentials.visible">
+                      ng-model="vm.contact.visible">
                   <md-optgroup label="Visible">
                     <md-option ng-value="userGroup.code" ng-repeat="userGroup in vm.userGroups">{{userGroup.name}}</md-option>
                   </md-optgroup>
@@ -90,17 +128,20 @@
                 <div ng-messages="reports.visible.$error">
                     <div ng-message="required">Visible To is required.</div>
                 </div>
-            </md-input-container>
+              </md-input-container>
+             </div>
 
-
-            </div>
-            <div class="text-center  m-t-20">
-              <button type="submit" class="btn btn-embossed btn-primary">Sign Up</button>
-              <button type="reset" class="cancel btn btn-embossed btn-default m-b-10 m-r-0">Cancel</button>
-            </div>
-          </form>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
+          </div>
+      </md-dialog-content>
+     <md-dialog-actions layout="row">  
+        <span flex></span>
+        <md-button class="btn btn-next btn-fill btn-success btn-wd"  ng-hide="ui.isContactInProgress" flex ng-click="vm.save(vm.contactForm.$valid)" type="submit">{{vm.contact._id ? 'Update' : 'Create'}}</md-button>
+        <md-button class="btn btn-next btn-fill btn-success btn-wd"  ng-disabled="true" flex ng-show="ui.isContactInProgress" type="submit"><i class="fa fa-spinpinner fa-spin"></i> {{vm.contact._id ? 'Updating' : 'Creating'}}</md-button>
+        <span flex></span>
+        <md-button class="btn btn-next btn-fill btn-danger btn-wd" ng-show="ui.editMode" flex ng-click="deleteContact()" type="submit">Delete</md-button>
+        <span flex></span>
+        <md-button class="btn btn-next btn-fill btn-warning btn-wd" flex ng-click="vm.cancel()" type="submit">Cancel</md-button>
+        <span flex></span>
+      </md-dialog-actions>   
+  </form>
+</md-dialog>
