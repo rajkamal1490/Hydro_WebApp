@@ -5,9 +5,9 @@
     .module('meetings')
     .controller('MeetingsListController', MeetingsListController);
 
-  MeetingsListController.$inject = ['MeetingsService', 'CommonService', '$scope', '$mdDialog', 'meetingResolve', '$timeout'];
+  MeetingsListController.$inject = ['MeetingsService', 'CommonService', '$scope', '$mdDialog', 'meetingResolve', '$timeout', 'userResolve'];
 
-  function MeetingsListController(MeetingsService, CommonService, $scope, $mdDialog, meetingResolve, $timeout) {
+  function MeetingsListController(MeetingsService, CommonService, $scope, $mdDialog, meetingResolve, $timeout, userResolve) {
     var vm = this;
 
     $scope.model = {
@@ -59,6 +59,7 @@
         templateUrl: '/modules/meetings/client/views/form-meeting.client.view.html',
         parent: angular.element(document.body),
         clickOutsideToClose: false,
+        escapeToClose: false,
         fullscreen: true,
         resolve: {
           selectedDate: function() {
@@ -70,6 +71,9 @@
           viewMode: function() {
             return false;
           },
+          userResolve: function() {
+            return userResolve;
+          }
         }
       }).then(function(createdItem) {
         $scope.model.newEvents.push(createdItem);
@@ -97,6 +101,7 @@
             templateUrl: '/modules/meetings/client/views/form-meeting.client.view.html',
             parent: angular.element(document.body),
             clickOutsideToClose: false,
+            escapeToClose: false,
             fullscreen: true,
             resolve: {
               selectedDate: function() {
@@ -108,6 +113,9 @@
               viewMode: function() {
                 return true;
               },
+              userResolve: function() {
+                return userResolve;
+              }
             },
           })
           .then(function(updatedItem) {

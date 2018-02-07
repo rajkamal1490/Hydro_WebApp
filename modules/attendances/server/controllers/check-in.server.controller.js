@@ -35,3 +35,77 @@ exports.findTodayCheckIn = function(req, res) {
   });
 };
 
+/**
+ * findAttendancesByUser
+ */
+
+exports.findAttendancesByUser = function(req, res) {
+  Attendance.find({
+    $and: [{
+      user: req.body.userId
+    }]
+  }, function(err, entries) {
+    if (err) {
+      return res.status(400).send({
+        message: errorHandler.getErrorMessage(err)
+      });
+    } else {
+      res.jsonp(entries);
+    }
+  });
+};
+
+/**
+ * Validate Leave Overlap
+ */
+
+exports.validateLeaveOverlap = function(req, res) {
+  Attendance.find({
+    $and: [{
+      "applyLeave.endTime": {
+        $gte: req.body.startGMT
+      },
+      "applyLeave.startTime": {
+        $lte: req.body.endGMT
+      }
+    }],
+    user: req.body.userId
+  }, function(err, searchResults) {
+    if (err) {
+      return res.status(400).send({
+        message: errorHandler.getErrorMessage(err)
+      });
+    } else {
+      res.jsonp(searchResults);
+    }
+
+  });
+};
+
+
+/**
+ * Validate Permission Overlap
+ */
+
+exports.validatePermissionOverlap = function(req, res) {
+  Attendance.find({
+    $and: [{
+      "applyPermission.endTime": {
+        $gte: req.body.startGMT
+      },
+      "applyPermission.startTime": {
+        $lte: req.body.endGMT
+      }
+    }],
+    user: req.body.userId
+  }, function(err, searchResults) {
+    if (err) {
+      return res.status(400).send({
+        message: errorHandler.getErrorMessage(err)
+      });
+    } else {
+      res.jsonp(searchResults);
+    }
+
+  });
+};

@@ -21,6 +21,11 @@
         controllerAs: 'vm',
         data: {
           pageTitle: 'Attendances List'
+        },
+        resolve: {
+          userResolve: ['$injector', '$q', function($injector, $q) {
+            return $injector.invoke(userData).$promise;   // cached, otherwise we would have called IncidentNoteTitle.query().
+          }]
         }
       })
       .state('attendances.create', {
@@ -76,4 +81,11 @@
   function newAttendance(AttendancesService) {
     return new AttendancesService();
   }
+
+  userData.$inject = ['AdminService'];
+
+  function userData(AdminService) {
+    return AdminService.query();
+  }
+  
 }());

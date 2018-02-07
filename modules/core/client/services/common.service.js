@@ -4,7 +4,9 @@
 
     .factory('CommonService', ['$http', 'USER_GROUPS', function($http, USER_GROUPS) {
 
-        var CommonService = {};       
+        var CommonService = {};
+
+        CommonService.getIsAllowToClick = false;
 
         CommonService.hasExecutive = function(authentication) {
             return authentication.user ? _.includes(authentication.user.userGroup, USER_GROUPS[0].code) : false;
@@ -60,6 +62,10 @@
             };
 
             return checkIn;
+        };
+
+        CommonService.setIsAllowToClick = function(isAllow) {
+            CommonService.getIsAllowToClick = isAllow;
         };
 
         return CommonService;

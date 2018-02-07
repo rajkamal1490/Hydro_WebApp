@@ -17,26 +17,26 @@
             <div layout="row" flex>
 
               <md-input-container flex>
-            <label class="my-label"><b>Start time</b></label>
-              <div ng-click="showStartTimePicker($event)">
-                <input style="color: #000066; font-weight: bold;" required name="start" ng-model="vm.meeting.startTime" onfocus="this.blur()" readonly></input>
-              </div>
-              <div ng-messages="vm.meetingForm.start.$error">
-                <div ng-message="required">Start time is required.</div>
-                <div ng-message="lesser">Event start time should be before the end time.</div>
-              </div>
-          </md-input-container>
+                <label class="my-label"><b>Start time</b></label>
+                <div ng-click="showStartTimePicker($event)">
+                 <input style="color: #000066; font-weight: bold;" required name="start" ng-model="vm.meeting.startTime" onfocus="this.blur()" readonly></input>
+                </div>
+                <div ng-messages="vm.meetingForm.start.$error">
+                  <div ng-message="required">Start time is required.</div>
+                  <div ng-message="lesser">Event start time should be before the end time.</div>
+                </div>
+              </md-input-container>
 
-          <md-input-container flex>
-            <label class="my-label"><b>End time</b></label>
-              <div ng-click="showEndTimePicker($event)">
-                <input style="color: #000066; font-weight: bold;" required name="end" ng-model="vm.meeting.endTime" onfocus="this.blur()" readonly></input>
-              </div>
-              <div ng-messages="vm.meetingForm.end.$error">
-                <div ng-message="required">End time is required.</div>
-                <div ng-message="greater">Event end time should be after the start time.</div>
-              </div>
-          </md-input-container>
+              <md-input-container flex>
+                <label class="my-label"><b>End time</b></label>
+                <div ng-click="showEndTimePicker($event)">
+                  <input style="color: #000066; font-weight: bold;" required name="end" ng-model="vm.meeting.endTime" onfocus="this.blur()" readonly></input>
+                </div>
+                <div ng-messages="vm.meetingForm.end.$error">
+                  <div ng-message="required">End time is required.</div>
+                  <div ng-message="greater">Event end time should be after the start time.</div>
+                </div>
+              </md-input-container>
             </div>
 
             <div layout="column" flex>
@@ -49,7 +49,14 @@
               </md-input-container>
               <md-input-container flex>
                   <label class="my-label">Attendees</label>
-                  <input required type="text" name="attendees" ng-model="vm.meeting.attendees"/>
+                  <md-select multiple
+                      required
+                      name="attendees"
+                      ng-model="vm.meeting.attendees">
+                    <md-optgroup label="Attendees">
+                      <md-option  ng-value="user" ng-repeat="user in vm.users">{{user.displayName}}</md-option>
+                    </md-optgroup>
+                </md-select>
                   <div ng-messages="vm.meetingForm.attendees.$error">
                     <div ng-message="required">Attendees is required.</div>
                   </div>
@@ -62,6 +69,44 @@
                   </div>
               </md-input-container>
             </div>
+            <label class="my-label">Agenda: </label>
+            <div layout="row">
+              <md-input-container flex>
+                <label class="my-label">Title</label>                      
+                  <input type="text" name="agendaTitle" ng-model="unconfirmedAgenda.agendaTitle"  />
+              </md-input-container> 
+              <md-input-container flex>
+                <label class="my-label">Description</label>                      
+                  <input type="text" name="agendaDescription" ng-model="unconfirmedAgenda.agendaDescription" />
+              </md-input-container>
+              <md-input-container flex>
+                <label class="my-label">Responsible Person</label>                      
+                  <input type="text" name="agendaResponsiblePerson" ng-model="unconfirmedAgenda.agendaResponsiblePerson"  />
+              </md-input-container>
+               <div class="pull-right">
+                  <md-button class="md-raised md-primary nonecase" style="min-width: 50px" ng-click="addAgenda()" ng-disabled="unconfirmedAgenda.agendaResponsiblePerson === undefined || unconfirmedAgenda.agendaDescription === undefined || unconfirmedAgenda.agendaTitle === undefined || unconfirmedAgenda.agendaResponsiblePerson === '' || unconfirmedAgenda.agendaDescription === '' || unconfirmedAgenda.agendaTitle === ''" type="submit"><span class="glyphicon glyphicon-plus"></span></md-button>
+              </div>
+            </div> 
+            <div layout="row" flex ng-repeat="agenda in vm.agendas track by $index" ng-init="addIsEdit(agenda)">        
+               <md-input-container flex>
+                  <label class="my-label">Title</label>                      
+                    <input type="text" name="agendaTitle" ng-model="agenda.agendaTitle" ng-disabled="!agenda.isEdit"  />               
+                </md-input-container> 
+                <md-input-container flex>
+                  <label class="my-label">Description</label>                      
+                    <input type="text" name="agendaDescription" ng-model="agenda.agendaDescription" ng-disabled="!agenda.isEdit" />               
+                </md-input-container>
+                <md-input-container flex>
+                  <label class="my-label">Responsible Person</label>                      
+                    <input type="text" name="agendaResponsiblePerson" ng-model="agenda.agendaResponsiblePerson" ng-disabled="!agenda.isEdit"  />               
+                </md-input-container>
+
+              <div class="pull-right">  
+              <md-button class="md-raised md-primary nonecase" style="min-width: 50px" ng-click="isEdit(agenda)" type="submit"><span class="glyphicon glyphicon-pencil"></span></md-button>             
+                <md-button class="md-raised btn-danger nonecase" style="min-width: 50px" ng-click="removeAgenda($index)" type="submit"><span class="glyphicon glyphicon-remove"></span></md-button>
+              </div>
+            </div>
+                        
       </md-dialog-content>
      <md-dialog-actions layout="row">  
         <span flex></span>

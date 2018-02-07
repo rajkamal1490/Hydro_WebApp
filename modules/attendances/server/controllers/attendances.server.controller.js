@@ -14,7 +14,6 @@ var path = require('path'),
  */
 exports.create = function(req, res) {
   var attendance = new Attendance(req.body);
-  attendance.user = req.user;
 
   attendance.save(function(err) {
     if (err) {

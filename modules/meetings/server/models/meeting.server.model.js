@@ -28,6 +28,9 @@ var MeetingSchema = new Schema({
   endTime: {
     type: String,
   },
+  agendas: {
+    type: Object
+  },
   location: {
     type: String,
     trim: true,
@@ -35,9 +38,7 @@ var MeetingSchema = new Schema({
     required: 'Please fill in your location'
   },
   attendees: {
-    type: String,
-    trim: true,
-    default: '',
+    type: Object,
     required: 'Please fill in attendees'
   },
   facilitator: {

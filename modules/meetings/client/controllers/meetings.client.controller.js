@@ -6,9 +6,9 @@
     .module('meetings')
     .controller('MeetingsController', MeetingsController);
 
-  MeetingsController.$inject = ['$scope', '$state', '$window', 'Authentication', '$mdDialog', '$mdpTimePicker', 'selectedDate', 'selectedEvent', 'MeetingsService', 'Notification', 'viewMode'];
+  MeetingsController.$inject = ['$scope', '$state', '$window', 'Authentication', '$mdDialog', '$mdpTimePicker', 'selectedDate', 'selectedEvent', 'MeetingsService', 'Notification', 'viewMode', 'userResolve'];
 
-  function MeetingsController($scope, $state, $window, Authentication, $mdDialog, $mdpTimePicker, selectedDate, selectedEvent, MeetingsService, Notification, viewMode) {
+  function MeetingsController($scope, $state, $window, Authentication, $mdDialog, $mdpTimePicker, selectedDate, selectedEvent, MeetingsService, Notification, viewMode, userResolve) {
     var vm = this;
 
     vm.authentication = Authentication;
@@ -17,6 +17,8 @@
     vm.form = {};
     vm.save = save;
     vm.cancel = cancel;
+    vm.agendas = selectedEvent ? (selectedEvent.agendas ? selectedEvent.agendas : []) : [];
+    vm.users = userResolve;
 
     $scope.eventTime = {
       mStartClock: selectedEvent ? new Date(selectedEvent.startDateTime) : new Date('1991-05-04T06:00:00'),
@@ -30,7 +32,24 @@
     $scope.ui = {
       isMeetingInProgress: false,
       viewMode: viewMode
-    }
+    };
+
+    $scope.unconfirmedAgenda = {     
+      agendaTitle: undefined,
+      agendaDescription: undefined,
+      agendaResponsiblePerson: undefined
+    };
+
+    // $scope.unconfirmedAgenda = {
+    //   serialNo: 1,
+    //   agendaTopics: undefined,
+    //   agendaSolutions: undefined,
+    //   agendaActionPlan: undefined,
+    //   agendaAssignedTo: undefined,
+    //   agendaDecisionTaken: undefined,
+    //   agendaDueDate: undefined,
+    //   agendaTask: undefined
+    // };
 
     // Save Meeting
     function save(isValid) {
@@ -45,8 +64,11 @@
         $scope.ui.isMeetingInProgress = true;
       }
 
+      $scope.addAgenda();
+
       vm.meeting.startDateTime = $scope.eventTime.mStartToServer;
       vm.meeting.endDateTime = $scope.eventTime.mEndToServer;
+      vm.meeting.agendas = vm.agendas;
 
       // TODO: move create/update logic to service
       if (vm.meeting._id) {
@@ -125,6 +147,25 @@
         });
     };
 
+    $scope.isEdit = function(agenda) {
+      agenda.isEdit = true;
+    }
+
+    $scope.addIsEdit = function(agenda) {
+      agenda.isEdit = false;
+    };
+
+    $scope.removeAgenda = function(index) {
+      vm.agendas.splice(index, 1);
+    };
+
+    $scope.addAgenda = function() {
+      if ($scope.unconfirmedAgenda.agendaTitle && $scope.unconfirmedAgenda.agendaDescription && $scope.unconfirmedAgenda.agendaResponsiblePerson) {
+        vm.agendas.push($scope.unconfirmedAgenda);
+        clearUnconfirmed();
+      }
+    };
+
     function validateStartAndEndTime() {
       if (vm.meetingForm) {
         var bool = (Date.parse($scope.eventTime.mEndToServer) > Date.parse($scope.eventTime.mStartToServer));
@@ -147,5 +188,13 @@
     function cancel() {
       $mdDialog.cancel();
     };
+
+    function clearUnconfirmed() {
+      $scope.unconfirmedAgenda = {
+        agendaTitle: undefined,
+        agendaDescription: undefined,
+        agendaResponsiblePerson: undefined
+      };
+    }
   }
 }());

@@ -5,9 +5,9 @@
 		.module('tasks')
 		.controller('TasksListController', TasksListController);
 
-	TasksListController.$inject = ['Authentication', 'CommonService', 'PRIORITIES', '$filter', '$scope', '$mdDialog', 'taskResolve', 'TASK_STATUSES', 'userResolve'];
+	TasksListController.$inject = ['CommonService', 'PRIORITIES', '$filter', '$scope', '$mdDialog', 'taskResolve', 'TASK_STATUSES', 'userResolve'];
 
-	function TasksListController(Authentication, CommonService, PRIORITIES, $filter, $scope, $mdDialog, taskResolve, TASK_STATUSES, userResolve) {
+	function TasksListController(CommonService, PRIORITIES, $filter, $scope, $mdDialog, taskResolve, TASK_STATUSES, userResolve) {
 		var vm = this;
 
 		vm.figureOutItemsToDisplay = figureOutItemsToDisplay;
@@ -61,6 +61,7 @@
 				templateUrl: '/modules/tasks/client/views/form-task.client.view.html',
 				parent: angular.element(document.body),
 				clickOutsideToClose: false,
+				escapeToClose: false,
 				fullscreen: true,
 				resolve: {
 					task: function() {

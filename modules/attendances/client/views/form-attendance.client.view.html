@@ -1,24 +1,58 @@
-<section>
-  <div class="page-header">
-    <h1>{{vm.attendance._id ? 'Edit Attendance' : 'New Attendance'}}</h1>
-  </div>
-  <div class="col-md-12">
-    <form name="vm.form.attendanceForm" class="form-horizontal" ng-submit="vm.save(vm.form.attendanceForm.$valid)" novalidate>
-      <fieldset>
-        <div class="form-group" show-errors>
-          <label class="control-label" for="name">Name</label>
-          <input name="name" type="text" ng-model="vm.attendance.name" id="name" class="form-control" placeholder="Name" required>
-          <div ng-messages="vm.form.attendanceForm.name.$error" role="alert">
-            <p class="help-block error-text" ng-message="required">Attendance name is required.</p>
+<md-dialog flex="70" style="left: 7%"> 
+  <form name="vm.attendancesForm" novalidate autocomplete="off">
+    <div class="modal-header bg-primary">
+      <h4>View Attendance Details</h4>
+    </div>
+       <md-dialog-content>         
+          <div class="col-md-12 col-sm-12 col-xs-12">
+            <div layout="row" flex>
+              <div class="col-md-12">                        
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label class="col-sm-5 control-label">Check-in time:</label>
+                      {{vm.checkInTime}}
+                    </div>                    
+                  </div> 
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label class="col-sm-5 control-label">Check-out time:</label>
+                      {{vm.checkOutTime}}
+                    </div>
+                  </div>                        
+                </div>
+              </div>
           </div>
-        </div>
-        <div class="form-group">
-          <button type="submit" class="btn btn-default">{{vm.attendance._id ? 'Update' : 'Create'}}</button>
-        </div>
-        <div ng-show="vm.error" class="text-danger">
-          <strong ng-bind="vm.error"></strong>
-        </div>
-      </fieldset>
-    </form>
-  </div>
-</section>
+          <div layout="row" flex style="height: 400px; overflow: scroll; overflow-x: hidden;">
+              <div class="col-md-12">                        
+                <div class="row">
+                <div class="header">
+                  <h4 class="text-center"><strong><u>Break Timing Details</u></strong></h4>
+                </div>
+                  <table class="table table-hover dataTable" id="table-editable" >
+                    <thead>
+                      <tr>
+                        <th>Break Start Time</th>
+                        <th>Break End Time</th>
+                        <th>Total Time</th>
+                      </tr>
+                    </thead>
+                  <tbody >
+                    <tr ng-repeat="breakTime in vm.attendance.breakTime">
+                      <td class="col-md-4">{{breakTime.startDateTime | date:'yyyy:MM:dd hh:mm:ss' }}</td>
+                      <td class="col-md-4">{{breakTime.endDateTime | date:'yyyy:MM:dd hh:mm:ss'}}</td>
+                      <td class="col-md-4">{{breakTime.breakDiff}}</td>             
+                    </tr>                      
+                  </tbody>
+                  </table>                       
+                </div>
+              </div>
+          </div>
+      </md-dialog-content>
+     <md-dialog-actions layout="row">  
+        <span flex></span>        
+        <md-button class="btn btn-next btn-fill btn-warning btn-wd" flex ng-click="vm.cancel()" type="submit">Cancel</md-button>
+        <span flex></span>
+      </md-dialog-actions>   
+  </form>
+</md-dialog>

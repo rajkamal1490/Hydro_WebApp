@@ -52,4 +52,7 @@
             "rgba(255, 200, 112,1)",
             "rgba(100, 200, 112,1)"
         ])
+        .constant('ATTENDANCE', 'attendance')
+        .constant('PERMISSION', 'permission')
+        .constant('LEAVE', 'leave')
 }).call(this);

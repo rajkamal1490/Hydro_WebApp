@@ -65,6 +65,7 @@
       }      
 
       vm.task.createdBy = Authentication.user.displayName;
+      vm.task.createdProfileImage = Authentication.user.profileImageURL;
       vm.task.startDateTime = $scope.eventTime.mStartToServer;
       vm.task.dueDateTime = $scope.eventTime.mEndToServer;
 

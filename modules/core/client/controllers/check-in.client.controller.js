@@ -25,6 +25,8 @@
       vm.attendances.date = new Date().getDate();
       vm.attendances.month = new Date().getMonth() + 1;
       vm.attendances.year = new Date().getFullYear();
+      vm.attendances.checkInTime = new Date();
+      vm.attendances.user = Authentication.user._id;
 
       vm.attendances.$save(successCallback, errorCallback);
 

@@ -25,6 +25,9 @@
         resolve: {
           meetingResolve: ['$injector', '$q', function($injector, $q) {
             return $injector.invoke(bookedEventData).$promise;   // cached, otherwise we would have called IncidentNoteTitle.query().
+          }],
+          userResolve: ['$injector', '$q', function($injector, $q) {
+            return $injector.invoke(userData).$promise;   // cached, otherwise we would have called IncidentNoteTitle.query().
           }]
         },
       })
@@ -86,6 +89,12 @@
 
   function bookedEventData(MeetingsService) {
     return MeetingsService.query();
+  }
+
+  userData.$inject = ['AdminService'];
+
+  function userData(AdminService) {
+    return AdminService.query();
   }
 
 }());

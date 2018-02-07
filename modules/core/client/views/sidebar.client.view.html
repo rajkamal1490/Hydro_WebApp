@@ -1,5 +1,5 @@
 <div ng-controller="SidebarController as vm">
-    <div class="sidebar" ng-show="vm.authentication.user">
+    <div class="sidebar" ng-show="vm.authentication.user" ng-style="ui.isAllowToClick ? {'pointer-events': 'none'} : {'pointer-events': 'visible'}">
         <div class="logopanel">
           <h1 style="text-align: center; font-weight: bold;">
             Hydro
@@ -21,13 +21,13 @@
                     <i class="mdi-action-assignment"></i><span>Tasks</span></a>
                 </li>
                                 
-                <li class="nav-parent" ng-class="{ 'nav-active active': isActive('/meetings/list, /meetings/create') }">
+                <li class="nav-parent" ng-class="{ 'nav-active active': isActive('/meetings/list', '/attendances/list') }">
                     <a href=""><i class="fa fa-calendar"></i><span>My Calendar</span><span class="fa arrow"></span></a>
                     <ul class="children collapse">
-                        <li ng-class="{ 'active': isChildrenActive('/meetings/list') }"><a ui-sref="meetings.list">Attendance</a></li>
+                        <li ng-class="{ 'active': isChildrenActive('/attendances') }"><a href="/attendances">Attendance</a></li>
                         <li ng-class="{ 'active': isChildrenActive('/meetings') }"><a href="/meetings">Meetings</a></li>
                     </ul>
-                </li>             
+                </li>
 
                 <li ng-class="{ 'nav-active active': isActive('/admin/accounts') }"><a href="">
                     <i class="mdi-action-account-balance-wallet"></i><span>Accounts</span></a>

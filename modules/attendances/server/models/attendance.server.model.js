@@ -11,8 +11,7 @@ var mongoose = require('mongoose'),
  */
 var AttendanceSchema = new Schema({
   checkInTime: {
-    type: Date,
-    default: Date.now
+    type: Date
   },
   checkOutTime: {
     type: Date
@@ -26,11 +25,11 @@ var AttendanceSchema = new Schema({
   date: {
     type: Number
   },
-  leaveFrom: {
-    type: Date
+  applyLeave: {
+    type: Object
   },
-  leaveTo: {
-    type: Date
+  applyPermission: {
+    type: Object
   },
   created: {
     type: Date,
@@ -38,6 +37,9 @@ var AttendanceSchema = new Schema({
   },
   breakTime: {
     type: Object
+  },
+  reason: {
+    type: String
   },
   user: {
     type: Schema.ObjectId,

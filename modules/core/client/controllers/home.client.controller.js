@@ -91,6 +91,7 @@
         templateUrl: '/modules/tasks/client/views/form-task.client.view.html',
         parent: angular.element(document.body),
         clickOutsideToClose: false,
+        escapeToClose: false,
         fullscreen: true,
         resolve: {
           task: function() {
@@ -166,6 +167,7 @@
     };
 
     function showCheckInDialog() {
+      CommonService.setIsAllowToClick(true);
       $mdDialog.show({
         controller: 'CheckInController',
         controllerAs: 'vm',
@@ -176,8 +178,10 @@
       }).then(function(createdItem) {
         Authentication.todayCheckIn[0] =createdItem;
         vm.hasShowCheckInDialog = false;
+        CommonService.setIsAllowToClick(false);
       }, function() {
         console.log("canceled");
+        CommonService.setIsAllowToClick(false);
       });
     };
 

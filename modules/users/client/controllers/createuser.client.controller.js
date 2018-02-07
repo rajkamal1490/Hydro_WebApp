@@ -18,7 +18,6 @@
     $scope.ui = {
       isUserInProgress: false
     };
-   
 
     function signup(isValid) {
 

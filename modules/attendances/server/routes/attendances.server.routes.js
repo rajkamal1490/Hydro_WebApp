@@ -17,6 +17,11 @@ module.exports = function(app) {
     .put(attendances.update)
     .delete(attendances.delete);
 
+  app.route('/admin/api/attendances/:attendanceId').all(attendancesPolicy.isAllowed)
+    .get(attendances.read)
+    .put(attendances.update)
+    .delete(attendances.delete);
+
   // Finish by binding the Attendance middleware
   app.param('attendanceId', attendances.attendanceByID);
 };

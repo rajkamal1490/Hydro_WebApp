@@ -48,6 +48,7 @@
 				templateUrl: '/modules/contacts/client/views/form-contact.client.view.html',
 				parent: angular.element(document.body),
 				clickOutsideToClose: false,
+				escapeToClose: false,
 				fullscreen: true,
 				resolve: {
 					contactResolve: function() {

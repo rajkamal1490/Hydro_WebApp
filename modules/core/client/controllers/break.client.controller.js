@@ -12,11 +12,13 @@
     vm.stop = stop;
     vm.attendances = new AttendancesService(todayCheckIn);
     vm.breakInProgress = false;
+    vm.todayCheckIn = todayCheckIn;
 
     $scope.currentDateTime = moment(Date.now()).format('MMMM Do YYYY');   
 
     var clock = function() {
       $scope.clock = moment.utc(moment(new Date(), "HH:mm:ss").diff(moment(new Date(breakStartTime), "HH:mm:ss"))).format("HH:mm:ss");
+      $scope.endDateTime = new Date();
     }
     clock();
     $interval(clock, 1000);
@@ -31,7 +33,7 @@
 
       var breakTime = [{
         startDateTime: breakStartTime,
-        endDateTime: new Date(),
+        endDateTime: $scope.endDateTime,
         breakDiff: $scope.clock
       }];
 
@@ -47,7 +49,7 @@
         vm.breakInProgress = false;
         $mdDialog.hide(res);
         Notification.success({
-          message: '<i class="glyphicon glyphicon-ok"></i> Your check-in time inserted successfully '
+          message: '<i class="glyphicon glyphicon-ok"></i> Your break time inserted successfully '
         });
       }
 
@@ -55,7 +57,7 @@
         vm.breakInProgress = false;
         Notification.error({
           message: errorResponse.data.message,
-          title: '<i class="glyphicon glyphicon-remove"></i> Your check-in time not inserted successfully, Please contact your adminstrator'
+          title: '<i class="glyphicon glyphicon-remove"></i> Your break time not inserted successfully, Please contact your adminstrator'
         });
       }
 

@@ -61,6 +61,7 @@
         templateUrl: '/modules/users/client/views/admin/view-user.client.view.html',
         parent: angular.element(document.body),
         clickOutsideToClose: false,
+        escapeToClose: false,
         fullscreen: true, 
         resolve: {
           userResolve: function() {
