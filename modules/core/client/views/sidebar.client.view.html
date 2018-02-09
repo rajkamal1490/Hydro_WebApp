@@ -13,14 +13,14 @@
                 <h4 style="text-align: center;">{{vm.authentication.user.displayName}}</h4>
             </div>           
             <ul class="nav nav-sidebar">
-                <li ng-class="{ 'nav-active active': isActive('/') }"><a href="/">
+                <li ng-class="{ 'nav-active active': isActive('/') }" ng-click="setActive($event)"><a href="/">
                     <i class="mdi-action-dashboard"></i><span>Dashboard</span></a>
                 </li>
 
-                <li ng-class="{ 'nav-active active': isActive('/tasks') }"><a href="/tasks">
+                <li ng-class="{ 'nav-active active': isActive('/tasks') }" ng-click="setActive($event)"><a href="/tasks">
                     <i class="mdi-action-assignment"></i><span>Tasks</span></a>
                 </li>
-                                
+                
                 <li class="nav-parent" ng-class="{ 'nav-active active': isActive('/meetings/list', '/attendances/list') }">
                     <a href=""><i class="fa fa-calendar"></i><span>My Calendar</span><span class="fa arrow"></span></a>
                     <ul class="children collapse">
@@ -62,7 +62,7 @@
                         <a href="#"><i class="icon-doc c-primary"></i>My documents</a> 
                     </li>
                     <li>
-                        <a href="/contacts"><i class="icon-docs"></i>Contacts</a> 
+                        <a ng-click="setActive($event)" href="/contacts"><i class="icon-docs"></i>Contacts</a> 
                     </li>
                 </ul>
                 <div class="pull-right">

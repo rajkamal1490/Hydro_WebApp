@@ -30,7 +30,7 @@
 			vm.itemsPerPage = 10;
 			vm.currentPage = 1;
 			vm.figureOutItemsToDisplay();
-		}
+		};
 
 		function figureOutItemsToDisplay() {
 			var sortedTasks = $filter('orderBy')(taskResolve, '-taskID');

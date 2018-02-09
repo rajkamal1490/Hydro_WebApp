@@ -56,10 +56,10 @@
 			if (selectedData > now || selectedData === now) {
 				var confirm = $mdDialog.confirm().title('Do you apply leave or permission?').ok('Apply Leave').cancel('Permission').multiple(true).clickOutsideToClose(false).escapeToClose(false);
 				$mdDialog.show(confirm).then(function() {
-					openLeaveOrPermissionDialog(date, true, undefined, true);
+					openLeaveOrPermissionDialog(date, true, undefined, true, true);
 				},
 				function() {
-					openLeaveOrPermissionDialog(date, false, undefined, true);
+					openLeaveOrPermissionDialog(date, false, undefined, true, true);
 				});
 			} else {
 				var confirm = $mdDialog.confirm().title("Don't allow to apply leave/permission for past days!!!").ok('OK');
@@ -105,9 +105,9 @@
 			if(event.category == ATTENDANCE) {
 				openAttendanceDialog(event);
 			} else if(event.category == PERMISSION) {
-				openLeaveOrPermissionDialog(event.start, false, event, false);
+				openLeaveOrPermissionDialog(event.start, false, event, false, event.isApproved);
 			} else if(event.category == LEAVE) {
-				openLeaveOrPermissionDialog(event.start, true, event, false);
+				openLeaveOrPermissionDialog(event.start, true, event, false, event.isApproved);
 			} 
 
 			
@@ -129,6 +129,10 @@
 			$scope.$apply();
 		};
 
+		$scope.refresh = function() {
+			$scope.findAttendancesByUser();
+		};
+
 		function initFullCalendar() {
 			var calendar = $('#calendar').fullCalendar({
 				editable: false,
@@ -148,6 +152,7 @@
 				eventResize: $scope.alertOnResize,
 				eventClick: $scope.eventClick,
 				viewRender: $scope.renderView,
+				viewableIn: ["month","agendaWeek","agendaDay"],
 				eventRender: function(event, element, view) {
 					if (event.category === ATTENDANCE) {
 						var inTime = "In: " + moment(event.start).format('hh:mm a');
@@ -170,15 +175,15 @@
 							minute = minute % 60;
 						}
 						var breaks = event.breakTimes ? 'Break: ' + aZero(hour) + ':' + aZero(minute) + ':' + aZero(second) + ' mins' : "";
-						element.find('.fc-title').append('<div class="hr-line-solid-no-margin" style="text-align: center"><span style="font-size: 10px">' + inTime + ' <br/>' + outTime + ' <br/>' + breaks + '</span></div>');
+						element.find('.fc-content').append('<div class="hr-line-solid-no-margin" style="text-align: center"><span style="font-size: 10px">' + inTime + ' <br/>' + outTime + ' <br/>' + breaks + '</span></div>');
 					} else if(event.category === PERMISSION) {
 						var inTime = "From: " + moment(event.start).format('hh:mm a');
 						var outTime = "To: " + moment(event.end).format('hh:mm a');
-						element.find('.fc-title').append('<div class="hr-line-solid-no-margin" style="text-align: center"><span style="font-size: 10px"><strong style="font-size: 12px;"><u>Permission</u>:</strong> <br/>' + inTime + ' <br/>' + outTime + ' <br/></span></div>');
+						element.find('.fc-content').append('<div class="hr-line-solid-no-margin" style="text-align: center"><span style="font-size: 10px"><strong style="font-size: 12px;"><u>Permission</u>:</strong> <br/>' + inTime + ' <br/>' + outTime + ' <br/></span></div>');
 					} else if(event.category === LEAVE) {
 						var inTime = "From: " + moment(event.start).format('YYYY-MM-DD');
 						var outTime = "To: " + moment(event.end).format('YYYY-MM-DD');
-						element.find('.fc-title').append('<div class="hr-line-solid-no-margin" style="text-align: center"><span style="font-size: 10px; text-align: center"><strong style="font-size: 12px;"><u>Leave</u>:</strong> <br/>' + inTime + ' <br/>' + outTime + ' <br/></span></div>');
+						element.find('.fc-content').append('<div class="hr-line-solid-no-margin" style="text-align: center"><span style="font-size: 10px; text-align: center"><strong style="font-size: 12px;"><u>Leave</u>:</strong> <br/>' + inTime + ' <br/>' + outTime + ' <br/></span></div>');
 					}					
 				},
 				dayRender: function(date, cell) {
@@ -214,7 +219,7 @@
 			});
 		}
 
-		function openLeaveOrPermissionDialog(date, hasApplyLeave, attendanceResolve, createMode) {			
+		function openLeaveOrPermissionDialog(date, hasApplyLeave, attendanceResolve, createMode, approvedMode) {			
 			$mdDialog.show({
 				controller: 'LeaveOrPermissionController',
 				controllerAs: 'vm',
@@ -236,12 +241,18 @@
 					createMode: function() {
 						return createMode;
 					},
+					approvedMode: function() {
+						return !approvedMode;
+					},
 					userId: function() {
 						return $scope.searchParams.assignee;
 					}
 				},
 			})
 			.then(function(updatedItem) {
+				if(updatedItem.isApproved && !createMode) {
+					CommonService.setAttendanceId(attendanceResolve._id);
+				}
 				if (!createMode || updatedItem.isDelete) {	
 					var index = CommonService.findIndexByID($scope.model.events, attendanceResolve._id);				
 					$scope.model.events.splice(index, 1);
@@ -269,6 +280,7 @@
 				breakTimes: attendance.breakTime,
 				category: ATTENDANCE,
 				className: 'bg-blue',
+				isApproved: true,
 				stick: true
 			});
 		};
@@ -282,7 +294,8 @@
 				breakTimes: [],
 				category: PERMISSION,
 				reason: attendance.reason,
-				className: 'bg-green',
+				className: attendance.isApproved ? 'bg-green' : 'bg-orange',
+				isApproved: attendance.isApproved,
 				stick: true
 			});
 		};
@@ -296,7 +309,8 @@
 				breakTimes: [],
 				category: LEAVE,
 				reason: attendance.reason,
-				className: 'bg-red',
+				className: attendance.isApproved ? 'bg-red' : 'bg-orange',
+				isApproved: attendance.isApproved,
 				stick: true
 			});
 		};

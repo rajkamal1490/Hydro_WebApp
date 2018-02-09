@@ -5,9 +5,9 @@
     .module('core')
     .controller('HeaderController', HeaderController);
 
-  HeaderController.$inject = ['$scope', '$state', '$http', 'AdminService', 'AttendancesService', 'Authentication', 'CheckInAttendancesServices', 'CommonService', 'MeetingsService', 'menuService', '$mdDialog', '$interval', 'Notification', 'PERMISSION', 'LEAVE'];
+  HeaderController.$inject = ['$scope', '$state', '$http', 'AdminService', 'AttendancesService', 'Authentication', 'CheckInAttendancesServices', 'CommonService', 'EmployeeMeetingsService', 'menuService', '$mdDialog', '$interval', 'Notification', 'PERMISSION', 'LEAVE'];
 
-  function HeaderController($scope, $state, $http, AdminService, AttendancesService, Authentication, CheckInAttendancesServices, CommonService, MeetingsService, menuService, $mdDialog, $interval, Notification, PERMISSION, LEAVE) {
+  function HeaderController($scope, $state, $http, AdminService, AttendancesService, Authentication, CheckInAttendancesServices, CommonService, EmployeeMeetingsService, menuService, $mdDialog, $interval, Notification, PERMISSION, LEAVE) {
     var vm = this;
 
     vm.accountMenu = menuService.getMenu('account').items[0];
@@ -16,50 +16,78 @@
     vm.menu = menuService.getMenu('topbar');
     vm.checkOutInProgress = false;
     vm.commonService = CommonService;
-    vm.events = [];
     vm.LEAVE = LEAVE;
     vm.PERMISSION = PERMISSION;
+    vm.events = [];
+    vm.meetings = [];
 
     $scope.$on('$stateChangeSuccess', stateChangeSuccess);
 
     var getAttendances = function() {
-      vm.events = [];
-      AttendancesService.query(function(attendances) {
-        var today = new Date();
+      CheckInAttendancesServices.requestFindAwaitingForApprovalLeave(function(attendances) {
+        vm.events = _.reject(vm.events, function(event) {
+          return event._id === CommonService.getAttendanceId;
+        });
+        attendances = _.reject(attendances, function(attendance) {
+          return vm.events ? _.includes(_.map(vm.events, '_id'), attendance._id) : false;
+        });        
         angular.forEach(attendances, function(attendance) {
           if (attendance.applyPermission) {
-            if (moment(today).format('YYYY-MM-DD') >= moment(attendance.applyPermission.startTime).format('YYYY-MM-DD') && moment(today).format('YYYY-MM-DD') <= moment(attendance.applyPermission.endTime).format('YYYY-MM-DD')) {
-              attendancesPermissionPush(attendance);
-            }
+            attendancesPermissionPush(attendance);
           }
           if (attendance.applyLeave) {
-            if (moment(today).format('YYYY-MM-DD') >= moment(attendance.applyLeave.startTime).format('YYYY-MM-DD') && moment(today).format('YYYY-MM-DD') <= moment(attendance.applyLeave.endTime).format('YYYY-MM-DD')) {
-              attendancesLeavePush(attendance);
-            }
+            attendancesLeavePush(attendance);
           }
         });
       });
+      // AttendancesService.query(function(attendances) {
+      //   var today = new Date();
+      //   angular.forEach(attendances, function(attendance) {
+      //     if (attendance.applyPermission) {
+      //       if (moment(today).format('YYYY-MM-DD') >= moment(attendance.applyPermission.startTime).format('YYYY-MM-DD') && moment(today).format('YYYY-MM-DD') <= moment(attendance.applyPermission.endTime).format('YYYY-MM-DD')) {
+      //         attendancesPermissionPush(attendance);
+      //       }
+      //     }
+      //     if (attendance.applyLeave) {
+      //       if (moment(today).format('YYYY-MM-DD') >= moment(attendance.applyLeave.startTime).format('YYYY-MM-DD') && moment(today).format('YYYY-MM-DD') <= moment(attendance.applyLeave.endTime).format('YYYY-MM-DD')) {
+      //         attendancesLeavePush(attendance);
+      //       }
+      //     }
+      //   });
+      // });
     }
 
-    // var getMyTodayMeetings = function() {
-    //   vm.events = [];
-    //   MeetingsService.query(function(meetings) {
-    //     var today = new Date();
-    //     angular.forEach(attendances, function(attendance) {
-    //       if (attendance.applyPermission) {
-    //         if (moment(today).format('YYYY-MM-DD') >= moment(attendance.applyPermission.startTime).format('YYYY-MM-DD') && moment(today).format('YYYY-MM-DD') <= moment(attendance.applyPermission.endTime).format('YYYY-MM-DD')) {
-    //           attendancesPermissionPush(attendance);
-    //         }
-    //       }
-    //       if (attendance.applyLeave) {
-    //         if (moment(today).format('YYYY-MM-DD') >= moment(attendance.applyLeave.startTime).format('YYYY-MM-DD') && moment(today).format('YYYY-MM-DD') <= moment(attendance.applyLeave.endTime).format('YYYY-MM-DD')) {
-    //           attendancesLeavePush(attendance);
-    //         }
-    //       }
-    //     });
-    //   });
-    // }
+    var getMyTodayMeetings = function() {
+      var today = new Date();
+      var minusTwoHours = getDateTimeToServer(today.setHours(today.getHours() + 2))
 
+      var gmtDateTime = {
+        userId: Authentication.user._id,
+        startDate: getDateTimeToServer(today.setHours(today.getHours() + 2)),
+        endDate: getDateTimeToServer(new Date())
+      };
+      EmployeeMeetingsService.requestFindTodayMeetingsByUser(gmtDateTime).then(function(employeeMeetings) {
+        // vm.meetings = _.reject(vm.meetings, function(meeting) {
+        //   return meeting._id === CommonService.getAttendanceId;
+        // });
+        //alert(employeeMeetings.length)
+        employeeMeetings = _.reject(employeeMeetings, function(employeeMeeting) {
+          return vm.meetings ? _.includes(_.map(vm.meetings, '_id'), employeeMeeting._id) : false;
+        });
+        angular.forEach(employeeMeetings, function(employeeMeeting) {      
+          // alert(moment(employeeMeeting.endDateTime).format('YYYY-MM-DD hh:mm:ss'))   
+          // alert(moment(new Date()).format('YYYY-MM-DD hh:mm:ss'))   
+          var haveMeetingToday = _.includes(_.map(employeeMeeting.attendees, '_id'), Authentication.user._id);          
+          if (moment(minusTwoHours).format('YYYY-MM-DD hh:mm:ss') >= moment(employeeMeeting.startDateTime).format('YYYY-MM-DD hh:mm:ss') && moment(new Date()).format('YYYY-MM-DD hh:mm:ss') < moment(employeeMeeting.startDateTime).format('YYYY-MM-DD hh:mm:ss')) {
+            vm.meetings.push(employeeMeeting);
+          }
+        });
+      });
+    };
+
+    $scope.inHour = function(startTime) {
+      return moment(startTime).fromNow();
+    };
 
     var getTasksAssignedByMe = function() {
       var now = new Date();
@@ -76,14 +104,14 @@
         });
 
       });
-
     };
-
 
     if (Authentication.user) {
       getAttendances();
-      // $interval(getAttendances, 20000);
-      $interval(getTasksAssignedByMe, 10000);
+      getMyTodayMeetings();
+      $interval(getAttendances, 5000);
+      $interval(getMyTodayMeetings, 5000);
+      // $interval(getTasksAssignedByMe, 10000);
     }
 
     $scope.logout = function(ev) {
@@ -104,9 +132,49 @@
 
     };
 
+    $scope.approveLeave = function(event) {
+      $mdDialog.show({
+        controller: 'LeaveOrPermissionController',
+        controllerAs: 'vm',
+        templateUrl: '/modules/attendances/client/views/leave-attendance.client.view.html',
+        parent: angular.element(document.body),
+        clickOutsideToClose: false,
+        escapeToClose: false,
+        fullscreen: true,
+        resolve: {
+          selectedDate: function() {
+            return new Date(event.start);
+          },
+          hasApplyLeave: function() {
+            return event.category === LEAVE ? true : false;
+          },
+          selectedData: function() {
+            return event;
+          },
+          createMode: function() {
+            return false;
+          },
+          userId: function() {
+            return event.user._id;
+          },
+          approvedMode: function() {
+            return true;
+          }
+        },
+      })
+      .then(function(updatedItem) {
+        if (updatedItem.isDelete || updatedItem.isApproved) {  
+          var index = CommonService.findIndexByID(vm.events, event._id);        
+          vm.events.splice(index, 1);
+        }
+      }, function() {
+        console.log('You cancelled the dialog.');
+      });
+    };
+
     $scope.getProfileDetails = function(event) {
       AdminService.get({
-        userId: event.user._id 
+        userId: event.user
       }, function(data) {
         event.user = data;
       });
@@ -169,8 +237,9 @@
       vm.events.push({
         _id: attendance._id,
         user: attendance.user,
-        displayStartTime: attendance.applyPermission.displayStartTime,
-        displayEndTime: attendance.applyPermission.displayEndTime,
+        start: new Date(attendance.applyPermission.startTime),
+        end: new Date(attendance.applyPermission.endTime),
+        timeSince: moment(attendance.created).fromNow(),
         appliedOn: attendance.created,
         reason: attendance.reason,
         category: PERMISSION        
@@ -181,8 +250,9 @@
       vm.events.push({
         _id: attendance._id,
         user: attendance.user,
-        displayStartTime: attendance.applyLeave.displayStartTime,
-        displayEndTime: attendance.applyLeave.displayEndTime,
+        start: new Date(attendance.applyLeave.startTime),
+        end: new Date(attendance.applyLeave.endTime),
+        timeSince: moment(attendance.created).fromNow(),
         appliedOn: attendance.created,
         reason: attendance.reason,
         category: LEAVE
@@ -213,6 +283,11 @@
           }
         }
       });
+    };
+
+    function getDateTimeToServer(date) {
+      var dtGMT = new Date((new Date(date)).toUTCString()).toISOString();
+      return dtGMT;
     }
 
     function stateChangeSuccess() {

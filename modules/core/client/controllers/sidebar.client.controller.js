@@ -26,6 +26,13 @@
       return $location.path() === childNav;
     };
 
+    $scope.setActive = function(e) {
+        $('li').removeClass('active');
+        $('span').removeClass('active');
+        $('.children').hide();
+        $(this).addClass('active');
+    };
+
     $scope.takeABreak = function() {
       CheckInAttendancesServices.requestFindTodayCheckIn(CommonService.buildArrayToFindTodayCheckIn(Authentication.user._id)).then(function(searchResults) {        
         $scope.ui.isAllowToClick = true;

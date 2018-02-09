@@ -56,6 +56,26 @@ exports.findAttendancesByUser = function(req, res) {
 };
 
 /**
+ * awaitingForApprovalLeave
+ */
+
+exports.awaitingForApprovalLeave = function(req, res) {
+  Attendance.find({
+    $and: [{
+      isApproved: false
+    }]
+  }, function(err, entries) {
+    if (err) {
+      return res.status(400).send({
+        message: errorHandler.getErrorMessage(err)
+      });
+    } else {
+      res.jsonp(entries);
+    }
+  });
+};
+
+/**
  * Validate Leave Overlap
  */
 

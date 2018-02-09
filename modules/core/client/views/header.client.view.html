@@ -36,27 +36,27 @@
         <li class="dropdown" id="notifications-header">
           <a href="#" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
             <i class="icon-bell"></i>
-            <span class="badge badge-danger badge-header">{{vm.events.length}}</span>
+            <span class="badge badge-danger badge-header">{{vm.commonService.hasExecutive(vm.authentication) || vm.commonService.hasVp(vm.authentication) ? vm.meetings.length + vm.events.length : vm.meetings.length}}</span>
           </a>
           <ul class="dropdown-menu">
             <li class="dropdown-header clearfix">
-              <p class="pull-left p-r-2" style="font-size: 12px">Today {{vm.events.length}} employee took leave/permission</p>
+              <p class="pull-left">{{vm.commonService.hasExecutive(vm.authentication) || vm.commonService.hasVp(vm.authentication) ? vm.meetings.length + vm.events.length : vm.meetings.length}} Pending Notifications</p>
             </li>
             <li>
-              <ul class="dropdown-menu-list withScroll" data-height="220">
-                <li class="clearfix" ng-repeat="event in vm.events | orderBy: '-appliedOn' | limitTo: 5" ng-init=getProfileDetails(event)>
-                  <span class="pull-left p-r-5">
-                    <img ng-src="/{{event.user.profileImageURL}}" alt="{{event.user.displayName}}" height="25" width="25" class="img-responsive img-circle">
-                  </span>
-                  <div class="clearfix">
-                    <div>
-                      <strong>{{event.user.displayName}}</strong> 
-                        <small class="pull-right text-muted">
-                          <span class="glyphicon glyphicon-time p-r-5"></span>{{event.appliedOn | date:'yyyy:MM:dd hh:mm:ss'}}
-                        </small>
-                    </div>
-                      <p class="pull-left p-r-2" style="font-size: 12px">{{event.category === vm.LEAVE ? 'Leave'  : 'Permission' }} on  {{event.displayStartTime}} - {{event.displayEndTime}}</p>
-                  </div>
+              <ul class="dropdown-menu-list withScroll" data-height="220">               
+                <li ng-repeat="event in vm.events | orderBy: '-appliedOn' | limitTo: 5" ng-init="getProfileDetails(event)" ng-if="vm.commonService.hasExecutive(vm.authentication) || vm.commonService.hasVp(vm.authentication)">
+                  <a ng-click="approveLeave(event)">
+                    <span class="glyphicon glyphicon-time" style="color: orange"></span>
+                   <small> {{event.user.displayName}} have applied for {{event.category === vm.LEAVE ? 'Leave'  : 'Permission' }}</small>
+                    <span class="dropdown-time">{{inHour(event.appliedOn)}}</span>
+                  </a>
+                </li>
+                <li ng-repeat="meeting in vm.meetings | orderBy: 'startDateTime' | limitTo: 5">
+                  <a>
+                    <span class="glyphicon glyphicon-bell" style="color: orange"></span>
+                   <small> {{meeting.title}} {{inHour(meeting.startDateTime)}}</small>
+                    <span class="dropdown-time">{{inHour(meeting.startDateTime)}}</span>
+                  </a>
                 </li>
               </ul>
             </li>

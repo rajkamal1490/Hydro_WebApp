@@ -42,9 +42,7 @@ var MeetingSchema = new Schema({
     required: 'Please fill in attendees'
   },
   facilitator: {
-    type: String,
-    trim: true,
-    default: '',
+    type: Object,
     required: 'Please fill in facilitator'
   },
   updated: {

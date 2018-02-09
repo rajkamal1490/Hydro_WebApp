@@ -29,6 +29,11 @@ angular
         isArray: true,
         url: 'api/checkins/validatePermissionOverlap'
       },
+      awaitingForApprovalLeave: {
+        method: 'GET',
+        isArray: true,
+        url: 'api/checkins/awaitingforapprovalleave'
+      },
     });
 
     angular.extend(CheckIns, {
@@ -37,6 +42,9 @@ angular
       },
       requestFindAttendancesByUser: function (attendances) {
         return this.findAttendancesByUser(attendances).$promise;
+      },
+      requestFindAwaitingForApprovalLeave: function (attendances) {
+        return this.awaitingForApprovalLeave(attendances).$promise;
       },
       requestValidateOverlap: function (attendances) {
         if(attendances.hasApplyLeave) {

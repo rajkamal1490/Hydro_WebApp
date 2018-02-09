@@ -6,9 +6,9 @@
     .module('attendances')
     .controller('LeaveOrPermissionController', LeaveOrPermissionController);
 
-  LeaveOrPermissionController.$inject = ['$scope', '$http', '$state', '$window', 'AttendancesService', 'Authentication', 'CheckInAttendancesServices', 'createMode', 'selectedData', 'hasApplyLeave', 'selectedDate', '$mdDialog', '$mdpTimePicker', '$mdpDatePicker', 'Notification', 'userId'];
+  LeaveOrPermissionController.$inject = ['$scope', '$http', '$state', '$window', 'AttendancesService', 'Authentication', 'CommonService', 'CheckInAttendancesServices', 'createMode', 'selectedData', 'hasApplyLeave', 'selectedDate', '$mdDialog', '$mdpTimePicker', '$mdpDatePicker', 'Notification', 'userId', 'approvedMode'];
 
-  function LeaveOrPermissionController($scope, $http, $state, $window, AttendancesService, Authentication, CheckInAttendancesServices, createMode, selectedData, hasApplyLeave, selectedDate, $mdDialog, $mdpTimePicker, $mdpDatePicker, Notification, userId) {
+  function LeaveOrPermissionController($scope, $http, $state, $window, AttendancesService, Authentication, CommonService, CheckInAttendancesServices, createMode, selectedData, hasApplyLeave, selectedDate, $mdDialog, $mdpTimePicker, $mdpDatePicker, Notification, userId, approvedMode) {
     var vm = this;
 
     vm.authentication = Authentication;
@@ -20,13 +20,17 @@
     vm.hasApplyLeave = hasApplyLeave;
     vm.applyInProgress = false;
     vm.reason = selectedData ? selectedData.reason : undefined;
+    vm.isApproved = selectedData ? selectedData.isApproved : false
     vm.createMode = createMode;
+    vm.approvedMode = approvedMode;
+    vm.CommonService = CommonService;
+    vm.userId = userId;
 
     $scope.applyPermission = {
       mStartClock: selectedData ? new Date(selectedData.start) : new Date(selectedDate),
       mEndClock: selectedData ? new Date(selectedData.end) : new Date(selectedDate),
-      mStartToServer: selectedData ? getTimeToServer(new Date(selectedData.start)) : getTimeToServer(new Date(selectedDate)),
-      mEndToServer: selectedData ? getTimeToServer(new Date(selectedData.end)) : getTimeToServer(new Date(selectedDate).setHours(new Date(selectedDate).getHours() + 1))
+      mStartToServer: selectedData ? getDateTimeToServer(new Date(selectedData.start)) : getDateTimeToServer(new Date(selectedDate)),
+      mEndToServer: selectedData ? getDateTimeToServer(new Date(selectedData.end)) : getDateTimeToServer(new Date(selectedDate).setHours(new Date(selectedDate).getHours() + 1))
     };
 
     vm.attendances = {
@@ -72,7 +76,8 @@
             displayEndTime: getDateTimeToDisplay($scope.applyLeave.mEndToServer)
           },
           reason: vm.reason,
-          user: userId
+          user: userId,
+          isApproved: ((CommonService.hasExecutive(Authentication) || CommonService.hasVp(Authentication) && createMode)) ? true : vm.isApproved
         }
       } else {
         vm.attendances = {
@@ -86,7 +91,9 @@
             displayEndTime: getTimeToDisplay($scope.applyPermission.mEndToServer)
           },
           reason: vm.reason,
-          user: userId
+          user: userId,
+          isApproved: ((CommonService.hasExecutive(Authentication) || CommonService.hasVp(Authentication) && createMode)) ? true : vm.isApproved
+
         }
       }
 
@@ -131,15 +138,16 @@
         vm.applyInProgress = false;
         res.isDelete = false;
         $mdDialog.hide(res);
-        var msg = hasApplyLeave ? "Leave " : "Permission"
+        var msg = hasApplyLeave ? "Leave " : "Permission ";
+        var requestMsg = approvedMode ? (vm.attendances.isApproved ? " approved " : " hold ") : " request submitted ";
         Notification.success({
-          message: '<i class="glyphicon glyphicon-ok"></i> ' + msg + ' request submitted successfully'
+          message: '<i class="glyphicon glyphicon-ok"></i> ' + msg + requestMsg + 'successfully'
         });
       }
 
       function errorCallback(errorResponse) {
         vm.applyInProgress = false;
-        var msg = hasApplyLeave ? "Leave " : "Permission"
+        var msg = hasApplyLeave ? "Leave " : "Permission";
         Notification.error({
           message: errorResponse.data.message,
           title: '<i class="glyphicon glyphicon-remove"></i>' + msg + ' request not submitted successfully, Please contact your adminstrator'
@@ -155,7 +163,7 @@
         .then(function(dateTime) {
           $scope.applyPermission.mStartClock = dateTime;
           vm.attendances.applyPermission.displayStartTime = getTimeToDisplay(dateTime);
-          $scope.applyPermission.mStartToServer = getTimeToServer(dateTime);
+          $scope.applyPermission.mStartToServer = getDateTimeToServer(dateTime);
 
           validateStartAndEndTime($scope.applyPermission.mStartToServer, $scope.applyPermission.mEndToServer);
 
@@ -170,7 +178,7 @@
         .then(function(dateTime) {
           $scope.applyPermission.mEndClock = dateTime;
           vm.attendances.applyPermission.displayEndTime = getTimeToDisplay(dateTime);
-          $scope.applyPermission.mEndToServer = getTimeToServer(dateTime);
+          $scope.applyPermission.mEndToServer = getDateTimeToServer(dateTime);
 
           validateStartAndEndTime($scope.applyPermission.mStartToServer, $scope.applyPermission.mEndToServer);
         });
@@ -264,16 +272,8 @@
       return moment(date).format('YYYY:MM:DD');
     }
 
-    function getTimeToServer(date) {
-      // var dt = (new Date(date)).setHours(date.getHours(), date.getMinutes(), 0, 0);
-      var dtGMT = new Date((new Date(date)).toUTCString()).toISOString();
-
-      return dtGMT;
-    }
-
     function getDateTimeToServer(date) {
       var dtGMT = new Date((new Date(date)).toUTCString()).toISOString();
-
       return dtGMT;
     }
 

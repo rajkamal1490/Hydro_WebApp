@@ -6,10 +6,18 @@
 
     <div class="panel">
       <div class="control-btn">
-                <a href="#" class="panel-reload hidden"><i class="icon-reload"></i></a>
-             </div>
+        <a href="#" class="panel-reload hidden" ng-click="refresh()"><i class="icon-reload"></i></a>
+      </div>      
       <div class="page-content">
         <div class="row">
+          <div class="pull-right">
+            <button type="button" class="btn btn-sm btn-icon btn-rounded bg-orange"><i class="icon-clock"></i> </button>
+            <small><strong>Waiting for approval</strong></small>
+            <button type="button" class="btn btn-sm btn-icon btn-rounded bg-red"><i class="mdi-action-thumb-up"></i> </button>
+            <small><strong>Leave approved</strong></small>
+            <button type="button" class="btn btn-sm btn-icon btn-rounded bg-green"><i class="mdi-action-thumb-up"></i> </button>
+            <small><strong>Permission approved</strong></small>
+          </div>
           <div class="col-md-4">
             <div layout="row" flex>             
                 <md-input-container flex>

@@ -38,6 +38,9 @@ var AttendanceSchema = new Schema({
   breakTime: {
     type: Object
   },
+  isApproved: {
+    type: Boolean
+  },
   reason: {
     type: String
   },

@@ -1,15 +1,15 @@
 <md-dialog flex="70" style="left: 7%"> 
   <form name="vm.leaveForm" novalidate autocomplete="off">
     <div class="modal-header bg-primary">
-      <h4>Apply {{vm.hasApplyLeave ? ' Leave' : ' Permission'}}</h4>
+      <h4>Apply {{vm.hasApplyLeave ? ' Leave' : ' Permission'}} </h4>
     </div>
        <md-dialog-content>
         <div class="col-md-12 col-sm-12 col-xs-12">
           <div layout="row" flex ng-if="!vm.hasApplyLeave">
               <md-input-container flex>
                 <label class="my-label"><b>From</b></label>
-                <div ng-click="showStartTimePicker($event)">
-                 <input style="color: #000066; font-weight: bold;" required name="start" ng-model="vm.attendances.applyPermission.displayStartTime" onfocus="this.blur()" readonly></input>
+                <div>
+                 <input ng-click="showStartTimePicker($event)" style="color: #000066; font-weight: bold;" ng-disabled="!vm.createMode && !vm.approvedMode" required name="start" ng-model="vm.attendances.applyPermission.displayStartTime" onfocus="this.blur()" ng-readonly="!vm.createMode && !vm.approvedMode"></input>
                 </div>
                 <div ng-messages="vm.leaveForm.start.$error">
                   <div ng-message="required">From time is required.</div>
@@ -19,20 +19,20 @@
 
               <md-input-container flex>
                 <label class="my-label"><b>To</b></label>
-                <div ng-click="showEndTimePicker($event)">
-                  <input style="color: #000066; font-weight: bold;" required name="end" ng-model="vm.attendances.applyPermission.displayEndTime" onfocus="this.blur()" readonly></input>
+                <div>
+                  <input ng-click="showEndTimePicker($event)" style="color: #000066; font-weight: bold;" required name="end" ng-disabled="!vm.createMode && !vm.approvedMode" ng-model="vm.attendances.applyPermission.displayEndTime" onfocus="this.blur()" ng-readonly="!vm.createMode && !vm.approvedMode"></input>
                 </div>
                 <div ng-messages="vm.leaveForm.end.$error">
                   <div ng-message="required">To time is required.</div>
                   <div ng-message="greater">Permission to time should be after the from time.</div>
                 </div>
               </md-input-container>
-          </div>  
+          </div>
           <div layout="row" flex ng-if="vm.hasApplyLeave">            
               <md-input-container flex>
                 <label class="my-label"><b>From</b></label>
-                  <div ng-click="showStartDatePicker($event)">
-                    <input style="color: #000066; font-weight: bold;" required name="start" ng-model="vm.attendances.applyLeave.displayStartTime" onfocus="this.blur()" readonly></input>
+                  <div>
+                    <input ng-click="showStartDatePicker($event)" style="color: #000066; font-weight: bold;" required name="start" ng-model="vm.attendances.applyLeave.displayStartTime" ng-disabled="!vm.createMode && !vm.approvedMode" onfocus="this.blur()" ng-readonly="!vm.createMode && !vm.approvedMode"></input>
                   </div>
                   <div ng-messages="vm.leaveForm.start.$error">
                     <div ng-message="required">From date is required.</div>
@@ -42,8 +42,8 @@
 
               <md-input-container flex>
                 <label class="my-label"><b>To</b></label>
-                  <div ng-click="showEndDatePicker($event)">
-                    <input style="color: #000066; font-weight: bold;" required name="end" ng-model="vm.attendances.applyLeave.displayEndTime" onfocus="this.blur()" readonly></input>
+                  <div>
+                    <input ng-click="showEndDatePicker($event)" style="color: #000066; font-weight: bold;" required name="end" ng-model="vm.attendances.applyLeave.displayEndTime" ng-disabled="!vm.createMode && !vm.approvedMode" onfocus="this.blur()" ng-readonly="!vm.createMode && !vm.approvedMode"></input>
                   </div>
                   <div ng-messages="vm.leaveForm.end.$error">
                     <div ng-message="required">To date is required.</div>
@@ -54,7 +54,7 @@
           <div layout="row" flex>
               <md-input-container flex>
                 <label class="my-label">Reason</label>
-                <input required type="text" name="reason" ng-model="vm.reason"/>
+                <input required type="text" name="reason" ng-model="vm.reason" ng-readonly="!vm.createMode && !vm.approvedMode"/>
                 <div ng-messages="vm.leaveForm.reason.$error">
                   <div ng-message="required">Reason is required.</div>
                 </div>
@@ -63,13 +63,11 @@
         </div>
       </md-dialog-content>
      <md-dialog-actions layout="row"> 
-        <span flex></span>        
-        <md-button class="btn btn-next btn-fill btn-success btn-wd" flex ng-click="vm.save(vm.leaveForm.$valid)" type="submit">{{!vm.createMode ? 'Edit' : 'Apply'}}</md-button> 
-        <span flex></span>
-        <md-button class="btn btn-next btn-fill btn-danger btn-wd" ng-show="!vm.createMode" flex ng-click="deleteLeaveOrPermission()" type="submit">Delete</md-button>
-        <span flex></span>        
+        <md-button class="btn btn-next btn-fill btn-success btn-wd" flex ng-click="vm.save(vm.leaveForm.$valid)" ng-hide="((vm.authentication.user._id !== vm.userId && vm.approvedMode) || (!vm.createMode && !vm.approvedMode))" type="submit">{{!vm.createMode ? 'Edit' : 'Apply'}}</md-button>         
+        <md-button class="btn btn-next btn-fill btn-success btn-wd" flex ng-click=" vm.isApproved=true; vm.save(vm.leaveForm.$valid);" ng-show="vm.approvedMode && (vm.CommonService.hasExecutive(vm.authentication) || vm.CommonService.hasVp(vm.authentication))" type="submit">Approve</md-button>
+        <md-button class="btn btn-next btn-fill btn-info btn-wd" flex ng-click="vm.isApproved=false; vm.save(vm.leaveForm.$valid)" ng-show="vm.approvedMode && (vm.CommonService.hasExecutive(vm.authentication) || vm.CommonService.hasVp(vm.authentication))" type="submit">Hold</md-button>
+        <md-button class="btn btn-next btn-fill btn-danger btn-wd" ng-show="!vm.createMode && vm.approvedMode" flex ng-click="deleteLeaveOrPermission()" type="submit">Delete</md-button>
         <md-button class="btn btn-next btn-fill btn-warning btn-wd" flex ng-click="vm.cancel()" type="submit">Cancel</md-button>
-        <span flex></span>
       </md-dialog-actions>   
   </form>
 </md-dialog>

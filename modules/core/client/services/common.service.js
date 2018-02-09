@@ -8,6 +8,8 @@
 
         CommonService.getIsAllowToClick = false;
 
+        CommonService.getAttendanceId = undefined;
+
         CommonService.hasExecutive = function(authentication) {
             return authentication.user ? _.includes(authentication.user.userGroup, USER_GROUPS[0].code) : false;
         };
@@ -66,6 +68,10 @@
 
         CommonService.setIsAllowToClick = function(isAllow) {
             CommonService.getIsAllowToClick = isAllow;
+        };
+
+         CommonService.setAttendanceId = function(id) {
+            CommonService.getAttendanceId = id;
         };
 
         return CommonService;

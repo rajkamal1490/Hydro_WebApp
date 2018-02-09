@@ -52,18 +52,27 @@
                   <md-select multiple
                       required
                       name="attendees"
-                      ng-model="vm.meeting.attendees">
+                      ng-model="vm.meeting.attendees"
+                      ng-model-options= "{trackBy: '$value._id'}">
                     <md-optgroup label="Attendees">
-                      <md-option  ng-value="user" ng-repeat="user in vm.users">{{user.displayName}}</md-option>
+                      <md-option ng-value="user" ng-repeat="user in vm.users">{{user.displayName}}</md-option>
                     </md-optgroup>
-                </md-select>
+                  </md-select>
                   <div ng-messages="vm.meetingForm.attendees.$error">
                     <div ng-message="required">Attendees is required.</div>
                   </div>
               </md-input-container>
               <md-input-container flex>
                   <label class="my-label">Facilitator</label>
-                  <input required type="text" name="facilitator" ng-model="vm.meeting.facilitator"/>
+                  <md-select
+                      required
+                      name="facilitator"
+                      ng-model="vm.meeting.facilitator"
+                      ng-model-options= "{trackBy: '$value._id'}">
+                    <md-optgroup label="Facilitator">
+                      <md-option ng-value="user" ng-repeat="user in vm.users">{{user.displayName}}</md-option>
+                    </md-optgroup>
+                  </md-select>                  
                   <div ng-messages="vm.meetingForm.facilitator.$error">
                     <div ng-message="required">Facilitator is required.</div>
                   </div>
