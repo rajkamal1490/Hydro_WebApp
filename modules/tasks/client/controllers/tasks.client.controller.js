@@ -6,9 +6,9 @@
     .module('tasks')
     .controller('TasksController', TasksController);
 
-  TasksController.$inject = ['$scope', '$state', '$window', 'Authentication', 'editMode', 'PRIORITIES', '$mdDialog', '$mdpDatePicker', 'Notification', 'task', 'taskResolve', 'TasksService', 'TASK_STATUSES', 'userResolve'];
+  TasksController.$inject = ['$scope', '$state', '$window', 'Authentication', 'editMode', 'PRIORITIES', '$mdDialog', '$mdpDatePicker', 'Notification', 'NotificationsService', 'task', 'taskResolve', 'TasksService', 'TASK_STATUSES', 'userResolve'];
 
-  function TasksController ($scope, $state, $window, Authentication, editMode, PRIORITIES, $mdDialog, $mdpDatePicker, Notification, task, taskResolve, TasksService, TASK_STATUSES, userResolve) {
+  function TasksController ($scope, $state, $window, Authentication, editMode, PRIORITIES, $mdDialog, $mdpDatePicker, Notification, NotificationsService, task, taskResolve, TasksService, TASK_STATUSES, userResolve) {
     var vm = this;
 
     vm.authentication = Authentication;
@@ -69,6 +69,12 @@
       vm.task.startDateTime = $scope.eventTime.mStartToServer;
       vm.task.dueDateTime = $scope.eventTime.mEndToServer;
 
+      var notification = new NotificationsService({
+        notifyTo: [vm.task.assignee],
+        user: Authentication.user,
+        type: 'task'
+      });
+
       // TODO: move create/update logic to service
       if (vm.task._id) {
         vm.task.$update(successCallback, errorCallback);
@@ -81,6 +87,7 @@
           vm.task.taskID = 1;
         }
         vm.task.$save(successCallback, errorCallback);
+        notification.$save();
       }
 
       function successCallback(res) {

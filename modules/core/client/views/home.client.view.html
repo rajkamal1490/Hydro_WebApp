@@ -113,7 +113,7 @@
                                 <tbody>
                                     <tr ng-repeat="task in vm.pagedItems | orderBy: '-taskID'" ng-click="updateTask(task, true)">
                                         <td class="col-md-2 text-center">{{task.taskID}}</td>
-                                        <td class="col-md-6">{{task.title}}</td>
+                                        <td class="col-md-6 text-center">{{task.title}}</td>
                                         <td class="col-md-2 text-center">{{vm.getPriorityName(task.priority)}}</td>
                                     </tr>                      
                                 </tbody>

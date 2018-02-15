@@ -20,12 +20,21 @@ module.exports = function(app) {
   app.route('/admin/api/checkins/todaycheckin')
     .post(checkins.findTodayCheckIn);
 
+    app.route('/settings/api/checkins/todaycheckin')
+    .post(checkins.findTodayCheckIn);
+
   app.route('/api/checkins/findattendancesbyuser')
     .post(checkins.findAttendancesByUser); 
 
   app.route('/admin/api/checkins/awaitingforapprovalleave')
-    .get(checkins.awaitingForApprovalLeave);
+    .post(checkins.awaitingForApprovalLeave);
+
+  app.route('/authentication/api/checkins/awaitingforapprovalleave')
+    .post(checkins.awaitingForApprovalLeave);
 
   app.route('/api/checkins/awaitingforapprovalleave')
-    .get(checkins.awaitingForApprovalLeave);  
+    .post(checkins.awaitingForApprovalLeave);  
+
+  app.route('/settings/api/checkins/awaitingforapprovalleave')
+    .post(checkins.awaitingForApprovalLeave);
 };

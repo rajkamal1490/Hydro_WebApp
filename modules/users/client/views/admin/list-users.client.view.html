@@ -29,7 +29,7 @@
                           <div ng-repeat="userGroup in user.userGroup" class="nav nav-pills"><span class="text-default">{{vm.getUserGroupName(userGroup)}}</span>
                           </div>
                       </td>
-                        <td class="text-right"><button class="edit btn btn-sm btn-default" ng-click="vm.editUser(user)"><i class="icon-note"></i></button>  <button class="delete btn btn-sm btn-danger" ng-click="vm.remove()" ng-disabled="vm.isContextUserSelf(user.email)""><i class="icons-office-52"></i></button>
+                        <td class="text-right"><button class="edit btn btn-sm btn-default" ng-click="vm.editUser(user)"><i class="icon-note"></i></button>  <button class="delete btn btn-sm btn-danger" ng-click="vm.remove(user)" ng-disabled="vm.isContextUserSelf(user.email)""><i class="icons-office-52"></i></button>
                         </td>
                       </tr>                      
                     </tbody>

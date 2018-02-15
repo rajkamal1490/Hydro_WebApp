@@ -6,9 +6,9 @@
     .module('meetings')
     .controller('MeetingsController', MeetingsController);
 
-  MeetingsController.$inject = ['$scope', '$state', '$window', 'Authentication', '$mdDialog', '$mdpTimePicker', 'selectedDate', 'selectedEvent', 'MeetingsService', 'Notification', 'viewMode', 'userResolve'];
+  MeetingsController.$inject = ['$scope', '$state', '$window', 'Authentication', '$mdDialog', '$mdpTimePicker', 'selectedDate', 'selectedEvent', 'MeetingsService', 'Notification', 'NotificationsService', 'viewMode', 'userResolve'];
 
-  function MeetingsController($scope, $state, $window, Authentication, $mdDialog, $mdpTimePicker, selectedDate, selectedEvent, MeetingsService, Notification, viewMode, userResolve) {
+  function MeetingsController($scope, $state, $window, Authentication, $mdDialog, $mdpTimePicker, selectedDate, selectedEvent, MeetingsService, Notification, NotificationsService, viewMode, userResolve) {
     var vm = this;
 
     vm.authentication = Authentication;
@@ -70,11 +70,18 @@
       vm.meeting.endDateTime = $scope.eventTime.mEndToServer;
       vm.meeting.agendas = vm.agendas;
 
+      var notification = new NotificationsService({
+        notifyTo: _.map(vm.meeting.attendees, '_id'),
+        user: vm.meeting.facilitator,
+        type: 'meeting'
+      });
+
       // TODO: move create/update logic to service
       if (vm.meeting._id) {
         vm.meeting.$update(successCallback, errorCallback);
       } else {
         vm.meeting.$save(successCallback, errorCallback);
+        notification.$save();
       }
 
       function successCallback(res) {

@@ -5,9 +5,9 @@
     .module('core')
     .controller('HeaderController', HeaderController);
 
-  HeaderController.$inject = ['$scope', '$state', '$http', 'AdminService', 'AttendancesService', 'Authentication', 'CheckInAttendancesServices', 'CommonService', 'EmployeeMeetingsService', 'menuService', '$mdDialog', '$interval', 'Notification', 'PERMISSION', 'LEAVE'];
+  HeaderController.$inject = ['$scope', '$state', '$http', 'AdminService', 'AttendancesService', 'Authentication', 'CheckInAttendancesServices', 'CommonService', 'EmployeeMeetingsService', 'menuService', '$mdDialog', '$interval', 'Notification', 'NotificationsService', 'PERMISSION', 'LEAVE'];
 
-  function HeaderController($scope, $state, $http, AdminService, AttendancesService, Authentication, CheckInAttendancesServices, CommonService, EmployeeMeetingsService, menuService, $mdDialog, $interval, Notification, PERMISSION, LEAVE) {
+  function HeaderController($scope, $state, $http, AdminService, AttendancesService, Authentication, CheckInAttendancesServices, CommonService, EmployeeMeetingsService, menuService, $mdDialog, $interval, Notification, NotificationsService, PERMISSION, LEAVE) {
     var vm = this;
 
     vm.accountMenu = menuService.getMenu('account').items[0];
@@ -89,21 +89,16 @@
       return moment(startTime).fromNow();
     };
 
-    var getTasksAssignedByMe = function() {
-      var now = new Date();
-      now.setSeconds(now.getSeconds() - 10);
-      $http({
-        method: 'GET',
-        url: 'api/tasks/assignee/' + vm.authentication.user._id
-      }).then(function(tasks) {
-        angular.forEach(tasks.data, function(task) {
-          if (moment(now).format('YYYY-MM-DD hh:mm:ss') <= moment(task.created).format('YYYY-MM-DD hh:mm:ss')) {
-            var notifContent = '<div class="alert alert-dark media fade in bd-0" id="message-alert"><div class="media-left"><img src="/'+task.createdProfileImage+'" class="dis-block img-circle"></div><div class="media-body width-100p"><h4 class="alert-title f-14">New message recieved</h4><p class="f-12 alert-message pull-left">' + task.createdBy + ' assigned you a new task 10 seconds ago.</p></div></div>';
-            if (!$('#quickview-sidebar').hasClass('open') && !$('.page-content').hasClass('page-builder') && !$('.morphsearch').hasClass('open')) generateNotifDashboard(notifContent);
-          }
+    var getMyNotifications = function() {
+      NotificationsService.requestFindNotificationByUser({
+        userId: Authentication.user._id
+      }).then(function(notifications) {
+        angular.forEach(notifications, function(notification) {
+          buildNotificationContent(notification);
         });
 
       });
+      
     };
 
     if (Authentication.user) {
@@ -111,7 +106,7 @@
       getMyTodayMeetings();
       $interval(getAttendances, 5000);
       $interval(getMyTodayMeetings, 5000);
-      // $interval(getTasksAssignedByMe, 10000);
+      $interval(getMyNotifications, 10000);
     }
 
     $scope.logout = function(ev) {
@@ -258,6 +253,15 @@
         category: LEAVE
       });
     };
+
+    function buildNotificationContent(notification) {
+      var headerMsg = notification.type === 'meeting' ? " call for a meeting" : " assigned you a new task, " + moment(notification.created).fromNow();
+      var notifContent = '<div class="alert alert-dark media fade in bd-0" id="message-alert"><div class="media-left"><img src="/' + notification.user.profileImageURL + '" class="dis-block img-circle"></div><div class="media-body width-100p"><h4 class="alert-title f-14">New message recieved</h4><p class="f-12 alert-message pull-left">' + notification.user.displayName + headerMsg + '.</p></div></div>';
+      if (!$('#quickview-sidebar').hasClass('open') && !$('.page-content').hasClass('page-builder') && !$('.morphsearch').hasClass('open')) {
+         generateNotifDashboard(notifContent);
+         $interval(notification.$remove(), 1000);         
+      }
+    }
 
     function generateNotifDashboard(content) {
       var position = 'topRight';

@@ -15,4 +15,7 @@ module.exports = function(app) {
 
   app.route('/authentication/api/employeemeetings/gettodaymeetings')
 	.post(employeeMeetings.getTodayMeetingsByUser); 
+
+  app.route('/settings/api/employeemeetings/gettodaymeetings')
+	.post(employeeMeetings.getTodayMeetingsByUser); 
 };

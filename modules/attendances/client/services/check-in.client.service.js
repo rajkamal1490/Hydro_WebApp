@@ -30,7 +30,7 @@ angular
         url: 'api/checkins/validatePermissionOverlap'
       },
       awaitingForApprovalLeave: {
-        method: 'GET',
+        method: 'POST',
         isArray: true,
         url: 'api/checkins/awaitingforapprovalleave'
       },

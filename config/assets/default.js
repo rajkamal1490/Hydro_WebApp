@@ -15,13 +15,13 @@ module.exports = {
         'public/css/mdPickers.css',
         'public/lib/perfect-scrollbar/css/perfect-scrollbar.min.css',
         'public/lib/sweetalert/dist/sweetalert.css',
+        'public/lib/ng-cropper/dist/ngCropper.all.min.css',
         'public/css/material-datepicker.css',
         'public/assets/global/plugins/input-text/style.min.css'
         // endbower
       ],
       js: [
-        // bower:js
-        
+        // bower:js        
         'public/lib/angular/angular.js',
         'public/lib/angular-animate/angular-animate.js',
         'public/lib/angular-aria/angular-aria.js',
@@ -39,7 +39,9 @@ module.exports = {
         'public/assets/global/plugins/jquery/jquery-3.1.0.min.js',
         'public/assets/global/plugins/jquery/jquery-migrate-3.0.0.min.js',
         'public/assets/global/plugins/jquery-ui/jquery-ui.min.js',
-        'public/assets/global/plugins/gsap/main-gsap.min.js',
+        // 'public/assets/global/plugins/gsap/main-gsap.min.js',
+        'public/lib/ng-cropper/dist/ngCropper.all.js',
+        'public/lib/ng-cropper/dist/ngCropper.js',
 
         'public/assets/global/plugins/tether/js/tether.min.js',
         'public/assets/global/plugins/bootstrap/js/bootstrap.min.js',
@@ -60,14 +62,14 @@ module.exports = {
 
         'public/assets/global/plugins/backstretch/backstretch.min.js',
         'public/assets/global/plugins/bootstrap-progressbar/bootstrap-progressbar.min.js',
-        'public/assets/global/js/builder.js',
-        'public/assets/global/js/sidebar_hover.js',
+        // 'public/assets/global/js/builder.js',
+        // 'public/assets/global/js/sidebar_hover.js',
 
         'public/assets/global/plugins/bootstrap-loading/lada.min.js',
         'public/assets/global/js/pages/login-v1.js',
-        'public/assets/global/plugins/bootstrap-progressbar/bootstrap-progressbar.min.js',
-        'public/assets/global/js/builder.js',
-        'public/assets/global/js/sidebar_hover.js',
+        // 'public/assets/global/plugins/bootstrap-progressbar/bootstrap-progressbar.min.js',
+        // 'public/assets/global/js/builder.js',
+        // 'public/assets/global/js/sidebar_hover.js',
 
         'public/assets/global/js/application.js',
         'public/assets/global/js/plugins.js',
@@ -96,11 +98,9 @@ module.exports = {
         
         'public/assets/global/plugins/fullcalendar/lib/moment.min.js',
         'public/assets/global/plugins/fullcalendar/fullcalendar.min.js',
-        'public/assets/global/plugins/cropper/cropper.min.js',
-        'public/assets/global/js/pages/image_croping.js',
         'public/assets/admin/layout1/js/layout.js',
         'public/assets/admin/md-layout1/material-design/js/material.js',
-        'public/assets/global/plugins/bootstrap/js/jasny-bootstrap.min.js',
+        'public/assets/global/plugins/bootstrap/js/jasny-bootstrap.min.js',        
         'public/lib/lodash/lodash.js',
         // 'public/lib/moment/min/moment.min.js',
         // 'public/lib/angular-ui-calendar/src/calendar.js',
