@@ -73,7 +73,8 @@
       var notification = new NotificationsService({
         notifyTo: _.map(vm.meeting.attendees, '_id'),
         user: vm.meeting.facilitator,
-        type: 'meeting'
+        type: 'meeting',
+        meetingScheduleDate: $scope.eventTime.mStartToServer
       });
 
       // TODO: move create/update logic to service

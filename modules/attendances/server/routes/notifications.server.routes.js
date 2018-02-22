@@ -21,6 +21,11 @@ module.exports = function(app) {
     .put(notifications.update)
     .delete(notifications.delete);
 
+  app.route('/settings/api/notifications/:notificationId')
+    .get(notifications.read)
+    .put(notifications.update)
+    .delete(notifications.delete);
+
   app.route('/api/notifications/getnotification')
     .post(notifications.findNotificationByUser);
 

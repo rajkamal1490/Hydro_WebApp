@@ -96,9 +96,7 @@
         angular.forEach(notifications, function(notification) {
           buildNotificationContent(notification);
         });
-
-      });
-      
+      });      
     };
 
     if (Authentication.user) {
@@ -255,14 +253,21 @@
     };
 
     function buildNotificationContent(notification) {
-      var headerMsg = notification.type === 'meeting' ? " call for a meeting" : " assigned you a new task, " + moment(notification.created).fromNow();
+      var headerMsg = notification.type === 'meeting' ? " call for a meeting at, " + moment(notification.meetingScheduleDate).format('MMMM Do YYYY, h:mm:ss a') : " assigned you a new task, " + moment(notification.created).fromNow();
       var notifContent = '<div class="alert alert-dark media fade in bd-0" id="message-alert"><div class="media-left"><img src="/' + notification.user.profileImageURL + '" class="dis-block img-circle"></div><div class="media-body width-100p"><h4 class="alert-title f-14">New message recieved</h4><p class="f-12 alert-message pull-left">' + notification.user.displayName + headerMsg + '.</p></div></div>';
       if (!$('#quickview-sidebar').hasClass('open') && !$('.page-content').hasClass('page-builder') && !$('.morphsearch').hasClass('open')) {
-         generateNotifDashboard(notifContent);
-         $interval(notification.$remove(), 1000);         
+        generateNotifDashboard(notifContent);
+        if (notification.notifyTo.length <= 1) {
+          $interval(notification.$remove(), 1000);
+        } else {
+          notification.notifyTo = _.reject(notification.notifyTo, function(notify) {
+            return notify === Authentication.user._id;
+          });
+         notification.$update();
+        }
       }
     }
-
+    
     function generateNotifDashboard(content) {
       var position = 'topRight';
       if ($('body').hasClass('rtl')) position = 'topLeft';

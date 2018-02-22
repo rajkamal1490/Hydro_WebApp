@@ -6,7 +6,7 @@
 var path = require('path'),
   mongoose = require('mongoose'),
   Notification = mongoose.model('Notification'),
-  errorHandler = require(path.resolve('./modules/core/server/controllers/errors.server.controller')),
+  errorHandler = require(path.resolve('./modules/core/server/controllers/errors.server.controller')),  
   _ = require('lodash');
 
 /**
@@ -44,23 +44,23 @@ exports.read = function(req, res) {
  * Update a Notification
  */
 exports.update = function(req, res) {
-  var notification = req.notification;
 
-  notification = _.extend(notification, req.body);
-
-  notification.save(function(err) {
+  Notification.update({
+    _id: req.body._id
+  }, {
+    $set: {
+      notifyTo: req.body.notifyTo
+    },
+    upsert: true
+  }, function(err, result) {
     if (err) {
-      return res.status(400).send({
-        message: errorHandler.getErrorMessage(err)
-      });
-    } else {
-      res.jsonp(notification);
+      console.log("failed");
+      throw err;
     }
   });
 };
-
 /**
- * Delete an Notification
+ * Delete a Notification
  */
 exports.delete = function(req, res) {
   var notification = new Notification();
@@ -90,6 +90,9 @@ exports.list = function(req, res) {
   });
 };
 
+/**
+ * Find of Notifications
+ */
 exports.findNotificationByUser = function(req, res) {
   Notification.find({
     notifyTo: {

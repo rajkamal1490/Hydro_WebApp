@@ -16,6 +16,9 @@ var NotificationSchema = new Schema({
   type: {
     type: String
   },
+  meetingScheduleDate: {
+    type: Date
+  },
   created: {
     type: Date,
     default: Date.now
