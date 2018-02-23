@@ -10,11 +10,14 @@ var mongoose = require('mongoose'),
  * File manager Schema
  */
 var FileManagerSchema = new Schema({
-  name: {
+  fileURL: {
     type: String,
-    default: '',
-    required: 'Please fill File manager name',
-    trim: true
+  },
+  filename: {
+    type: String,
+  },
+  hasImportant: {
+    type: Boolean,
   },
   created: {
     type: Date,

@@ -81,12 +81,12 @@ module.exports = {
     sandbox: false
   },
   mailer: {
-    from: process.env.MAILER_FROM || 'Mirth <admin@mirth.com>',
+    from: process.env.MAILER_FROM || 'Velu.G <velu@riverstonetech.com>',
     options: {
       service: process.env.MAILER_SERVICE_PROVIDER || 'gmail',
       auth: {
-        user: process.env.MAILER_EMAIL_ID || 'kumar@riverstonetech.com',
-        pass: process.env.MAILER_PASSWORD || 'Kumar@16'
+        user: process.env.MAILER_EMAIL_ID || 'ubaidulla@riverstonetech.com',
+        pass: process.env.MAILER_PASSWORD || 'fridaymaula'
       }
     }
   },

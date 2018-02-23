@@ -5,7 +5,10 @@
  */
 var path = require('path'),
   mongoose = require('mongoose'),
+  fs = require('fs'),
   FileManager = mongoose.model('FileManager'),
+  multer = require('multer'),
+  config = require(path.resolve('./config/config')),
   errorHandler = require(path.resolve('./modules/core/server/controllers/errors.server.controller')),
   _ = require('lodash');
 
@@ -66,6 +69,8 @@ exports.update = function(req, res) {
 exports.delete = function(req, res) {
   var fileManager = req.fileManager;
 
+  fs.unlink(fileManager.fileURL);
+
   fileManager.remove(function(err) {
     if (err) {
       return res.status(400).send({
@@ -90,6 +95,67 @@ exports.list = function(req, res) {
       res.jsonp(fileManagers);
     }
   });
+};
+
+exports.uploadFiles = function(req, res) {  
+  var existingImageUrl;
+  var fileManager = req.fileManager;
+  fileManager = _.extend(fileManager, req.body);
+  
+
+  // Filtering to upload only images
+  var multerConfig = config.uploads.fileManager.file;
+  multerConfig.fileFilter = require(path.resolve('./config/lib/multer')).fileFilter;
+  var upload = multer(multerConfig).single('newProfilePicture');
+  
+  uploadImage()
+    .then(function() {
+      var photoIdImageURL = config.uploads.fileManager.file.dest + req.file.filename;     
+      
+      fileManager.fileURL =  photoIdImageURL;
+      fileManager.filename =  req.file.originalname;
+
+      fileManager.save(function(err) {
+        if (err) {
+          return res.status(400).send({
+            message: errorHandler.getErrorMessage(err)
+          });
+        } else {
+          res.jsonp(fileManager);
+        }
+      });
+    })
+    .catch(function(err) {
+      res.status(422).send(err);
+    });
+
+  function uploadImage() {
+    return new Promise(function(resolve, reject) {
+      upload(req, res, function(uploadError) {
+        if (uploadError) {
+          reject(errorHandler.getErrorMessage(uploadError));
+        } else {
+          resolve();
+        }
+      });
+    });
+  }
+
+  function deleteOldImage() {
+    return new Promise(function(resolve, reject) {
+      fs.unlink(existingImageUrl, function(unlinkError) {
+        if (unlinkError) {
+          console.log(unlinkError);
+          reject({
+            message: 'Error occurred while deleting old profile picture'
+          });
+        } else {
+          resolve();
+        }
+      });
+    });
+  }
+
 };
 
 /**

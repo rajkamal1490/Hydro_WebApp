@@ -31,10 +31,7 @@
 
                 <li ng-class="{ 'nav-active active': isActive('/admin/accounts') }"><a href="">
                     <i class="mdi-action-account-balance-wallet"></i><span>Accounts</span></a>
-                </li>
-                 <li ng-class="{ 'nav-active active': isActive('/files') }"><a href="/files">
-                    <i class="mdi-file-folder"></i><span>Files</span></a>
-                </li>
+                </li>                
 
                <!--  <li class="nav-parent">
                     <a href=""><i class="icon-cup"></i><span>Extra </span><span class="fa arrow"></span></a>
@@ -62,7 +59,7 @@
                 <p class="menu-title widget-title">Directives</p>
                 <ul class="folders">
                     <li>
-                        <a href="#"><i class="icon-doc c-primary"></i>My documents</a> 
+                        <a href="/file-managers"><i class="icon-doc c-primary"></i>My documents</a> 
                     </li>
                     <li>
                         <a ng-click="setActive($event)" href="/contacts"><i class="icon-docs"></i>Contacts</a> 

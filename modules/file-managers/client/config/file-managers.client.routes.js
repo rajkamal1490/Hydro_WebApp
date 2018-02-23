@@ -21,7 +21,12 @@
         controllerAs: 'vm',
         data: {
           pageTitle: 'File managers List'
-        }
+        },
+        resolve: {
+          fileManagerResolve: ['$injector', '$q', function($injector, $q) {
+            return $injector.invoke(fileManagerData).$promise;   // cached, otherwise we would have called IncidentNoteTitle.query().
+          }]
+        },
       })
       .state('file-managers.create', {
         url: '/create',
@@ -29,7 +34,7 @@
         controller: 'FileManagersController',
         controllerAs: 'vm',
         resolve: {
-          file-managerResolve: newFileManager
+          fileManagerResolve: newFileManager
         },
         data: {
           roles: ['user', 'admin'],
@@ -42,7 +47,7 @@
         controller: 'FileManagersController',
         controllerAs: 'vm',
         resolve: {
-          file-managerResolve: getFileManager
+          fileManagerResolve: getFileManager
         },
         data: {
           roles: ['user', 'admin'],
@@ -55,7 +60,7 @@
         controller: 'FileManagersController',
         controllerAs: 'vm',
         resolve: {
-          file-managerResolve: getFileManager
+          fileManagerResolve: getFileManager
         },
         data: {
           pageTitle: 'File manager {{ file-managerResolve.name }}'
@@ -76,4 +81,11 @@
   function newFileManager(FileManagersService) {
     return new FileManagersService();
   }
+
+  fileManagerData.$inject = ['FileManagersService'];
+
+  function fileManagerData(FileManagersService) {
+    return FileManagersService.query();
+  }
+
 }());

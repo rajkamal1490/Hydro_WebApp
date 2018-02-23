@@ -17,6 +17,8 @@ module.exports = function(app) {
     .put(fileManagers.update)
     .delete(fileManagers.delete);
 
+  app.route('/api/file-managers/upload/:fileManagerId').post(fileManagers.uploadFiles);
+
   // Finish by binding the File manager middleware
   app.param('fileManagerId', fileManagers.fileManagerByID);
 };

@@ -1,24 +1,41 @@
-<section>
-  <div class="page-header">
-    <h1>{{vm.file-manager._id ? 'Edit File manager' : 'New File manager'}}</h1>
-  </div>
-  <div class="col-md-12">
-    <form name="vm.form.file-managerForm" class="form-horizontal" ng-submit="vm.save(vm.form.file-managerForm.$valid)" novalidate>
-      <fieldset>
-        <div class="form-group" show-errors>
-          <label class="control-label" for="name">Name</label>
-          <input name="name" type="text" ng-model="vm.file-manager.name" id="name" class="form-control" placeholder="Name" required>
-          <div ng-messages="vm.form.file-managerForm.name.$error" role="alert">
-            <p class="help-block error-text" ng-message="required">File manager name is required.</p>
-          </div>
+<md-dialog flex="30" style="left:7%" ng-init="vm.fileManager.hasImportant = false"> 
+  <form name="vm.fileUpload" >
+    <div class="modal-header bg-primary">
+      <h4>File Upload</h4>
+    </div>
+    <md-dialog-content>   
+      <div ng-show="vm.fileSelected" class="progress progress-striped active">
+        <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="{{mixins.havingProgressBar.progress}}" aria-valuemin="0" aria-valuemax="100" style="width:{{mixins.havingProgressBar.progress}}%" ng-bind="mixins.havingProgressBar.progress + '%'">
+        <span class="sr-only">{{mixins.havingProgressBar.progress}}% Complete</span>
         </div>
-        <div class="form-group">
-          <button type="submit" class="btn btn-default">{{vm.file-manager._id ? 'Update' : 'Create'}}</button>
+      </div>  
+      <div class="form-group text-center">
+        <div class="panel text-center" ng-show="vm.fileSelected">
+          <i class="fa fa-file"></i> &nbsp;<span>{{vm.picFile.name}}</span>
         </div>
-        <div ng-show="vm.error" class="text-danger">
-          <strong ng-bind="vm.error"></strong>
-        </div>
-      </fieldset>
-    </form>
-  </div>
-</section>
+      </div>
+      <div ng-show="vm.loading" class="form-group text-center">
+        <img ng-src="/modules/core/client/img/loaders/loader.gif" height="50" width="50" alt="Loading file...">
+      </div>
+      <div ng-show="!vm.fileSelected" class="text-center form-group">                
+        <md-button class="btn btn-primary"  ngf-select="(vm.fileSelected = true) && (vm.loading = false)" ng-model="vm.picFile" >Select file</md-button>
+      </div>
+      <div ng-show="vm.fileSelected" class="text-center form-group">        
+      <div class="checkbox checkbox-success text-center">
+        <label>
+        <input type="checkbox" name="r-success" ng-model="vm.fileManager.hasImportant" class="md-checkbox"><span class="checkbox-material"><span class="check"></span></span>
+          Has Important
+        </label>
+      </div>
+        <md-button class="btn btn-warning"  ng-disabled="mixins.havingProgressBar.progress" ng-click="vm.fileSelected = false">Remove</md-button>
+      </div>
+    </md-dialog-content>
+    <md-dialog-actions layout="row"> 
+      <span flex></span>
+        <md-button class="btn btn-next btn-fill btn-success btn-wd" flex ng-click="save()" type="submit">Save</md-button>        
+      <span flex></span>
+        <md-button class="btn btn-next btn-fill btn-warning btn-wd" flex ng-disabled="mixins.havingProgressBar.progress || vm.fileSelected" ng-click="close()" type="submit">Cancel</md-button>
+        <span flex></span>
+    </md-dialog-actions>   
+  </form>
+</md-dialog>
