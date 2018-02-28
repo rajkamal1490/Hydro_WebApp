@@ -17,7 +17,9 @@ module.exports = {
         'public/lib/sweetalert/dist/sweetalert.css',
         'public/lib/ng-cropper/dist/ngCropper.all.min.css',
         'public/css/material-datepicker.css',
-        'public/assets/global/plugins/input-text/style.min.css'
+        'public/assets/global/plugins/input-text/style.min.css',
+        'public/assets/global/plugins/font-awesome-animation/font-awesome-animation.min.css',
+        'public/css/angular-material-datetimepicker.css',
         // endbower
       ],
       js: [
@@ -109,6 +111,7 @@ module.exports = {
         // 'public/lib/chart.js/dist/Chart.min.js',
         // 'public/lib/angular-chart.js/dist/angular-chart.min.js',
         'public/js/mdPickers.js',
+        'public/js/angular-material-datetimepicker.js',
         // 'public/lib/perfect-scrollbar/js/perfect-scrollbar.jquery.min.js',
         // 'public/lib/angular-perfect-scrollbar/src/angular-perfect-scrollbar.js',
         // 'public/lib/sweetalert/dist/sweetalert.min.js',
