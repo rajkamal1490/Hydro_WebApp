@@ -1,4 +1,4 @@
-(function () {
+(function() {
   'use strict';
 
   // Reminders controller
@@ -6,23 +6,27 @@
     .module('reminders')
     .controller('RemindersController', RemindersController);
 
-  RemindersController.$inject = ['$scope', '$state', '$window', 'Authentication', 'reminderResolve'];
+  RemindersController.$inject = ['$scope', '$state', '$window', 'Authentication', '$mdDialog', 'reminder', 'RemindersService', 'editMode', 'Notification'];
 
-  function RemindersController ($scope, $state, $window, Authentication, reminder) {
+  function RemindersController($scope, $state, $window, Authentication, $mdDialog, reminder, RemindersService, editMode, Notification) {
     var vm = this;
 
     vm.authentication = Authentication;
-    vm.reminder = reminder;
+    vm.reminder = new RemindersService(reminder);
     vm.error = null;
     vm.form = {};
-    vm.remove = remove;
     vm.save = save;
+    vm.cancel = cancel;
+    vm.date = new Date();
+    vm.loadinitial = loadinitial;
 
-    // Remove existing Reminder
-    function remove() {
-      if ($window.confirm('Are you sure you want to delete?')) {
-        vm.reminder.$remove($state.go('reminders.list'));
-      }
+    $scope.ui = {
+      isReminderInProgress: false,
+      editMode: editMode
+    };
+
+    function loadinitial() {
+      vm.reminder.reminderDateTime = reminder ? getTimeToDisplay(new Date(reminder.reminderDateTime)) : getTimeToDisplay(new Date());      
     }
 
     // Save Reminder
@@ -40,14 +44,29 @@
       }
 
       function successCallback(res) {
-        $state.go('reminders.view', {
-          reminderId: res._id
+        var msg = editMode ? "Reminder updated successfully" : "Reminder created successfully"
+        $mdDialog.hide(res);
+        Notification.success({
+          message: '<i class="glyphicon glyphicon-ok"></i> ' + msg
         });
       }
 
-      function errorCallback(res) {
-        vm.error = res.data.message;
+      function errorCallback(errorResponse) {
+        $scope.ui.isReminderInProgress = false;
+        Notification.error({
+          message: errorResponse.data.message,
+          title: '<i class="glyphicon glyphicon-remove"></i> Reminder error!'
+        });
       }
     }
+
+    function getTimeToDisplay(date) {
+      return moment(date).format('YYYY:MM:DD hh:mm:ss');
+    }
+
+    function cancel() {
+      $mdDialog.cancel();
+    };
+
   }
 }());

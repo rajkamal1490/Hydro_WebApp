@@ -5,9 +5,9 @@
     .module('core')
     .controller('HeaderController', HeaderController);
 
-  HeaderController.$inject = ['$scope', '$state', '$http', 'AdminService', 'AttendancesService', 'Authentication', 'CheckInAttendancesServices', 'CommonService', 'EmployeeMeetingsService', 'menuService', '$mdDialog', '$interval', 'Notification', 'NotificationsService', 'PERMISSION', 'LEAVE'];
+  HeaderController.$inject = ['$scope', '$state', '$http', 'AdminService', 'AttendancesService', 'Authentication', 'CheckInAttendancesServices', 'CommonService', 'EmployeeMeetingsService', 'menuService', '$mdDialog', '$interval', 'Notification', 'NotificationsService', 'PERMISSION', 'LEAVE', 'RemindersService', 'TodayReminderService'];
 
-  function HeaderController($scope, $state, $http, AdminService, AttendancesService, Authentication, CheckInAttendancesServices, CommonService, EmployeeMeetingsService, menuService, $mdDialog, $interval, Notification, NotificationsService, PERMISSION, LEAVE) {
+  function HeaderController($scope, $state, $http, AdminService, AttendancesService, Authentication, CheckInAttendancesServices, CommonService, EmployeeMeetingsService, menuService, $mdDialog, $interval, Notification, NotificationsService, PERMISSION, LEAVE, RemindersService, TodayReminderService) {
     var vm = this;
 
     vm.accountMenu = menuService.getMenu('account').items[0];
@@ -20,6 +20,7 @@
     vm.PERMISSION = PERMISSION;
     vm.events = [];
     vm.meetings = [];
+    vm.reminders = [];
 
     $scope.$on('$stateChangeSuccess', stateChangeSuccess);
 
@@ -40,21 +41,6 @@
           }
         });
       });
-      // AttendancesService.query(function(attendances) {
-      //   var today = new Date();
-      //   angular.forEach(attendances, function(attendance) {
-      //     if (attendance.applyPermission) {
-      //       if (moment(today).format('YYYY-MM-DD') >= moment(attendance.applyPermission.startTime).format('YYYY-MM-DD') && moment(today).format('YYYY-MM-DD') <= moment(attendance.applyPermission.endTime).format('YYYY-MM-DD')) {
-      //         attendancesPermissionPush(attendance);
-      //       }
-      //     }
-      //     if (attendance.applyLeave) {
-      //       if (moment(today).format('YYYY-MM-DD') >= moment(attendance.applyLeave.startTime).format('YYYY-MM-DD') && moment(today).format('YYYY-MM-DD') <= moment(attendance.applyLeave.endTime).format('YYYY-MM-DD')) {
-      //         attendancesLeavePush(attendance);
-      //       }
-      //     }
-      //   });
-      // });
     }
 
     var getMyTodayMeetings = function() {
@@ -66,20 +52,38 @@
         startDate: getDateTimeToServer(today.setHours(today.getHours() + 2)),
         endDate: getDateTimeToServer(new Date())
       };
-      EmployeeMeetingsService.requestFindTodayMeetingsByUser(gmtDateTime).then(function(employeeMeetings) {
-        // vm.meetings = _.reject(vm.meetings, function(meeting) {
-        //   return meeting._id === CommonService.getAttendanceId;
-        // });
-        //alert(employeeMeetings.length)
+      EmployeeMeetingsService.requestFindTodayMeetingsByUser(gmtDateTime).then(function(employeeMeetings) {        
         employeeMeetings = _.reject(employeeMeetings, function(employeeMeeting) {
           return vm.meetings ? _.includes(_.map(vm.meetings, '_id'), employeeMeeting._id) : false;
         });
-        angular.forEach(employeeMeetings, function(employeeMeeting) {      
-          // alert(moment(employeeMeeting.endDateTime).format('YYYY-MM-DD hh:mm:ss'))   
-          // alert(moment(new Date()).format('YYYY-MM-DD hh:mm:ss'))   
+        angular.forEach(employeeMeetings, function(employeeMeeting) {  
           var haveMeetingToday = _.includes(_.map(employeeMeeting.attendees, '_id'), Authentication.user._id);          
           if (moment(minusTwoHours).format('YYYY-MM-DD hh:mm:ss') >= moment(employeeMeeting.startDateTime).format('YYYY-MM-DD hh:mm:ss') && moment(new Date()).format('YYYY-MM-DD hh:mm:ss') < moment(employeeMeeting.startDateTime).format('YYYY-MM-DD hh:mm:ss')) {
             vm.meetings.push(employeeMeeting);
+          }
+        });
+      });
+    };
+
+    var getMyTodayReminders = function() {
+      var today = new Date();
+      var minusTwoHours = getDateTimeToServer(today.setHours(today.getHours() + 2))
+      vm.originalReminders = angular.copy(vm.reminders);
+
+      var gmtDateTime = {
+        userId: Authentication.user._id,
+        startDate: getDateTimeToServer(today.setHours(today.getHours() + 2)),
+        endDate: getDateTimeToServer(new Date())
+      };
+      //alert("vm.reminders" + JSON.stringify(vm.reminders))
+      TodayReminderService.requestFindTodayRemindersByUser(gmtDateTime).then(function(reminders) {        
+        reminders = _.reject(reminders, function(reminder) {
+          return vm.reminders ? _.includes(_.map(vm.reminders, '_id'), reminder._id) : false;
+        });
+        //alert("reminders" + JSON.stringify(reminders))
+        angular.forEach(reminders, function(reminder) {            
+          if (moment(minusTwoHours).format('YYYY-MM-DD hh:mm:ss') >= moment(reminder.reminderDateTime).format('YYYY-MM-DD hh:mm:ss') && moment(new Date()).format('YYYY-MM-DD hh:mm:ss') < moment(reminder.reminderDateTime).format('YYYY-MM-DD hh:mm:ss')) {
+            vm.reminders.push(reminder);
           }
         });
       });
@@ -89,6 +93,26 @@
       return moment(startTime).fromNow();
     };
 
+    $scope.reminderViewed = function(reminder) {
+      reminder = new RemindersService(reminder);
+      reminder.hasReminded = true;
+      reminder.$update(successCallback, errorCallback);
+      function successCallback(res) {
+        var index = CommonService.findIndexByID(vm.reminders, res._id);
+        vm.reminders.splice(index, 1);
+        Notification.success({
+          message: '<i class="glyphicon glyphicon-ok"></i> Thank you !!! "' + res.title + '" reminder is not shown again.'
+        });
+      }
+
+      function errorCallback(errorResponse) {
+        Notification.error({
+          message: errorResponse.data.message,
+          title: '<i class="glyphicon glyphicon-remove"></i> Reminder error!'
+        });
+      }      
+    };
+    
     var getMyNotifications = function() {
       NotificationsService.requestFindNotificationByUser({
         userId: Authentication.user._id
@@ -102,9 +126,11 @@
     if (Authentication.user) {
       getAttendances();
       getMyTodayMeetings();
+      getMyTodayReminders();
       $interval(getAttendances, 5000);
       $interval(getMyTodayMeetings, 5000);
       $interval(getMyNotifications, 10000);
+      $interval(getMyTodayReminders, 10000);
     }
 
     $scope.logout = function(ev) {

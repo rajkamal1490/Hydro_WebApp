@@ -100,9 +100,9 @@
               </div>
 
               <div layout="row" flex>
-                <md-input-container flex>
+                <md-input-container flex="50">
                   <label class="my-label">Date Of Birth</label>
-                  <input required type="text" name="dob" ng-model="vm.credentials.dob" class="b-datepicker" data-view="2"/>
+                   <md-datepicker required ng-model="vm.credentials.dob" md-current-view="year"></md-datepicker>
                   <div ng-messages="vm.userForm.dob.$error">
                     <div ng-message="required">DOB is required.</div>
                   </div>

@@ -1,4 +1,4 @@
-(function () {
+(function() {
   'use strict';
 
   angular
@@ -21,6 +21,11 @@
         controllerAs: 'vm',
         data: {
           pageTitle: 'Reminders List'
+        },
+        resolve: {
+          reminderResolve: ['$injector', '$q', function($injector, $q) {
+            return $injector.invoke(reminderData).$promise; // cached, otherwise we would have called IncidentNoteTitle.query().
+          }]
         }
       })
       .state('reminders.create', {
@@ -76,4 +81,11 @@
   function newReminder(RemindersService) {
     return new RemindersService();
   }
+
+  reminderData.$inject = ['RemindersService'];
+
+  function reminderData(RemindersService) {
+    return RemindersService.query();
+  }
+
 }());

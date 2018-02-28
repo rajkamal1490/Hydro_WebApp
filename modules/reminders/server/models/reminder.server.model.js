@@ -10,11 +10,18 @@ var mongoose = require('mongoose'),
  * Reminder Schema
  */
 var ReminderSchema = new Schema({
-  name: {
+  title: {
     type: String,
     default: '',
-    required: 'Please fill Reminder name',
+    required: 'Please fill Reminder title',
     trim: true
+  },
+  reminderDateTime: {
+    type: Date
+  },
+  hasReminded: {
+    type: Boolean,
+    default: false
   },
   created: {
     type: Date,

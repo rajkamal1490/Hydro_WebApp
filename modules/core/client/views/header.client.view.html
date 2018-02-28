@@ -14,23 +14,29 @@
     <div class="header-right">
       <ul class="header-menu nav navbar-nav">
         <!-- BEGIN USER DROPDOWN -->
-          <!-- <li class="dropdown" id="language-header">
+          <li class="dropdown" id="notifications-header" ng-if="vm.reminders.length > 0">
             <a href="#" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
-              <i class="icon-globe"></i>
-              <span>Language</span>
+              <i class="mdi-action-alarm faa-ring undefined visible" ng-class="{ animated : vm.originalReminders.length !== vm.reminders.length }" style="font-size: 25px"></i>
+              <span class="badge badge-danger badge-header faa-ring undefined visible" ng-class="{ animated: vm.originalReminders.length !== vm.reminders.length }">{{vm.reminders.length}}</span>
             </a>
             <ul class="dropdown-menu">
-              <li>
-                <a href="#" data-lang="en"><img src="/assets/global/images/flags/usa.png" alt="flag-english"> <span>English</span></a>
+              <li class="dropdown-header clearfix">
+                <p class="pull-left">You have {{vm.reminders.length}} reminders today</p>
               </li>
               <li>
-                <a href="#" data-lang="es"><img src="/assets/global/images/flags/spanish.png" alt="flag-english"> <span>Español</span></a>
-              </li>
-              <li>
-                <a href="#" data-lang="fr"><img src="/assets/global/images/flags/french.png" alt="flag-english"> <span>Français</span></a>
+                <ul class="dropdown-menu-list withScroll" data-height="220">                 
+                  <li ng-repeat="reminder in vm.reminders | orderBy: 'reminderDateTime'">
+                    <a ng-click="reminderViewed(reminder)">
+                      <span class="glyphicon glyphicon-time" style="color: orange"></span>
+                     <small> {{reminder.title}}</small>
+                     <span class="dropdown-time">{{inHour(reminder.reminderDateTime)}}</span> <br />
+                     <span class="dropdown-time">Okay, Got it</span>
+                    </a>
+                  </li>
+                </ul>
               </li>
             </ul>
-          </li> -->
+          </li>
         <!-- END USER DROPDOWN -->
         <!-- BEGIN NOTIFICATION DROPDOWN -->
         <li class="dropdown" id="notifications-header">

@@ -1,24 +1,35 @@
-<section>
-  <div class="page-header">
-    <h1>{{vm.reminder._id ? 'Edit Reminder' : 'New Reminder'}}</h1>
-  </div>
-  <div class="col-md-12">
-    <form name="vm.form.reminderForm" class="form-horizontal" ng-submit="vm.save(vm.form.reminderForm.$valid)" novalidate>
-      <fieldset>
-        <div class="form-group" show-errors>
-          <label class="control-label" for="name">Name</label>
-          <input name="name" type="text" ng-model="vm.reminder.name" id="name" class="form-control" placeholder="Name" required>
-          <div ng-messages="vm.form.reminderForm.name.$error" role="alert">
-            <p class="help-block error-text" ng-message="required">Reminder name is required.</p>
+<md-dialog flex="30" style="left: 7%" ng-init="vm.loadinitial()"> 
+  <form name="vm.reminderForm" novalidate autocomplete="off">
+    <div class="modal-header bg-primary">
+      <h4>{{vm.reminder._id ? 'Edit reminder' : 'Create reminder'}}</h4>
+    </div>
+       <md-dialog-content style="padding-left: 24px">         
+          <div class="col-md-12 col-sm-12 col-xs-12">
+            <div layout="column" flex>
+              <md-input-container flex>
+                <label class="my-label">Title</label>
+                <input required type="text" name="title" ng-model="vm.reminder.title"/>
+                <div ng-messages="vm.reminderForm.title.$error">
+                  <div ng-message="required">Title is required.</div>
+                </div>
+              </md-input-container>    
+              <md-input-container flex-gt-md="30">
+                <label>Remind me on</label>
+                <input mdc-datetime-picker="" date="true" time="true" type="text" id="datetime"
+                placeholder="Date" show-todays-date="" min-date="vm.date" ng-model="vm.reminder.reminderDateTime" class=" md-input"
+                readonly="readonly" name="start" required>
+                <div ng-messages="vm.reminderForm.start.$error">
+                    <div ng-message="required">Reminder date is required.</div>
+                  </div>
+              </md-input-container>     
+             </div>
+
           </div>
-        </div>
-        <div class="form-group">
-          <button type="submit" class="btn btn-default">{{vm.reminder._id ? 'Update' : 'Create'}}</button>
-        </div>
-        <div ng-show="vm.error" class="text-danger">
-          <strong ng-bind="vm.error"></strong>
-        </div>
-      </fieldset>
-    </form>
-  </div>
-</section>
+      </md-dialog-content>
+     <md-dialog-actions layout="row"> 
+        <md-button class="btn btn-next btn-fill btn-success btn-wd"  ng-hide="ui.isReminderInProgress" flex ng-click="vm.save(vm.reminderForm.$valid)" type="submit">{{vm.reminder._id ? 'Update' : 'Create'}}</md-button>
+        <md-button class="btn btn-next btn-fill btn-success btn-wd"  ng-disabled="true" flex ng-show="ui.isReminderInProgress" type="submit"><i class="fa fa-spinpinner fa-spin"></i> {{vm.reminder._id ? 'Updating' : 'Creating'}}</md-button>
+        <md-button class="btn btn-next btn-fill btn-warning btn-wd" flex ng-click="vm.cancel()" type="submit">Cancel</md-button>
+      </md-dialog-actions>   
+  </form>
+</md-dialog>

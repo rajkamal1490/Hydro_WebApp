@@ -1,22 +1,65 @@
-<section>
-  <div class="page-header">
-    <h1>Reminders</h1>
+<section ng-init="loadinitial()">
+  <div class="page-content"  ng-if="vm.pagedItems.length > 0">
+    <div class="header">
+      <h2>Reminders <strong>List</strong></h2>
+    </div>
+    <div class="panel">
+      <div class="panel-header md-panel-controls">
+        <h3><i class="icon-magnifier"></i> <strong>Search Panel</h3>
+      </div>
+      <div class="panel-content">        
+        <div class="row">
+          <div class="col-md-12">
+            <div layout="row" flex>
+              <md-input-container flex>
+                <label class="my-label">Keyword</label>
+                <input type="text" name="keyword" ng-model="searchParams.keyword"/>               
+              </md-input-container>             
+            </div>
+          </div>          
+        </div>
+      </div>
+    </div>
+    <div class="row">      
+      <div class="col-lg-12 portlets">
+        <div class="panel">          
+          <div class="panel-header">              
+              <div class="pull-left">
+                <md-button class="btn btn-primary" ng-click="createOrUpdateReminder(null, false)" type="submit"><i class="fa fa-plus"></i></md-button>
+              </div>
+          </div>             
+          <div class="panel-content"> 
+            <div class="control-btn">
+              <a href="#" class="panel-reload hidden" ng-click="loadinitial()"><i class="icon-reload"></i></a>
+            </div>                 
+            <table class="table table-hover dataTable" id="table-editable">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Remind me on</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr ng-repeat="reminder in filterReminders = (vm.pagedItems | filter: searchParams.keyword) | orderBy: 'reminderDateTime'">
+                  <td>{{reminder.title}}</td>                
+                  <td>{{reminder.reminderDateTime | date: 'yyyy-MM-dd hh:mm:ss a'}}</td>
+                  <td><button class="edit btn btn-sm btn-default" ng-click="createOrUpdateReminder(reminder, true)"><i class="icon-note"></i></button>  <button class="delete btn btn-sm btn-danger" ng-click="vm.remove(reminder, $index)"><i class="icons-office-52"></i></button></td>    
+                </tr>                      
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
-  <div class="list-group">
-    <a ng-repeat="reminder in vm.reminders"
-       ui-sref="reminders.view({ reminderId: reminder._id })"
-       class="list-group-item">
-      <small class="list-group-item-text">
-        Posted on
-        <span ng-bind="reminder.created | date:'mediumDate'"></span>
-        by
-        <span ng-if="reminder.user" ng-bind="reminder.user.displayName"></span>
-        <span ng-if="!reminder.user">Deleted User</span>
-      </small>
-      <h4 class="list-group-item-heading" ng-bind="reminder.name"></h4>
-    </a>
-  </div>
-  <div class="alert alert-warning text-center" ng-if="vm.reminders.$resolved && !vm.reminders.length">
-    No Reminders yet, why don't you <a ui-sref="reminders.create">create one</a>?
+  <uib-pagination boundary-links="true" max-size="10" items-per-page="vm.itemsPerPage" total-items="vm.filterLength" ng-model="vm.currentPage" ng-change="vm.pageChanged()"  ng-if="vm.pagedItems.length > 0"></uib-pagination>  
+  <div class="page-content">
+    <div class="alert alert-warning text-center" ng-if="vm.pagedItems.length <= 0">
+      No Reminders yet, <a style="color: #000; cursor: pointer;" ng-click="createOrUpdateReminder(null, false)"> Click here to create</a>
+    </div>
   </div>
 </section>
+
+
+
