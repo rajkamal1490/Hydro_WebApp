@@ -75,12 +75,10 @@
         startDate: getDateTimeToServer(today.setHours(today.getHours() + 2)),
         endDate: getDateTimeToServer(new Date())
       };
-      //alert("vm.reminders" + JSON.stringify(vm.reminders))
       TodayReminderService.requestFindTodayRemindersByUser(gmtDateTime).then(function(reminders) {        
         reminders = _.reject(reminders, function(reminder) {
           return vm.reminders ? _.includes(_.map(vm.reminders, '_id'), reminder._id) : false;
         });
-        //alert("reminders" + JSON.stringify(reminders))
         angular.forEach(reminders, function(reminder) {            
           if (moment(minusTwoHours).format('YYYY-MM-DD hh:mm:ss') >= moment(reminder.reminderDateTime).format('YYYY-MM-DD hh:mm:ss') && moment(new Date()).format('YYYY-MM-DD hh:mm:ss') < moment(reminder.reminderDateTime).format('YYYY-MM-DD hh:mm:ss')) {
             vm.reminders.push(reminder);
@@ -118,6 +116,9 @@
         userId: Authentication.user._id
       }).then(function(notifications) {
         angular.forEach(notifications, function(notification) {
+          if(notifications.length > 1) {
+            CommonService.sleep(5000)
+          }
           buildNotificationContent(notification);
         });
       });      

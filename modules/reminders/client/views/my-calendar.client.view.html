@@ -1,0 +1,18 @@
+<section ng-init="loadInitial()">
+	<div class="page-content">
+		<div class="header">
+			<h2><strong>My Calendar</strong></h2>
+		</div> 
+
+		<div class="panel">
+			<div class="control-btn">
+                <a href="#" class="panel-reload hidden" ng-click="loadInitial()"><i class="icon-reload"></i></a>
+             </div>
+			<div class="page-content">
+				<div layout="row">
+					<div flex=100 id="calendar" class="calendar" ng-model="eventSources" config="uiConfig.calendar" ui-calendar="uiConfig.calendar"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>

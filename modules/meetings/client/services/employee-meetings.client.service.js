@@ -14,11 +14,19 @@ angular
         isArray: true,
         url: 'api/employeemeetings/gettodaymeetings'
       },
+      getMyMeetings: {
+        method: 'POST',
+        isArray: true,
+        url: 'api/employeemeetings/getmymeetings'
+      },
     });
 
     angular.extend(EmployeeMeetings, {
       requestFindTodayMeetingsByUser: function (meetings) {
         return this.getTodayMeetingsByUser(meetings).$promise;
+      },
+      requestFindMyMeetingsByUser: function (meetings) {
+        return this.getMyMeetings(meetings).$promise;
       }
     });
 

@@ -14,9 +14,9 @@
     <div class="header-right">
       <ul class="header-menu nav navbar-nav">
         <!-- BEGIN USER DROPDOWN -->
-          <li class="dropdown" id="notifications-header" ng-if="vm.reminders.length > 0">
+          <li class="dropdown" id="notifications-header">
             <a href="#" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
-              <i class="mdi-action-alarm faa-ring undefined visible" ng-class="{ animated : vm.originalReminders.length !== vm.reminders.length }" style="font-size: 25px"></i>
+              <i class="icon-bell faa-ring undefined visible" ng-class="{ animated : vm.originalReminders.length !== vm.reminders.length }"></i>
               <span class="badge badge-danger badge-header faa-ring undefined visible" ng-class="{ animated: vm.originalReminders.length !== vm.reminders.length }">{{vm.reminders.length}}</span>
             </a>
             <ul class="dropdown-menu">
@@ -39,9 +39,9 @@
           </li>
         <!-- END USER DROPDOWN -->
         <!-- BEGIN NOTIFICATION DROPDOWN -->
-        <li class="dropdown" id="notifications-header">
+        <li class="dropdown" id="messages-header">
           <a href="#" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
-            <i class="icon-bell"></i>
+            <i class="icon-paper-plane"></i>
             <span class="badge badge-danger badge-header">{{vm.commonService.hasExecutive(vm.authentication) || vm.commonService.hasVp(vm.authentication) ? vm.meetings.length + vm.events.length : vm.meetings.length}}</span>
           </a>
           <ul class="dropdown-menu">
@@ -67,7 +67,7 @@
               </ul>
             </li>
             <li class="dropdown-footer clearfix">
-              <a href="/attendances" class="pull-left">See all notifications</a>
+              <a href="/all-my-notifications" class="pull-left">See all notifications</a>
               <a href="#" class="pull-right">
                 <i class="icon-settings"></i>
               </a>
@@ -76,7 +76,7 @@
         </li>
         <!-- END NOTIFICATION DROPDOWN -->
         <!-- BEGIN MESSAGES DROPDOWN -->
-        <li class="dropdown" id="messages-header">
+        <!-- <li class="dropdown" id="messages-header">
           <a href="#" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
             <i class="icon-paper-plane"></i>
             <span class="badge badge-primary badge-header">
@@ -156,7 +156,7 @@
               </a>
             </li>
           </ul>
-        </li>
+        </li> -->
         <!-- END MESSAGES DROPDOWN -->
         <!-- BEGIN USER DROPDOWN -->
         <li class="dropdown" id="user-header">
@@ -175,7 +175,7 @@
               <a ui-sref="settings.password"><i class="icon-eye"></i><span>Change Password</span></a>
             </li>
             <li>
-              <a href="#"><i class="icon-calendar"></i><span>My Calendar</span></a>
+              <a href="my-calendar"><i class="icon-calendar"></i><span>My Calendar</span></a>
             </li>
             <li>
               <a ng-click="logout($event)" target="_self"><i class="icon-logout"></i><span>Logout</span></a>

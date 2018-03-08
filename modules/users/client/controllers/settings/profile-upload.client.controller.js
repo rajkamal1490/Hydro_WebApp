@@ -5,10 +5,10 @@
     .module('users')
     .controller('ProfileUploadCtrl', ProfileUploadCtrl);
 
-  ProfileUploadCtrl.$inject = ['Cropper', '$timeout', 'Authentication', 'Upload', 'Notification', 'havingProgressBar', '$scope', '$mdDialog', 'PROFILE_MAX_SIZE'];
+  ProfileUploadCtrl.$inject = ['$timeout', 'Authentication', 'Upload', 'Notification', 'havingProgressBar', '$scope', '$mdDialog', 'PROFILE_MAX_SIZE', 'VALID_IMAGE_TYPES'];
 
-  function ProfileUploadCtrl(Cropper, $timeout, Authentication, Upload, Notification, havingProgressBar, $scope, $mdDialog, PROFILE_MAX_SIZE) {
-    
+  function ProfileUploadCtrl($timeout, Authentication, Upload, Notification, havingProgressBar, $scope, $mdDialog, PROFILE_MAX_SIZE, VALID_IMAGE_TYPES) {
+
 
     var vm = this;
 
@@ -26,55 +26,60 @@
       havingProgressBar: havingProgressBar,
     };
 
-    var file, data;
-
-    /**
-     * Method is called every time file input's value changes.
-     * Because of Angular has not ng-change for file inputs a hack is needed -
-     * call `angular.element(this).scope().onFile(this.files[0])`
-     * when input's event is fired.
-     */
     $scope.onFile = function(blob) {
       if (blob.size > PROFILE_MAX_SIZE) {
         Notification.error({message: 'An attachments image size cannot exceed 2MB'});
         return
       };
+      var imageType = blob.type.split('/').pop().toLowerCase();      
+      if (!_.includes(VALID_IMAGE_TYPES, imageType)) {
+        Notification.error({message: 'An image type should be png/jpg/jpeg'});
+        return
+      };
       $scope.model.profileUpload = blob;
       $scope.ui.showLoading = true;
-      Cropper.encode((file = blob)).then(function(dataUrl) {
-        $scope.dataUrl = dataUrl;
-        $timeout(showCropper); // wait for $digest to set image's src
-      });
+      var file = blob;
+      var reader = new FileReader();
+      reader.onload = function(evt) {
+        $scope.$apply(function($scope) {
+          $scope.dataUrl = evt.target.result;
+        });
+      };
+      reader.readAsDataURL(file);
     };
 
-    $scope.save = function() {
-      if (!file || !data) {
-        Notification.error({message: 'Invalid Image Type...'});
-        return;
-      }
-      Cropper.crop(file, data).then(function(dataUrl) {
-        if (dataUrl.type.match('image.*')) {
-          $scope.mixins.havingProgressBar.start();
-          Upload.upload({
-            url: '/api/users/picture',
-            data: {
-              newProfilePicture: dataUrl
-            }
-          }).then(function(response) {
-            $scope.mixins.havingProgressBar.complete();
-            $timeout(function() {
+    $scope.myCroppedImage = '';   
+
+    $scope.save = function() {      
+      b64toBlob($scope.myCroppedImage,
+        function(dataUrl) {          
+          if (dataUrl.type.match('image.*')) {
+            $scope.mixins.havingProgressBar.start();
+            Upload.upload({
+              url: '/api/users/picture',
+              data: {
+                newProfilePicture: dataUrl
+              }
+            }).then(function(response) {
+              $scope.mixins.havingProgressBar.complete();
+              $timeout(function() {
+                $scope.mixins.havingProgressBar.reset();
+                onSuccessItem(response.data);
+              });
+            }, function(response) {
+              if (response.status > 0) onErrorItem(response.data);
+            }, function(evt) {
               $scope.mixins.havingProgressBar.reset();
-              onSuccessItem(response.data);
             });
-          }, function(response) {
-            if (response.status > 0) onErrorItem(response.data);
-          }, function(evt) {
-            $scope.mixins.havingProgressBar.reset();
-          });
-        } else {
-          Notification.error({message: 'Invalid Image Type...'});
-        }
-      });
+          } else {
+            Notification.error({
+              message: 'Invalid Image Type...'
+            });
+          }
+        },
+        function(error) {
+          Notification.error({message: error});
+        });     
     };
 
     // Called after the user has successfully uploaded a new picture
@@ -104,52 +109,18 @@
       });
     }
 
-    /**
-     * Croppers container object should be created in controller's scope
-     * for updates by directive via prototypal inheritance.
-     * Pass a full proxy name to the `ng-cropper-proxy` directive attribute to
-     * enable proxing.
-     */
-    $scope.cropper = {};
-    $scope.cropperProxy = 'cropper.first';
-
-    /**
-     * Object is used to pass options to initalize a cropper.
-     * More on options - https://github.com/fengyuanchen/cropper#options
-     */
-    $scope.options = {
-      maximize: true,
-      aspectRatio: 1 / 1,
-      rotatable: true,
-      scalable: true,
-      movable: true,
-      zoomable: true,
-      crop: function(dataNew) {
-        data = dataNew;
-      }
-    };
-
-    /**
-     * Showing (initializing) and hiding (destroying) of a cropper are started by
-     * events. The scope of the `ng-cropper` directive is derived from the scope of
-     * the controller. When initializing the `ng-cropper` directive adds two handlers
-     * listening to events passed by `ng-cropper-show` & `ng-cropper-hide` attributes.
-     * To show or hide a cropper `$broadcast` a proper event.
-     */
-    $scope.showEvent = 'show';
-    $scope.hideEvent = 'hide';
-
-    function showCropper() {
-      $scope.$broadcast($scope.showEvent);
-    }
-
-    function hideCropper() {
-      $scope.$broadcast($scope.hideEvent);
-    }
-
-    $scope.remove = function() {
-      $scope.ui.showLoading = false;
-      $scope.dataUrl = undefined;
+    function b64toBlob(b64, onsuccess, onerror) {
+      var img = new Image();
+      img.onerror = onerror;
+      img.onload = function onload() {
+        var canvas = document.createElement('canvas');
+        canvas.width = img.width;
+        canvas.height = img.height;
+        var ctx = canvas.getContext('2d');
+        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+        canvas.toBlob(onsuccess);
+      };
+      img.src = b64;
     }
 
     $scope.close = function() {

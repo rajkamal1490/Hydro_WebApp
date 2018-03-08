@@ -41,6 +41,29 @@
           }]
         },
       })
+      .state('my-calendar', {
+        url: '/my-calendar',
+        templateUrl: '/modules/reminders/client/views/my-calendar.client.view.html',
+        controller: 'MyCalendarController',
+        controllerAs: 'vm',
+        data: {
+          pageTitle: 'My Calendar List'
+        },
+        resolve: {
+          reminderResolve: ['$injector', '$q', function($injector, $q) {
+            return $injector.invoke(reminderData).$promise;   // cached, otherwise we would have called IncidentNoteTitle.query().
+          }]
+        },
+      })
+      .state('all-my-notifications', {
+        url: '/all-my-notifications',
+        templateUrl: '/modules/meetings/client/views/all-my-notification.client.view.html',
+        controller: 'AllMyNotificationController',
+        controllerAs: 'vm',
+        data: {
+          pageTitle: 'All my notifications'
+        }
+      })
       .state('not-found', {
         url: '/not-found',
         templateUrl: '/modules/core/client/views/404.client.view.html',
@@ -88,6 +111,12 @@
 
   function userData(AdminService) {
     return AdminService.query();
+  }
+
+  reminderData.$inject = ['RemindersService'];
+
+  function reminderData(RemindersService) {
+    return RemindersService.query();
   }
 
 }());

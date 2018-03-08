@@ -1,0 +1,37 @@
+<section ng-init="loadinitial()">
+  <div class="page-content"  ng-if="vm.pagedItems.length > 0">
+    <div class="header">
+      <h2>All My <strong>Notifications</strong></h2>
+    </div>      
+    <div class="row">      
+      <div class="col-lg-12 portlets">
+        <div class="panel">
+          <div class="panel-content"> 
+            <div class="control-btn">
+              <a href="#" class="panel-reload hidden" ng-click="loadinitial()"><i class="icon-reload"></i></a>
+            </div>                 
+            <table class="table table-hover dataTable" id="table-editable">
+              <thead>
+                <tr>
+                  <th>Title</th>
+                  <th>Meeting Time</th>
+                  <th>Location</th>
+                  <th>Facilitor</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr ng-repeat="notification in filterNotifications = (vm.pagedItems | filter: searchParams.keyword) | orderBy: 'reminderDateTime'">
+                  <td>{{notification.title}}</td>                
+                  <td>{{notification.startDateTime | date: 'yyyy-MM-dd hh:mm:ss a'}}</td>
+                  <td>{{notification.location}}</td>
+                  <td>{{notification.facilitator.displayName}}</td>
+                </tr>                      
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <uib-pagination boundary-links="true" max-size="10" items-per-page="vm.itemsPerPage" total-items="vm.filterLength" ng-model="vm.currentPage" ng-change="vm.pageChanged()"  ng-if="vm.pagedItems.length > 0"></uib-pagination>  
+</section>

@@ -17,5 +17,17 @@ module.exports = function(app) {
 	.post(employeeMeetings.getTodayMeetingsByUser); 
 
   app.route('/settings/api/employeemeetings/gettodaymeetings')
-	.post(employeeMeetings.getTodayMeetingsByUser); 
+	.post(employeeMeetings.getTodayMeetingsByUser);
+
+  app.route('/api/employeemeetings/getmymeetings')
+    .post(employeeMeetings.getMyMeetingsByUser);
+
+  app.route('/admin/api/employeemeetings/getmymeetings')
+	.post(employeeMeetings.getMyMeetingsByUser);
+
+  app.route('/authentication/api/employeemeetings/getmymeetings')
+	.post(employeeMeetings.getMyMeetingsByUser); 
+
+  app.route('/settings/api/employeemeetings/getmymeetings')
+	.post(employeeMeetings.getMyMeetingsByUser); 	
 };

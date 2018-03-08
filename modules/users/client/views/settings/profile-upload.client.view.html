@@ -3,17 +3,16 @@
     <div class="modal-header bg-primary">
       <h4>Profile Upload</h4>
     </div>
-    <md-dialog-content>  
-      <progressbar class="progress-striped progress-rounded active" value="mixins.havingProgressBar.progress" type="danger" ng-show="mixins.havingProgressBar.progress"><i>{{mixins.havingProgressBar.progress}}%</i></progressbar> 
-        <div layout="row" flex>      
-
-          <div class="col-md-offset-2" ng-if="dataUrl" class="img-container" style="margin-top: 10px">
-            <img ng-if="dataUrl" ng-src="{{dataUrl}}" width="450" height="450" 
-            ng-cropper
-            ng-cropper-proxy="cropperProxy"
-            ng-cropper-show="showEvent"
-            ng-cropper-hide="hideEvent"
-            ng-cropper-options="options">
+    <md-dialog-content> 
+      <div ng-show="vm.fileSelected" class="progress progress-striped active">
+        <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="{{mixins.havingProgressBar.progress}}" aria-valuemin="0" aria-valuemax="100" style="width:{{mixins.havingProgressBar.progress}}%" ng-bind="mixins.havingProgressBar.progress + '%'">
+        <span class="sr-only">{{mixins.havingProgressBar.progress}}% Complete</span>
+        </div>
+      </div> 
+        <div layout="row" flex> 
+           <div class="col-md-offset-2 cropArea" style="margin-top: 5px; background: #E4E4E4;
+          overflow: hidden;  width:450px;  height:450px;">
+              <ui-cropper image="dataUrl" area-type="rectangle" aspect-ratio="1" result-image="myCroppedImage" result-image-size='{w: 600,h: 450}'></ui-cropper>
           </div>
           <div ng-if="!dataUrl && model.profileUpload && ui.showLoading">
             <h5 class="text-center">Loading...</h5>
@@ -21,14 +20,12 @@
         </div>
     </md-dialog-content>
     <md-dialog-actions layout="row"> 
-      <span ng-show="dataUrl === undefined" class="btn btn-primary btn-file">
+      <span class="btn btn-primary btn-file">
       <span class="fileinput-new">Select image...</span>
-        <input type="file" name="upload" title="Choose File" id="profile" onchange="angular.element(this).scope().onFile(this.files[0])" accept="image/*" ng-model="model.profileUpload" data-ui-file-upload max-size="2097152" class="btn-primary">
-      </span>
+        <input type="file" name="upload" title="Choose File" id="profile" onchange="angular.element(this).scope().onFile(this.files[0])" accept="image/*" ng-model="model.profileUpload" data-ui-file-upload max-size="2097152" ng-disabled="mixins.havingProgressBar.progress" class="btn-primary">
+      </span>     
       <span flex></span>
-        <md-button class="btn btn-next btn-fill btn-danger btn-wd" ng-disabled="mixins.havingProgressBar.progress" flex ng-click="remove()" ng-show="dataUrl" type="submit">Remove</md-button> 
-      <span flex></span>
-        <md-button class="btn btn-next btn-fill btn-success btn-wd" ng-disabled="dataUrl === undefined || mixins.havingProgressBar.progress" flex ng-click="save()" ng-show="dataUrl" type="submit">Save</md-button>        
+        <md-button class="btn btn-next btn-fill btn-success btn-wd" ng-disabled="dataUrl === undefined || mixins.havingProgressBar.progress" flex ng-click="vm.fileSelected=true;save()" ng-show="dataUrl" type="submit">Save</md-button>        
       <span flex></span>
         <md-button class="btn btn-next btn-fill btn-warning btn-wd" flex ng-disabled="mixins.havingProgressBar.progress" ng-click="close()" type="submit">Cancel</md-button>
         <span flex></span>

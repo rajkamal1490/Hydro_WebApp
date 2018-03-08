@@ -55,9 +55,12 @@
         .constant('ATTENDANCE', 'attendance')
         .constant('PERMISSION', 'permission')
         .constant('LEAVE', 'leave')
+        .constant('REMINDER', 'reminder')
+        .constant('MEETING', 'meeting')
         .constant('PROFILE_MAX_SIZE', 2097152)
         .constant('PROGRESS_BAR_TIMEOUT_VALUE', 200)
         .constant('PROGRESS_BAR_MAX_ACTUAL_VALUE', 100)
         .constant('PROGRESS_BAR_MAX_TEMPORARY_VALUE', 90)
         .constant('PROGRESS_BAR_INCREMENT_VALUE', 10)
+        .constant('VALID_IMAGE_TYPES', ['png', 'jpg', 'jpeg'])
 }).call(this);

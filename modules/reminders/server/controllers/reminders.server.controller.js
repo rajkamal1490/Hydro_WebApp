@@ -81,7 +81,7 @@ exports.delete = function(req, res) {
  * List of Reminders
  */
 exports.list = function(req, res) {
-  Reminder.find().sort('-created').populate('user', 'displayName').exec(function(err, reminders) {
+  Reminder.find({user: req.user._id}).sort('-created').populate('user', 'displayName').exec(function(err, reminders) {
     if (err) {
       return res.status(400).send({
         message: errorHandler.getErrorMessage(err)

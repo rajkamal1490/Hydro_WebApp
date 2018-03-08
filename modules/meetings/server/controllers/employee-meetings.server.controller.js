@@ -41,3 +41,40 @@ exports.getTodayMeetingsByUser = function(req, res) {
 
   });
 };
+
+exports.getMyMeetingsByUser = function(req, res) {
+  Meeting.find({
+    $and: [{      
+      attendees: {
+        $elemMatch: {
+          _id: {
+            $in: [req.body.userId]
+          }
+        }
+      }
+    }]
+  }, function(err, results) {
+    if (err) {
+      return res.status(400).send({
+        message: errorHandler.getErrorMessage(err)
+      });
+    } else {
+      Meeting.find({
+        $and: [{
+          "facilitator._id": req.body.userId
+        }]
+      }, function(err, searchResults) {
+        if (err) {
+          return res.status(400).send({
+            message: errorHandler.getErrorMessage(err)
+          });
+        } else {
+          var response = results.concat(searchResults);
+          res.jsonp(response);
+        }
+
+      });
+    }
+
+  });
+};

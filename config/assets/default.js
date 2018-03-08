@@ -15,7 +15,7 @@ module.exports = {
         'public/css/mdPickers.css',
         'public/lib/perfect-scrollbar/css/perfect-scrollbar.min.css',
         'public/lib/sweetalert/dist/sweetalert.css',
-        'public/lib/ng-cropper/dist/ngCropper.all.min.css',
+        'public/lib/ui-cropper/compile/unminified/ui-cropper.css',
         'public/css/material-datepicker.css',
         'public/assets/global/plugins/input-text/style.min.css',
         'public/assets/global/plugins/font-awesome-animation/font-awesome-animation.min.css',
@@ -41,9 +41,8 @@ module.exports = {
         'public/assets/global/plugins/jquery/jquery-3.1.0.min.js',
         'public/assets/global/plugins/jquery/jquery-migrate-3.0.0.min.js',
         'public/assets/global/plugins/jquery-ui/jquery-ui.min.js',
-        // 'public/assets/global/plugins/gsap/main-gsap.min.js',
-        'public/lib/ng-cropper/dist/ngCropper.all.js',
-        'public/lib/ng-cropper/dist/ngCropper.js',
+
+        'public/lib/ui-cropper/compile/unminified/ui-cropper.js',
 
         'public/assets/global/plugins/tether/js/tether.min.js',
         'public/assets/global/plugins/bootstrap/js/bootstrap.min.js',
