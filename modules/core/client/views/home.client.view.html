@@ -107,13 +107,15 @@
                                     <tr>
                                         <th class="text-center">Task ID</th>
                                         <th class="text-center">Title</th>
+                                        <th class="text-center">Status</th>
                                         <th class="text-center">Priority</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr ng-repeat="task in vm.pagedItems | orderBy: '-taskID'" ng-click="updateTask(task, true)">
+                                    <tr ng-repeat="task in vm.pagedItems | orderBy: '-taskID'" ng-if="task.status !== 'completed'" ng-click="updateTask(task, true)">
                                         <td class="col-md-2 text-center">{{task.taskID}}</td>
-                                        <td class="col-md-6 text-center">{{task.title}}</td>
+                                        <td class="col-md-4 text-center">{{task.title}}</td>
+                                        <td class="col-md-2 text-center">{{vm.starCase(task.status)}}</td>
                                         <td class="col-md-2 text-center">{{vm.getPriorityName(task.priority)}}</td>
                                     </tr>                      
                                 </tbody>

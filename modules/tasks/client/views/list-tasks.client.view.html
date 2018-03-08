@@ -1,13 +1,9 @@
 <section ng-init="loadinitial()">
   <div class="page-content"  ng-if="vm.pagedItems.length > 0">
-    <div class="header">
-      <h2>Tasks <strong>List</strong></h2>
-    </div>
-    <div class="panel">
-      <div class="panel-header md-panel-controls">
-        <h3><i class="icon-magnifier"></i> <strong>Search Panel</h3>
-      </div>
-      <div class="panel-content">        
+    <div class="col-md-4 pull-right">
+      <div>
+        <h3><i class="icon-magnifier"></i> <strong>Search</strong></h3>
+      </div>       
         <div class="row">
           <div class="col-md-12">
             <div layout="row" flex>
@@ -37,15 +33,20 @@
           </div>          
         </div>
       </div>
-    </div>
+    <div class="header">
+      <h2>Tasks <strong>List</strong></h2>
+    </div>    
     <div class="row">      
       <div class="col-lg-12 portlets">
+        <div>
+          <md-button class="btn btn-primary" ng-click="createOrUpdateTask(null, false)" type="submit">Create</md-button>
+        </div>
         <div class="panel">          
-          <div class="panel-header">              
+         <!--  <div class="panel-header">              
               <div class="pull-left">
                 <md-button class="btn btn-primary" ng-click="createOrUpdateTask(null, false)" type="submit"><i class="fa fa-plus"></i></md-button>
               </div>
-          </div>             
+          </div>   -->           
           <div class="panel-content"> 
             <div class="control-btn">
               <a href="#" class="panel-reload hidden" ng-click="loadinitial()"><i class="icon-reload"></i></a>
@@ -65,10 +66,10 @@
                 <tr ng-repeat="task in filterTasks = (vm.pagedItems | filter: assigneefilterFunc(searchParams.assignee) | filter: statusFilterFunc(searchParams.status) | filter: searchParams.keyword) | orderBy: '-taskID'" ng-click="createOrUpdateTask(task, true)">
                   <td class="col-md-2">{{task.taskID}}</td>
                   <td class="col-md-4">{{task.title}}</td>
-                  <td class="col-md-2">{{vm.getPriorityName(task.priority)}}</td> 
+                  <td class="col-md-1">{{vm.getPriorityName(task.priority)}}</td> 
                   <td class="col-md-2">{{vm.getUserName(task.assignee).displayName}}</td>
                   <td class="col-md-2">{{task.createdBy}}</td>                  
-                  <td class="col-md-2">{{vm.getStatusName(task.status)}}</td>                 
+                  <td class="col-md-3">{{vm.getStatusName(task.status)}}</td>                 
                 </tr>                      
               </tbody>
             </table>

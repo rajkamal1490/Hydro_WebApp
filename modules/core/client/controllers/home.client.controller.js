@@ -16,6 +16,7 @@
     vm.getPriorityName = getPriorityName;
     vm.tasks = [];
     vm.hasShowCheckInDialog = false;
+    vm.starCase = starCase;
 
     $scope.$on('$stateChangeSuccess', stateChangeSuccess);
 
@@ -165,6 +166,11 @@
     $scope.taskFilter = function() {
       chartSummary();
     };
+
+
+    function starCase(status) {
+      return _.startCase(status);
+    }
 
     function showCheckInDialog() {
       CommonService.setIsAllowToClick(true);
