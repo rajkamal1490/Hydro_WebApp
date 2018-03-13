@@ -72,7 +72,7 @@
 						vm.filteredTasks[taskIndex] = createdItem;
 					}
 				} else {
-					vm.filteredTasks.push(createdItem);
+					//vm.filteredTasks.push(createdItem);
 					vm.tasks.push(createdItem);
 				}
 

@@ -5,26 +5,95 @@
  */
 var path = require('path'),
   mongoose = require('mongoose'),
+  config = require(path.resolve('./config/config')),
   Task = mongoose.model('Task'),
+  nodemailer = require('nodemailer'),
+  async = require('async'),
+  User = mongoose.model('User'),
   errorHandler = require(path.resolve('./modules/core/server/controllers/errors.server.controller')),
   _ = require('lodash');
+
+var smtpTransport = nodemailer.createTransport(config.mailer.options);
 
 /**
  * Create a Task
  */
 exports.create = function(req, res) {
-  var task = new Task(req.body);
-  task.user = req.user;
-
-  task.save(function(err) {
-    if (err) {
-      return res.status(400).send({
-        message: errorHandler.getErrorMessage(err)
+  async.waterfall([
+    function(done) {
+      User.find({
+        _id: req.body.assignee
+      }, function(err, assignee) {
+        console.log(assignee)
+        if (err) {
+          return res.status(422).send({
+            message: errorHandler.getErrorMessage(err)
+          });
+        } else {
+          done(err, assignee[0]);
+        }
       });
-    } else {
-      res.jsonp(task);
+    },
+    function(assignee, done) {
+      var task = new Task(req.body);
+      task.user = req.user;
+
+      task.save(function(err) {
+        if (err) {
+          return res.status(422).send({
+            message: errorHandler.getErrorMessage(err)
+          });
+        } else {
+          done(err, task, assignee);
+        }
+      });
+    },
+    function(task, assignee, done) {
+      var httpTransport = 'http://';
+      if (config.secure && config.secure.ssl === true) {
+        httpTransport = 'https://';
+      }
+      var baseUrl = req.app.get('domain') || httpTransport + req.headers.host;
+      res.render(path.resolve('modules/tasks/server/templates/task-create-email'), {
+        createdBy: task.createdBy,
+        assignee: assignee.displayName,
+        taskId: task.taskID,
+        taskTitle: task.title,
+        createdImgUrl: baseUrl + task.createdProfileImage,
+        appName: config.app.title,
+        url: baseUrl + '/authentication/signin'
+      }, function(err, emailHTML) {
+        done(err, emailHTML, task, assignee);
+      });
+    },
+
+    // If valid email, send reset email using service
+    function(emailHTML, task, assignee, done) {
+      var mailOptions = {
+        to: assignee.email,
+        from: config.mailer.from,
+        subject: '[Hydro] (HYD-'+task.taskID+') ' + task.title,
+        html: emailHTML
+      };
+      smtpTransport.sendMail(mailOptions, function(err) {
+        console.log(err);
+        if (!err) {
+          res.jsonp(task);
+        } else {
+          console.log(err);
+          return res.status(422).send({
+            message: 'Failure sending email'
+          });
+        }
+
+        done(err);
+      });
     }
-  });
+  ], function(err) {
+    if (err) {
+      return next(err);
+    }
+  }); 
 };
 
 /**
@@ -45,19 +114,85 @@ exports.read = function(req, res) {
  * Update a Task
  */
 exports.update = function(req, res) {
-  var task = req.task;
-
-  task = _.extend(task, req.body);
-
-  task.save(function(err) {
-    if (err) {
-      return res.status(400).send({
-        message: errorHandler.getErrorMessage(err)
+  async.waterfall([
+    function(done) {
+      User.find({
+        _id: req.body.assignee
+      }, function(err, assignee) {
+        console.log(assignee)
+        if (err) {
+          return res.status(422).send({
+            message: errorHandler.getErrorMessage(err)
+          });
+        } else {
+          done(err, assignee[0]);
+        }
       });
-    } else {
-      res.jsonp(task);
+    },
+    
+    function(assignee, done) {
+      var task = req.task;
+      task = _.extend(task, req.body);
+      task.save(function(err) {
+        if (err) {
+          return res.status(422).send({
+            message: errorHandler.getErrorMessage(err)
+          });
+        } else {
+          if(req.task.hasSendMail) {            
+            done(err, task, assignee);
+          } else {
+            res.jsonp(task);
+          }          
+        }
+      });
+    },
+    function(task, assignee, done) {
+      var httpTransport = 'http://';
+      if (config.secure && config.secure.ssl === true) {
+        httpTransport = 'https://';
+      }
+      var baseUrl = req.app.get('domain') || httpTransport + req.headers.host;
+      res.render(path.resolve('modules/tasks/server/templates/task-create-email'), {
+        createdBy: task.createdBy,
+        assignee: assignee.displayName,
+        taskId: task.taskID,
+        taskTitle: task.title,
+        createdImgUrl: baseUrl + task.createdProfileImage,
+        appName: config.app.title,
+        url: baseUrl + '/authentication/signin'
+      }, function(err, emailHTML) {
+        done(err, emailHTML, task, assignee);
+      });
+    },
+
+    // If valid email, send reset email using service
+    function(emailHTML, task, assignee, done) {
+      var mailOptions = {
+        to: assignee.email,
+        from: config.mailer.from,
+        subject: '[Hydro] (HYD-'+task.taskID+') ' + task.title,
+        html: emailHTML
+      };
+      smtpTransport.sendMail(mailOptions, function(err) {
+        console.log(err);
+        if (!err) {
+          res.jsonp(task);
+        } else {
+          console.log(err);
+          return res.status(422).send({
+            message: 'Failure sending email'
+          });
+        }
+
+        done(err);
+      });
     }
-  });
+  ], function(err) {
+    if (err) {
+      return next(err);
+    }
+  }); 
 };
 
 /**

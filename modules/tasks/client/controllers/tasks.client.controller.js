@@ -87,6 +87,8 @@
         if (!angular.equals($scope.model.original.assignee, vm.task.assignee)) {
           notification.$save().then(function(res) {
             vm.task.notificationId = res._id;
+            vm.task.hasSendMail = true;
+            vm.task.createdBy = $scope.model.original.createdBy;
             vm.task.$update(successCallback, errorCallback);
           });
         } else {

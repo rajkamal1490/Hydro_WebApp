@@ -28,7 +28,7 @@
       </md-dialog-content>
      <md-dialog-actions layout="row"> 
         <md-button class="btn btn-next btn-fill btn-success btn-wd"  ng-hide="ui.isReminderInProgress" flex ng-click="vm.save(vm.reminderForm.$valid)" type="submit">{{vm.reminder._id ? 'Update' : 'Create'}}</md-button>
-        <md-button class="btn btn-next btn-fill btn-success btn-wd"  ng-disabled="true" flex ng-show="ui.isReminderInProgress" type="submit"><i class="fa fa-spinpinner fa-spin"></i> {{vm.reminder._id ? 'Updating' : 'Creating'}}</md-button>
+        <md-button class="btn btn-next btn-fill btn-success btn-wd"  ng-disabled="true" flex ng-show="ui.isReminderInProgress" type="submit"><i class="fa fa-spinner fa-spin"></i> {{vm.reminder._id ? 'Updating' : 'Creating'}}</md-button>
         <md-button class="btn btn-next btn-fill btn-warning btn-wd" flex ng-click="vm.cancel()" type="submit">Cancel</md-button>
       </md-dialog-actions>   
   </form>

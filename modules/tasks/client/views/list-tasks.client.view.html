@@ -58,7 +58,7 @@
                 </tr>
               </thead>
               <tbody>
-                <tr ng-repeat="task in vm.filteredTasks = (vm.tasks | filter: assigneefilterFunc(searchParams.assignee) | filter: statusFilterFunc(searchParams.status) | filter: searchParams.keyword) | orderBy: '-taskID' | limitTo: ui.rowsDisplayedCount" ng-click="createOrUpdateTask(task, true)">
+                <tr ng-repeat="task in vm.filteredTasks = (vm.tasks | filter: assigneefilterFunc(searchParams.assignee) | filter: statusFilterFunc(searchParams.status) | filter: searchParams.keyword) | orderBy: '-taskID' | limitTo: ui.rowsDisplayedCount track by $index" ng-click="createOrUpdateTask(task, true)">
                   <td class="col-md-2">{{task.taskID}}</td>
                   <td class="col-md-4">{{task.title}}</td>
                   <td class="col-md-1">{{vm.getPriorityName(task.priority)}}</td> 

@@ -154,7 +154,8 @@
                   </md-input-container>
               </div>
               <div class="text-center  m-t-20">
-                <button type="submit" class="btn btn-embossed btn-primary">Sign Up</button>
+                <button type="submit" class="btn btn-embossed btn-primary" ng-hide="ui.isUserInProgress">Create</button>
+                <button type="submit" class="btn btn-embossed btn-danger" ng-show="ui.isUserInProgress" ng-disabled="true"><i class="fa fa-spinner fa-spin" style="font-size: 18px"></i>Creating...</button>
             </form>
           </div>
         </div>
