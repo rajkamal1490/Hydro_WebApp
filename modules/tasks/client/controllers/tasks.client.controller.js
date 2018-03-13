@@ -30,7 +30,8 @@
     };
 
     $scope.model = {
-      users: userResolve
+      users: userResolve,
+      original: angular.copy(task)
     };
 
     $scope.ui = {
@@ -75,19 +76,34 @@
         type: 'task'
       });
 
+      if (vm.task._id) {
+        if(!angular.equals($scope.model.original.assignee, vm.task.assignee)) {
+          new NotificationsService({_id: vm.task.notificationId}).$remove();
+        }        
+      }
+
       // TODO: move create/update logic to service
       if (vm.task._id) {
-        vm.task.$update(successCallback, errorCallback);
+        if (!angular.equals($scope.model.original.assignee, vm.task.assignee)) {
+          notification.$save().then(function(res) {
+            vm.task.notificationId = res._id;
+            vm.task.$update(successCallback, errorCallback);
+          });
+        } else {
+          vm.task.$update(successCallback, errorCallback);
+        }
       } else {
-        if(taskResolve.length > 0) {
+        if (taskResolve.length > 0) {
           var taskIDs = _.map(taskResolve, 'taskID');
           var latestTaskID = _.max(taskIDs);
           vm.task.taskID = latestTaskID + 1;
         } else {
           vm.task.taskID = 1;
         }
-        vm.task.$save(successCallback, errorCallback);
-        notification.$save();
+        notification.$save().then(function(res) {
+          vm.task.notificationId = res._id;
+          vm.task.$save(successCallback, errorCallback);
+        });
       }
 
       function successCallback(res) {

@@ -48,6 +48,9 @@ var MeetingSchema = new Schema({
   updated: {
     type: Date
   },
+  notificationId: {
+    type: String
+  },
   created: {
     type: Date,
     default: Date.now

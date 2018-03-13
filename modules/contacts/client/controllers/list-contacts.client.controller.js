@@ -5,9 +5,9 @@
 		.module('contacts')
 		.controller('ContactsListController', ContactsListController);
 
-	ContactsListController.$inject = ['Authentication', 'ContactsService', 'CommonService', '$filter', '$scope', '$mdDialog', 'contactResolve'];
+	ContactsListController.$inject = ['Authentication', 'ContactsService', 'CommonService', '$filter', '$scope', '$mdDialog', 'contactResolve', 'Notification'];
 
-	function ContactsListController(Authentication, ContactsService, CommonService, $filter, $scope, $mdDialog, contactResolve) {
+	function ContactsListController(Authentication, ContactsService, CommonService, $filter, $scope, $mdDialog, contactResolve, Notification) {
 		var vm = this;
 		
 		vm.figureOutItemsToDisplay = figureOutItemsToDisplay;
@@ -78,6 +78,12 @@
 
 		$scope.hasShowContact = function(contact) {
 			return _.intersection(Authentication.user.userGroup, contact.visible).length > 0;
+		};
+
+		$scope.infoMsg = function(contact) {
+			Notification.error({
+				message: "Editable for only " + _.startCase(contact.visible)
+			});
 		};
 	}
 }());

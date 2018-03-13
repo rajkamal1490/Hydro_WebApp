@@ -5,19 +5,18 @@
 		.module('tasks')
 		.controller('TasksListController', TasksListController);
 
-	TasksListController.$inject = ['CommonService', 'PRIORITIES', '$filter', '$scope', '$mdDialog', 'taskResolve', 'TASK_STATUSES', 'userResolve'];
+	TasksListController.$inject = ['CommonService', 'DEFAULT_ROWS_DISPLAYED_COUNT', 'PRIORITIES', '$filter', '$scope', '$mdDialog', 'taskResolve', 'TASK_STATUSES', 'userResolve'];
 
-	function TasksListController(CommonService, PRIORITIES, $filter, $scope, $mdDialog, taskResolve, TASK_STATUSES, userResolve) {
+	function TasksListController(CommonService, DEFAULT_ROWS_DISPLAYED_COUNT, PRIORITIES, $filter, $scope, $mdDialog, taskResolve, TASK_STATUSES, userResolve) {
 		var vm = this;
-
-		vm.figureOutItemsToDisplay = figureOutItemsToDisplay;
-		vm.pageChanged = pageChanged;
+		
 		vm.getPriorityName = getPriorityName;
 		vm.getStatusName = getStatusName;
 		vm.getUserName = getUserName;
 		vm.tasks = taskResolve;
 		vm.statuses = TASK_STATUSES;
 		vm.users = userResolve;
+		vm.filteredTasks = [];
 
 		$scope.searchParams = {
 			status: undefined,
@@ -25,28 +24,14 @@
 			assignee: undefined
 		};
 
-		$scope.loadinitial = function() {
-			vm.pagedItems = [];
-			vm.itemsPerPage = 10;
-			vm.currentPage = 1;
-			vm.figureOutItemsToDisplay();
+		$scope.ui = {
+			rowsDisplayedCount: DEFAULT_ROWS_DISPLAYED_COUNT,
 		};
 
-		function figureOutItemsToDisplay() {
-			var sortedTasks = $filter('orderBy')(taskResolve, '-taskID');
-			vm.filteredItems = $filter('filter')(sortedTasks, {
-				$: vm.search
-			});
-			vm.filterLength = vm.filteredItems.length;
-			var begin = ((vm.currentPage - 1) * vm.itemsPerPage);
-			var end = begin + vm.itemsPerPage;
-			vm.pagedItems = vm.filteredItems.slice(begin, end);
-		}
-
-		function pageChanged() {
-			vm.figureOutItemsToDisplay();
-		}
-
+		$scope.loadinitial = function() {
+			
+		};
+		
 		$scope.createOrUpdateTask = function(task, editMode) {
 			var oldShow = $mdDialog.show;
 			$mdDialog.show = function(options) {
@@ -80,14 +65,14 @@
 			}).then(function(createdItem) {
 
 				if (editMode) {
-					var taskIndex = CommonService.findIndexByID(vm.pagedItems, task._id);
+					var taskIndex = CommonService.findIndexByID(vm.filteredTasks, task._id);
 					if (createdItem.isDelete) {
-						vm.pagedItems.splice(taskIndex, 1);
+						vm.filteredTasks.splice(taskIndex, 1);
 					} else {
-						vm.pagedItems[taskIndex] = createdItem;
+						vm.filteredTasks[taskIndex] = createdItem;
 					}
 				} else {
-					vm.pagedItems.push(createdItem);
+					vm.filteredTasks.push(createdItem);
 					vm.tasks.push(createdItem);
 				}
 
@@ -111,6 +96,12 @@
 					return task.assignee === assignee;
 					//return _.includes(assignee, task.assignee);
 				}
+			}
+		};
+
+		$scope.loadMoreRows = function() {
+			if ($scope.ui.rowsDisplayedCount < vm.filteredTasks.length) {
+				$scope.ui.rowsDisplayedCount += DEFAULT_ROWS_DISPLAYED_COUNT;
 			}
 		};
 

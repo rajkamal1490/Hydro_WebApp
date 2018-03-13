@@ -5,9 +5,9 @@
     .module('users')
     .controller('ProfileUploadCtrl', ProfileUploadCtrl);
 
-  ProfileUploadCtrl.$inject = ['$timeout', 'Authentication', 'Upload', 'Notification', 'havingProgressBar', '$scope', '$mdDialog', 'PROFILE_MAX_SIZE', 'VALID_IMAGE_TYPES'];
+  ProfileUploadCtrl.$inject = ['$timeout', 'Authentication', 'Upload', 'Notification', 'havingProgressBar', '$scope', '$mdDialog', 'PROFILE_MAX_SIZE', 'VALID_IMAGE_TYPES', 'hasProfileUpload'];
 
-  function ProfileUploadCtrl($timeout, Authentication, Upload, Notification, havingProgressBar, $scope, $mdDialog, PROFILE_MAX_SIZE, VALID_IMAGE_TYPES) {
+  function ProfileUploadCtrl($timeout, Authentication, Upload, Notification, havingProgressBar, $scope, $mdDialog, PROFILE_MAX_SIZE, VALID_IMAGE_TYPES, hasProfileUpload) {
 
 
     var vm = this;
@@ -19,7 +19,8 @@
     }
 
     $scope.ui = {
-      showLoading: false
+      showLoading: false,
+      hasProfileUpload: hasProfileUpload
     };
 
     $scope.mixins = {
@@ -81,6 +82,24 @@
           Notification.error({message: error});
         });     
     };
+
+    $scope.capture = function() {
+      b64toBlob($scope.myCroppedImage,
+        function(dataUrl) {
+          if (dataUrl.type.match('image.*')) {
+            $mdDialog.hide(dataUrl);
+          } else {
+            Notification.error({
+              message: 'Invalid Image Type...'
+            });
+          }
+        },
+        function(error) {
+          Notification.error({
+            message: error
+          });
+        });
+    }
 
     // Called after the user has successfully uploaded a new picture
     function onSuccessItem(response) {

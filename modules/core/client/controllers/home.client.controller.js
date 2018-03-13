@@ -61,8 +61,8 @@
 
     function figureOutItemsToDisplay() {
       var sortedTasks = $filter('orderBy')(vm.tasks, '-taskID');
-      vm.filteredItems = $filter('filter')(sortedTasks, {
-        $: vm.search
+      vm.filteredItems = $filter('filter')(sortedTasks, function(sortedTask) {
+        return sortedTask.status !== TASK_STATUSES[2].code;
       });
       vm.filterLength = vm.filteredItems.length;
       var begin = ((vm.currentPage - 1) * vm.itemsPerPage);
@@ -119,8 +119,9 @@
           vm.pagedItems[pagedItemsIndex] = createdItem;
           vm.tasks[taskIndex] = createdItem;
           taskResolve[tasksIndex] = createdItem;
-        }
 
+        }
+        figureOutItemsToDisplay();
         chartSummary();
 
       }, function() {

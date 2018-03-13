@@ -1,5 +1,5 @@
 <section ng-init="loadinitial()">
-  <div class="page-content"  ng-if="vm.pagedItems.length > 0">
+  <div class="page-content"  ng-if="vm.tasks.length > 0">
     <div class="col-md-4 pull-right">
       <div>
         <h3><i class="icon-magnifier"></i> <strong>Search</strong></h3>
@@ -41,12 +41,7 @@
         <div>
           <md-button class="btn btn-primary" ng-click="createOrUpdateTask(null, false)" type="submit">Create</md-button>
         </div>
-        <div class="panel">          
-         <!--  <div class="panel-header">              
-              <div class="pull-left">
-                <md-button class="btn btn-primary" ng-click="createOrUpdateTask(null, false)" type="submit"><i class="fa fa-plus"></i></md-button>
-              </div>
-          </div>   -->           
+        <div class="panel" when-scrolled="loadMoreRows()" style="height: 600px; overflow: auto;">
           <div class="panel-content"> 
             <div class="control-btn">
               <a href="#" class="panel-reload hidden" ng-click="loadinitial()"><i class="icon-reload"></i></a>
@@ -63,7 +58,7 @@
                 </tr>
               </thead>
               <tbody>
-                <tr ng-repeat="task in filterTasks = (vm.pagedItems | filter: assigneefilterFunc(searchParams.assignee) | filter: statusFilterFunc(searchParams.status) | filter: searchParams.keyword) | orderBy: '-taskID'" ng-click="createOrUpdateTask(task, true)">
+                <tr ng-repeat="task in vm.filteredTasks = (vm.tasks | filter: assigneefilterFunc(searchParams.assignee) | filter: statusFilterFunc(searchParams.status) | filter: searchParams.keyword) | orderBy: '-taskID' | limitTo: ui.rowsDisplayedCount" ng-click="createOrUpdateTask(task, true)">
                   <td class="col-md-2">{{task.taskID}}</td>
                   <td class="col-md-4">{{task.title}}</td>
                   <td class="col-md-1">{{vm.getPriorityName(task.priority)}}</td> 
@@ -78,9 +73,9 @@
       </div>
     </div>
   </div>
-  <uib-pagination boundary-links="true" max-size="10" items-per-page="vm.itemsPerPage" total-items="vm.filterLength" ng-model="vm.currentPage" ng-change="vm.pageChanged()"  ng-if="vm.pagedItems.length > 0"></uib-pagination>  
+ <!--  <uib-pagination boundary-links="true" max-size="10" items-per-page="vm.itemsPerPage" total-items="vm.filterLength" ng-model="vm.currentPage" ng-change="vm.pageChanged()"  ng-if="vm.pagedItems.length > 0"></uib-pagination>   -->
 <div class="page-content">
-  <div class="alert alert-warning text-center" ng-if="vm.pagedItems.length <= 0">
+  <div class="alert alert-warning text-center" ng-if="vm.tasks.length <= 0">
     No Tasks yet, <a style="color: #000; cursor: pointer;" ng-click="createOrUpdateTask(null, false)"> Click here to create</a>
   </div>
 </div>

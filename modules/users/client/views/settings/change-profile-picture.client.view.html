@@ -8,22 +8,9 @@
         <div class="form-group text-center">
           <img ngf-src="vm.fileSelected ? picFile : '/' + vm.user.profileImageURL" alt="{{vm.user.displayName}}" class="img-thumbnail col-md-4 col-md-offset-4" ngf-drop>
         </div>
-       <!--  <div ng-show="vm.loading" class="form-group text-center">
-          <img ng-src="/modules/core/client/img/loaders/loader.gif" height="50" width="50" alt="Loading image...">
-        </div>
-        <div ng-show="!vm.fileSelected" class="text-center form-group">                
-          <md-button class="btn btn-primary"  ngf-select="(vm.fileSelected = true) && (vm.loading = false)" ng-model="picFile" accept="image/*" ngf-before-model-change="vm.loading = true" ngf-resize="{width: 400}" ngf-resize-if="$width > 400 || $height > 400">Select picture</md-button>
-        </div> -->
-
         <div class="text-center form-group">                
-          <md-button class="btn btn-danger"  ng-click="vm.upload()">Upload</md-button>
-          <!-- <md-button class="btn btn-warning" ng-click="vm.fileSelected = false">Cancel</md-button> -->
-        </div>
-       <!--  <div ng-show="vm.fileSelected" class="progress text-center">
-          <div class="progress-bar" role="progressbar" aria-valuenow="{{vm.progress}}" aria-valuemin="0" aria-valuemax="100" style="width:{{vm.progress}}%" ng-bind="vm.progress + '%'">
-            <span class="sr-only">{{vm.progress}}% Complete</span>
-          </div>
-        </div> -->
+          <md-button class="btn btn-danger"  ng-click="vm.upload()">Upload</md-button>         
+        </div>      
       </form>
     </div>
   </div>

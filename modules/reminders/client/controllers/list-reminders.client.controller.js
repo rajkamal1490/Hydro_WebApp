@@ -5,40 +5,26 @@
 		.module('reminders')
 		.controller('RemindersListController', RemindersListController);
 
-	RemindersListController.$inject = ['CommonService', 'PRIORITIES', '$filter', '$scope', '$mdDialog', 'reminderResolve', 'Notification'];
+	RemindersListController.$inject = ['CommonService', 'DEFAULT_ROWS_DISPLAYED_COUNT', 'PRIORITIES', '$filter', '$scope', '$mdDialog', 'reminderResolve', 'Notification'];
 
-	function RemindersListController(CommonService, PRIORITIES, $filter, $scope, $mdDialog, reminderResolve, Notification) {
+	function RemindersListController(CommonService, DEFAULT_ROWS_DISPLAYED_COUNT, PRIORITIES, $filter, $scope, $mdDialog, reminderResolve, Notification) {
 		var vm = this;
-
-		vm.figureOutItemsToDisplay = figureOutItemsToDisplay;
-		vm.pageChanged = pageChanged;
+		
 		vm.reminders = reminderResolve;
 		vm.remove = remove;
+		vm.filteredReminders = [];
 
 		$scope.searchParams = {
 			keyword: undefined
 		};
 
-		$scope.loadinitial = function() {
-			vm.pagedItems = [];
-			vm.itemsPerPage = 10;
-			vm.currentPage = 1;
-			vm.figureOutItemsToDisplay();
+		$scope.ui = {
+			rowsDisplayedCount: DEFAULT_ROWS_DISPLAYED_COUNT,
 		};
 
-		function figureOutItemsToDisplay() {			
-			vm.filteredItems = $filter('filter')(reminderResolve, {
-				$: vm.search
-			});
-			vm.filterLength = vm.filteredItems.length;
-			var begin = ((vm.currentPage - 1) * vm.itemsPerPage);
-			var end = begin + vm.itemsPerPage;
-			vm.pagedItems = vm.filteredItems.slice(begin, end);
-		}
-
-		function pageChanged() {
-			vm.figureOutItemsToDisplay();
-		}
+		$scope.loadinitial = function() {
+			
+		};	
 
 		$scope.createOrUpdateReminder = function(reminder, editMode) {
 			var oldShow = $mdDialog.show;
@@ -67,10 +53,10 @@
 			}).then(function(createdItem) {
 
 				if (editMode) {
-					var reminderIndex = CommonService.findIndexByID(vm.pagedItems, reminder._id);
-					vm.pagedItems[reminderIndex] = createdItem;
+					var reminderIndex = CommonService.findIndexByID(vm.filteredReminders, reminder._id);
+					vm.filteredReminders[reminderIndex] = createdItem;
 				} else {
-					vm.pagedItems.push(createdItem);
+					vm.filteredReminders.push(createdItem);
 					vm.reminders.push(createdItem);
 				}
 
@@ -85,7 +71,7 @@
 			$mdDialog.show(confirm).then(function() {
 				reminder.$remove(deleteSuccessCallback, deleteErrorCallback);
 				function deleteSuccessCallback(res) {
-					vm.pagedItems.splice(index, 1);				
+					vm.filteredReminders.splice(index, 1);				
 					Notification.success({
 						message: '<i class="glyphicon glyphicon-ok"></i> Reminder deleted successfully'
 					});
@@ -102,5 +88,11 @@
 				console.log('no');
 			});
 		}
+
+		$scope.loadMoreRows = function() {
+			if ($scope.ui.rowsDisplayedCount < vm.filteredReminders.length) {
+				$scope.ui.rowsDisplayedCount += DEFAULT_ROWS_DISPLAYED_COUNT;
+			}
+		};
 	}
 }());

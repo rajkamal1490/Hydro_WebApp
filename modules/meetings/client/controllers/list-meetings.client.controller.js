@@ -23,7 +23,7 @@
       var calendar = $('#calendar').fullCalendar({
         editable: true,
         displayEventTime: true,
-        height: $(window).height() - 200,
+        height: $(window).height(),
         header: {
           left: 'prev,next today',
           center: 'title',
@@ -53,35 +53,22 @@
         }
         return oldShow(options);
       };
-      $mdDialog.show({
-        controller: 'MeetingsController',
-        controllerAs: 'vm',
-        templateUrl: '/modules/meetings/client/views/form-meeting.client.view.html',
-        parent: angular.element(document.body),
-        clickOutsideToClose: false,
-        escapeToClose: false,
-        fullscreen: true,
-        resolve: {
-          selectedDate: function() {
-            return date;
+
+      var now = moment(new Date()).format('YYYY-MM-DD');
+      var selectedData = moment(date).format('YYYY-MM-DD');
+
+      if (selectedData > now || selectedData === now) {
+        openCreateMeetingDialog(date);
+      } else {
+        var confirm = $mdDialog.confirm().title("Not allow to create a meetings for past days!!!").ok('OK');
+        $mdDialog.show(confirm).then(function() {
+            $mdDialog.hide();
           },
-          selectedEvent: function() {
-            return null;
-          },
-          viewMode: function() {
-            return false;
-          },
-          userResolve: function() {
-            return userResolve;
-          }
-        }
-      }).then(function(createdItem) {
-        $scope.model.newEvents.push(createdItem);
-        eventsPush(createdItem);
-        fullCalenderRerender();
-      }, function() {
-        console.log('You cancelled the dialog.');
-      });
+          function() {
+            console.log('no');
+          });
+      }
+      
     }
 
     $scope.eventClick = function(event) {
@@ -165,6 +152,38 @@
         stick: true
       });
     };
+
+    function openCreateMeetingDialog(date) {
+      $mdDialog.show({
+        controller: 'MeetingsController',
+        controllerAs: 'vm',
+        templateUrl: '/modules/meetings/client/views/form-meeting.client.view.html',
+        parent: angular.element(document.body),
+        clickOutsideToClose: false,
+        escapeToClose: false,
+        fullscreen: true,
+        resolve: {
+          selectedDate: function() {
+            return date;
+          },
+          selectedEvent: function() {
+            return null;
+          },
+          viewMode: function() {
+            return false;
+          },
+          userResolve: function() {
+            return userResolve;
+          }
+        }
+      }).then(function(createdItem) {
+        $scope.model.newEvents.push(createdItem);
+        eventsPush(createdItem);
+        fullCalenderRerender();
+      }, function() {
+        console.log('You cancelled the dialog.');
+      });
+    }
 
     function fullCalenderRerender() {
       $('#calendar').fullCalendar('removeEvents');

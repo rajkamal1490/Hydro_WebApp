@@ -20,7 +20,6 @@
     vm.save = save;
     vm.userGroups = USER_GROUPS;
     vm.cancel = cancel;
-    // vm.upload = upload;
 
     $scope.ui = {
       editMode: editMode,
@@ -141,6 +140,29 @@
         saveOrUpdate();
       }
     }
+
+    $scope.upload = function() {
+      $mdDialog.show({
+        controller: 'ProfileUploadCtrl',
+        controllerAs: 'vm',
+        templateUrl: '/modules/users/client/views/settings/profile-upload.client.view.html',
+        parent: angular.element(document.body),
+        clickOutsideToClose: false,
+        escapeToClose: false,
+        fullscreen: true,
+        multiple: true,
+        resolve: {
+          hasProfileUpload: function() {
+            return false;
+          }
+        }
+      }).then(function(response) {
+        vm.fileSelected = true;
+        vm.picFile = response;
+      }, function() {
+        console.log('You cancelled the dialog.');
+      });
+    };
 
     $scope.onFileSelected = function(files, events, b) {
 

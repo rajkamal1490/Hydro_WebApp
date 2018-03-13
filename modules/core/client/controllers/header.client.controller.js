@@ -285,7 +285,7 @@
       if (!$('#quickview-sidebar').hasClass('open') && !$('.page-content').hasClass('page-builder') && !$('.morphsearch').hasClass('open')) {
         generateNotifDashboard(notifContent);
         if (notification.notifyTo.length <= 1) {
-          $interval(notification.$remove(), 1000);
+          notification.$remove();
         } else {
           notification.notifyTo = _.reject(notification.notifyTo, function(notify) {
             return notify === Authentication.user._id;

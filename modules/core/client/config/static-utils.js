@@ -63,4 +63,5 @@
         .constant('PROGRESS_BAR_MAX_TEMPORARY_VALUE', 90)
         .constant('PROGRESS_BAR_INCREMENT_VALUE', 10)
         .constant('VALID_IMAGE_TYPES', ['png', 'jpg', 'jpeg'])
+        .constant('DEFAULT_ROWS_DISPLAYED_COUNT', 20)
 }).call(this);

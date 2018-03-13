@@ -1,4 +1,4 @@
-(function () {
+(function() {
   'use strict';
 
   angular
@@ -12,7 +12,7 @@
 
     vm.user = Authentication.user;
 
-    vm.upload = function () {
+    vm.upload = function() {
 
       $mdDialog.show({
         controller: 'ProfileUploadCtrl',
@@ -22,12 +22,17 @@
         clickOutsideToClose: false,
         escapeToClose: false,
         fullscreen: true,
+        resolve: {
+          hasProfileUpload: function() {
+            return true;
+          }
+        }
       }).then(function(response) {
-        vm.user = Authentication.user = response;        
+        vm.user = Authentication.user = response;
       }, function() {
         console.log('You cancelled the dialog.');
       });
-     
+
     };
   }
 }());

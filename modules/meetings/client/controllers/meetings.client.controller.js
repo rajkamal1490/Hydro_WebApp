@@ -77,12 +77,24 @@
         meetingScheduleDate: $scope.eventTime.mStartToServer
       });
 
-      // TODO: move create/update logic to service
       if (vm.meeting._id) {
-        vm.meeting.$update(successCallback, errorCallback);
-      } else {
-        vm.meeting.$save(successCallback, errorCallback);
-        notification.$save();
+        new NotificationsService({_id: vm.meeting.notificationId}).$remove();
+      }
+
+      notification.$save(notifySuccessCallback, notifyErrorCallback);
+
+      function notifySuccessCallback(res) {
+        vm.meeting.notificationId = res._id;
+        // TODO: move create/update logic to service
+        if (vm.meeting._id) {
+          vm.meeting.$update(successCallback, errorCallback);
+        } else {
+          vm.meeting.$save(successCallback, errorCallback);
+        }
+      }
+
+      function notifyErrorCallback(res) {
+        // TODO
       }
 
       function successCallback(res) {

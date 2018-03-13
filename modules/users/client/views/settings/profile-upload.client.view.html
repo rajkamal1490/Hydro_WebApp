@@ -25,7 +25,7 @@
         <input type="file" name="upload" title="Choose File" id="profile" onchange="angular.element(this).scope().onFile(this.files[0])" accept="image/*" ng-model="model.profileUpload" data-ui-file-upload max-size="2097152" ng-disabled="mixins.havingProgressBar.progress" class="btn-primary">
       </span>     
       <span flex></span>
-        <md-button class="btn btn-next btn-fill btn-success btn-wd" ng-disabled="dataUrl === undefined || mixins.havingProgressBar.progress" flex ng-click="vm.fileSelected=true;save()" ng-show="dataUrl" type="submit">Save</md-button>        
+        <md-button class="btn btn-next btn-fill btn-success btn-wd" ng-disabled="dataUrl === undefined || mixins.havingProgressBar.progress" flex ng-click="vm.fileSelected=true; ui.hasProfileUpload ? save() : capture()" ng-show="dataUrl" type="submit">{{ui.hasProfileUpload ? 'Save' : 'Capture'}}</md-button>        
       <span flex></span>
         <md-button class="btn btn-next btn-fill btn-warning btn-wd" flex ng-disabled="mixins.havingProgressBar.progress" ng-click="close()" type="submit">Cancel</md-button>
         <span flex></span>

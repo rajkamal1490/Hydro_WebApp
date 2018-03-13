@@ -62,13 +62,13 @@
 					openLeaveOrPermissionDialog(date, false, undefined, true, true);
 				});
 			} else {
-				var confirm = $mdDialog.confirm().title("Don't allow to apply leave/permission for past days!!!").ok('OK');
-				$mdDialog.show(confirm).then(function() {
-					$mdDialog.hide();
-				},
-				function() {
-					console.log('no');
-				});
+				// var confirm = $mdDialog.confirm().title("Don't allow to apply leave/permission for past days!!!").ok('OK');
+				// $mdDialog.show(confirm).then(function() {
+				// 	$mdDialog.hide();
+				// },
+				// function() {
+				// 	console.log('no');
+				// });
 			}
 		};
 
@@ -133,11 +133,11 @@
 			$scope.findAttendancesByUser();
 		};
 
-		function initFullCalendar() {
+		function initFullCalendar() {			
 			var calendar = $('#calendar').fullCalendar({
 				editable: false,
 				displayEventTime: false,
-				height: $(window).height() - 360,
+				height: $(window).height(),
 				header: {
 					left: 'prev,next today',
 					center: 'title',

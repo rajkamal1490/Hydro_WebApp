@@ -57,6 +57,9 @@ var TaskSchema = new Schema({
   taskID:{
     type:Number
   },
+  notificationId: {
+    type: String
+  },
   updated: {
     type: Date
   },

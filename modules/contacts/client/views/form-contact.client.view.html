@@ -9,33 +9,9 @@
               <div class="form-group text-center">
                   <img ngf-src="vm.fileSelected ? vm.picFile : vm.contact._id ? '/' + vm.contact.photoIdPath : 'modules/users/client/img/profile/default.png'" alt="{{vm.user.displayName}}" class="img-thumbnail user-profile-picture" ngf-drop>
                 </div>
-                <div ng-show="vm.loading" class="form-group text-center">
-                  <img ng-src="/modules/core/client/img/loaders/loader.gif" height="50" width="50" alt="Loading image...">
-                </div>
-                <div ng-show="!vm.fileSelected" class="text-center form-group">                
-                  <md-button class="btn btn-primary"  ngf-select="(vm.fileSelected = true) && (vm.loading = false)" ng-model="vm.picFile" accept="image/*" ngf-before-model-change="vm.loading = true" ngf-resize="{width: 400}" ngf-resize-if="$width > 400 || $height > 400">Select picture</md-button>
-                </div>
-                <div ng-show="vm.fileSelected" class="text-center form-group">                
-                  <!-- <md-button class="btn btn-danger"  ng-click="upload(vm.picFile)">Use this picture</md-button> -->
-                  <md-button class="btn btn-warning" ng-click="vm.fileSelected = false">Cancel</md-button>
-                </div>
-               <!--  <div ng-show="vm.fileSelected" class="progress text-center">
-                  <div class="progress-bar" role="progressbar" aria-valuenow="{{vm.progress}}" aria-valuemin="0" aria-valuemax="100" style="width:{{vm.progress}}%" ng-bind="vm.progress + '%'">
-                    <span class="sr-only">{{vm.progress}}% Complete</span>
-                  </div>
-                </div> -->
-              <!-- <div class="form-group text-center">                
-                <img ngf-src="ui.fileSelected ? ui.photoIdFile : '/modules/users/client/img/profile/default.png'" class="img-thumbnail user-profile-picture" ngf-drop>
-              </div>
-              <div ng-show="vm.loading" class="form-group text-center">
-                <img ng-src="/modules/core/client/img/loaders/loader.gif" height="50" width="50" alt="Loading image...">
-              </div>
-              <div ng-show="!ui.fileSelected" class="text-center form-group">
-                <button class="btn btn-default btn-file btn btn-next btn-fill btn-rose btn-wd" ngf-select="(vm.fileSelected = true) && (vm.loading = false); onFileSelected($files, $event, b)" accept="image/*" ngf-before-model-change="vm.loading = true" ngf-resize="{width: 400}" ngf-resize-if="$width > 400 || $height > 400">Browse</button>
-              </div>
-              <div ng-show="ui.fileSelected" class="text-center form-group">                
-                <md-button class="btn btn-warning" ng-click="ui.fileSelected = false; ui.photoIdFile = ''">Cancel</md-button>
-              </div>  -->
+                  <div class="text-center form-group">                
+                    <md-button class="btn btn-danger"  ng-click="upload()">Upload</md-button>
+                  </div>                     
             </div>
           </div>
           <div class="col-md-8 col-sm-8 col-xs-8">

@@ -1,9 +1,9 @@
 <section ng-init="loadinitial()">
-  <div class="page-content"  ng-if="vm.pagedItems.length > 0">
+  <div class="page-content" >
     <div class="header">
       <h2>All My <strong>Notifications</strong></h2>
     </div>      
-    <div class="row">      
+    <div class="row" ng-if="vm.pagedItems.length > 0">      
       <div class="col-lg-12 portlets">
         <div class="panel">
           <div class="panel-content"> 
@@ -20,7 +20,7 @@
                 </tr>
               </thead>
               <tbody>
-                <tr ng-repeat="notification in filterNotifications = (vm.pagedItems | filter: searchParams.keyword) | orderBy: 'reminderDateTime'">
+                <tr ng-repeat="notification in filterNotifications = (vm.pagedItems | filter: searchParams.keyword) | orderBy: '-startDateTime'">
                   <td>{{notification.title}}</td>                
                   <td>{{notification.startDateTime | date: 'yyyy-MM-dd hh:mm:ss a'}}</td>
                   <td>{{notification.location}}</td>
@@ -33,5 +33,10 @@
       </div>
     </div>
   </div>
-  <uib-pagination boundary-links="true" max-size="10" items-per-page="vm.itemsPerPage" total-items="vm.filterLength" ng-model="vm.currentPage" ng-change="vm.pageChanged()"  ng-if="vm.pagedItems.length > 0"></uib-pagination>  
+  <uib-pagination boundary-links="true" max-size="10" items-per-page="vm.itemsPerPage" total-items="vm.filterLength" ng-model="vm.currentPage" ng-change="vm.pageChanged()"  ng-if="vm.pagedItems.length > 0"></uib-pagination> 
+  <div class="page-content">
+  <div class="alert alert-warning text-center" ng-if="vm.pagedItems.length <= 0">
+    No records found</a>
+  </div>
+</div> 
 </section>
