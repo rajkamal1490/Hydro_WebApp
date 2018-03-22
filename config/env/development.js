@@ -60,7 +60,7 @@ module.exports = {
     sandbox: true
   },
   mailer: {
-    from: process.env.MAILER_FROM || 'Velu.G <velu@riverstonetech.com>',
+    from: process.env.MAILER_FROM || 'Hydro-Admin <velu@riverstonetech.com>',
     options: {
       service: process.env.MAILER_SERVICE_PROVIDER || 'gmail',
       auth: {
