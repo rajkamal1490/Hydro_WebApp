@@ -24,7 +24,6 @@ exports.create = function(req, res) {
       User.find({
         _id: req.body.assignee
       }, function(err, assignee) {
-        console.log(assignee)
         if (err) {
           return res.status(422).send({
             message: errorHandler.getErrorMessage(err)
@@ -54,24 +53,30 @@ exports.create = function(req, res) {
         httpTransport = 'https://';
       }
       var baseUrl = req.app.get('domain') || httpTransport + req.headers.host;
+      var imageUrl = task.createdProfileImage.replace('./', '/');
       res.render(path.resolve('modules/tasks/server/templates/task-create-email'), {
         createdBy: task.createdBy,
         assignee: assignee.displayName,
         taskId: task.taskID,
         taskTitle: task.title,
-        createdImgUrl: baseUrl + task.createdProfileImage,
+        createdImgUrl: imageUrl,
         appName: config.app.title,
         url: baseUrl + '/authentication/signin'
       }, function(err, emailHTML) {
-        done(err, emailHTML, task, assignee);
+        done(err, emailHTML, task, assignee, req);
       });
     },
 
     // If valid email, send reset email using service
-    function(emailHTML, task, assignee, done) {
+    function(emailHTML, task, assignee, req, done) {
+      var createdName = req.user.displayName;
+      var fromCreated = "";
+      if (createdName != undefined) {
+        fromCreated = config.mailer.from.replace("Hydro-Admin", createdName);
+      }
       var mailOptions = {
         to: assignee.email,
-        from: config.mailer.from,
+        from: fromCreated,
         subject: '[Hydro] (HYD-'+task.taskID+') ' + task.title,
         html: emailHTML
       };
@@ -119,7 +124,6 @@ exports.update = function(req, res) {
       User.find({
         _id: req.body.assignee
       }, function(err, assignee) {
-        console.log(assignee)
         if (err) {
           return res.status(422).send({
             message: errorHandler.getErrorMessage(err)
@@ -153,24 +157,30 @@ exports.update = function(req, res) {
         httpTransport = 'https://';
       }
       var baseUrl = req.app.get('domain') || httpTransport + req.headers.host;
+      var imageUrl = task.createdProfileImage.replace('./', '/');
       res.render(path.resolve('modules/tasks/server/templates/task-create-email'), {
         createdBy: task.createdBy,
         assignee: assignee.displayName,
         taskId: task.taskID,
         taskTitle: task.title,
-        createdImgUrl: baseUrl + task.createdProfileImage,
+        createdImgUrl: imageUrl,
         appName: config.app.title,
         url: baseUrl + '/authentication/signin'
       }, function(err, emailHTML) {
-        done(err, emailHTML, task, assignee);
+        done(err, emailHTML, task, assignee, req);
       });
     },
 
     // If valid email, send reset email using service
-    function(emailHTML, task, assignee, done) {
+    function(emailHTML, task, assignee, req, done) {
+      var createdName = req.user.displayName;
+      var fromCreated = "";
+      if (createdName != undefined) {
+        fromCreated = config.mailer.from.replace("Hydro-Admin", createdName);
+      }
       var mailOptions = {
         to: assignee.email,
-        from: config.mailer.from,
+        from: fromCreated,
         subject: '[Hydro] (HYD-'+task.taskID+') ' + task.title,
         html: emailHTML
       };
