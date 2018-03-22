@@ -6,11 +6,11 @@
           </h1>
         </div>
         <div class="sidebar-inner">
-            <div class="sidebar-top big-img">
+            <div class="sidebar-top medium-img">
                 <div class="user-image">
                   <img ng-src="/{{vm.authentication.user.profileImageURL}}" alt="{{vm.authentication.user.displayName}}" class="img-responsive img-circle" >
                 </div>
-                <h4 style="text-align: center;">{{vm.authentication.user.displayName}}</h4>
+                <h4 class="col-md-offset-3">{{vm.authentication.user.displayName}}</h4>
             </div>           
             <ul class="nav nav-sidebar">
                 <li ng-class="{ 'nav-active active': isActive('/') }" ng-click="setActive($event)"><a href="/">
@@ -20,6 +20,18 @@
                 <li ng-class="{ 'nav-active active': isActive('/tasks') }" ng-click="setActive($event)"><a href="/tasks">
                     <i class="mdi-action-assignment"></i><span>Tasks</span></a>
                 </li>
+
+                <li ng-class="{ 'nav-active active': isActive('/Tender') }" ng-click="setActive($event)"><a href="/tasks">
+                    <i class="mdi-communication-business"></i><span>Tender Process</span></a>
+                </li>
+
+                <li ng-class="{ 'nav-active active': isActive('/Projects') }" ng-click="setActive($event)"><a href="/tasks">
+                    <i class="mdi-maps-local-parking"></i><span>Projects</span></a>
+                </li>
+
+                <li ng-class="{ 'nav-active active': isActive('/admin/accounts') }"><a href="">
+                    <i class="mdi-action-account-balance-wallet"></i><span>Accounts</span></a>
+                </li> 
                 
                 <li class="nav-parent" ng-class="{ 'nav-active active': isActive('/meetings/list', '/attendances/list') }">
                     <a href=""><i class="fa fa-calendar"></i><span>My Calendar</span><span class="fa arrow"></span></a>
@@ -27,13 +39,9 @@
                         <li ng-class="{ 'active': isChildrenActive('/attendances') }"><a href="/attendances">Attendance</a></li>
                         <li ng-class="{ 'active': isChildrenActive('/meetings') }"><a href="/meetings">Meetings</a></li>
                     </ul>
-                </li>
+                </li>               
 
-               <!-- <li ng-class="{ 'nav-active active': isActive('/admin/accounts') }"><a href="">
-                    <i class="mdi-action-account-balance-wallet"></i><span>Accounts</span></a>
-                </li>                
-
-                 <li class="nav-parent">
+               <!--   <li class="nav-parent">
                     <a href=""><i class="icon-cup"></i><span>Extra </span><span class="fa arrow"></span></a>
                     <ul class="children collapse">
                         <li><a href="extra-fullcalendar.html"><span class="pull-right badge badge-primary">New</span> Fullcalendar</a></li>
@@ -59,10 +67,10 @@
                 <p class="menu-title widget-title">Directives</p>
                 <ul class="folders">
                     <li>
-                        <a href="/file-managers"><i class="icon-doc c-primary"></i>My documents</a> 
+                        <a href="/file-managers"><i class="icon-doc c-primary"></i>Documents Library</a> 
                     </li>
                     <li>
-                        <a ng-click="setActive($event)" href="/contacts"><i class="icon-docs"></i>Contacts</a> 
+                        <a ng-click="setActive($event)" href="/contacts"><i class="icon-docs"></i>Contacts Library</a> 
                     </li>
                      <li>
                         <a ng-click="setActive($event)" href="/reminders"><i class="mdi-action-alarm" style="font-size: 16px"></i>Set Reminders</a> 

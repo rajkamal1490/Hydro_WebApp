@@ -27,7 +27,7 @@
       user.$update(function (response) {
         $scope.$broadcast('show-errors-reset', 'vm.userForm');
 
-        Notification.success({ message: '<i class="glyphicon glyphicon-ok"></i> Edit profile successful!' });
+        Notification.success({ message: '<i class="glyphicon glyphicon-ok"></i> Profile updated successfully!' });
         Authentication.user = response;
       }, function (response) {
         Notification.error({ message: response.data.message, title: '<i class="glyphicon glyphicon-remove"></i> Edit profile failed!' });
