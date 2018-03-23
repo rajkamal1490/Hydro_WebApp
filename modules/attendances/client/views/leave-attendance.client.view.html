@@ -1,10 +1,10 @@
-<md-dialog flex="70" style="left: 7%"> 
+<md-dialog flex="50" style="left: 7%"> 
   <form name="vm.leaveForm" novalidate autocomplete="off">
     <div class="modal-header bg-primary">
       <h4>Apply {{vm.hasApplyLeave ? ' Leave' : ' Permission'}} </h4>
     </div>
        <md-dialog-content>
-        <div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="col-md-12 col-sm-12 col-xs-12" style="padding-top: 20px">
           <div layout="row" flex ng-if="!vm.hasApplyLeave">
               <md-input-container flex>
                 <label class="my-label"><b>From</b></label>

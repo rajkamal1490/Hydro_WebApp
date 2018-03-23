@@ -1,4 +1,4 @@
-<md-dialog flex="50" style="left: 7%"> 
+<md-dialog flex="70" style="left: 7%"> 
   <form name="vm.meetingForm" novalidate autocomplete="off">
     <div class="modal-header bg-primary">
       <h4>{{vm.meeting._id ? 'Edit Meeting' : 'Create Meeting'}}</h4>
@@ -37,16 +37,17 @@
                   <div ng-message="greater">Event end time should be after the start time.</div>
                 </div>
               </md-input-container>
-            </div>
 
-            <div layout="row" flex>
-               <md-input-container flex>
+              <md-input-container flex>
                   <label class="my-label">Location</label>
                   <input required type="text" name="location" ng-model="vm.meeting.location"/>
                   <div ng-messages="vm.meetingForm.location.$error">
                     <div ng-message="required">Location is required.</div>
                   </div>
               </md-input-container>
+            </div>
+
+            <div layout="row" flex>
                 <md-input-container flex>
                   <label class="my-label">Facilitator</label>
                   <md-select
@@ -62,9 +63,7 @@
                     <div ng-message="required">Facilitator is required.</div>
                   </div>
               </md-input-container>
-            </div>
 
-            <div layout="column" flex>
               <md-input-container flex>
                   <label class="my-label">Attendees</label>
                   <md-select multiple
@@ -80,9 +79,9 @@
                     <div ng-message="required">Attendees is required.</div>
                   </div>
               </md-input-container>
-            
             </div>
-            <label class="my-label">Agenda: </label>
+
+            <label class="my-label" style="padding-top: 20px">Agenda: </label>
             <div layout="row">
               <md-input-container flex>
                 <label class="my-label">Title</label>                      

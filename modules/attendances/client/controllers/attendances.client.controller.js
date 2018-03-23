@@ -18,8 +18,8 @@
     vm.remove = remove;
     vm.cancel = cancel;
     vm.save = save;
-    vm.checkInTime = moment(attendance.checkInTime).format('YYYY:MM:DD hh:mm:ss');
-    vm.checkOutTime = attendance.checkOutTime ? moment(attendance.checkOutTime).format('YYYY:MM:DD hh:mm:ss') : "";
+    vm.checkInTime = moment(attendance.checkInTime).format('DD/MM/YY hh:mm:ss');
+    vm.checkOutTime = attendance.checkOutTime ? moment(attendance.checkOutTime).format('DD/MM/YY hh:mm:ss') : "";
 
     // Remove existing Attendance
     function remove() {
