@@ -18,7 +18,7 @@
             <button type="button" class="btn btn-sm btn-icon btn-rounded bg-green"><i class="mdi-action-thumb-up"></i> </button>
             <small><strong>Permission approved</strong></small>
           </div>
-          <div class="col-md-4">
+          <div class="col-md-4" ng-show="vm.CommonService.hasExecutive(vm.authentication) || vm.CommonService.hasVp(vm.authentication)">
             <div layout="row" flex>             
                 <md-input-container flex>
                   <label class="my-label">Employee:</label>

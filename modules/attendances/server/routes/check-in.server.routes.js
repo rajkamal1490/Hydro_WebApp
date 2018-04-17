@@ -20,7 +20,13 @@ module.exports = function(app) {
   app.route('/settings/api/checkins/validateLeaveOverlap')
     .post(checkins.validateLeaveOverlap);
 
+  app.route('/admin/api/checkins/validateLeaveOverlap')
+    .post(checkins.validateLeaveOverlap);
+
   app.route('/settings/api/checkins/validatePermissionOverlap')
+    .post(checkins.validatePermissionOverlap);
+
+  app.route('/admin/api/checkins/validatePermissionOverlap')
     .post(checkins.validatePermissionOverlap);
 
   app.route('/admin/api/checkins/todaycheckin')

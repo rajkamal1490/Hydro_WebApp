@@ -9,6 +9,8 @@
 
 	function AttendancesListController(Authentication, AttendancesService, CommonService, CheckInAttendancesServices, $scope, $mdDialog, userResolve, $timeout, ATTENDANCE, PERMISSION, LEAVE, Notification) {
 		var vm = this;
+		vm.CommonService = CommonService;
+		vm.authentication = Authentication;
 
 		$scope.model = {
 			events: [],
