@@ -14,16 +14,16 @@
                             <div flex></div>
                             <div class="radio">
                                 <label style="color: #999">
-                                    <input name="taskFilter" ng-model="model.taskFilter" type="radio" value="1" ng-click="taskFilter()"><span class="circle"></span><span class="check"></span> All the Tasks
+                                    <input name="taskFilter" ng-model="model.taskFilter" type="radio" value="1" ng-click="taskFilter()"><span class="circle"></span><span class="check"></span> Assigned to Me
                                 </label>
                                 <label style="color: #999">
-                                    <input name="taskFilter" ng-model="model.taskFilter" type="radio" value="2" ng-click="taskFilter()"><span class="circle"></span><span class="check"></span> Assigned to Me
+                                    <input name="taskFilter" ng-model="model.taskFilter" type="radio" value="2" ng-click="taskFilter()"><span class="circle"></span><span class="check"></span> All the Tasks
                                 </label>
                             </div>
                             <div flex></div>
                         </div>
-                         <canvas ng-if="model.taskFilter === 1 || model.taskFilter === '1'" id="all_tasks" class="full" height="200"></canvas>
-                         <canvas ng-if="model.taskFilter === 2 || model.taskFilter === '2'" id="assigned_to_me" class="full" height="200"></canvas>
+                         <canvas ng-if="model.taskFilter === 2 || model.taskFilter === '2'" id="all_tasks" class="full" height="150"></canvas>
+                         <canvas ng-if="model.taskFilter === 1 || model.taskFilter === '1'" id="assigned_to_me" class="full" height="150"></canvas>
                      </div>                     
                  </div>
                  <div class="row m-t-10">

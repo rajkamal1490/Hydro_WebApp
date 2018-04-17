@@ -131,7 +131,7 @@
 
     function chartSummary() {
       $scope.chart.data = [];
-      if ($scope.model.taskFilter === 1 || $scope.model.taskFilter === '1') {
+      if ($scope.model.taskFilter === 2 || $scope.model.taskFilter === '2') {
         var all_tasks = document.getElementById("all_tasks").getContext("2d");
         tasksChart(taskResolve, all_tasks);
       } else {
