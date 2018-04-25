@@ -1,22 +1,66 @@
-<section>
-  <div class="page-header">
-    <h1>Projects</h1>
+<section ng-init="loadinitial()">
+  <div class="page-content"  ng-if="vm.projects.length > 0">
+    <div class="col-md-4 pull-right">
+      <div>
+        <h3><i class="icon-magnifier"></i> <strong>Search</strong></h3>
+      </div>       
+        <div class="row">
+          <div class="col-md-12">
+            <div layout="row" flex>
+              <md-input-container flex>
+                <label class="my-label">Keyword</label>
+                <input type="text" name="keyword" ng-model="searchParams.keyword"/>               
+              </md-input-container>              
+            </div>
+          </div>          
+        </div>
+      </div>
+    <div class="header">
+      <h2>Projects <strong>List</strong></h2>
+    </div>
+    <div class="row">      
+      <div class="col-lg-12 portlets">
+         <div>
+          <md-button class="btn btn-primary" ng-click="createOrUpdateProject(null, false)" type="submit">Create</md-button>
+        </div>
+        <div class="panel" when-scrolled="loadMoreRows()" style="height: 600px; overflow: auto;">
+          <div class="panel-content"> 
+            <div class="control-btn">
+              <a href="#" class="panel-reload hidden" ng-click="loadinitial()"><i class="icon-reload"></i></a>
+            </div>                 
+            <table class="table table-hover dataTable" id="table-editable">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Code</th>
+                  <th>State</th>
+                  <th>Location</th>
+                  <th>Created By</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr ng-repeat="project in vm.filteredProjects = (vm.projects | filter: searchParams.keyword) | orderBy: '-created' | limitTo: ui.rowsDisplayedCount">
+                  <td>{{project.name}}</td>
+                  <td>{{project.code}}</td>
+                  <td>{{project.state}}</td>
+                  <td>{{project.location}}</td>
+                  <td>{{vm.getUserName(project.manager).displayName}}</td>
+                  <td><button class="edit btn btn-sm btn-default" ng-click="createOrUpdateProject(project, true)"><i class="icon-note"></i></button>  <button class="delete btn btn-sm btn-danger" ng-click="vm.remove(project, $index)"><i class="icons-office-52"></i></button></td>    
+                </tr>                      
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
-  <div class="list-group">
-    <a ng-repeat="project in vm.projects"
-       ui-sref="projects.view({ projectId: project._id })"
-       class="list-group-item">
-      <small class="list-group-item-text">
-        Posted on
-        <span ng-bind="project.created | date:'mediumDate'"></span>
-        by
-        <span ng-if="project.user" ng-bind="project.user.displayName"></span>
-        <span ng-if="!project.user">Deleted User</span>
-      </small>
-      <h4 class="list-group-item-heading" ng-bind="project.name"></h4>
-    </a>
-  </div>
-  <div class="alert alert-warning text-center" ng-if="vm.projects.$resolved && !vm.projects.length">
-    No Projects yet, why don't you <a ui-sref="projects.create">create one</a>?
+  <div class="page-content">
+    <div class="alert alert-warning text-center" ng-if="vm.projects.length <= 0">
+      No projects yet, <a style="color: #000; cursor: pointer;" ng-click="createOrUpdateProject(null, false)"> Click here to create</a>
+    </div>
   </div>
 </section>
+
+
+

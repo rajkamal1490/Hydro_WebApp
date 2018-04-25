@@ -21,6 +21,14 @@
         controllerAs: 'vm',
         data: {
           pageTitle: 'Projects List'
+        },
+        resolve: {
+          projectResolve: ['$injector', '$q', function($injector, $q) {
+            return $injector.invoke(projectData).$promise; // cached, otherwise we would have called IncidentNoteTitle.query().
+          }],
+          userResolve: ['$injector', '$q', function($injector, $q) {
+            return $injector.invoke(userData).$promise; // cached, otherwise we would have called IncidentNoteTitle.query().
+          }]
         }
       })
       .state('projects.create', {
@@ -76,4 +84,17 @@
   function newProject(ProjectsService) {
     return new ProjectsService();
   }
+
+  projectData.$inject = ['ProjectsService'];
+
+  function projectData(ProjectsService) {
+    return ProjectsService.query();
+  }
+
+  userData.$inject = ['AdminService'];
+
+  function userData(AdminService) {
+    return AdminService.query();
+  }
+
 }());

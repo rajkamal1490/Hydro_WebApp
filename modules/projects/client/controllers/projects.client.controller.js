@@ -6,26 +6,26 @@
     .module('projects')
     .controller('ProjectsController', ProjectsController);
 
-  ProjectsController.$inject = ['$scope', '$state', '$window', 'Authentication', 'projectResolve'];
+  ProjectsController.$inject = ['$scope', '$state', '$window', 'Authentication', '$mdDialog', 'project', 'ProjectsService', 'editMode', 'Notification', 'users'];
 
-  function ProjectsController ($scope, $state, $window, Authentication, project) {
+  function ProjectsController ($scope, $state, $window, Authentication, $mdDialog, project, ProjectsService, editMode, Notification, users) {
     var vm = this;
 
     vm.authentication = Authentication;
-    vm.project = project;
+    vm.project = new ProjectsService(project);
     vm.error = null;
     vm.form = {};
-    vm.remove = remove;
     vm.save = save;
+    vm.cancel = cancel;
+    vm.date = new Date();
+    vm.users = users;
 
-    // Remove existing Project
-    function remove() {
-      if ($window.confirm('Are you sure you want to delete?')) {
-        vm.project.$remove($state.go('projects.list'));
-      }
-    }
+    $scope.ui = {
+      isProjectInProgress: false,
+      editMode: editMode
+    };
 
-    // Save Project
+    // Save project
     function save(isValid) {
       if (!isValid) {
         $scope.$broadcast('show-errors-check-validity', 'vm.form.projectForm');
@@ -40,14 +40,25 @@
       }
 
       function successCallback(res) {
-        $state.go('projects.view', {
-          projectId: res._id
+        var msg = editMode ? "project updated successfully" : "project created successfully"
+        $mdDialog.hide(res);
+        Notification.success({
+          message: '<i class="glyphicon glyphicon-ok"></i> ' + msg
         });
       }
 
-      function errorCallback(res) {
-        vm.error = res.data.message;
+      function errorCallback(errorResponse) {
+        $scope.ui.isProjectInProgress = false;
+        Notification.error({
+          message: errorResponse.data.message,
+          title: '<i class="glyphicon glyphicon-remove"></i> project error!'
+        });
       }
     }
+
+    function cancel() {
+      $mdDialog.cancel();
+    };
+
   }
 }());

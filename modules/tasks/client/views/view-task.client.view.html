@@ -100,21 +100,46 @@
                 <div class="form-group col-sm-12" style="margin-top: 5%">
                   <label class="control-label col-sm-2" for="type">Activity:</label> <br />
                   <div class="col-sm-12">
-                    <span ng-repeat="comment in vm.task.comments">
-                      <p ng-show="comment.flag === 0"><b>{{comment.name}} </b> added a comment on <b>{{comment.createdDate | date:'short' }}</b></p>
-                      <p ng-show="comment.flag === 1"><b>{{comment.name}} </b> updated the status on <b>{{comment.createdDate | date:'short' }}</b></p>
-                      <p ng-show="comment.flag === 2"><b>{{comment.name}} </b> changed the assignee on <b>{{comment.createdDate | date:'short' }}</b></p>
-                      <p ng-mouseover="comment.commentMouseHover = true;" ng-mouseleave="comment.commentMouseHover = false;" ng-hide="comment.editComment">{{comment.comments}}  &nbsp;&nbsp;<span> <i class="fa fa-pencil" style="cursor: pointer" ng-click="comment.editComment = true;" ng-show="comment.commentMouseHover && comment.flag === 0"></i> </span></p>
-                      <div style="height: 50px" ng-show="comment.editComment">
-                        <div class="md-form input-group col-md-10">           
-                         <input type="text" class="form-control" ng-model="comment.comments" style="font-size: 15px">
-                        <span class="input-group-btn">
-                          <button class="btn btn-primary" type="button" ng-click="updateTask(); comment.editComment = false;"><i class="fa fa-edit"></i></button>
-                          <button class="btn btn-danger" type="button" ng-click="comment.editComment = false; comment.commentMouseHover = false"><i class="fa fa-close"></i></button>
-                        </span>
+                    <ul class="nav nav-tabs nav-primary">
+                        <li class="active"><a href="#tab2_1" data-toggle="tab"> All</a></li>
+                        <li><a href="#tab2_2" data-toggle="tab"> Comments</a></li>
+                      </ul>
+                      <div class="tab-content">
+                        <div class="tab-pane fade active in" id="tab2_1">
+                          <span ng-repeat="comment in vm.task.comments | orderBy: 'createdDate'">
+                            <p ng-show="comment.flag === 0"><b>{{comment.name}} </b> added a comment on <b>{{comment.createdDate | date:'short' }}</b></p>
+                            <p ng-show="comment.flag === 1"><b>{{comment.name}} </b> updated the status on <b>{{comment.createdDate | date:'short' }}</b></p>
+                            <p ng-show="comment.flag === 2"><b>{{comment.name}} </b> changed the assignee on <b>{{comment.createdDate | date:'short' }}</b></p>
+                            <p ng-mouseover="comment.commentMouseHover = true;" ng-mouseleave="comment.commentMouseHover = false;" ng-hide="comment.editComment">{{comment.comments}}  &nbsp;&nbsp;<span> <i class="fa fa-pencil" style="cursor: pointer" ng-click="comment.editComment = true;" ng-show="comment.commentMouseHover && comment.flag === 0"></i> </span></p>
+                            <div style="height: 50px" ng-show="comment.editComment">
+                              <div class="md-form input-group col-md-10">           
+                                <input type="text" class="form-control" ng-model="comment.comments" style="font-size: 15px">
+                                <span class="input-group-btn">
+                                  <button class="btn btn-primary" type="button" ng-click="updateTask(); comment.editComment = false;"><i class="fa fa-edit"></i></button>
+                                  <button class="btn btn-danger" type="button" ng-click="comment.editComment = false; comment.commentMouseHover = false"><i class="fa fa-close"></i></button>
+                                </span>
+                              </div>
+                            </div>
+                          </span>
                         </div>
-                      </div>
-                    </span>
+                        <div class="tab-pane fade" id="tab2_2">
+                         <span ng-repeat="comment in vm.task.comments | orderBy: 'createdDate' | filter: { flag: 0 } ">
+                            <p ng-show="comment.flag === 0"><b>{{comment.name}} </b> added a comment on <b>{{comment.createdDate | date:'short' }}</b></p>
+                            <p ng-show="comment.flag === 1"><b>{{comment.name}} </b> updated the status on <b>{{comment.createdDate | date:'short' }}</b></p>
+                            <p ng-show="comment.flag === 2"><b>{{comment.name}} </b> changed the assignee on <b>{{comment.createdDate | date:'short' }}</b></p>
+                            <p ng-mouseover="comment.commentMouseHover = true;" ng-mouseleave="comment.commentMouseHover = false;" ng-hide="comment.editComment">{{comment.comments}}  &nbsp;&nbsp;<span> <i class="fa fa-pencil" style="cursor: pointer" ng-click="comment.editComment = true;" ng-show="comment.commentMouseHover && comment.flag === 0"></i> </span></p>
+                            <div style="height: 50px" ng-show="comment.editComment">
+                              <div class="md-form input-group col-md-10">           
+                                <input type="text" class="form-control" ng-model="comment.comments" style="font-size: 15px">
+                                <span class="input-group-btn">
+                                  <button class="btn btn-primary" type="button" ng-click="updateTask(); comment.editComment = false;"><i class="fa fa-edit"></i></button>
+                                  <button class="btn btn-danger" type="button" ng-click="comment.editComment = false; comment.commentMouseHover = false"><i class="fa fa-close"></i></button>
+                                </span>
+                              </div>
+                            </div>
+                          </span>
+                        </div>                       
+                      </div>                    
                     <textarea name="comment" ng-model="vm.task.comment" id="content" class="form-control" cols="30" rows="10" placeholder="Add comments..." style="font-weight: bold; font-size: 15px" required></textarea> <br /><br />
                    <md-button class="btn btn-danger btn-sm" ng-click="addComment()" type="submit">Add Comment</md-button>
                   </div>

@@ -1,24 +1,61 @@
-<section>
-  <div class="page-header">
-    <h1>{{vm.project._id ? 'Edit Project' : 'New Project'}}</h1>
-  </div>
-  <div class="col-md-12">
-    <form name="vm.form.projectForm" class="form-horizontal" ng-submit="vm.save(vm.form.projectForm.$valid)" novalidate>
-      <fieldset>
-        <div class="form-group" show-errors>
-          <label class="control-label" for="name">Name</label>
-          <input name="name" type="text" ng-model="vm.project.name" id="name" class="form-control" placeholder="Name" required>
-          <div ng-messages="vm.form.projectForm.name.$error" role="alert">
-            <p class="help-block error-text" ng-message="required">Project name is required.</p>
+<md-dialog flex="30" style="left: 7%"> 
+  <form name="vm.projectForm" novalidate autocomplete="off">
+    <div class="modal-header bg-primary">
+      <h4>{{vm.project._id ? 'Edit project' : 'Create project'}}</h4>
+    </div>
+       <md-dialog-content style="padding-left: 24px">         
+          <div class="col-md-12 col-sm-12 col-xs-12">
+            <div layout="column" flex>
+              <md-input-container flex>
+                <label class="my-label">Name</label>
+                <input required type="text" name="name" ng-model="vm.project.name"/>
+                <div ng-messages="vm.projectForm.name.$error">
+                  <div ng-message="required">Name is required.</div>
+                </div>
+              </md-input-container>    
+              <md-input-container flex>
+                <label class="my-label">Reference Code</label>
+                <input required type="text" name="code" ng-model="vm.project.code"/>
+                <div ng-messages="vm.projectForm.code.$error">
+                  <div ng-message="required">Code is required.</div>
+                </div>
+              </md-input-container>
+              <md-input-container flex>
+                <label class="my-label">State</label>
+                <input required type="text" name="state" ng-model="vm.project.state"/>
+                <div ng-messages="vm.projectForm.state.$error">
+                  <div ng-message="required">State is required.</div>
+                </div>
+              </md-input-container>
+               <md-input-container flex>
+                <label class="my-label">Location</label>
+                <input required type="text" name="location" ng-model="vm.project.location"/>
+                <div ng-messages="vm.projectForm.location.$error">
+                  <div ng-message="required">Location is required.</div>
+                </div>
+              </md-input-container>
+               <md-input-container flex>
+                <label class="my-label">Project Manager</label> 
+                <md-select
+                      required
+                      name="manager"
+                      ng-model="vm.project.manager">
+                  <md-optgroup label="Project Manager">
+                    <md-option  ng-value="user._id" ng-repeat="user in vm.users">{{user.displayName}}</md-option>
+                  </md-optgroup>
+                </md-select>
+                <div ng-messages="vm.projectForm.location.$error">
+                  <div ng-message="required">Location is required.</div>
+                </div>
+              </md-input-container>
+             </div>
+
           </div>
-        </div>
-        <div class="form-group">
-          <button type="submit" class="btn btn-default">{{vm.project._id ? 'Update' : 'Create'}}</button>
-        </div>
-        <div ng-show="vm.error" class="text-danger">
-          <strong ng-bind="vm.error"></strong>
-        </div>
-      </fieldset>
-    </form>
-  </div>
-</section>
+      </md-dialog-content>
+     <md-dialog-actions layout="row"> 
+        <md-button class="btn btn-next btn-fill btn-success btn-wd"  ng-hide="ui.isProjectInProgress" flex ng-click="vm.save(vm.projectForm.$valid)" type="submit">{{vm.project._id ? 'Update' : 'Create'}}</md-button>
+        <md-button class="btn btn-next btn-fill btn-success btn-wd"  ng-disabled="true" flex ng-show="ui.isProjectInProgress" type="submit"><i class="fa fa-spinner fa-spin"></i> {{vm.project._id ? 'Updating' : 'Creating'}}</md-button>
+        <md-button class="btn btn-next btn-fill btn-warning btn-wd" flex ng-click="vm.cancel()" type="submit">Cancel</md-button>
+      </md-dialog-actions>   
+  </form>
+</md-dialog>
