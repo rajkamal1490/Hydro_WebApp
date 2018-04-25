@@ -54,6 +54,12 @@ var TaskSchema = new Schema({
     type: Boolean,
     default: false
   },
+  comments: {
+    type: Object
+  },
+  attachments: {
+    type: Object
+  },
   taskID:{
     type:Number
   },

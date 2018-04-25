@@ -1,0 +1,35 @@
+<md-dialog flex="30" style="left:7%"> 
+  <form name="vm.fileUpload" >
+    <div class="modal-header bg-primary">
+      <h4>File Upload</h4>
+    </div>
+    <md-dialog-content>   
+      <div ng-show="vm.fileSelected" class="progress progress-striped active">
+        <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="{{mixins.havingProgressBar.progress}}" aria-valuemin="0" aria-valuemax="100" style="width:{{mixins.havingProgressBar.progress}}%" ng-bind="mixins.havingProgressBar.progress + '%'">
+        <span class="sr-only">{{mixins.havingProgressBar.progress}}% Complete</span>
+        </div>
+      </div>  
+      <div class="form-group text-center">
+        <div class="panel text-center" ng-show="vm.fileSelected">
+          <i class="fa fa-file"></i> &nbsp;<span>{{vm.picFile.name}}</span>
+        </div>
+      </div>
+      <div ng-show="vm.loading" class="form-group text-center">
+        <img ng-src="/modules/core/client/img/loaders/loader.gif" height="50" width="50" alt="Loading file...">
+      </div>
+      <div ng-show="!vm.fileSelected" class="text-center form-group">                
+        <md-button class="btn btn-primary"  ngf-select="(vm.fileSelected = true) && (vm.loading = false)" ng-model="vm.picFile" >Select file</md-button>
+      </div>
+      <div ng-show="vm.fileSelected" class="text-center form-group">      
+        <md-button class="btn btn-warning"  ng-disabled="mixins.havingProgressBar.progress" ng-click="vm.fileSelected = false">Remove</md-button>
+      </div>
+    </md-dialog-content>
+    <md-dialog-actions layout="row"> 
+      <span flex></span>
+        <md-button class="btn btn-next btn-fill btn-success btn-wd" flex ng-click="save()" type="submit">Save</md-button>        
+      <span flex></span>
+        <md-button class="btn btn-next btn-fill btn-warning btn-wd" flex ng-disabled="mixins.havingProgressBar.progress || vm.fileSelected" ng-click="close()" type="submit">Cancel</md-button>
+        <span flex></span>
+    </md-dialog-actions>   
+  </form>
+</md-dialog>

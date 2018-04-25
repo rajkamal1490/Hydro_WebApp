@@ -79,6 +79,16 @@
                 </div>
               </md-input-container>
              </div>
+             <div layout="row" flex>                       
+               
+              <md-input-container flex>
+                <label class="my-label">Comments</label>
+                <input required type="text" name="comment" ng-model="vm.task.comment"/>
+                <div ng-messages="vm.taskForm.comment.$error">
+                  <div ng-message="required">Comments is required.</div>
+                </div>
+              </md-input-container>
+             </div>
              <div layout="row" flex ng-if="vm.authentication.user._id === vm.task.assignee && ui.editMode">               
               <md-input-container flex>
                 <label class="my-label">Status</label>               

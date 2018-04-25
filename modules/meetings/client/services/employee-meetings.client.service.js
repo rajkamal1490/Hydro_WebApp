@@ -12,7 +12,7 @@ angular
       getTodayMeetingsByUser: {
         method: 'POST',
         isArray: true,
-        url: 'api/employeemeetings/gettodaymeetings'
+        url: '../api/employeemeetings/gettodaymeetings'
       },
       getMyMeetings: {
         method: 'POST',

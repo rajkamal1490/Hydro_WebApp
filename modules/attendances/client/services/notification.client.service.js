@@ -5,14 +5,14 @@ angular
   NotificationsService.$inject = ['$resource'];
 
   function NotificationsService($resource) {
-    var Notifications = $resource('api/notifications/:notificationId', { notificationId: '@_id' }, {
+    var Notifications = $resource('../api/notifications/:notificationId', { notificationId: '@_id' }, {
       update: {
         method: 'PUT'
       },
       getNotificationByUser: {
         method: 'POST',
         isArray: true,
-        url: 'api/notifications/getnotification'
+        url: '../api/notifications/getnotification'
       },
     });
 

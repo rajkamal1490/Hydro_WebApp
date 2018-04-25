@@ -246,7 +246,7 @@
 
       vm.checkOutInProgress = false;
       $mdDialog.show(logoutConfirm).then(function() {
-        window.location.href = '/api/auth/signout';
+        window.location.href = '../api/auth/signout';
       },
       function() {
 

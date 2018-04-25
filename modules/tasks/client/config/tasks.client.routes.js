@@ -60,10 +60,13 @@
       .state('tasks.view', {
         url: '/:taskId',
         templateUrl: 'modules/tasks/client/views/view-task.client.view.html',
-        controller: 'TasksController',
+        controller: 'TasksEditController',
         controllerAs: 'vm',
         resolve: {
-          taskResolve: getTask
+          taskResolve: getTask,
+          userResolve: ['$injector', '$q', function($injector, $q) {
+            return $injector.invoke(userData).$promise;   // cached, otherwise we would have called IncidentNoteTitle.query().
+          }]
         },
         data: {
           pageTitle: 'Task {{ taskResolve.name }}'

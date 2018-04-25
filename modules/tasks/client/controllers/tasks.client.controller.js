@@ -19,7 +19,7 @@
     vm.save = save;
     vm.cancel = cancel;
     vm.priorities = PRIORITIES;
-    vm.statuses = TASK_STATUSES
+    vm.statuses = TASK_STATUSES;
     vm.loadinitial = loadinitial;
 
     $scope.eventTime = {
@@ -104,6 +104,13 @@
         }
         notification.$save().then(function(res) {
           vm.task.notificationId = res._id;
+          var comments = [{
+            name: Authentication.user.displayName,
+            comments: vm.task.comment,
+            createdDate: new Date(),
+            flag: 0,
+          }];
+          vm.task.comments = comments;
           vm.task.$save(successCallback, errorCallback);
         });
       }

@@ -105,17 +105,27 @@
                             <table class="table table-hover dataTable" id="table-editable">
                                 <thead>
                                     <tr>
-                                        <th class="text-center">Task ID</th>
+                                        <th class="text-center">Id</th>
                                         <th class="text-center">Title</th>
                                         <th class="text-center">Status</th>
                                         <th class="text-center">Priority</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr ng-repeat="task in vm.pagedItems | orderBy: '-taskID'" ng-click="updateTask(task, true)">
-                                        <td class="col-md-2 text-center">{{task.taskID}}</td>
-                                        <td class="col-md-4 text-center">{{task.title}}</td>
-                                        <td class="col-md-2 text-center">{{vm.starCase(task.status)}}</td>
+                                    <tr ng-repeat="task in vm.pagedItems | orderBy: '-taskID'" >
+                                        <td class="col-md-1 text-center">{{task.taskID}}</td>
+                                        <td class="col-md-5 text-center">{{task.title}}</td>
+                                        <td class="col-md-2 text-center" ng-click="ui.editStatus = true;">
+                                          <span ng-hide="ui.editStatus"> {{vm.starCase(task.status)}} </span>
+                                              <md-select
+                                                name="status"
+                                                ng-show="ui.editStatus"
+                                                ng-model="task.status">
+                                                <md-optgroup label="status">
+                                                  <md-option ng-value="status.code" ng-repeat="status in vm.statuses" ng-click="updateStatus(task, status.code)">{{status.name}}</md-option>
+                                                </md-optgroup>
+                                              </md-select>
+                                      </td>
                                         <td class="col-md-2 text-center">{{vm.getPriorityName(task.priority)}}</td>
                                     </tr>                      
                                 </tbody>

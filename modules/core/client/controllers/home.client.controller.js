@@ -5,9 +5,9 @@
     .module('core')
     .controller('HomeController', HomeController);
 
-  HomeController.$inject = ['CHART_BACKGROUND_COLOR', 'CHART_HOVER_BACKGROUND_COLOR', 'CheckInAttendancesServices', '$scope', '$http', '$filter', '$state', 'CommonService', 'PRIORITIES', 'Authentication', 'menuService', '$mdDialog', 'Notification', 'userResolve', 'TASK_STATUSES', 'taskResolve'];
+  HomeController.$inject = ['CHART_BACKGROUND_COLOR', 'CHART_HOVER_BACKGROUND_COLOR', 'CheckInAttendancesServices', '$scope', '$http', '$filter', '$state', 'CommonService', 'PRIORITIES', 'Authentication', 'menuService', '$mdDialog', 'Notification',  'userResolve', 'TASK_STATUSES', 'taskResolve', 'TasksService'];
 
-  function HomeController(CHART_BACKGROUND_COLOR, CHART_HOVER_BACKGROUND_COLOR, CheckInAttendancesServices, $scope, $http, $filter, $state, CommonService, PRIORITIES, Authentication, menuService, $mdDialog, Notification, userResolve, TASK_STATUSES, taskResolve) {
+  function HomeController(CHART_BACKGROUND_COLOR, CHART_HOVER_BACKGROUND_COLOR, CheckInAttendancesServices, $scope, $http, $filter, $state, CommonService, PRIORITIES, Authentication, menuService, $mdDialog, Notification, userResolve, TASK_STATUSES, taskResolve, TasksService) {
     var vm = this;
     vm.accountMenu = menuService.getMenu('account').items[0];
     vm.authentication = Authentication;
@@ -17,11 +17,16 @@
     vm.tasks = [];
     vm.hasShowCheckInDialog = false;
     vm.starCase = starCase;
+    vm.statuses = TASK_STATUSES
 
     $scope.$on('$stateChangeSuccess', stateChangeSuccess);
 
     $scope.model = {
       taskFilter: 1
+    };
+
+    $scope.ui = {
+      editStatus: false
     };
 
     $scope.chart = {
@@ -127,6 +132,25 @@
       }, function() {
         console.log('You cancelled the dialog.');
       });
+    };
+
+    $scope.updateStatus = function(task, status) {
+      var comments = {
+        name: Authentication.user.displayName,
+        comments: "Changed assignee from " + task.status + " to " +  status,
+        createdDate: new Date(),
+        flag: 1,
+      };
+      task.comments.push(comments);
+      var taskService = new TasksService({_id: task._id, status: status, comments: task.comments, updated: new Date()});
+      taskService.$update().then(function(updated) {
+        $scope.ui.editStatus = false;
+        figureOutItemsToDisplay();
+        chartSummary();
+        Notification.success({
+          message: '<i class="glyphicon glyphicon-ok"></i> Status updated successfully'
+        });
+      });      
     };
 
     function chartSummary() {

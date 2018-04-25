@@ -12,7 +12,7 @@ angular
       todayCheckIn: {
         method: 'POST',
         isArray: true,
-        url: 'api/checkins/todaycheckin'
+        url: '../api/checkins/todaycheckin'
       },
       findAttendancesByUser: {
         method: 'POST',
@@ -32,7 +32,7 @@ angular
       awaitingForApprovalLeave: {
         method: 'POST',
         isArray: true,
-        url: 'api/checkins/awaitingforapprovalleave'
+        url: '../api/checkins/awaitingforapprovalleave'
       },
     });
 
