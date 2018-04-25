@@ -1,4 +1,4 @@
-(function () {
+(function() {
   'use strict';
 
   angular
@@ -9,7 +9,7 @@
 
   function routeConfig($stateProvider) {
     $stateProvider
-      .state('settings', {
+      .state('setting', {
         abstract: true,
         url: '/settings',
         template: '<ui-view/>'
