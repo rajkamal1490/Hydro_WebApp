@@ -16,6 +16,16 @@ var StatusSchema = new Schema({
     required: 'Please fill Status name',
     trim: true
   },
+  color: {
+    type: Object,
+    default: '',
+    required: 'Please fill Status color',
+    trim: true
+  },
+  code: {
+    type: String,
+    lowercase: true
+  },
   created: {
     type: Date,
     default: Date.now

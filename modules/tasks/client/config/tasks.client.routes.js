@@ -35,6 +35,9 @@
           projectResolve: ['$injector', '$q', function($injector, $q) {
             return $injector.invoke(projectData).$promise;   // cached, otherwise we would have called IncidentNoteTitle.query().
           }],
+          statusResolve: ['$injector', '$q', function($injector, $q) {
+            return $injector.invoke(statusData).$promise; // cached, otherwise we would have called IncidentNoteTitle.query().
+          }]
         },
       })
       .state('tasks.create', {
@@ -72,6 +75,9 @@
           taskResolve: getTask,
           userResolve: ['$injector', '$q', function($injector, $q) {
             return $injector.invoke(userData).$promise;   // cached, otherwise we would have called IncidentNoteTitle.query().
+          }],
+          statusResolve: ['$injector', '$q', function($injector, $q) {
+            return $injector.invoke(statusData).$promise; // cached, otherwise we would have called IncidentNoteTitle.query().
           }]
         },
         data: {
@@ -117,5 +123,12 @@
   function projectData(ProjectsService) {
     return ProjectsService.query();
   }
+
+  statusData.$inject = ['StatusesService'];
+
+  function statusData(StatusesService) {
+    return StatusesService.query();
+  }
+
 
 }());

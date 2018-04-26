@@ -5,9 +5,9 @@
     .module('core')
     .controller('HomeController', HomeController);
 
-  HomeController.$inject = ['CHART_BACKGROUND_COLOR', 'CHART_HOVER_BACKGROUND_COLOR', 'CheckInAttendancesServices', '$scope', '$http', '$filter', '$state', 'CommonService', 'PRIORITIES', 'Authentication', 'menuService', '$mdDialog', 'Notification',  'userResolve', 'TASK_STATUSES', 'taskResolve', 'TasksService'];
+  HomeController.$inject = ['CHART_BACKGROUND_COLOR', 'CHART_HOVER_BACKGROUND_COLOR', 'CheckInAttendancesServices', '$scope', '$http', '$filter', '$state', 'CommonService', 'PRIORITIES', 'Authentication', 'menuService', '$mdDialog', 'Notification',  'userResolve', 'TASK_STATUSES', 'taskResolve', 'TasksService', 'statusResolve'];
 
-  function HomeController(CHART_BACKGROUND_COLOR, CHART_HOVER_BACKGROUND_COLOR, CheckInAttendancesServices, $scope, $http, $filter, $state, CommonService, PRIORITIES, Authentication, menuService, $mdDialog, Notification, userResolve, TASK_STATUSES, taskResolve, TasksService) {
+  function HomeController(CHART_BACKGROUND_COLOR, CHART_HOVER_BACKGROUND_COLOR, CheckInAttendancesServices, $scope, $http, $filter, $state, CommonService, PRIORITIES, Authentication, menuService, $mdDialog, Notification, userResolve, TASK_STATUSES, taskResolve, TasksService, statusResolve) {
     var vm = this;
     vm.accountMenu = menuService.getMenu('account').items[0];
     vm.authentication = Authentication;
@@ -17,7 +17,7 @@
     vm.tasks = [];
     vm.hasShowCheckInDialog = false;
     vm.starCase = starCase;
-    vm.statuses = TASK_STATUSES
+    vm.statuses = statusResolve
 
     $scope.$on('$stateChangeSuccess', stateChangeSuccess);
 
@@ -31,9 +31,9 @@
 
     $scope.chart = {
       data: [],
-      labels: _.map(TASK_STATUSES, 'name'),
-      backgroundColor: CHART_BACKGROUND_COLOR,
-      hoverBackgroundColor: CHART_HOVER_BACKGROUND_COLOR
+      labels: _.map(statusResolve, 'name'),
+      backgroundColor:_.map( _.map(statusResolve, 'color'), 'code'),
+      hoverBackgroundColor: _.map( _.map(statusResolve, 'color'), 'code')
     };
 
     $scope.loadInitial = function() {      
@@ -166,7 +166,7 @@
     };
 
     function tasksChart(tasks, ctx) {
-      angular.forEach(TASK_STATUSES, function(status) {
+      angular.forEach(statusResolve, function(status) {
         var length = CommonService.getStatusCountFromTasks(tasks, status.code);
         $scope.chart.data.push(length);
       });

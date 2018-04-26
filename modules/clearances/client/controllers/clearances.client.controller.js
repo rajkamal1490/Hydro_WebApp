@@ -1,4 +1,4 @@
-(function () {
+(function() {
   'use strict';
 
   // Clearances controller
@@ -6,31 +6,32 @@
     .module('clearances')
     .controller('ClearancesController', ClearancesController);
 
-  ClearancesController.$inject = ['$scope', '$state', '$window', 'Authentication', 'clearanceResolve'];
+  ClearancesController.$inject = ['$scope', '$state', '$window', 'Authentication', '$mdDialog', 'clearance', 'ClearancesService', 'editMode', 'Notification'];
 
-  function ClearancesController ($scope, $state, $window, Authentication, clearance) {
+  function ClearancesController($scope, $state, $window, Authentication, $mdDialog, clearance, ClearancesService, editMode, Notification) {
     var vm = this;
 
     vm.authentication = Authentication;
-    vm.clearance = clearance;
+    vm.clearance = new ClearancesService(clearance);
     vm.error = null;
     vm.form = {};
-    vm.remove = remove;
     vm.save = save;
+    vm.cancel = cancel;
+    vm.date = new Date();
 
-    // Remove existing Clearance
-    function remove() {
-      if ($window.confirm('Are you sure you want to delete?')) {
-        vm.clearance.$remove($state.go('clearances.list'));
-      }
-    }
+    $scope.ui = {
+      isClearanceInProgress: false,
+      editMode: editMode
+    };
 
-    // Save Clearance
+    // Save clearance
     function save(isValid) {
       if (!isValid) {
         $scope.$broadcast('show-errors-check-validity', 'vm.form.clearanceForm');
         return false;
       }
+
+      vm.clearance.code = vm.clearance.name;
 
       // TODO: move create/update logic to service
       if (vm.clearance._id) {
@@ -40,14 +41,24 @@
       }
 
       function successCallback(res) {
-        $state.go('clearances.view', {
-          clearanceId: res._id
+        var msg = editMode ? "clearance updated successfully" : "clearance created successfully"
+        $mdDialog.hide(res);
+        Notification.success({
+          message: '<i class="glyphicon glyphicon-ok"></i> ' + msg
         });
       }
 
-      function errorCallback(res) {
-        vm.error = res.data.message;
+      function errorCallback(errorResponse) {
+        $scope.ui.isClearanceInProgress = false;
+        Notification.error({
+          message: errorResponse.data.message,
+          title: '<i class="glyphicon glyphicon-remove"></i> clearance error!'
+        });
       }
     }
+
+    function cancel() {
+      $mdDialog.cancel();
+    };
   }
 }());

@@ -56,7 +56,7 @@
 					var reminderIndex = CommonService.findIndexByID(vm.filteredReminders, reminder._id);
 					vm.filteredReminders[reminderIndex] = createdItem;
 				} else {
-					vm.filteredReminders.push(createdItem);
+					//vm.filteredReminders.push(createdItem);
 					vm.reminders.push(createdItem);
 				}
 
@@ -71,7 +71,8 @@
 			$mdDialog.show(confirm).then(function() {
 				reminder.$remove(deleteSuccessCallback, deleteErrorCallback);
 				function deleteSuccessCallback(res) {
-					vm.filteredReminders.splice(index, 1);				
+					var reminderIndex = CommonService.findIndexByID(vm.filteredReminders, reminder._id);
+					vm.filteredReminders.splice(reminderIndex, 1);				
 					Notification.success({
 						message: '<i class="glyphicon glyphicon-ok"></i> Reminder deleted successfully'
 					});

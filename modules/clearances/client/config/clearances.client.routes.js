@@ -21,6 +21,11 @@
         controllerAs: 'vm',
         data: {
           pageTitle: 'Clearances List'
+        },
+        resolve: {
+          clearanceResolve: ['$injector', '$q', function($injector, $q) {
+            return $injector.invoke(clearanceData).$promise; // cached, otherwise we would have called IncidentNoteTitle.query().
+          }]
         }
       })
       .state('clearances.create', {
@@ -76,4 +81,12 @@
   function newClearance(ClearancesService) {
     return new ClearancesService();
   }
+
+  clearanceData.$inject = ['ClearancesService'];
+
+  function clearanceData(ClearancesService) {
+    return ClearancesService.query();
+  }
+
+  
 }());

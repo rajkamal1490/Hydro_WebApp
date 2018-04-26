@@ -56,7 +56,7 @@
 					var refcodetasksIndex = CommonService.findIndexByID(vm.filteredrefcodetasks, refcodetasks._id);
 					vm.filteredrefcodetasks[refcodetasksIndex] = createdItem;
 				} else {
-					vm.filteredrefcodetasks.push(createdItem);
+					//vm.filteredrefcodetasks.push(createdItem);
 					vm.refcodetasks.push(createdItem);
 				}
 

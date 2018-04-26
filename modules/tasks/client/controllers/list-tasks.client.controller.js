@@ -5,16 +5,16 @@
 		.module('tasks')
 		.controller('TasksListController', TasksListController);
 
-	TasksListController.$inject = ['CommonService', 'DEFAULT_ROWS_DISPLAYED_COUNT', 'PRIORITIES', '$filter', '$scope', '$mdDialog', 'taskResolve', 'TASK_STATUSES', 'userResolve', 'refCodeResolve', 'projectResolve'];
+	TasksListController.$inject = ['CommonService', 'DEFAULT_ROWS_DISPLAYED_COUNT', 'PRIORITIES', '$filter', '$scope', '$mdDialog', 'statusResolve', 'taskResolve', 'userResolve', 'refCodeResolve', 'projectResolve'];
 
-	function TasksListController(CommonService, DEFAULT_ROWS_DISPLAYED_COUNT, PRIORITIES, $filter, $scope, $mdDialog, taskResolve, TASK_STATUSES, userResolve, refCodeResolve, projectResolve) {
+	function TasksListController(CommonService, DEFAULT_ROWS_DISPLAYED_COUNT, PRIORITIES, $filter, $scope, $mdDialog, statusResolve, taskResolve, userResolve, refCodeResolve, projectResolve) {
 		var vm = this;
 		
 		vm.getPriorityName = getPriorityName;
 		vm.getStatusName = getStatusName;
 		vm.getUserName = getUserName;
 		vm.tasks = taskResolve;
-		vm.statuses = TASK_STATUSES;
+		vm.statuses = statusResolve;
 		vm.users = userResolve;
 		vm.filteredTasks = [];
 
@@ -116,7 +116,7 @@
 		};
 
 		function getStatusName(status) {
-			return CommonService.getArrayValue(TASK_STATUSES, status);
+			return CommonService.getArrayValue(statusResolve, status);
 		};
 
 		function getUserName(userID) {

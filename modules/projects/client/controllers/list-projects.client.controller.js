@@ -60,7 +60,7 @@
 					var projectIndex = CommonService.findIndexByID(vm.filteredProjects, project._id);
 					vm.filteredProjects[projectIndex] = createdItem;
 				} else {
-					vm.filteredProjects.push(createdItem);
+					//vm.filteredProjects.push(createdItem);
 					vm.projects.push(createdItem);
 				}
 
@@ -76,7 +76,8 @@
 					project.$remove(deleteSuccessCallback, deleteErrorCallback);
 
 					function deleteSuccessCallback(res) {
-						vm.filteredProjects.splice(index, 1);
+						var projectIndex = CommonService.findIndexByID(vm.filteredProjects, project._id);
+						vm.filteredProjects.splice(projectIndex, 1);
 						Notification.success({
 							message: '<i class="glyphicon glyphicon-ok"></i> project deleted successfully'
 						});

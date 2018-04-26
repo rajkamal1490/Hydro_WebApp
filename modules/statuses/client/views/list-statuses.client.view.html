@@ -1,22 +1,58 @@
-<section>
-  <div class="page-header">
-    <h1>Statuses</h1>
+<section ng-init="loadinitial()">
+  <div class="page-content"  ng-if="vm.statuses.length > 0">
+
+    <div class="col-md-4 pull-right">
+      <div>
+        <h3><i class="icon-magnifier"></i> <strong>Search</strong></h3>
+      </div>       
+        <div class="row">
+          <div class="col-md-12">
+            <div layout="row" flex>
+              <md-input-container flex>
+                <label class="my-label">Keyword</label>
+                <input type="text" name="keyword" ng-model="searchParams.keyword"/>               
+              </md-input-container>              
+            </div>
+          </div>          
+        </div>
+      </div>
+    <div class="header">
+      <h2>Status <strong>List</strong></h2>
+      <div style="margin-left:0; margin-top: 2%">
+          <md-button class="btn btn-primary" ng-click="createOrUpdateStatus(null, false)" type="submit">Create</md-button>
+        </div>
+    </div>
+    <div class="row">      
+      <div class="col-lg-12 portlets">         
+        <div class="panel" when-scrolled="loadMoreRows()">
+          <div class="panel-content"> 
+            <div class="control-btn">
+              <a href="#" class="panel-reload hidden" ng-click="loadinitial()"><i class="icon-reload"></i></a>
+            </div>                 
+            <table class="table table-hover dataTable" id="table-editable">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Color</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr ng-repeat="status in vm.filteredStatuses = (vm.statuses | filter: searchParams.keyword) | orderBy: '-created' track by $index">
+                  <td>{{status.name}}</td>
+                  <td>{{status.color.name}}</td>
+                  <td><button class="edit btn btn-sm btn-default" ng-click="createOrUpdateStatus(status, true)"><i class="icon-note"></i></button>  <button class="delete btn btn-sm btn-danger" ng-click="vm.remove(status, $index)"><i class="icons-office-52"></i></button></td>    
+                </tr>                      
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
-  <div class="list-group">
-    <a ng-repeat="status in vm.statuses"
-       ui-sref="statuses.view({ statusId: status._id })"
-       class="list-group-item">
-      <small class="list-group-item-text">
-        Posted on
-        <span ng-bind="status.created | date:'mediumDate'"></span>
-        by
-        <span ng-if="status.user" ng-bind="status.user.displayName"></span>
-        <span ng-if="!status.user">Deleted User</span>
-      </small>
-      <h4 class="list-group-item-heading" ng-bind="status.name"></h4>
-    </a>
-  </div>
-  <div class="alert alert-warning text-center" ng-if="vm.statuses.$resolved && !vm.statuses.length">
-    No Statuses yet, why don't you <a ui-sref="statuses.create">create one</a>?
+  <div class="page-content">
+    <div class="alert alert-warning text-center" ng-if="vm.statuses.length <= 0">
+      No statuses yet, <a style="color: #000; cursor: pointer;" ng-click="createOrUpdateStatus(null, false)"> Click here to create</a>
+    </div>
   </div>
 </section>

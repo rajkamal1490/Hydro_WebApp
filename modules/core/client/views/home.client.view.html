@@ -27,61 +27,16 @@
                      </div>                     
                  </div>
                  <div class="row m-t-10">
-                    <div class="col-xlg-3 col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                    <div class="col-xlg-3 col-lg-6 col-md-6 col-sm-6 col-xs-12" ng-repeat = "chartData in chart.data track by $index">
                       <div class="panel">
                         <div class="panel-content widget-info">
                           <div class="row">
                             <div class="left">
-                              <button type="button" class="btn btn-sm btn-icon btn-rounded" style="background-color: {{chart.backgroundColor[0]}}"></button>
+                              <button type="button" class="btn btn-sm btn-icon btn-rounded" style="background-color: {{chart.backgroundColor[$index]}}"></button>
                             </div>
                             <div class="right">
-                              <p class="number countup">{{chart.data[0]}}</p>
-                              <p class="text">{{chart.labels[0]}}</p>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col-xlg-3 col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                      <div class="panel">
-                        <div class="panel-content widget-info">
-                          <div class="row">
-                            <div class="left">
-                               <button type="button" class="btn btn-sm btn-icon btn-rounded" style="background-color: {{chart.backgroundColor[1]}}"></button>
-                            </div>
-                            <div class="right">
-                              <p class="number countup">{{chart.data[1]}}</p>
-                              <p class="text">{{chart.labels[1]}}</p>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col-xlg-3 col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                      <div class="panel">
-                        <div class="panel-content widget-info">
-                          <div class="row">
-                            <div class="left">
-                               <button type="button" class="btn btn-sm btn-icon btn-rounded" style="background-color: {{chart.backgroundColor[2]}}"></button>
-                            </div>
-                            <div class="right">
-                              <p class="number countup">{{chart.data[2]}}</p>
-                              <p class="text">{{chart.labels[2]}}</p>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col-xlg-3 col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                      <div class="panel">
-                        <div class="panel-content widget-info">
-                          <div class="row">
-                            <div class="left">
-                               <button type="button" class="btn btn-sm btn-icon btn-rounded" style="background-color: {{chart.backgroundColor[3]}}"></button>
-                            </div>
-                            <div class="right">
-                              <p class="number countup">{{chart.data[3]}}</p>
-                              <p class="text">{{chart.labels[3]}}</p>
+                              <p class="number countup">{{chart.data[$index]}}</p>
+                              <p class="text">{{chart.labels[$index]}}</p>
                             </div>
                           </div>
                         </div>

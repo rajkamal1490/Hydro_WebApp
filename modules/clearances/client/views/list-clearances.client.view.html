@@ -1,22 +1,56 @@
-<section>
-  <div class="page-header">
-    <h1>Clearances</h1>
+<section ng-init="loadinitial()">
+  <div class="page-content"  ng-if="vm.clearances.length > 0">
+
+    <div class="col-md-4 pull-right">
+      <div>
+        <h3><i class="icon-magnifier"></i> <strong>Search</strong></h3>
+      </div>       
+        <div class="row">
+          <div class="col-md-12">
+            <div layout="row" flex>
+              <md-input-container flex>
+                <label class="my-label">Keyword</label>
+                <input type="text" name="keyword" ng-model="searchParams.keyword"/>               
+              </md-input-container>              
+            </div>
+          </div>          
+        </div>
+      </div>
+    <div class="header">
+      <h2>Clearance <strong>List</strong></h2>
+      <div style="margin-left:0; margin-top: 2%">
+          <md-button class="btn btn-primary" ng-click="createOrUpdateClearance(null, false)" type="submit">Create</md-button>
+        </div>
+    </div>
+    <div class="row">      
+      <div class="col-lg-12 portlets">         
+        <div class="panel" when-scrolled="loadMoreRows()">
+          <div class="panel-content"> 
+            <div class="control-btn">
+              <a href="#" class="panel-reload hidden" ng-click="loadinitial()"><i class="icon-reload"></i></a>
+            </div>                 
+            <table class="table table-hover dataTable" id="table-editable">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr ng-repeat="clearance in vm.filteredClearances = (vm.clearances | filter: searchParams.keyword) | orderBy: '-created' track by $index">
+                  <td>{{clearance.name}}</td>
+                  <td><button class="edit btn btn-sm btn-default" ng-click="createOrUpdateClearance(clearance, true)"><i class="icon-note"></i></button>  <button class="delete btn btn-sm btn-danger" ng-click="vm.remove(clearance, $index)"><i class="icons-office-52"></i></button></td>    
+                </tr>                      
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
-  <div class="list-group">
-    <a ng-repeat="clearance in vm.clearances"
-       ui-sref="clearances.view({ clearanceId: clearance._id })"
-       class="list-group-item">
-      <small class="list-group-item-text">
-        Posted on
-        <span ng-bind="clearance.created | date:'mediumDate'"></span>
-        by
-        <span ng-if="clearance.user" ng-bind="clearance.user.displayName"></span>
-        <span ng-if="!clearance.user">Deleted User</span>
-      </small>
-      <h4 class="list-group-item-heading" ng-bind="clearance.name"></h4>
-    </a>
-  </div>
-  <div class="alert alert-warning text-center" ng-if="vm.clearances.$resolved && !vm.clearances.length">
-    No Clearances yet, why don't you <a ui-sref="clearances.create">create one</a>?
+  <div class="page-content">
+    <div class="alert alert-warning text-center" ng-if="vm.clearances.length <= 0">
+      No clearances yet, <a style="color: #000; cursor: pointer;" ng-click="createOrUpdateClearance(null, false)"> Click here to create</a>
+    </div>
   </div>
 </section>

@@ -1,24 +1,41 @@
-<section>
-  <div class="page-header">
-    <h1>{{vm.status._id ? 'Edit Status' : 'New Status'}}</h1>
-  </div>
-  <div class="col-md-12">
-    <form name="vm.form.statusForm" class="form-horizontal" ng-submit="vm.save(vm.form.statusForm.$valid)" novalidate>
-      <fieldset>
-        <div class="form-group" show-errors>
-          <label class="control-label" for="name">Name</label>
-          <input name="name" type="text" ng-model="vm.status.name" id="name" class="form-control" placeholder="Name" required>
-          <div ng-messages="vm.form.statusForm.name.$error" role="alert">
-            <p class="help-block error-text" ng-message="required">Status name is required.</p>
+<md-dialog flex="30" style="left: 7%"> 
+  <form name="vm.statusForm" novalidate autocomplete="off">
+    <div class="modal-header bg-primary">
+      <h4>{{vm.status._id ? 'Edit status' : 'Create status'}}</h4>
+    </div>
+       <md-dialog-content style="padding-left: 24px">         
+          <div class="col-md-12 col-sm-12 col-xs-12">
+            <div layout="column" flex>
+              <md-input-container flex>
+                <label class="my-label">Name</label>
+                <input required type="text" name="name" ng-model="vm.status.name"/>
+                <div ng-messages="vm.statusForm.name.$error">
+                  <div ng-message="required">Name is required.</div>
+                </div>
+              </md-input-container>
+
+              <md-input-container flex>
+                  <label class="my-label">Color</label>                  
+                  <md-select  required
+                              name="color"
+                              ng-model="vm.status.color"
+                              ng-model-options="{trackBy: '$value.name'}">
+                    <md-optgroup label="Color">
+                      <md-option ng-value="color" ng-repeat="color in vm.colors">{{color.name}}</md-option>
+                    </md-optgroup>
+                  </md-select>    
+                  <div ng-messages="vm.statusForm.color.$error">
+                    <div ng-message="required">Status color is required.</div>
+                  </div>
+              </md-input-container>          
+             </div>
+
           </div>
-        </div>
-        <div class="form-group">
-          <button type="submit" class="btn btn-default">{{vm.status._id ? 'Update' : 'Create'}}</button>
-        </div>
-        <div ng-show="vm.error" class="text-danger">
-          <strong ng-bind="vm.error"></strong>
-        </div>
-      </fieldset>
-    </form>
-  </div>
-</section>
+      </md-dialog-content>
+     <md-dialog-actions layout="row"> 
+        <md-button class="btn btn-next btn-fill btn-success btn-wd"  ng-hide="ui.isStatusInProgress" flex ng-click="vm.save(vm.statusForm.$valid)" type="submit">{{vm.status._id ? 'Update' : 'Create'}}</md-button>
+        <md-button class="btn btn-next btn-fill btn-success btn-wd"  ng-disabled="true" flex ng-show="ui.isStatusInProgress" type="submit"><i class="fa fa-spinner fa-spin"></i> {{vm.status._id ? 'Updating' : 'Creating'}}</md-button>
+        <md-button class="btn btn-next btn-fill btn-warning btn-wd" flex ng-click="vm.cancel()" type="submit">Cancel</md-button>
+      </md-dialog-actions>   
+  </form>
+</md-dialog>

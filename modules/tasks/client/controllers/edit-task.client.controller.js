@@ -6,9 +6,9 @@
     .module('tasks')
     .controller('TasksEditController', TasksEditController);
 
-  TasksEditController.$inject = ['CommonService', '$scope', '$state', '$window', '$mdDialog', 'Authentication', 'PRIORITIES', 'taskResolve', 'userResolve', 'Notification', 'TASK_STATUSES'];
+  TasksEditController.$inject = ['CommonService', '$scope', '$state', '$window', '$mdDialog', 'Authentication', 'PRIORITIES', 'taskResolve', 'userResolve', 'Notification', 'statusResolve'];
 
-  function TasksEditController(CommonService, $scope, $state, $window, $mdDialog, Authentication, PRIORITIES, task, userResolve, Notification, TASK_STATUSES) {
+  function TasksEditController(CommonService, $scope, $state, $window, $mdDialog, Authentication, PRIORITIES, task, userResolve, Notification, statusResolve) {
     var vm = this;
 
     vm.authentication = Authentication;
@@ -20,7 +20,7 @@
     vm.starCase = starCase;
     vm.getPriorityName = getPriorityName;
     vm.getUserName = getUserName;
-    vm.statuses = TASK_STATUSES;
+    vm.statuses = statusResolve;
     vm.users = userResolve;
 
     $scope.ui = {

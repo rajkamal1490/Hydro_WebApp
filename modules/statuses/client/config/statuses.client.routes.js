@@ -21,6 +21,11 @@
         controllerAs: 'vm',
         data: {
           pageTitle: 'Statuses List'
+        },
+        resolve: {
+          statusResolve: ['$injector', '$q', function($injector, $q) {
+            return $injector.invoke(statusData).$promise; // cached, otherwise we would have called IncidentNoteTitle.query().
+          }]
         }
       })
       .state('statuses.create', {
@@ -76,4 +81,12 @@
   function newStatus(StatusesService) {
     return new StatusesService();
   }
+
+  statusData.$inject = ['StatusesService'];
+
+  function statusData(StatusesService) {
+    return StatusesService.query();
+  }
+
+
 }());

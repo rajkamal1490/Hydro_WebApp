@@ -19,6 +19,55 @@
             name: "Staff",
             code: "staff"
         }])
+        .constant('COLORS', [{
+            name: 'Black',
+            code: '#000000'
+        }, {
+            name: 'Blue',
+            code: '#0000FF'
+        }, {
+            name: 'Brown',
+            code: '#A52A2A'
+        }, {
+            name: 'Gold',
+            code: '#FFD700'
+        }, {
+            name: 'Gray',
+            code: '#999999'
+        }, {
+            name: 'Green',
+            code: '#4caf50'
+        }, {
+            name: 'Lime',
+            code: '#00FF00'
+        }, {
+            name: 'Orange',
+            code: '#ff9800'
+        }, {
+            name: 'Pink',
+            code: '#e91e63'
+        }, {
+            name: 'Purple',
+            code: '#800080'
+        }, {
+            name: 'Red',
+            code: '#f44336'
+        }, {
+            name: 'Silver',
+            code: '#C0C0C0'
+        }, {
+            name: 'Violet',
+            code: '#EE82EE'
+        }, {
+            name: 'White',
+            code: '#FFFFFF'
+        }, {
+            name: 'Yellow',
+            code: '#FFFF00'
+        }, {
+            name: 'Azure',
+            code: '#00bcd4'
+        }])
         .constant('PRIORITIES', [{
             name: "Major",
             code: "major"
@@ -45,11 +94,13 @@
         .constant('CHART_BACKGROUND_COLOR', ["rgba(54, 173, 199,0.9)",
             "rgba(201, 98, 95,0.9)",
             "rgba(255, 200, 112,0.9)",
+            "rgba(100, 200, 112,0.9)",
             "rgba(100, 200, 112,0.9)"
         ])
         .constant('CHART_HOVER_BACKGROUND_COLOR', ["rgba(54, 173, 199,1)",
             "rgba(201, 98, 95,1)",
             "rgba(255, 200, 112,1)",
+            "rgba(100, 200, 112,1)",
             "rgba(100, 200, 112,1)"
         ])
         .constant('ATTENDANCE', 'attendance')

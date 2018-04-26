@@ -38,6 +38,9 @@
           }],
           userResolve: ['$injector', '$q', function($injector, $q) {
             return $injector.invoke(userData).$promise;   // cached, otherwise we would have called IncidentNoteTitle.query().
+          }],
+          statusResolve: ['$injector', '$q', function($injector, $q) {
+            return $injector.invoke(statusData).$promise; // cached, otherwise we would have called IncidentNoteTitle.query().
           }]
         },
       })
@@ -117,6 +120,12 @@
 
   function reminderData(RemindersService) {
     return RemindersService.query();
+  }
+
+  statusData.$inject = ['StatusesService'];
+
+  function statusData(StatusesService) {
+    return StatusesService.query();
   }
 
 }());

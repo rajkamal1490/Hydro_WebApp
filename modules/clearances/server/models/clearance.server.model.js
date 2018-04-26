@@ -16,6 +16,10 @@ var ClearanceSchema = new Schema({
     required: 'Please fill Clearance name',
     trim: true
   },
+  code: {
+    type: String,
+    lowercase: true
+  },
   created: {
     type: Date,
     default: Date.now
