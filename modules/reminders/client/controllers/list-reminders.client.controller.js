@@ -12,7 +12,7 @@
 		
 		vm.reminders = reminderResolve;
 		vm.remove = remove;
-		vm.filteredReminders = [];
+		//vm.filteredReminders = [];
 
 		$scope.searchParams = {
 			keyword: undefined
@@ -53,8 +53,8 @@
 			}).then(function(createdItem) {
 
 				if (editMode) {
-					var reminderIndex = CommonService.findIndexByID(vm.filteredReminders, reminder._id);
-					vm.filteredReminders[reminderIndex] = createdItem;
+					var reminderIndex = CommonService.findIndexByID(vm.reminders, reminder._id);
+					vm.reminders[reminderIndex] = createdItem;
 				} else {
 					//vm.filteredReminders.push(createdItem);
 					vm.reminders.push(createdItem);
@@ -71,8 +71,8 @@
 			$mdDialog.show(confirm).then(function() {
 				reminder.$remove(deleteSuccessCallback, deleteErrorCallback);
 				function deleteSuccessCallback(res) {
-					var reminderIndex = CommonService.findIndexByID(vm.filteredReminders, reminder._id);
-					vm.filteredReminders.splice(reminderIndex, 1);				
+					var reminderIndex = CommonService.findIndexByID(vm.reminders, reminder._id);
+					vm.reminders.splice(reminderIndex, 1);				
 					Notification.success({
 						message: '<i class="glyphicon glyphicon-ok"></i> Reminder deleted successfully'
 					});
@@ -91,7 +91,7 @@
 		}
 
 		$scope.loadMoreRows = function() {
-			if ($scope.ui.rowsDisplayedCount < vm.filteredReminders.length) {
+			if ($scope.ui.rowsDisplayedCount < vm.reminders.length) {
 				$scope.ui.rowsDisplayedCount += DEFAULT_ROWS_DISPLAYED_COUNT;
 			}
 		};

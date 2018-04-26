@@ -37,7 +37,7 @@
                 </tr>
               </thead>
               <tbody>
-                <tr ng-repeat="clearance in vm.filteredClearances = (vm.clearances | filter: searchParams.keyword) | orderBy: '-created' track by $index">
+                <tr ng-repeat="clearance in vm.clearances | filter: searchParams.keyword | orderBy: '-created'">
                   <td>{{clearance.name}}</td>
                   <td><button class="edit btn btn-sm btn-default" ng-click="createOrUpdateClearance(clearance, true)"><i class="icon-note"></i></button>  <button class="delete btn btn-sm btn-danger" ng-click="vm.remove(clearance, $index)"><i class="icons-office-52"></i></button></td>    
                 </tr>                      

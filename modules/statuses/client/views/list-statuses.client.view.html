@@ -37,7 +37,7 @@
                 </tr>
               </thead>
               <tbody>
-                <tr ng-repeat="status in vm.filteredStatuses = (vm.statuses | filter: searchParams.keyword) | orderBy: '-created' track by $index">
+                <tr ng-repeat="status in vm.statuses | filter: searchParams.keyword | orderBy: '-created'">
                   <td>{{status.name}}</td>
                   <td>{{status.color.name}}</td>
                   <td><button class="edit btn btn-sm btn-default" ng-click="createOrUpdateStatus(status, true)"><i class="icon-note"></i></button>  <button class="delete btn btn-sm btn-danger" ng-click="vm.remove(status, $index)"><i class="icons-office-52"></i></button></td>    

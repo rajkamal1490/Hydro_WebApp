@@ -16,7 +16,7 @@
 		vm.tasks = taskResolve;
 		vm.statuses = statusResolve;
 		vm.users = userResolve;
-		vm.filteredTasks = [];
+		//vm.filteredTasks = [];
 
 		$scope.searchParams = {
 			status: undefined,
@@ -71,11 +71,11 @@
 			}).then(function(createdItem) {
 
 				if (editMode) {
-					var taskIndex = CommonService.findIndexByID(vm.filteredTasks, task._id);
+					var taskIndex = CommonService.findIndexByID(vm.tasks, task._id);
 					if (createdItem.isDelete) {
-						vm.filteredTasks.splice(taskIndex, 1);
+						vm.tasks.splice(taskIndex, 1);
 					} else {
-						vm.filteredTasks[taskIndex] = createdItem;
+						vm.tasks[taskIndex] = createdItem;
 					}
 				} else {
 					//vm.filteredTasks.push(createdItem);
@@ -106,7 +106,7 @@
 		};
 
 		$scope.loadMoreRows = function() {
-			if ($scope.ui.rowsDisplayedCount < vm.filteredTasks.length) {
+			if ($scope.ui.rowsDisplayedCount < vm.tasks.length) {
 				$scope.ui.rowsDisplayedCount += DEFAULT_ROWS_DISPLAYED_COUNT;
 			}
 		};

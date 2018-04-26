@@ -12,7 +12,7 @@
 
 		vm.statuses = statusResolve;
 		vm.remove = remove;
-		vm.filteredStatuses = [];
+		//vm.filteredStatuses = [];
 
 		$scope.searchParams = {
 			keyword: undefined
@@ -70,8 +70,8 @@
 			}).then(function(createdItem) {
 
 				if (editMode) {
-					var statusIndex = CommonService.findIndexByID(vm.filteredStatuses, status._id);
-					vm.filteredStatuses[statusIndex] = createdItem;
+					var statusIndex = CommonService.findIndexByID(vm.statuses, status._id);
+					vm.statuses[statusIndex] = createdItem;
 				} else {
 					// vm.filteredStatuses.push(createdItem);
 					vm.statuses.push(createdItem);
@@ -89,8 +89,8 @@
 					status.$remove(deleteSuccessCallback, deleteErrorCallback);
 
 					function deleteSuccessCallback(res) {
-						var statusIndex = CommonService.findIndexByID(vm.filteredStatuses, status._id);
-						vm.filteredStatuses.splice(statusIndex, 1);
+						var statusIndex = CommonService.findIndexByID(vm.statuses, status._id);
+						vm.statuses.splice(statusIndex, 1);
 						Notification.success({
 							message: '<i class="glyphicon glyphicon-ok"></i> status deleted successfully'
 						});
@@ -109,7 +109,7 @@
 		}
 
 		$scope.loadMoreRows = function() {
-			if ($scope.ui.rowsDisplayedCount < vm.filteredStatuses.length) {
+			if ($scope.ui.rowsDisplayedCount < vm.statuses.length) {
 				$scope.ui.rowsDisplayedCount += DEFAULT_ROWS_DISPLAYED_COUNT;
 			}
 		};

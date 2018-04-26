@@ -25,10 +25,6 @@
       taskFilter: 1
     };
 
-    $scope.ui = {
-      editStatus: false
-    };
-
     $scope.chart = {
       data: [],
       labels: _.map(statusResolve, 'name'),
@@ -144,7 +140,7 @@
       task.comments.push(comments);
       var taskService = new TasksService({_id: task._id, status: status, comments: task.comments, updated: new Date()});
       taskService.$update().then(function(updated) {
-        $scope.ui.editStatus = false;
+        task.editStatus = false;
         figureOutItemsToDisplay();
         chartSummary();
         Notification.success({

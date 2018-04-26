@@ -12,7 +12,7 @@
 
 		vm.projects = projectResolve;
 		vm.remove = remove;
-		vm.filteredProjects = [];
+		//vm.filteredProjects = [];
 		vm.getUserName = getUserName;
 
 		$scope.searchParams = {
@@ -57,8 +57,8 @@
 			}).then(function(createdItem) {
 
 				if (editMode) {
-					var projectIndex = CommonService.findIndexByID(vm.filteredProjects, project._id);
-					vm.filteredProjects[projectIndex] = createdItem;
+					var projectIndex = CommonService.findIndexByID(vm.projects, project._id);
+					vm.projects[projectIndex] = createdItem;
 				} else {
 					//vm.filteredProjects.push(createdItem);
 					vm.projects.push(createdItem);
@@ -76,8 +76,8 @@
 					project.$remove(deleteSuccessCallback, deleteErrorCallback);
 
 					function deleteSuccessCallback(res) {
-						var projectIndex = CommonService.findIndexByID(vm.filteredProjects, project._id);
-						vm.filteredProjects.splice(projectIndex, 1);
+						var projectIndex = CommonService.findIndexByID(vm.projects, project._id);
+						vm.projects.splice(projectIndex, 1);
 						Notification.success({
 							message: '<i class="glyphicon glyphicon-ok"></i> project deleted successfully'
 						});
@@ -96,7 +96,7 @@
 		}
 
 		$scope.loadMoreRows = function() {
-			if ($scope.ui.rowsDisplayedCount < vm.filteredProjects.length) {
+			if ($scope.ui.rowsDisplayedCount < vm.projects.length) {
 				$scope.ui.rowsDisplayedCount += DEFAULT_ROWS_DISPLAYED_COUNT;
 			}
 		};

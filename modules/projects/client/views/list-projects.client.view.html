@@ -40,7 +40,7 @@
                 </tr>
               </thead>
               <tbody>
-                <tr ng-repeat="project in vm.filteredProjects = (vm.projects | filter: searchParams.keyword) | orderBy: '-created' | limitTo: ui.rowsDisplayedCount track by $index">
+                <tr ng-repeat="project in vm.projects | filter: searchParams.keyword | orderBy: '-created' | limitTo: ui.rowsDisplayedCount">
                   <td>{{project.name}}</td>
                   <td>{{project.code}}</td>
                   <td>{{project.state}}</td>

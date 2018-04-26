@@ -12,7 +12,7 @@
 
 		vm.clearances = clearanceResolve;
 		vm.remove = remove;
-		vm.filteredClearances = [];
+		//vm.filteredClearances = [];
 
 		$scope.searchParams = {
 			keyword: undefined
@@ -53,8 +53,8 @@
 			}).then(function(createdItem) {
 
 				if (editMode) {
-					var clearanceIndex = CommonService.findIndexByID(vm.filteredClearances, clearance._id);
-					vm.filteredClearances[clearanceIndex] = createdItem;
+					var clearanceIndex = CommonService.findIndexByID(vm.clearances, clearance._id);
+					vm.clearances[clearanceIndex] = createdItem;
 				} else {
 					// vm.filteredClearances.push(createdItem);
 					vm.clearances.push(createdItem);
@@ -72,8 +72,8 @@
 					clearance.$remove(deleteSuccessCallback, deleteErrorCallback);
 
 					function deleteSuccessCallback(res) {
-						var clearanceIndex = CommonService.findIndexByID(vm.filteredClearances, clearance._id);
-						vm.filteredClearances.splice(clearanceIndex, 1);
+						var clearanceIndex = CommonService.findIndexByID(vm.clearances, clearance._id);
+						vm.clearances.splice(clearanceIndex, 1);
 						Notification.success({
 							message: '<i class="glyphicon glyphicon-ok"></i> clearance deleted successfully'
 						});
@@ -92,7 +92,7 @@
 		}
 
 		$scope.loadMoreRows = function() {
-			if ($scope.ui.rowsDisplayedCount < vm.filteredClearances.length) {
+			if ($scope.ui.rowsDisplayedCount < vm.clearances.length) {
 				$scope.ui.rowsDisplayedCount += DEFAULT_ROWS_DISPLAYED_COUNT;
 			}
 		};

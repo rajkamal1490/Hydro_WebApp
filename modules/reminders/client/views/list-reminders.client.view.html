@@ -37,7 +37,7 @@
                 </tr>
               </thead>
               <tbody>
-                <tr ng-repeat="reminder in vm.filteredReminders = (vm.reminders | filter: searchParams.keyword) | orderBy: 'reminderDateTime' | limitTo: ui.rowsDisplayedCount">
+                <tr ng-repeat="reminder in vm.reminders | filter: searchParams.keyword | orderBy: 'reminderDateTime' | limitTo: ui.rowsDisplayedCount">
                   <td>{{reminder.title}}</td>                
                   <td>{{reminder.reminderDateTime | date: 'yyyy-MM-dd hh:mm:ss a'}}</td>
                   <td><button class="edit btn btn-sm btn-default" ng-click="createOrUpdateReminder(reminder, true)"><i class="icon-note"></i></button>  <button class="delete btn btn-sm btn-danger" ng-click="vm.remove(reminder, $index)"><i class="icons-office-52"></i></button></td>    
