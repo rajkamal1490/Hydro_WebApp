@@ -1,0 +1,22 @@
+<section>
+  <div class="page-header">
+    <h1>Clearances</h1>
+  </div>
+  <div class="list-group">
+    <a ng-repeat="clearance in vm.clearances"
+       ui-sref="clearances.view({ clearanceId: clearance._id })"
+       class="list-group-item">
+      <small class="list-group-item-text">
+        Posted on
+        <span ng-bind="clearance.created | date:'mediumDate'"></span>
+        by
+        <span ng-if="clearance.user" ng-bind="clearance.user.displayName"></span>
+        <span ng-if="!clearance.user">Deleted User</span>
+      </small>
+      <h4 class="list-group-item-heading" ng-bind="clearance.name"></h4>
+    </a>
+  </div>
+  <div class="alert alert-warning text-center" ng-if="vm.clearances.$resolved && !vm.clearances.length">
+    No Clearances yet, why don't you <a ui-sref="clearances.create">create one</a>?
+  </div>
+</section>

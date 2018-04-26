@@ -1,0 +1,22 @@
+<section>
+  <div class="page-header">
+    <h1>Refcodetasks</h1>
+  </div>
+  <div class="list-group">
+    <a ng-repeat="refcodetask in vm.refcodetasks"
+       ui-sref="refcodetasks.view({ refcodetaskId: refcodetask._id })"
+       class="list-group-item">
+      <small class="list-group-item-text">
+        Posted on
+        <span ng-bind="refcodetask.created | date:'mediumDate'"></span>
+        by
+        <span ng-if="refcodetask.user" ng-bind="refcodetask.user.displayName"></span>
+        <span ng-if="!refcodetask.user">Deleted User</span>
+      </small>
+      <h4 class="list-group-item-heading" ng-bind="refcodetask.name"></h4>
+    </a>
+  </div>
+  <div class="alert alert-warning text-center" ng-if="vm.refcodetasks.$resolved && !vm.refcodetasks.length">
+    No Refcodetasks yet, why don't you <a ui-sref="refcodetasks.create">create one</a>?
+  </div>
+</section>
