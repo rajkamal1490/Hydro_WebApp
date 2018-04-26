@@ -5,9 +5,9 @@
     .module('users.admin')
     .controller('UserController', UserController);
 
-  UserController.$inject = ['$scope', '$state', '$window', '$mdDialog', 'Authentication', 'userResolve', 'Notification', 'USER_GROUPS'];
+  UserController.$inject = ['$scope', '$state', '$window', '$mdDialog', 'Authentication', 'userResolve', 'Notification', 'clearanceResolve'];
 
-  function UserController($scope, $state, $window, $mdDialog, Authentication, user, Notification, USER_GROUPS) {
+  function UserController($scope, $state, $window, $mdDialog, Authentication, user, Notification, clearanceResolve) {
     var vm = this;
 
     vm.authentication = Authentication;
@@ -15,7 +15,7 @@
     vm.remove = remove;
     vm.update = update;
     vm.isContextUserSelf = isContextUserSelf;
-    vm.userGroups = USER_GROUPS;
+    vm.userGroups = clearanceResolve;
     vm.cancel = cancel;
 
     $scope.ui = {

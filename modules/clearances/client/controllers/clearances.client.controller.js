@@ -31,7 +31,9 @@
         return false;
       }
 
-      vm.clearance.code = vm.clearance.name;
+      var name = vm.clearance.name;
+
+      vm.clearance.code = name.split(' ').length > 1 ? name.match(/[A-Z]/g).join('') : name;
 
       // TODO: move create/update logic to service
       if (vm.clearance._id) {

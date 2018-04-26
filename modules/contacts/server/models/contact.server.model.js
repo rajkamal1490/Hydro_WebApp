@@ -70,9 +70,9 @@ var ContactSchema = new Schema({
   visible: {
     type: [{
       type: String,
-      enum: ['executive', 'vp', 'manager', 'tl', 'staff']
+      // enum: ['executive', 'vp', 'manager', 'tl', 'staff', '']
     }],    
-    required: 'Please provide at least one group'
+    // required: 'Please provide at least one group'
   },
   updated: {
     type: Date

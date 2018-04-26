@@ -5,9 +5,9 @@
     .module('users.admin')
     .controller('UserListController', UserListController);
 
-  UserListController.$inject = ['$scope', '$filter', 'AdminService', 'Authentication', 'CommonService', '$mdDialog', 'USER_GROUPS', 'Notification'];
+  UserListController.$inject = ['$scope', '$filter', 'AdminService', 'Authentication', 'clearanceResolve', 'CommonService', '$mdDialog', 'Notification'];
 
-  function UserListController($scope, $filter, AdminService, Authentication, CommonService, $mdDialog, USER_GROUPS, Notification) {
+  function UserListController($scope, $filter, AdminService, Authentication, clearanceResolve, CommonService, $mdDialog, Notification) {
     var vm = this;
 
     vm.authentication = Authentication;
@@ -76,7 +76,8 @@
     }
 
     function getUserGroupName(role) {
-      var userGroup = _.find(USER_GROUPS, ['code', role]);
+      console.log(clearanceResolve)
+      var userGroup = _.find(clearanceResolve, ['code', role]);
       return userGroup.name;
     }
 
@@ -92,6 +93,9 @@
         resolve: {
           userResolve: function() {
             return user;
+          },
+          clearanceResolve: function() {
+            return clearanceResolve;
           }
         }
       }).then(function(updatedItem) {

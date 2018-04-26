@@ -17,7 +17,7 @@
     vm.tasks = [];
     vm.hasShowCheckInDialog = false;
     vm.starCase = starCase;
-    vm.statuses = statusResolve
+    vm.statuses = statusResolve;
 
     $scope.$on('$stateChangeSuccess', stateChangeSuccess);
 

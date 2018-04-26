@@ -9,7 +9,7 @@
   ClearancesService.$inject = ['$resource'];
 
   function ClearancesService($resource) {
-    return $resource('api/clearances/:clearanceId', {
+    return $resource('../api/clearances/:clearanceId', {
       clearanceId: '@_id'
     }, {
       update: {

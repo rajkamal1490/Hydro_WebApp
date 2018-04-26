@@ -5,15 +5,15 @@
     .module('users')
     .controller('CreateUserController', CreateUserController);
 
-  CreateUserController.$inject = ['$scope', '$state', 'UsersService', 'Notification', 'USER_GROUPS'];
+  CreateUserController.$inject = ['$scope', '$state', 'UsersService', 'Notification', 'clearanceResolve'];
 
-  function CreateUserController($scope, $state, UsersService, Notification, USER_GROUPS) {
+  function CreateUserController($scope, $state, UsersService, Notification, clearanceResolve) {
     var vm = this;
 
     // vm.authentication = Authentication;
     // vm.getPopoverMsg = PasswordValidator.getPopoverMsg;
     vm.signup = signup;
-    vm.userGroups = USER_GROUPS;
+    vm.userGroups = clearanceResolve;
 
     $scope.ui = {
       isUserInProgress: false

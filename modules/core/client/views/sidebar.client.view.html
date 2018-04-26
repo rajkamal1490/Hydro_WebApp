@@ -54,7 +54,7 @@
                     </ul>
                 </li> -->
 
-                <li class="nav-parent" ng-class="{ 'nav-active active': isActive('/admin/users, /admin/createuser, /refcodetasks, /statuses, /clearances') }" ng-show="vm.CommonService.hasExecutive(vm.authentication) || vm.CommonService.hasVp(vm.authentication)">
+                <li class="nav-parent" ng-class="{ 'nav-active active': isActive('/admin/users, /admin/createuser, /refcodetasks, /statuses, /clearances') }" ng-show="vm.CommonService.hasAdmin(vm.authentication)">
                     <a href=""><i class="icon-settings"></i><span>Settings </span><span class="fa arrow"></span></a>
                     <ul class="children collapse">
                         <li ng-class="{ 'active': isChildrenActive('/admin/users') }"><a href="/admin/users"> Users List</a></li>

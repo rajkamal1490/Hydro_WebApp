@@ -5,9 +5,9 @@
 		.module('contacts')
 		.controller('ContactsListController', ContactsListController);
 
-	ContactsListController.$inject = ['Authentication', 'ContactsService', 'CommonService', '$filter', '$scope', '$mdDialog', 'contactResolve', 'Notification'];
+	ContactsListController.$inject = ['Authentication', 'ContactsService', 'CommonService', '$filter', '$scope', '$mdDialog', 'contactResolve', 'Notification', 'clearanceResolve'];
 
-	function ContactsListController(Authentication, ContactsService, CommonService, $filter, $scope, $mdDialog, contactResolve, Notification) {
+	function ContactsListController(Authentication, ContactsService, CommonService, $filter, $scope, $mdDialog, contactResolve, Notification, clearanceResolve) {
 		var vm = this;
 		
 		vm.figureOutItemsToDisplay = figureOutItemsToDisplay;
@@ -57,6 +57,9 @@
 					editMode: function() {
 						return editMode;
 					},
+					clearanceResolve: function() {
+						return clearanceResolve;
+					}
 				}
 			}).then(function(createdItem) {
 

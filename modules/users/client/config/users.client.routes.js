@@ -1,4 +1,4 @@
-(function () {
+(function() {
   'use strict';
 
   // Setting up route
@@ -71,7 +71,12 @@
         controllerAs: 'vm',
         data: {
           pageTitle: 'Signup'
-        }
+        },
+        resolve: {
+          clearanceResolve: ['$injector', '$q', function($injector, $q) {
+            return $injector.invoke(clearanceData).$promise; // cached, otherwise we would have called IncidentNoteTitle.query().
+          }]
+        },
       })
       .state('authentication.signin', {
         url: '/signin?err',
@@ -124,5 +129,11 @@
           pageTitle: 'Password reset form'
         }
       });
+
+    clearanceData.$inject = ['ClearancesService'];
+
+    function clearanceData(ClearancesService) {
+      return ClearancesService.query();
+    }
   }
 }());

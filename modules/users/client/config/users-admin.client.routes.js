@@ -1,4 +1,4 @@
-(function () {
+(function() {
   'use strict';
 
   // Setting up route
@@ -14,7 +14,12 @@
         url: '/users',
         templateUrl: '/modules/users/client/views/admin/list-users.client.view.html',
         controller: 'UserListController',
-        controllerAs: 'vm'
+        controllerAs: 'vm',
+        resolve: {
+          clearanceResolve: ['$injector', '$q', function($injector, $q) {
+            return $injector.invoke(clearanceData).$promise; // cached, otherwise we would have called IncidentNoteTitle.query().
+          }]
+        },
       })
       .state('admin.user', {
         url: '/users/:userId',
@@ -32,7 +37,12 @@
         url: '/createuser',
         templateUrl: '/modules/users/client/views/admin/create-user.client.view.html',
         controller: 'CreateUserController',
-        controllerAs: 'vm'
+        controllerAs: 'vm',
+        resolve: {
+          clearanceResolve: ['$injector', '$q', function($injector, $q) {
+            return $injector.invoke(clearanceData).$promise; // cached, otherwise we would have called IncidentNoteTitle.query().
+          }]
+        },
       })
       .state('admin.user-edit', {
         url: '/users/:userId/edit',
@@ -53,6 +63,12 @@
       return AdminService.get({
         userId: $stateParams.userId
       }).$promise;
+    }
+
+    clearanceData.$inject = ['ClearancesService'];
+
+    function clearanceData(ClearancesService) {
+      return ClearancesService.query();
     }
   }
 }());

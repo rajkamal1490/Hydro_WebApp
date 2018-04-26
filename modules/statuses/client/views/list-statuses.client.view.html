@@ -1,6 +1,5 @@
 <section ng-init="loadinitial()">
   <div class="page-content"  ng-if="vm.statuses.length > 0">
-
     <div class="col-md-4 pull-right">
       <div>
         <h3><i class="icon-magnifier"></i> <strong>Search</strong></h3>
@@ -18,7 +17,7 @@
       </div>
     <div class="header">
       <h2>Status <strong>List</strong></h2>
-      <div style="margin-left:0; margin-top: 2%">
+      <div class="col-md-3" style="margin-top: 2%">
           <md-button class="btn btn-primary" ng-click="createOrUpdateStatus(null, false)" type="submit">Create</md-button>
         </div>
     </div>

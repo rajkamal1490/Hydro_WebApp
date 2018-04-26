@@ -18,6 +18,9 @@
         }, {
             name: "Staff",
             code: "staff"
+        }, {
+            name: "Admin",
+            code: "admin"
         }])
         .constant('COLORS', [{
             name: 'Black',

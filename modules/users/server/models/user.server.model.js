@@ -164,10 +164,10 @@ var UserSchema = new Schema({
   userGroup: {
     type: [{
       type: String,
-      enum: ['executive', 'vp', 'manager', 'tl', 'staff']
+     // enum: ['executive', 'vp', 'manager', 'tl', 'staff']
     }],
     // default: ['admin'],
-    required: 'Please provide at least one group'
+    //required: 'Please provide at least one group'
   },
   updated: {
     type: Date

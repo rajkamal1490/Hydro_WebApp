@@ -25,6 +25,9 @@
         resolve: {
           contactResolve: ['$injector', '$q', function($injector, $q) {
             return $injector.invoke(contactData).$promise;   // cached, otherwise we would have called IncidentNoteTitle.query().
+          }],
+          clearanceResolve: ['$injector', '$q', function($injector, $q) {
+            return $injector.invoke(clearanceData).$promise; // cached, otherwise we would have called IncidentNoteTitle.query().
           }]
         },
       })
@@ -86,6 +89,12 @@
 
   function contactData(ContactsService) {
     return ContactsService.query();
+  }
+
+  clearanceData.$inject = ['ClearancesService'];
+
+  function clearanceData(ClearancesService) {
+    return ClearancesService.query();
   }
 
 }());

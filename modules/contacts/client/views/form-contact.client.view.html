@@ -98,7 +98,7 @@
                       name="visible"
                       ng-model="vm.contact.visible">
                   <md-optgroup label="Visible">
-                    <md-option ng-value="userGroup.code" ng-repeat="userGroup in vm.userGroups">{{userGroup.name}}</md-option>
+                    <md-option ng-value="userGroup.code" ng-repeat="userGroup in vm.userGroups | orderBy: 'name'">{{userGroup.name}}</md-option>
                   </md-optgroup>
                 </md-select>
                 <div ng-messages="reports.visible.$error">

@@ -30,6 +30,10 @@
             return authentication.user ? _.includes(authentication.user.userGroup, USER_GROUPS[4].code) : false;
         };
 
+        CommonService.hasAdmin = function(authentication) {
+            return authentication.user ? _.includes(authentication.user.userGroup, USER_GROUPS[5].code) : false;
+        };
+
         CommonService.findIndexByID = function(array, id) {
             return _.findIndex(array, function(o) {
                 return o._id == id;

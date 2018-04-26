@@ -6,9 +6,9 @@
     .module('contacts')
     .controller('ContactsController', ContactsController);
 
-  ContactsController.$inject = ['$scope', 'ContactsService', 'editMode', '$state', '$window', 'Authentication', 'Upload', 'contactResolve', 'USER_GROUPS', 'Notification', '$mdDialog', '$timeout'];
+  ContactsController.$inject = ['$scope', 'ContactsService', 'editMode', '$state', '$window', 'Authentication', 'Upload', 'contactResolve', 'clearanceResolve', 'Notification', '$mdDialog', '$timeout'];
 
-  function ContactsController($scope, ContactsService, editMode, $state, $window, Authentication, Upload, contact, USER_GROUPS, Notification, $mdDialog, $timeout) {
+  function ContactsController($scope, ContactsService, editMode, $state, $window, Authentication, Upload, contact, clearanceResolve, Notification, $mdDialog, $timeout) {
 
     var vm = this;
 
@@ -18,7 +18,7 @@
     vm.form = {};
     vm.remove = remove;
     vm.save = save;
-    vm.userGroups = USER_GROUPS;
+    vm.userGroups = clearanceResolve;
     vm.cancel = cancel;
 
     $scope.ui = {
