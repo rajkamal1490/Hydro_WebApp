@@ -6,9 +6,9 @@
     .module('tasks')
     .controller('TasksController', TasksController);
 
-  TasksController.$inject = ['$scope', '$state', '$window', 'Authentication', 'editMode', 'PRIORITIES', '$mdDialog', '$mdpDatePicker', 'Notification', 'NotificationsService', 'task', 'taskResolve', 'TasksService', 'TASK_STATUSES', 'userResolve'];
+  TasksController.$inject = ['$scope', '$state', '$window', 'Authentication', 'editMode', 'PRIORITIES', '$mdDialog', '$mdpDatePicker', 'Notification', 'NotificationsService', 'task', 'taskResolve', 'TasksService', 'TASK_STATUSES', 'userResolve', 'refCodes', 'projects'];
 
-  function TasksController ($scope, $state, $window, Authentication, editMode, PRIORITIES, $mdDialog, $mdpDatePicker, Notification, NotificationsService, task, taskResolve, TasksService, TASK_STATUSES, userResolve) {
+  function TasksController ($scope, $state, $window, Authentication, editMode, PRIORITIES, $mdDialog, $mdpDatePicker, Notification, NotificationsService, task, taskResolve, TasksService, TASK_STATUSES, userResolve, refCodes, projects) {
     var vm = this;
 
     vm.authentication = Authentication;
@@ -21,6 +21,9 @@
     vm.priorities = PRIORITIES;
     vm.statuses = TASK_STATUSES;
     vm.loadinitial = loadinitial;
+    vm.hasIndividual = '0';
+    vm.refcodetasks = refCodes;
+    vm.projects = projects
 
     $scope.eventTime = {
       mStartClock: task ? new Date(task.startDateTime) : new Date(),
@@ -36,7 +39,7 @@
 
     $scope.ui = {
       isTaskInProgress: false,
-      editMode: editMode
+      editMode: editMode,
     };
 
 
@@ -95,8 +98,11 @@
           vm.task.$update(successCallback, errorCallback);
         }
       } else {
-        if (taskResolve.length > 0) {
-          var taskIDs = _.map(taskResolve, 'taskID');
+        var filterTasksByCode = _.filter(taskResolve, function(filterTask) {
+          return filterTask.projectCode === vm.task.projectCode && filterTask.orderCode === vm.task.orderCode && filterTask.stateCode === vm.task.stateCode && filterTask.workCode === vm.task.workCode;
+        });
+        if (filterTasksByCode.length > 0) {          
+          var taskIDs = _.map(filterTasksByCode, 'taskID');
           var latestTaskID = _.max(taskIDs);
           vm.task.taskID = latestTaskID + 1;
         } else {
@@ -110,7 +116,9 @@
             createdDate: new Date(),
             flag: 0,
           }];
+          vm.task.projectType = vm.hasIndividual;
           vm.task.comments = comments;
+          vm.task.taskCode = vm.hasIndividual === '0' ? 'INDU' + vm.task.taskID : _.upperCase(vm.task.projectCode) + _.upperCase(vm.task.orderCode) + _.upperCase(vm.task.stateCode) + _.upperCase(vm.task.workCode) + vm.task.taskID;
           vm.task.$save(successCallback, errorCallback);
         });
       }

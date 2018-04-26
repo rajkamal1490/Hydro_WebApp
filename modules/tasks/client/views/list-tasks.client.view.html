@@ -59,8 +59,8 @@
               </thead>
               <tbody>
                 <!-- <tr ng-repeat="task in vm.filteredTasks = (vm.tasks | filter: assigneefilterFunc(searchParams.assignee) | filter: statusFilterFunc(searchParams.status) | filter: searchParams.keyword) | orderBy: '-taskID' | limitTo: ui.rowsDisplayedCount track by $index" ng-click="createOrUpdateTask(task, true)"> -->
-                <tr ng-repeat="task in vm.filteredTasks = (vm.tasks | filter: assigneefilterFunc(searchParams.assignee) | filter: statusFilterFunc(searchParams.status) | filter: searchParams.keyword) | orderBy: '-taskID' | limitTo: ui.rowsDisplayedCount track by $index">
-                  <td class="col-md-2"><a ui-sref="tasks.view({ taskId: task._id })"> {{task.taskID}}</a></td>
+                <tr ng-repeat="task in vm.filteredTasks = (vm.tasks | filter: assigneefilterFunc(searchParams.assignee) | filter: statusFilterFunc(searchParams.status) | filter: searchParams.keyword) | orderBy: '-created' | limitTo: ui.rowsDisplayedCount track by $index">
+                  <td class="col-md-2"><a ui-sref="tasks.view({ taskId: task._id })"> {{task.taskCode}}</a></td>
                   <td class="col-md-4"><a ui-sref="tasks.view({ taskId: task._id })"> {{task.title}}</a></td>
                   <td class="col-md-1"><a ui-sref="tasks.view({ taskId: task._id })">{{vm.getPriorityName(task.priority)}}</a></td> 
                   <td class="col-md-2"><a ui-sref="tasks.view({ taskId: task._id })">{{vm.getUserName(task.assignee).displayName}}</a></td>

@@ -88,7 +88,7 @@ exports.create = function(req, res) {
           res.jsonp(task);
         } else {
           console.log(err);
-          return res.status(422).send({
+          return res.status(302).send({
             message: 'Failure sending email'
           });
         }
@@ -195,7 +195,7 @@ exports.update = function(req, res) {
           res.jsonp(task);
         } else {
           console.log(err);
-          return res.status(422).send({
+          return res.status(302).send({
             message: 'Failure sending email'
           });
         }

@@ -28,7 +28,13 @@
           }],
           userResolve: ['$injector', '$q', function($injector, $q) {
             return $injector.invoke(userData).$promise;   // cached, otherwise we would have called IncidentNoteTitle.query().
-          }]
+          }],
+          refCodeResolve: ['$injector', '$q', function($injector, $q) {
+            return $injector.invoke(refCodeData).$promise;   // cached, otherwise we would have called IncidentNoteTitle.query().
+          }],
+          projectResolve: ['$injector', '$q', function($injector, $q) {
+            return $injector.invoke(projectData).$promise;   // cached, otherwise we would have called IncidentNoteTitle.query().
+          }],
         },
       })
       .state('tasks.create', {
@@ -98,6 +104,18 @@
 
   function userData(AdminService) {
     return AdminService.query();
+  }
+
+  refCodeData.$inject = ['RefcodetasksService'];
+
+  function refCodeData(RefcodetasksService) {
+    return RefcodetasksService.query();
+  }
+
+  projectData.$inject = ['ProjectsService'];
+
+  function projectData(ProjectsService) {
+    return ProjectsService.query();
   }
 
 }());

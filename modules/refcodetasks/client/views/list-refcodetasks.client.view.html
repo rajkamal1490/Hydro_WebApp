@@ -1,22 +1,98 @@
-<section>
-  <div class="page-header">
-    <h1>Refcodetasks</h1>
+<section ng-init="loadinitial()">
+  <div class="page-content"  ng-if="vm.refcodetasks.length > 0">
+    <div class="col-md-4 pull-right">
+      <div>
+        <h3><i class="icon-magnifier"></i> <strong>Search</strong></h3>
+      </div>       
+        <div class="row">
+          <div class="col-md-12">
+            <div layout="row" flex>
+              <md-input-container flex>
+                <label class="my-label">Keyword</label>
+                <input type="text" name="keyword" ng-model="searchParams.keyword"/>               
+              </md-input-container>              
+            </div>
+          </div>          
+        </div>
+      </div>
+    <div class="header">
+      <h2>Ref Code <strong>List</strong></h2>
+      <div style="margin-top: 50px;">
+          <md-button class="btn btn-primary" ng-click="createOrUpdateRefCode(vm.refcodetasks[0], false)" type="submit">{{vm.refcodetasks[0].orderCodes.length <=0 && vm.refcodetasks[0].stateCodes.length <=0 && vm.refcodetasks[0].workCodes.length <=0 ? 'Create' : 'Edit' }}</md-button>
+      </div>
+    </div>
+    <div class="row">      
+      <div class="col-lg-4 portlets">         
+        <div class="panel">
+          <div class="panel-content"> 
+            <div class="control-btn">
+              <a href="#" class="panel-reload hidden" ng-click="loadinitial()"><i class="icon-reload"></i></a>
+            </div>                 
+            <table class="table table-hover dataTable" id="table-editable">
+              <thead>
+                <tr>
+                  <th style="text-align: center">Order Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr ng-repeat="order in vm.filteredRefcodetasks = (vm.refcodetasks[0].orderCodes | filter: searchParams.keyword) | orderBy: '-created'">
+                  <td style="text-align: center">{{order.orderCode | uppercase}}</td>                   
+                </tr>                      
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-4 portlets">         
+        <div class="panel">
+          <div class="panel-content"> 
+            <div class="control-btn">
+              <a href="#" class="panel-reload hidden" ng-click="loadinitial()"><i class="icon-reload"></i></a>
+            </div>                 
+            <table class="table table-hover dataTable" id="table-editable">
+              <thead>
+                <tr>
+                  <th style="text-align: center">State</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr ng-repeat="state in vm.filteredRefcodetasks = (vm.refcodetasks[0].stateCodes | filter: searchParams.keyword) | orderBy: '-created'">
+                  <td style="text-align: center">{{state.stateCode | uppercase}}</td>                     
+                </tr>                      
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-4 portlets">         
+        <div class="panel">
+          <div class="panel-content"> 
+            <div class="control-btn">
+              <a href="#" class="panel-reload hidden" ng-click="loadinitial()"><i class="icon-reload"></i></a>
+            </div>                 
+            <table class="table table-hover dataTable" id="table-editable">
+              <thead>
+                <tr>
+                  <th style="text-align: center">Work Category</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr ng-repeat="work in vm.filteredRefcodetasks = (vm.refcodetasks[0].workCodes | filter: searchParams.keyword) | orderBy: '-created'">
+                  <td style="text-align: center">{{work.workCode | uppercase}}</td>                    
+                </tr>                      
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
-  <div class="list-group">
-    <a ng-repeat="refcodetask in vm.refcodetasks"
-       ui-sref="refcodetasks.view({ refcodetaskId: refcodetask._id })"
-       class="list-group-item">
-      <small class="list-group-item-text">
-        Posted on
-        <span ng-bind="refcodetask.created | date:'mediumDate'"></span>
-        by
-        <span ng-if="refcodetask.user" ng-bind="refcodetask.user.displayName"></span>
-        <span ng-if="!refcodetask.user">Deleted User</span>
-      </small>
-      <h4 class="list-group-item-heading" ng-bind="refcodetask.name"></h4>
-    </a>
-  </div>
-  <div class="alert alert-warning text-center" ng-if="vm.refcodetasks.$resolved && !vm.refcodetasks.length">
-    No Refcodetasks yet, why don't you <a ui-sref="refcodetasks.create">create one</a>?
+  <div class="page-content">
+    <div class="alert alert-warning text-center" ng-if="vm.refcodetasks.length <= 0">
+      No refcodetasks yet, <a style="color: #000; cursor: pointer;" ng-click="createOrUpdateRefCode(null, false)"> Click here to create</a>
+    </div>
   </div>
 </section>
+
+
+

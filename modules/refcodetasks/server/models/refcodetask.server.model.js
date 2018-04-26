@@ -10,19 +10,18 @@ var mongoose = require('mongoose'),
  * Refcodetask Schema
  */
 var RefcodetaskSchema = new Schema({
-  name: {
-    type: String,
-    default: '',
-    required: 'Please fill Refcodetask name',
-    trim: true
+  orderCodes: {
+    type: Object,
+  },
+  stateCodes: {
+    type: Object
+  },
+  workCodes: {
+    type: Object
   },
   created: {
     type: Date,
     default: Date.now
-  },
-  user: {
-    type: Schema.ObjectId,
-    ref: 'User'
   }
 });
 

@@ -1,24 +1,76 @@
-<section>
-  <div class="page-header">
-    <h1>{{vm.refcodetask._id ? 'Edit Refcodetask' : 'New Refcodetask'}}</h1>
-  </div>
-  <div class="col-md-12">
-    <form name="vm.form.refcodetaskForm" class="form-horizontal" ng-submit="vm.save(vm.form.refcodetaskForm.$valid)" novalidate>
-      <fieldset>
-        <div class="form-group" show-errors>
-          <label class="control-label" for="name">Name</label>
-          <input name="name" type="text" ng-model="vm.refcodetask.name" id="name" class="form-control" placeholder="Name" required>
-          <div ng-messages="vm.form.refcodetaskForm.name.$error" role="alert">
-            <p class="help-block error-text" ng-message="required">Refcodetask name is required.</p>
+<md-dialog flex="70" style="left: 7%"> 
+  <form name="vm.refcodetaskForm" novalidate autocomplete="off">
+    <div class="modal-header bg-primary">
+      <h4>{{vm.refcodetask._id ? 'Edit Refcode' : 'Create Refcode'}}</h4>
+    </div>
+       <md-dialog-content style="padding-left: 24px">         
+          <div class="col-md-12 col-sm-12 col-xs-12">
+            <div layout="row">
+              <md-input-container flex>
+                <label class="my-label">Order Status Code</label>                      
+                  <input type="text" name="orderCode" ng-model="unconfirmedOrdercode.orderCode" style="text-transform: uppercase;"  />
+              </md-input-container>
+              <div class="pull-right">
+                  <md-button class="md-raised md-primary nonecase" style="min-width: 35px" ng-click="addOrderCode()" ng-disabled="unconfirmedOrdercode.orderCode === undefined || unconfirmedOrdercode.orderCode === ''" type="submit"><span class="glyphicon glyphicon-plus"></span></md-button>
+              </div>
+              <md-input-container flex>
+                <label class="my-label">State Code</label>                      
+                  <input type="text" name="stateCode" ng-model="unconfirmedStatecode.stateCode" style="text-transform: uppercase;" />
+              </md-input-container>
+              <div class="pull-right">
+                  <md-button class="md-raised md-primary nonecase" style="min-width: 35px" ng-click="addStateCode()" ng-disabled="unconfirmedStatecode.stateCode === undefined || unconfirmedStatecode.stateCode === ''" type="submit"><span class="glyphicon glyphicon-plus"></span></md-button>
+              </div>
+              <md-input-container flex>
+                <label class="my-label">Work Category Code</label>                      
+                  <input type="text" name="workCode" ng-model="unconfirmedWorkcode.workCode" style="text-transform: uppercase;"  />
+              </md-input-container>
+               <div class="pull-right">
+                  <md-button class="md-raised md-primary nonecase" style="min-width: 35px" ng-click="addWorkCode()" ng-disabled="unconfirmedWorkcode.workCode === undefined || unconfirmedWorkcode.workCode === ''" type="submit"><span class="glyphicon glyphicon-plus"></span></md-button>
+              </div>
+            </div>
+              <div class="col-md-4">
+                <div layout="row" flex ng-repeat="order in vm.orders track by $index" ng-init="addIsEditOrderCode(order)">
+                  <md-input-container flex>
+                    <label class="my-label">Order Status Code</label>
+                    <input type="text" name="order" ng-model="order.orderCode" style="text-transform: uppercase;" ng-disabled="!order.isEditOrderCode"/>                  
+                  </md-input-container>
+                  <div class="pull-right">  
+                    <md-button class="md-raised md-primary nonecase" style="min-width: 35px" ng-click="isEditOrderCode(order)" type="submit"><span class="glyphicon glyphicon-pencil"></span></md-button>             
+                    <md-button class="md-raised btn-danger nonecase" style="min-width: 35px" ng-click="removeOrderCode($index)" type="submit"><span class="glyphicon glyphicon-remove"></span></md-button>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div layout="row" flex ng-repeat="state in vm.states track by $index" ng-init="addIsEditStateCode(state)">
+                  <md-input-container flex>
+                    <label class="my-label">State Code</label>
+                    <input type="text" name="state" ng-model="state.stateCode" style="text-transform: uppercase;" ng-disabled="!state.isEditStateCode"/>                  
+                  </md-input-container>
+                  <div class="pull-right">  
+                    <md-button class="md-raised md-primary nonecase" style="min-width: 35px" ng-click="isEditStateCode(code)" type="submit"><span class="glyphicon glyphicon-pencil"></span></md-button>             
+                    <md-button class="md-raised btn-danger nonecase" style="min-width: 35px" ng-click="removeStateCode($index)" type="submit"><span class="glyphicon glyphicon-remove"></span></md-button>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div layout="row" flex  ng-repeat="work in vm.works track by $index" ng-init="addIsEditWorkCode(work)">
+                  <md-input-container flex>
+                    <label class="my-label">Work Category Code</label>
+                    <input type="text" name="work" ng-model="work.workCode" style="text-transform: uppercase;" ng-disabled="!work.isEditWorkCode"/>                  
+                  </md-input-container>
+                  <div class="pull-right">  
+                    <md-button class="md-raised md-primary nonecase" style="min-width: 35px" ng-click="isEditWorkCode(work)" type="submit"><span class="glyphicon glyphicon-pencil"></span></md-button>             
+                    <md-button class="md-raised btn-danger nonecase" style="min-width: 35px" ng-click="removeWorkCode($index)" type="submit"><span class="glyphicon glyphicon-remove"></span></md-button>
+                  </div>
+                </div>                                        
+             </div>
+
           </div>
-        </div>
-        <div class="form-group">
-          <button type="submit" class="btn btn-default">{{vm.refcodetask._id ? 'Update' : 'Create'}}</button>
-        </div>
-        <div ng-show="vm.error" class="text-danger">
-          <strong ng-bind="vm.error"></strong>
-        </div>
-      </fieldset>
-    </form>
-  </div>
-</section>
+      </md-dialog-content>
+     <md-dialog-actions layout="row"> 
+        <md-button class="btn btn-next btn-fill btn-success btn-wd"  ng-hide="ui.isRefcodetaskInProgress" flex ng-click="vm.save(vm.refcodetaskForm.$valid)" type="submit">{{vm.refcodetask._id ? 'Update' : 'Create'}}</md-button>
+        <md-button class="btn btn-next btn-fill btn-success btn-wd"  ng-disabled="true" flex ng-show="ui.isRefcodetaskInProgress" type="submit"><i class="fa fa-spinner fa-spin"></i> {{vm.refcodetask._id ? 'Updating' : 'Creating'}}</md-button>
+        <md-button class="btn btn-next btn-fill btn-warning btn-wd" flex ng-click="vm.cancel()" type="submit">Cancel</md-button>
+      </md-dialog-actions>   
+  </form>
+</md-dialog>

@@ -63,7 +63,25 @@ var TaskSchema = new Schema({
   taskID:{
     type:Number
   },
+  taskCode:{
+    type:String
+  },
   notificationId: {
+    type: String
+  },
+  projectType: {
+    type: String
+  },
+  projectCode: {
+    type: String
+  },
+  orderCode: {
+    type: String
+  },
+  stateCode: {
+    type: String
+  },
+  workCode: {
     type: String
   },
   updated: {

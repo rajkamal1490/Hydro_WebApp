@@ -54,11 +54,14 @@
                     </ul>
                 </li> -->
 
-                <li class="nav-parent" ng-class="{ 'nav-active active': isActive('/admin/users, /admin/createuser') }" ng-show="vm.CommonService.hasExecutive(vm.authentication) || vm.CommonService.hasVp(vm.authentication)">
-                    <a href=""><i class="icon-user"></i><span>Users </span><span class="fa arrow"></span></a>
+                <li class="nav-parent" ng-class="{ 'nav-active active': isActive('/admin/users, /admin/createuser, /refcodetasks, /statuses, /clearances') }" ng-show="vm.CommonService.hasExecutive(vm.authentication) || vm.CommonService.hasVp(vm.authentication)">
+                    <a href=""><i class="icon-settings"></i><span>Settings </span><span class="fa arrow"></span></a>
                     <ul class="children collapse">
                         <li ng-class="{ 'active': isChildrenActive('/admin/users') }"><a href="/admin/users"> Users List</a></li>
                         <li ng-class="{ 'active': isChildrenActive('/admin/createuser') }"><a ui-sref="admin.user-create"> Create User</a></li>
+                        <li ng-class="{ 'active': isChildrenActive('/refcodetasks') }"><a href="/refcodetasks"> Ref Code</a></li>
+                        <li ng-class="{ 'active': isChildrenActive('/statuses') }"><a href="/statuses"> Status</a></li>
+                        <li ng-class="{ 'active': isChildrenActive('/clearances') }"><a href="/clearances"> Clearance</a></li>
                     </ul>
                 </li>
             </ul>

@@ -5,9 +5,9 @@
 		.module('tasks')
 		.controller('TasksListController', TasksListController);
 
-	TasksListController.$inject = ['CommonService', 'DEFAULT_ROWS_DISPLAYED_COUNT', 'PRIORITIES', '$filter', '$scope', '$mdDialog', 'taskResolve', 'TASK_STATUSES', 'userResolve'];
+	TasksListController.$inject = ['CommonService', 'DEFAULT_ROWS_DISPLAYED_COUNT', 'PRIORITIES', '$filter', '$scope', '$mdDialog', 'taskResolve', 'TASK_STATUSES', 'userResolve', 'refCodeResolve', 'projectResolve'];
 
-	function TasksListController(CommonService, DEFAULT_ROWS_DISPLAYED_COUNT, PRIORITIES, $filter, $scope, $mdDialog, taskResolve, TASK_STATUSES, userResolve) {
+	function TasksListController(CommonService, DEFAULT_ROWS_DISPLAYED_COUNT, PRIORITIES, $filter, $scope, $mdDialog, taskResolve, TASK_STATUSES, userResolve, refCodeResolve, projectResolve) {
 		var vm = this;
 		
 		vm.getPriorityName = getPriorityName;
@@ -60,7 +60,13 @@
 					},
 					userResolve: function() {
 						return userResolve;
-					}
+					},
+					refCodes: function() {
+						return refCodeResolve;
+					},
+					projects: function() {
+						return projectResolve;
+					},
 				}
 			}).then(function(createdItem) {
 

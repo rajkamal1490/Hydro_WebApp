@@ -21,6 +21,11 @@
         controllerAs: 'vm',
         data: {
           pageTitle: 'Refcodetasks List'
+        },
+        resolve: {
+          refcodetasksResolve: ['$injector', '$q', function($injector, $q) {
+            return $injector.invoke(refcodetasksData).$promise; // cached, otherwise we would have called IncidentNoteTitle.query().
+          }]
         }
       })
       .state('refcodetasks.create', {
@@ -76,4 +81,11 @@
   function newRefcodetask(RefcodetasksService) {
     return new RefcodetasksService();
   }
+
+  refcodetasksData.$inject = ['RefcodetasksService'];
+
+  function refcodetasksData(RefcodetasksService) {
+    return RefcodetasksService.query();
+  }
+
 }());

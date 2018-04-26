@@ -79,14 +79,85 @@
                 </div>
               </md-input-container>
              </div>
+
+             <div layout="row" flex>
+              <md-input-container flex>
+                <label class="my-label">Project Type</label> <br /><br />
+                <md-radio-group ng-model="vm.hasIndividual" layout="row">
+                <md-radio-button value="0" class="md-primary">Individual </md-radio-button>
+                <md-radio-button value="1" class="md-primary"> Project </md-radio-button>
+                </md-radio-group>
+              </md-input-container>
+            </div>
+
+             <div layout="row" flex ng-if="vm.hasIndividual === '1'">
+
+               <md-input-container flex>
+                <label class="my-label">Project Name</label>               
+                <md-select
+                        required
+                        name="projectname"
+                        ng-model="vm.task.projectCode">
+                  <md-optgroup label="Project Name">
+                    <md-option ng-value="project.code" ng-repeat="project in vm.projects">{{project.name}}</md-option>
+                  </md-optgroup>
+                </md-select>
+                <div ng-messages="vm.taskForm.order.$error">
+                    <div ng-message="required">Project Name is required.</div>
+                </div>
+              </md-input-container> 
+               
+              <md-input-container flex>
+                <label class="my-label">Order Status</label>               
+                <md-select
+                        required
+                        name="order"
+                        ng-model="vm.task.orderCode">
+                  <md-optgroup label="Order Status">
+                    <md-option ng-value="order.orderCode" ng-repeat="order in vm.refcodetasks[0].orderCodes">{{order.orderCode | uppercase}}</md-option>
+                  </md-optgroup>
+                </md-select>
+                <div ng-messages="vm.taskForm.order.$error">
+                    <div ng-message="required">Order Status is required.</div>
+                </div>
+              </md-input-container>   
+
+               <md-input-container flex>
+                <label class="my-label">State</label>               
+                <md-select
+                        required
+                        name="state"
+                        ng-model="vm.task.stateCode">
+                  <md-optgroup label="State">
+                    <md-option ng-value="state.stateCode" ng-repeat="state in vm.refcodetasks[0].stateCodes">{{state.stateCode | uppercase}}</md-option>
+                  </md-optgroup>
+                </md-select>
+                <div ng-messages="vm.taskForm.state.$error">
+                    <div ng-message="required">State is required.</div>
+                </div>
+              </md-input-container> 
+
+               <md-input-container flex>
+                <label class="my-label">Work Category</label>               
+                <md-select
+                        required
+                        name="work"
+                        ng-model="vm.task.workCode">
+                  <md-optgroup label="Work Category">
+                    <md-option ng-value="work.workCode" ng-repeat="work in vm.refcodetasks[0].workCodes">{{work.workCode | uppercase}}</md-option>
+                  </md-optgroup>
+                </md-select>
+                <div ng-messages="vm.taskForm.work.$error">
+                    <div ng-message="required">Work Category is required.</div>
+                </div>
+              </md-input-container>             
+             </div>
+
              <div layout="row" flex>                       
                
               <md-input-container flex>
                 <label class="my-label">Comments</label>
-                <input required type="text" name="comment" ng-model="vm.task.comment"/>
-                <div ng-messages="vm.taskForm.comment.$error">
-                  <div ng-message="required">Comments is required.</div>
-                </div>
+                <input type="text" name="comment" ng-model="vm.task.comment"/>                
               </md-input-container>
              </div>
              <div layout="row" flex ng-if="vm.authentication.user._id === vm.task.assignee && ui.editMode">               
