@@ -5,9 +5,9 @@
     .module('meetings')
     .controller('MeetingsListController', MeetingsListController);
 
-  MeetingsListController.$inject = ['MeetingsService', 'CommonService', '$scope', '$mdDialog', 'meetingResolve', '$timeout', 'userResolve'];
+  MeetingsListController.$inject = ['MeetingsService', 'EmployeeMeetingsService', 'CommonService', '$scope', '$mdDialog', 'meetingResolve', '$timeout', 'userResolve'];
 
-  function MeetingsListController(MeetingsService, CommonService, $scope, $mdDialog, meetingResolve, $timeout, userResolve) {
+  function MeetingsListController(MeetingsService, EmployeeMeetingsService, CommonService, $scope, $mdDialog, meetingResolve, $timeout, userResolve) {
     var vm = this;
 
     $scope.model = {
@@ -68,7 +68,7 @@
             console.log('no');
           });
       }
-      
+
     }
 
     $scope.eventClick = function(event) {
@@ -79,6 +79,28 @@
         }
         return oldShow(options);
       };
+
+      var postData = {
+        meetingId: event._id
+      };
+
+      EmployeeMeetingsService.validateAlreadyCreatedMinutes(postData).then(function(results) {
+        if (results.length > 0) {
+          editMeeting(event);
+        } else {
+          var confirm = $mdDialog.confirm().title('Do you edit or start the meeting?').ok('Edit Meeting').cancel('Start Meeting').multiple(true).clickOutsideToClose(false).escapeToClose(false);
+          $mdDialog.show(confirm).then(function() {
+              editMeeting(event);
+            },
+            function() {
+              startMeeting(event);
+            });
+        }
+
+      });
+    }
+
+    function editMeeting(event) {
       MeetingsService.get({
         meetingId: event._id
       }, function(data) {
@@ -124,7 +146,42 @@
             console.log('You cancelled the dialog.');
           });
       });
-    }
+    };
+
+    function startMeeting(event) {
+      MeetingsService.get({
+        meetingId: event._id
+      }, function(data) {
+        $mdDialog.show({
+            controller: 'StartMeetingsController',
+            controllerAs: 'vm',
+            templateUrl: '/modules/meetings/client/views/start-meeting.client.view.html',
+            parent: angular.element(document.body),
+            clickOutsideToClose: false,
+            escapeToClose: false,
+            fullscreen: true,
+            resolve: {
+              selectedDate: function() {
+                return event.start;
+              },
+              selectedEvent: function() {
+                return data;
+              },
+              userResolve: function() {
+                return userResolve;
+              },
+              meetingStartTime: function() {
+                return new Date();
+              }
+            },
+          })
+          .then(function(updatedItem) {
+            
+          }, function() {
+            console.log('You cancelled the dialog.');
+          });
+      });
+    };
 
     $scope.renderView = function(view) {
       //alert(view)
