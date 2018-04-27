@@ -1,6 +1,6 @@
 <section ng-init="loadInitial()">
     <div class="page-content">
-        <div class="col-xlg-5 col-lg-5">
+        <div class="col-xlg-6 col-lg-6">
             <div class="row">
                 <div class="panel no-bd bd-3 panel-stat">
                     <div class="panel-header">
@@ -46,7 +46,7 @@
             </div>
         </div>
 
-        <div class="col-xlg-7 col-lg-7 col-visitors">
+        <div class="col-xlg-6 col-lg-6 col-visitors">
             <div class="row">
                 <div class="col-md-12">
                     <div class="panel no-bd bd-3 panel-stat">
@@ -63,13 +63,12 @@
                                         <th class="text-center">Id</th>
                                         <th class="text-center">Title</th>
                                         <th class="text-center">Status</th>
-                                        <th class="text-center">Priority</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr ng-repeat="task in vm.pagedItems | orderBy: '-taskID'" >
                                         <td class="col-md-1 text-center"><a ui-sref="tasks.view({ taskId: task._id })"> {{task.taskCode}}</a></td>
-                                        <td class="col-md-5 text-center"><a ui-sref="tasks.view({ taskId: task._id })">{{task.title}}</a></td>
+                                        <td class="col-md-7 text-center"><a ui-sref="tasks.view({ taskId: task._id })">{{task.title}}</a></td>
                                         <td class="col-md-2 text-center" ng-click="task.editStatus = true;">
                                           <span ng-hide="task.editStatus"> {{vm.starCase(task.status)}} </span>
                                               <md-select
@@ -80,8 +79,7 @@
                                                   <md-option ng-value="status.code" ng-repeat="status in vm.statuses" ng-click="updateStatus(task, status.code)">{{status.name}}</md-option>
                                                 </md-optgroup>
                                               </md-select>
-                                      </td>
-                                        <td class="col-md-2 text-center"><a ui-sref="tasks.view({ taskId: task._id })">{{vm.getPriorityName(task.priority)}}</a></td>
+                                      </td>                                        
                                     </tr>                      
                                 </tbody>
                             </table>

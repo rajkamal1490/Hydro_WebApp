@@ -3,7 +3,22 @@
     <div class="page-header">
       <h2>File <strong>Managers</strong></h2>
           <md-button class="btn btn-primary btn-sm pull-right" ng-click="fileUpload()" type="submit"><i class="mdi-file-cloud-upload" style="font-size: 25px"></i></md-button>
-    </div>
+      <div class="col-md-4 pull-right">
+      <div>
+        <h3><i class="icon-magnifier"></i> <strong>Search</strong></h3>
+      </div>       
+        <div class="row">
+          <div class="col-md-12">
+            <div layout="row" flex>
+              <md-input-container flex>
+                <label class="my-label">Keyword</label>
+                <input type="text" name="keyword" ng-model="searchParams.keyword"/>               
+              </md-input-container>              
+            </div>
+          </div>          
+        </div>
+      </div>
+      </div>
     <div class="row">      
       <div class="col-lg-12 portlets">
         <div class="panel"> 
@@ -17,7 +32,7 @@
                       <strong>&nbsp;&nbsp;&nbsp;&nbsp;Recent</strong> Files
                       <hr>
                     </h3>
-                    <div class="col-xlg-2 col-lg-3 col-md-3 col-sm-3 col-xs-12" ng-repeat="file in model.files | orderBy: '-created' | limitTo: 4">
+                    <div class="col-xlg-2 col-lg-3 col-md-3 col-sm-3 col-xs-12" ng-repeat="file in model.files | filter: searchParams.keyword | orderBy: '-created' | limitTo: 4">
                       <div class="panel">
                         <div class="panel-content widget-info">
                           <div class="row">
@@ -39,7 +54,7 @@
                       <strong>&nbsp;&nbsp;&nbsp;&nbsp; Important</strong> Files
                       <hr>
                     </h3>
-                    <div class="col-xlg-2 col-lg-3 col-md-3 col-sm-3 col-xs-12" ng-repeat="file in model.files | orderBy: '-created' | filter: { hasImportant: true }">
+                    <div class="col-xlg-2 col-lg-3 col-md-3 col-sm-3 col-xs-12" ng-repeat="file in model.files | filter: searchParams.keyword | orderBy: '-created' | filter: { hasImportant: true }">
                       <div class="panel">
                         <div class="panel-content widget-info">
                           <div class="row">
@@ -61,7 +76,7 @@
                       <strong>&nbsp;&nbsp;&nbsp;&nbsp; All </strong> Files
                       <hr>
                     </h3>
-                    <div class="col-xlg-2 col-lg-3 col-md-3 col-sm-3 col-xs-12" ng-repeat="file in model.files | orderBy: '-created' | filter: { hasImportant: false }">
+                    <div class="col-xlg-2 col-lg-3 col-md-3 col-sm-3 col-xs-12" ng-repeat="file in model.files | filter: searchParams.keyword | orderBy: '-created' | filter: { hasImportant: false }">
                       <div class="panel">
                         <div class="panel-content widget-info">
                           <div class="row">
