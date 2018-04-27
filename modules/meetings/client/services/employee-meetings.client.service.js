@@ -19,6 +19,11 @@ angular
         isArray: true,
         url: 'api/employeemeetings/getmymeetings'
       },
+      getAlreadyCreatedMinutes: {
+        method: 'POST',
+        isArray: true,
+        url: 'api/startmeetings/validatealreadycreatedminutes'
+      },
     });
 
     angular.extend(EmployeeMeetings, {
@@ -27,7 +32,10 @@ angular
       },
       requestFindMyMeetingsByUser: function (meetings) {
         return this.getMyMeetings(meetings).$promise;
-      }
+      },
+      validateAlreadyCreatedMinutes: function (meetings) {
+        return this.getAlreadyCreatedMinutes(meetings).$promise;
+      },
     });
 
     return EmployeeMeetings;
