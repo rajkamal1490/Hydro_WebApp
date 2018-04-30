@@ -6,15 +6,16 @@
     .module('file-managers')
     .controller('FileManagersController', FileManagersController);
 
-  FileManagersController.$inject = ['$timeout', 'Upload', 'Notification', 'havingProgressBar', '$scope', '$mdDialog', 'PROFILE_MAX_SIZE', 'FileManagersService'];
+  FileManagersController.$inject = ['$timeout', 'Upload', 'Notification', 'havingProgressBar', '$scope', '$mdDialog', 'PROFILE_MAX_SIZE', 'FileManagersService', 'folders'];
 
-  function FileManagersController ($timeout, Upload, Notification, havingProgressBar, $scope, $mdDialog, PROFILE_MAX_SIZE, FileManagersService) {
+  function FileManagersController ($timeout, Upload, Notification, havingProgressBar, $scope, $mdDialog, PROFILE_MAX_SIZE, FileManagersService, folders) {
     var vm = this;
     
     vm.fileManager = new FileManagersService();
    
     $scope.model = {
-      fileUpload: undefined
+      fileUpload: undefined,
+      folders: folders
     }
 
     $scope.ui = {

@@ -27,6 +27,23 @@
           Has Important
         </label>
       </div>
+      <div class="checkbox checkbox-success text-center">
+        <label>
+         <md-input-container flex>
+                  <label class="my-label">Drop Here</label>                  
+                  <md-select  required
+                              name="folder"
+                              ng-model="vm.fileManager.foldername">
+                    <md-optgroup label="Drop Here">
+                      <md-option ng-value="folder.code" ng-repeat="folder in model.folders">{{folder.name}}</md-option>
+                    </md-optgroup>
+                  </md-select>    
+                  <div ng-messages="vm.fileUpload.folder.$error">
+                    <div ng-message="required">Folder Name is required.</div>
+                  </div>
+              </md-input-container>
+        </label>
+      </div>
         <md-button class="btn btn-warning"  ng-disabled="mixins.havingProgressBar.progress" ng-click="vm.fileSelected = false">Remove</md-button>
       </div>
     </md-dialog-content>
@@ -34,7 +51,7 @@
       <span flex></span>
         <md-button class="btn btn-next btn-fill btn-success btn-wd" flex ng-click="save()" type="submit">Save</md-button>        
       <span flex></span>
-        <md-button class="btn btn-next btn-fill btn-warning btn-wd" flex ng-disabled="mixins.havingProgressBar.progress || vm.fileSelected" ng-click="close()" type="submit">Cancel</md-button>
+        <md-button class="btn btn-next btn-fill btn-warning btn-wd" flex ng-disabled="mixins.havingProgressBar.progress" ng-click="close()" type="submit">Cancel</md-button>
         <span flex></span>
     </md-dialog-actions>   
   </form>

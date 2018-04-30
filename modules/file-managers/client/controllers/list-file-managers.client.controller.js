@@ -5,13 +5,17 @@
 		.module('file-managers')
 		.controller('FileManagersListController', FileManagersListController);
 
-	FileManagersListController.$inject = ['CommonService', '$scope', '$mdDialog', 'fileManagerResolve', 'Notification', 'FileManagersService', 'MinutesOfMeetingResolve'];
+	FileManagersListController.$inject = ['CommonService', '$scope', '$mdDialog', 'fileManagerResolve', 'folderManagerResolve', 'Notification', 'FileManagersService', 'MinutesOfMeetingResolve'];
 
-	function FileManagersListController(CommonService, $scope, $mdDialog, fileManagerResolve, Notification, FileManagersService, MinutesOfMeetingResolve) {
+	function FileManagersListController(CommonService, $scope, $mdDialog, fileManagerResolve, folderManagerResolve, Notification, FileManagersService, MinutesOfMeetingResolve) {
 		var vm = this;
+
+		vm.gotoFolder = false;
+		vm.foldercode = undefined;
 
 		$scope.model = {
 			files: fileManagerResolve,
+			folders: folderManagerResolve,
 			minutesOfMeeting: MinutesOfMeetingResolve
 		};
 
@@ -25,8 +29,39 @@
 				clickOutsideToClose: false,
 				escapeToClose: false,
 				fullscreen: true,
+				resolve: {
+					folders: function() {
+						return $scope.model.folders;
+					}
+				}
 			}).then(function(response) {
 				$scope.model.files.unshift(response);
+			}, function() {
+				console.log('You cancelled the dialog.');
+			});
+
+		};
+
+		$scope.creatFolder = function() {
+
+			$mdDialog.show({
+				controller: 'CreateFolderController',
+				controllerAs: 'vm',
+				templateUrl: '/modules/file-managers/client/views/create-folder.client.view.html',
+				parent: angular.element(document.body),
+				clickOutsideToClose: false,
+				escapeToClose: false,
+				fullscreen: true,
+				resolve: {
+					folder: function() {
+						return null;
+					},
+					editMode: function() {
+						return true;
+					}
+				}
+			}).then(function(response) {
+				$scope.model.folders.unshift(response);
 			}, function() {
 				console.log('You cancelled the dialog.');
 			});
@@ -60,8 +95,11 @@
 					console.log('no');
 				});
 			});
+		};
 
-
+		$scope.clickFolder = function(folder) {
+			vm.gotoFolder = true;
+			vm.foldercode = folder.code;
 		};
 	}
 }());

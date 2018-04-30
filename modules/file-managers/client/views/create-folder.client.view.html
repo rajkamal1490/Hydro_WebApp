@@ -1,0 +1,26 @@
+<md-dialog flex="30" style="left: 7%"> 
+  <form name="vm.folderForm" novalidate autocomplete="off">
+    <div class="modal-header bg-primary">
+      <h4>{{vm.folder._id ? 'Edit folder' : 'Create folder'}}</h4>
+    </div>
+       <md-dialog-content style="padding-left: 24px">         
+          <div class="col-md-12 col-sm-12 col-xs-12">
+            <div layout="column" flex>
+              <md-input-container flex>
+                <label class="my-label">Name</label>
+                <input required type="text" name="name" ng-model="vm.folder.name"/>
+                <div ng-messages="vm.folderForm.name.$error">
+                  <div ng-message="required">Name is required.</div>
+                </div>
+              </md-input-container>              
+             </div>
+
+          </div>
+      </md-dialog-content>
+     <md-dialog-actions layout="row"> 
+        <md-button class="btn btn-next btn-fill btn-success btn-wd"  ng-hide="ui.isFolderInProgress" flex ng-click="vm.save(vm.folderForm.$valid)" type="submit">{{vm.folder._id ? 'Update' : 'Create'}}</md-button>
+        <md-button class="btn btn-next btn-fill btn-success btn-wd"  ng-disabled="true" flex ng-show="ui.isFolderInProgress" type="submit"><i class="fa fa-spinner fa-spin"></i> {{vm.folder._id ? 'Updating' : 'Creating'}}</md-button>
+        <md-button class="btn btn-next btn-fill btn-warning btn-wd" flex ng-click="vm.cancel()" type="submit">Cancel</md-button>
+      </md-dialog-actions>   
+  </form>
+</md-dialog>

@@ -28,7 +28,10 @@
           }],
           MinutesOfMeetingResolve: ['$injector', '$q', function($injector, $q) {
             return $injector.invoke(minutesOfMeetingData).$promise;   // cached, otherwise we would have called IncidentNoteTitle.query().
-          }]
+          }],
+          folderManagerResolve: ['$injector', '$q', function($injector, $q) {
+            return $injector.invoke(folderManagerData).$promise;   // cached, otherwise we would have called IncidentNoteTitle.query().
+          }],
         },
       })
       .state('file-managers.create', {
@@ -89,6 +92,12 @@
 
   function fileManagerData(FileManagersService) {
     return FileManagersService.query();
+  }
+
+  folderManagerData.$inject = ['FolderManagersService'];
+
+  function folderManagerData(FolderManagersService) {
+    return FolderManagersService.query();
   }
 
   minutesOfMeetingData.$inject = ['StartMeetingsService'];

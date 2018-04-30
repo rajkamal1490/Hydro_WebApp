@@ -7,20 +7,15 @@ var mongoose = require('mongoose'),
   Schema = mongoose.Schema;
 
 /**
- * File manager Schema
+ * Folder manager Schema
  */
-var FileManagerSchema = new Schema({
-  fileURL: {
+var FolderManagerSchema = new Schema({  
+  name: {
     type: String,
   },
-  filename: {
+  code: {
     type: String,
-  },
-  hasImportant: {
-    type: Boolean,
-  },
-  foldername: {
-    type: String,
+    lowercase: true
   },
   created: {
     type: Date,
@@ -32,4 +27,4 @@ var FileManagerSchema = new Schema({
   }
 });
 
-mongoose.model('FileManager', FileManagerSchema);
+mongoose.model('FolderManager', FolderManagerSchema);
