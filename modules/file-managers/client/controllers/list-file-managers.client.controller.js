@@ -5,9 +5,9 @@
 		.module('file-managers')
 		.controller('FileManagersListController', FileManagersListController);
 
-	FileManagersListController.$inject = ['CommonService', '$scope', '$mdDialog', 'fileManagerResolve', 'Notification'];
+	FileManagersListController.$inject = ['CommonService', '$scope', '$mdDialog', 'fileManagerResolve', 'Notification', 'FileManagersService'];
 
-	function FileManagersListController(CommonService, $scope, $mdDialog, fileManagerResolve, Notification) {
+	function FileManagersListController(CommonService, $scope, $mdDialog, fileManagerResolve, Notification, FileManagersService) {
 		var vm = this;
 
 		$scope.model = {
@@ -34,11 +34,15 @@
 
 		$scope.deleteFile = function(file) {
 			var confirm = $mdDialog.confirm().title('Do you want to delete the file?').textContent('File detail will be deleted permanently.').ok('Yes').cancel('No').multiple(true);
-			$mdDialog.show(confirm).then(function() {
-					file.$remove(deleteSuccessCallback, deleteErrorCallback);
+			FileManagersService.get({
+				fileManagerId: file._id
+			}, function(data) {
+				$mdDialog.show(confirm).then(function() {
+					data.$remove(deleteSuccessCallback, deleteErrorCallback);
+
 					function deleteSuccessCallback(res) {
 						var index = CommonService.findIndexByID($scope.model.files, file._id);
-						$scope.model.files.splice(index, 1);						
+						$scope.model.files.splice(index, 1);
 						Notification.success({
 							message: '<i class="glyphicon glyphicon-ok"></i> File deleted successfully'
 						});
@@ -54,6 +58,9 @@
 				function() {
 					console.log('no');
 				});
+			});
+
+
 		};
 	}
 }());
