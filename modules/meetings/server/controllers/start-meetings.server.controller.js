@@ -115,122 +115,122 @@ exports.validateAlreadyCreatedMinutes = function(req, res) {
 
 exports.createMinutesOfMeetingDocx = function(req, res) {
   var server = (process.env.NODE_ENV === 'secure' ? 'https://' : 'http://') + req.headers.host + "/";
-  // var table = [
-  //   [{
-  //     val: "No.",
-  //     opts: {
-  //       align: "center",
-  //       cellColWidth: 42,
-  //       b: true,
-  //       sz: '24',
-  //       shd: {
-  //         fill: "FFFFFF",
-  //       }
-  //     }
-  //   }, {
-  //     val: "Topics",
-  //     opts: {
-  //       align: "center",
-  //       cellColWidth: 42,
-  //       b: true,
-  //       sz: '24',
-  //       shd: {
-  //         fill: "FFFFFF",
-  //       }
-  //     }
-  //   }, {
-  //     val: "Solution Provided",
-  //     opts: {
-  //       align: "center",
-  //       cellColWidth: 20,
-  //       b: true,
-  //       sz: '24',
-  //       shd: {
-  //         fill: "FFFFFF",
-  //       }
-  //     }
-  //   }, {
-  //     val: "Action Plan",
-  //     opts: {
-  //       align: "center",
-  //       cellColWidth: 20,
-  //       b: true,
-  //       sz: '24',
-  //       shd: {
-  //         fill: "FFFFFF",
-  //       }
-  //     }
-  //   }, {
-  //     val: "Decision By",
-  //     opts: {
-  //       align: "center",
-  //       cellColWidth: 20,
-  //       b: true,
-  //       sz: '24',
-  //       shd: {
-  //         fill: "FFFFFF",
-  //       }
-  //     }
-  //   }]
-  // ];
-  // var sn = 0;
-  // req.body.minutes.agendas.forEach(function(element) {
-  //   var neededAttributes = _.pick(element, ['agendaTitle', 'agendaSolution', 'agendaActionPlan', 'agendaResponsiblePerson'] );  
-  //   sn += 1;
-  //   var values = _.values(neededAttributes);
-  //   element = [sn, ...values];
-  //   var array = [];
-  //   element.forEach(function(ele) {      
-  //     array.push({val: ele, opts: { shd: {fill: "FFFFFF"} }});
-  //   });
-  //   table.push(array);
-  // });
-  // var filePath = config.uploads.fileManager.file.dest + req.body.minutes.title + '.docx';
-  // var out = fs.createWriteStream(filePath);
-  // var title = docx.createP({
-  //   align: 'center'
-  // });
-  // title.addText(req.body.minutes.title, {
-  //   bold: true,
-  //   underline: true
-  // });
+  var table = [
+    [{
+      val: "No.",
+      opts: {
+        align: "center",
+        cellColWidth: 42,
+        b: true,
+        sz: '24',
+        shd: {
+          fill: "FFFFFF",
+        }
+      }
+    }, {
+      val: "Topics",
+      opts: {
+        align: "center",
+        cellColWidth: 42,
+        b: true,
+        sz: '24',
+        shd: {
+          fill: "FFFFFF",
+        }
+      }
+    }, {
+      val: "Solution Provided",
+      opts: {
+        align: "center",
+        cellColWidth: 20,
+        b: true,
+        sz: '24',
+        shd: {
+          fill: "FFFFFF",
+        }
+      }
+    }, {
+      val: "Action Plan",
+      opts: {
+        align: "center",
+        cellColWidth: 20,
+        b: true,
+        sz: '24',
+        shd: {
+          fill: "FFFFFF",
+        }
+      }
+    }, {
+      val: "Decision By",
+      opts: {
+        align: "center",
+        cellColWidth: 20,
+        b: true,
+        sz: '24',
+        shd: {
+          fill: "FFFFFF",
+        }
+      }
+    }]
+  ];
+  var sn = 0;
+  req.body.minutes.agendas.forEach(function(element) {
+    var neededAttributes = _.pick(element, ['agendaTitle', 'agendaSolution', 'agendaActionPlan', 'agendaResponsiblePerson'] );  
+    sn += 1;
+    var values = _.values(neededAttributes);
+    element = [sn, ...values];
+    var array = [];
+    element.forEach(function(ele) {      
+      array.push({val: ele, opts: { shd: {fill: "FFFFFF"} }});
+    });
+    table.push(array);
+  });
+  var filePath = config.uploads.fileManager.file.dest + req.body.minutes.title + '.docx';
+  var out = fs.createWriteStream(filePath);
+  var title = docx.createP({
+    align: 'center'
+  });
+  title.addText(req.body.minutes.title, {
+    bold: true,
+    underline: true
+  });
 
-  // var date = docx.createP({
-  //   align: 'left'
-  // });
-  // date.addText('Started Date: ' + req.body.minutes.startedTime, {
-  //   bold: true,
-  // });
+  var date = docx.createP({
+    align: 'left'
+  });
+  date.addText('Started Date: ' + req.body.minutes.startedTime, {
+    bold: true,
+  });
 
-  // var duration = docx.createP({
-  //   align: 'left'
-  // });
-  // duration.addText('Duration: ' + req.body.minutes.duration, {
-  //   bold: true,
-  // });
+  var duration = docx.createP({
+    align: 'left'
+  });
+  duration.addText('Duration: ' + req.body.minutes.duration, {
+    bold: true,
+  });
 
-  // var attendees = docx.createP({
-  //   align: 'left'
-  // });
-  // attendees.addText('Attendess: ' + _.map(req.body.minutes.attendees, 'displayName'), {
-  //   bold: true,
-  // });
+  var attendees = docx.createP({
+    align: 'left'
+  });
+  attendees.addText('Attendess: ' + _.map(req.body.minutes.attendees, 'displayName'), {
+    bold: true,
+  });
 
-  // var facilator = docx.createP({
-  //   align: 'left'
-  // });
-  // facilator.addText('Facilator: ' + req.body.minutes.facilitator.displayName, {
-  //   bold: true,
-  // });  
+  var facilator = docx.createP({
+    align: 'left'
+  });
+  facilator.addText('Facilator: ' + req.body.minutes.facilitator.displayName, {
+    bold: true,
+  });  
 
-  // var tableStyle = {
-  //   tableColWidth: 1850,
-  //   tableSize: 15,
-  //   tableColor: "white",
-  //   tableAlign: "center",
-  // }
-  // docx.createTable(table, tableStyle);
-  // docx.generate(out);
+  var tableStyle = {
+    tableColWidth: 1850,
+    tableSize: 15,
+    tableColor: "white",
+    tableAlign: "center",
+  }
+  docx.createTable(table, tableStyle);
+  docx.generate(out);
   var split = filePath.split("./");
   res.jsonp([{"filePath": server + split[1]}]);
 }
