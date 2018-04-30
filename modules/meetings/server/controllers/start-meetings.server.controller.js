@@ -178,7 +178,7 @@ exports.createMinutesOfMeetingDocx = function(req, res) {
     var neededAttributes = _.pick(element, ['agendaTitle', 'agendaSolution', 'agendaActionPlan', 'agendaResponsiblePerson'] );  
     sn += 1;
     var values = _.values(neededAttributes);
-    element = [sn, ...values];
+    element = [sn].concat(values);
     var array = [];
     element.forEach(function(ele) {      
       array.push({val: ele, opts: { shd: {fill: "FFFFFF"} }});
@@ -228,7 +228,7 @@ exports.createMinutesOfMeetingDocx = function(req, res) {
     tableSize: 15,
     tableColor: "white",
     tableAlign: "center",
-  }
+  };
   docx.createTable(table, tableStyle);
   docx.generate(out);
   var split = filePath.split("./");
