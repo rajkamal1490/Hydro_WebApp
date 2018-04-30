@@ -24,6 +24,11 @@ angular
         isArray: true,
         url: 'api/startmeetings/validatealreadycreatedminutes'
       },
+      createAndUploadMinutes: {
+        method: 'POST',
+        isArray: true,
+        url: 'api/startmeetings/createminutesofmeetingdocx'
+      },
     });
 
     angular.extend(EmployeeMeetings, {
@@ -35,6 +40,9 @@ angular
       },
       validateAlreadyCreatedMinutes: function (meetings) {
         return this.getAlreadyCreatedMinutes(meetings).$promise;
+      },
+      createMinutesOfMeetingDocx: function (meetings) {
+        return this.createAndUploadMinutes(meetings).$promise;
       },
     });
 

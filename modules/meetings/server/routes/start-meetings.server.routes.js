@@ -17,5 +17,8 @@ module.exports = function(app) {
     .delete(startMeetings.delete);
 
   app.route('/api/startmeetings/validatealreadycreatedminutes')
-    .post(startMeetings.validateAlreadyCreatedMinutes);  
+    .post(startMeetings.validateAlreadyCreatedMinutes); 
+
+  app.route('/api/startmeetings/createminutesofmeetingdocx')
+    .post(startMeetings.createMinutesOfMeetingDocx);    
 };

@@ -6,9 +6,9 @@
     .module('meetings')
     .controller('StartMeetingsController', StartMeetingsController);
 
-  StartMeetingsController.$inject = ['$scope', '$state', '$window', '$interval', 'Authentication', '$mdDialog', '$mdpTimePicker', 'selectedDate', 'selectedEvent', 'StartMeetingsService', 'meetingStartTime', 'Notification', 'NotificationsService', 'userResolve'];
+  StartMeetingsController.$inject = ['EmployeeMeetingsService', '$scope', '$state', '$window', '$interval', 'Authentication', '$mdDialog', '$mdpTimePicker', 'selectedDate', 'selectedEvent', 'StartMeetingsService', 'meetingStartTime', 'Notification', 'NotificationsService', 'userResolve'];
 
-  function StartMeetingsController($scope, $state, $window, $interval, Authentication, $mdDialog, $mdpTimePicker, selectedDate, selectedEvent, StartMeetingsService, meetingStartTime, Notification, NotificationsService, userResolve) {
+  function StartMeetingsController(EmployeeMeetingsService, $scope, $state, $window, $interval, Authentication, $mdDialog, $mdpTimePicker, selectedDate, selectedEvent, StartMeetingsService, meetingStartTime, Notification, NotificationsService, userResolve) {
     var vm = this;
 
     vm.authentication = Authentication;
@@ -50,8 +50,11 @@
 
       var startMeeting = new StartMeetingsService();
 
+      var mins = moment.utc(moment($scope.endDateTime, "HH:mm:ss").diff(moment(meetingStartTime, "HH:mm:ss"))).format("mm")
+
       startMeeting.title = selectedEvent.title;
       startMeeting.startDateTime = meetingStartTime;
+      startMeeting.startedTime = moment(meetingStartTime).format('MMMM Do YYYY')
       startMeeting.endDateTime = $scope.endDateTime;
       startMeeting.meetingDiff = $scope.clock;
       startMeeting.agendas = vm.agendas;
@@ -59,8 +62,15 @@
       startMeeting.attendees = selectedEvent.attendees;
       startMeeting.facilitator = selectedEvent.facilitator;
       startMeeting.meetingId = selectedEvent._id;
+      startMeeting.duration = moment($scope.endDateTime, "hh:mm:ss a").diff(meetingStartTime, 'hours') + " Hrs and " + mins + " Mns";;
 
-      startMeeting.$save(successCallback, errorCallback);
+      EmployeeMeetingsService.createMinutesOfMeetingDocx({
+        minutes: startMeeting
+      }).then(function(results) {
+        console.log(results)
+        startMeeting.minutesFilePath = results[0].filePath;
+        startMeeting.$save(successCallback, errorCallback);
+      });
 
       function successCallback(res) {
         var msg = "Minutes Of Meeting created successfully"

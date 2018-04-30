@@ -28,6 +28,9 @@ var StartMeetingSchema = new Schema({
   meetingDiff: {
     type: String,
   },
+  minutesFilePath: {
+    type: String
+  },
   agendas: {
     type: Object
   },

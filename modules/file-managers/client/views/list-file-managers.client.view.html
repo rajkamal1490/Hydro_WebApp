@@ -93,7 +93,29 @@
                       </div>
                     </div>            
                   </div>
-                  <div class="alert alert-warning text-center" ng-if="model.files.$resolved && !model.files.length">
+                  <div class="row m-t-10" ng-hide="!model.files.length && !model.minutesOfMeeting.length">
+                    <h3 class="m-t-30 m-b-10">
+                      <strong>&nbsp;&nbsp;&nbsp;&nbsp; Minutes Of </strong> Meeting
+                      <hr>
+                    </h3>
+                    <div class="col-xlg-2 col-lg-3 col-md-3 col-sm-3 col-xs-12" ng-repeat="file in model.minutesOfMeeting | filter: searchParams.keyword | orderBy: '-created'">
+                      <div class="panel">
+                        <div class="panel-content widget-info">
+                          <div class="row">
+                            <div class="left">
+                              <i class="fa fa-file bg-green"></i>
+                            </div>
+                             <div class="right">
+                              <p class="text" title="{{file.title}}">{{file.title  | trim: 15:false}}</p>
+                              <p> <a download="{{file.title}}.docx" target="_self" ng-href="{{file.minutesFilePath}}"><i class="fa fa-download"></i></a>
+                              <a target="_blank" ng-href="http://docs.google.com/gview?url={{file.minutesFilePath}}&embedded=true"><i class="fa fa-eye text-warning"></i></a></p>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>            
+                  </div>
+                  <div class="alert alert-warning text-center" ng-if="model.files.$resolved && !model.files.length && !model.minutesOfMeeting.length">
                     No Files found ...
                   </div>
                 </div>

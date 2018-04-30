@@ -5,13 +5,14 @@
 		.module('file-managers')
 		.controller('FileManagersListController', FileManagersListController);
 
-	FileManagersListController.$inject = ['CommonService', '$scope', '$mdDialog', 'fileManagerResolve', 'Notification', 'FileManagersService'];
+	FileManagersListController.$inject = ['CommonService', '$scope', '$mdDialog', 'fileManagerResolve', 'Notification', 'FileManagersService', 'MinutesOfMeetingResolve'];
 
-	function FileManagersListController(CommonService, $scope, $mdDialog, fileManagerResolve, Notification, FileManagersService) {
+	function FileManagersListController(CommonService, $scope, $mdDialog, fileManagerResolve, Notification, FileManagersService, MinutesOfMeetingResolve) {
 		var vm = this;
 
 		$scope.model = {
-			files: fileManagerResolve
+			files: fileManagerResolve,
+			minutesOfMeeting: MinutesOfMeetingResolve
 		};
 
 		$scope.fileUpload = function() {
