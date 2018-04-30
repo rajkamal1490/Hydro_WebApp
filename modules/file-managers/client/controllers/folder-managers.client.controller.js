@@ -33,7 +33,7 @@
 
       var name = vm.folder.name;
 
-      vm.folder.code = name.split(' ').length > 1 ? name.match(/[A-Z]/g).join('') : name;
+      vm.folder.code = name.split(' ').length > 1 ? name.replace(/ /g,"_") : name;
 
       // TODO: move create/update logic to service
       if (vm.folder._id) {
