@@ -45,11 +45,11 @@
 
     var getMyTodayMeetings = function() {
       var today = new Date();
-      var minusTwoHours = getDateTimeToServer(today.setMinutes(today.getMinutes() - 20))
+      var beforeTwentyMinutes = getDateTimeToServer(today.setMinutes(today.getMinutes() + 20))
 
       var gmtDateTime = {
         userId: Authentication.user._id,
-        startDate: getDateTimeToServer(today.setMinutes(today.getMinutes() - 20)),
+        startDate: getDateTimeToServer(today.setMinutes(today.getMinutes() + 20)),
         endDate: getDateTimeToServer(new Date())
       };
       EmployeeMeetingsService.requestFindTodayMeetingsByUser(gmtDateTime).then(function(employeeMeetings) {        
@@ -58,7 +58,7 @@
         });
         angular.forEach(employeeMeetings, function(employeeMeeting) {  
           var haveMeetingToday = _.includes(_.map(employeeMeeting.attendees, '_id'), Authentication.user._id);          
-          if (moment(minusTwoHours).format('YYYY-MM-DD hh:mm:ss') >= moment(employeeMeeting.startDateTime).format('YYYY-MM-DD hh:mm:ss') && moment(new Date()).format('YYYY-MM-DD hh:mm:ss') < moment(employeeMeeting.startDateTime).format('YYYY-MM-DD hh:mm:ss')) {
+          if (moment(beforeTwentyMinutes).format('YYYY-MM-DD hh:mm:ss') >= moment(employeeMeeting.startDateTime).format('YYYY-MM-DD hh:mm:ss') && moment(new Date()).format('YYYY-MM-DD hh:mm:ss') < moment(employeeMeeting.startDateTime).format('YYYY-MM-DD hh:mm:ss')) {            
             vm.meetings.push(employeeMeeting);
           }
         });
@@ -67,12 +67,12 @@
 
     var getMyTodayReminders = function() {
       var today = new Date();
-      var minusTwoHours = getDateTimeToServer(today.setMinutes(today.getMinutes() - 20))
+      var beforeTwentyMinutes = getDateTimeToServer(today.setMinutes(today.getMinutes() + 20))
       vm.originalReminders = angular.copy(vm.reminders);
 
       var gmtDateTime = {
         userId: Authentication.user._id,
-        startDate: getDateTimeToServer(today.setMinutes(today.getMinutes() - 20)),
+        startDate: getDateTimeToServer(today.setMinutes(today.getMinutes() + 20)),
         endDate: getDateTimeToServer(new Date())
       };
       TodayReminderService.requestFindTodayRemindersByUser(gmtDateTime).then(function(reminders) {        
@@ -80,7 +80,7 @@
           return vm.reminders ? _.includes(_.map(vm.reminders, '_id'), reminder._id) : false;
         });
         angular.forEach(reminders, function(reminder) {            
-          if (moment(minusTwoHours).format('YYYY-MM-DD hh:mm:ss') >= moment(reminder.reminderDateTime).format('YYYY-MM-DD hh:mm:ss') && moment(new Date()).format('YYYY-MM-DD hh:mm:ss') < moment(reminder.reminderDateTime).format('YYYY-MM-DD hh:mm:ss')) {
+          if (moment(beforeTwentyMinutes).format('YYYY-MM-DD hh:mm:ss') >= moment(reminder.reminderDateTime).format('YYYY-MM-DD hh:mm:ss') && moment(new Date()).format('YYYY-MM-DD hh:mm:ss') < moment(reminder.reminderDateTime).format('YYYY-MM-DD hh:mm:ss')) {
             vm.reminders.push(reminder);
           }
         });

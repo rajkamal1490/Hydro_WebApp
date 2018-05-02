@@ -29,7 +29,7 @@
 
     $scope.onFile = function(blob) {
       if (blob.size > PROFILE_MAX_SIZE) {
-        Notification.error({message: 'An attachments image size cannot exceed 2MB'});
+        Notification.error({message: 'An attachments image size cannot exceed 5MB'});
         return
       };
       var imageType = blob.type.split('/').pop().toLowerCase();      

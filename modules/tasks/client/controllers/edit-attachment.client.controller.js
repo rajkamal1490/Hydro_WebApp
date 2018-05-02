@@ -28,7 +28,7 @@
     $scope.save = function() {
       if (vm.picFile.size > PROFILE_MAX_SIZE) {
         Notification.error({
-          message: 'An attachments file size cannot exceed 2MB'
+          message: 'An attachments file size cannot exceed 5MB'
         });
         return
       };

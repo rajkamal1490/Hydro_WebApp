@@ -111,7 +111,7 @@
         .constant('LEAVE', 'leave')
         .constant('REMINDER', 'reminder')
         .constant('MEETING', 'meeting')
-        .constant('PROFILE_MAX_SIZE', 2097152)
+        .constant('PROFILE_MAX_SIZE', 5242880)
         .constant('PROGRESS_BAR_TIMEOUT_VALUE', 200)
         .constant('PROGRESS_BAR_MAX_ACTUAL_VALUE', 100)
         .constant('PROGRESS_BAR_MAX_TEMPORARY_VALUE', 90)
