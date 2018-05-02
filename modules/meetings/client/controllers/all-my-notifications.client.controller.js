@@ -23,7 +23,7 @@
       EmployeeMeetingsService.requestFindMyMeetingsByUser({
         userId: Authentication.user._id
       }).then(function(meetings) {
-        vm.filteredItems = $filter('filter')(meetings, {
+        vm.filteredItems = $filter('filter')(_.uniqBy(meetings, '_id'), {
           $: vm.search
         });
         vm.filterLength = vm.filteredItems.length;

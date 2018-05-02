@@ -20,7 +20,7 @@
                 </tr>
               </thead>
               <tbody>
-                <tr ng-repeat="notification in filterNotifications = (vm.pagedItems | filter: searchParams.keyword) | orderBy: '-startDateTime'">
+                <tr ng-repeat="notification in filterNotifications = (vm.pagedItems | filter: searchParams.keyword) | orderBy: '-startDateTime' track by $index">
                   <td>{{notification.title}}</td>                
                   <td>{{notification.startDateTime | date: 'yyyy-MM-dd hh:mm:ss a'}}</td>
                   <td>{{notification.location}}</td>
