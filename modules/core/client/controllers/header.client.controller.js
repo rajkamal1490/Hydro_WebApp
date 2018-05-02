@@ -45,11 +45,11 @@
 
     var getMyTodayMeetings = function() {
       var today = new Date();
-      var minusTwoHours = getDateTimeToServer(today.setHours(today.getHours() + 2))
+      var minusTwoHours = getDateTimeToServer(today.setMinutes(today.getMinutes() - 20))
 
       var gmtDateTime = {
         userId: Authentication.user._id,
-        startDate: getDateTimeToServer(today.setHours(today.getHours() + 2)),
+        startDate: getDateTimeToServer(today.setMinutes(today.getMinutes() - 20)),
         endDate: getDateTimeToServer(new Date())
       };
       EmployeeMeetingsService.requestFindTodayMeetingsByUser(gmtDateTime).then(function(employeeMeetings) {        
@@ -67,12 +67,12 @@
 
     var getMyTodayReminders = function() {
       var today = new Date();
-      var minusTwoHours = getDateTimeToServer(today.setHours(today.getHours() + 2))
+      var minusTwoHours = getDateTimeToServer(today.setMinutes(today.getMinutes() - 20))
       vm.originalReminders = angular.copy(vm.reminders);
 
       var gmtDateTime = {
         userId: Authentication.user._id,
-        startDate: getDateTimeToServer(today.setHours(today.getHours() + 2)),
+        startDate: getDateTimeToServer(today.setMinutes(today.getMinutes() - 20)),
         endDate: getDateTimeToServer(new Date())
       };
       TodayReminderService.requestFindTodayRemindersByUser(gmtDateTime).then(function(reminders) {        
