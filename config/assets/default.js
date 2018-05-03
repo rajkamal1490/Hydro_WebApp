@@ -58,7 +58,7 @@ module.exports = {
 
         'public/assets/global/plugins/charts-sparkline/sparkline.min.js',
         'public/assets/global/plugins/retina/retina.min.js',
-        'public/assets/global/plugins/select2/dist/js/select2.full.min.js',
+        // 'public/assets/global/plugins/select2/dist/js/select2.full.min.js',
         'public/assets/global/plugins/icheck/icheck.min.js',
 
         'public/assets/global/plugins/backstretch/backstretch.min.js',

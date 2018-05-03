@@ -6,7 +6,7 @@
 @import "icons/font-awesome/font-awesome.css";
 @import "icons/line-icons/line-icons.css";
 @import "icons/line-icons/simple-line-icons.css";
-@import "../plugins/select2/dist/css/select2.css";
+/*@import "../plugins/select2/dist/css/select2.css";*/
 @import "../plugins/slick/slick.css";
 @import "../plugins/icheck/skins/all.css";
 @import "../plugins/bootstrap/css/jasny-bootstrap.css";
@@ -13187,7 +13187,7 @@ body.rtl .layout-options .img-sidebar-right {
 .nav>li {position: relative;display: block;}
 
 /* Select Input */
-.select2-container {outline:none !important;}
+/*.select2-container {outline:none !important;}
 .select2-container--default .select2-selection--single {outline: none !important;height: 34px;border: 2px solid #EDEDED;-webkit-border-radius: 0 !important;-moz-border-radius: 0 !important;border-radius: 0 !important;}
 .select2-dropdown {padding: 9px 12px;border: 2px solid #319db5;-webkit-border-radius: 0 !important;-moz-border-radius: 0 !important;border-radius: 0 !important;}
 .select2-container--default .select2-search--dropdown .select2-search__field { border:2px solid #EDEDED;background: #fff;}
@@ -13210,7 +13210,7 @@ html .form-group .select2-container--default.select2-container--focus.select2-co
 .select2-dropdown.select2-dropdown--above {border-bottom: none !important;}
 html .form-group .select2-container--default.select2-container--open.select2-container--above .select2-selection--single {border-top: none !important}
 html .form-group .select2-container--default.select2-container--focus .select2-selection--multiple {border:none !important}
-.select2-container{z-index: 900000;}
+.select2-container{z-index: 900000;}*/
 
 textarea:hover, 
 input:hover, 

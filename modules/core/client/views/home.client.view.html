@@ -68,7 +68,7 @@
                                 <tbody>
                                     <tr ng-repeat="task in vm.pagedItems | orderBy: '-taskID'" >
                                         <td class="col-md-1 text-center"><a ui-sref="tasks.view({ taskId: task._id })"> {{task.taskCode}}</a></td>
-                                        <td class="col-md-7 text-center"><a ui-sref="tasks.view({ taskId: task._id })">{{task.title}}</a></td>
+                                        <td class="col-md-7 text-center"><a ui-sref="tasks.view({ taskId: task._id })">{{task.title | trim: 25:false}}</a></td>
                                         <td class="col-md-2 text-center" ng-click="task.editStatus = true;">
                                           <span ng-hide="task.editStatus"> {{vm.starCase(task.status)}} </span>
                                               <md-select

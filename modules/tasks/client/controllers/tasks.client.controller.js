@@ -125,7 +125,9 @@
             flag: 0,
           }];
           vm.task.projectType = vm.hasIndividual;
-          vm.task.comments = comments;
+          if(vm.task.comment) {
+            vm.task.comments = comments;
+          }
           vm.task.taskCode = vm.hasIndividual === '0' ? 'INDU' + vm.task.taskID : _.upperCase(vm.task.projectCode) + _.upperCase(vm.task.orderCode) + _.upperCase(vm.task.stateCode) + _.upperCase(vm.task.workCode) + vm.task.taskID;
           vm.task.$save(successCallback, errorCallback);
         });
