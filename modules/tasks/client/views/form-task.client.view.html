@@ -66,14 +66,22 @@
            
               <md-input-container flex>
                 <label class="my-label">Assignee:</label>
-                <md-select
+                <md-autocomplete md-selected-item="vm.task.assignee" ng-model="vm.task.assignee" md-search-text="searchText" md-items="user in vm.getMatches(searchText)" md-item-text="user.displayName">
+                  <md-item-template>
+                    <span md-highlight-text="searchText">{{user.displayName}}</span>
+                  </md-item-template>
+                  <md-not-found>
+                    No matches found.
+                  </md-not-found>
+                </md-autocomplete>
+                <!-- <md-select
                       required
                       name="assignee"
                       ng-model="vm.task.assignee">
                   <md-optgroup label="Assignee">
                     <md-option  ng-value="user._id" ng-repeat="user in model.users">{{user.displayName}}</md-option>
                   </md-optgroup>
-                </md-select>
+                </md-select> -->
                 <div ng-messages="vm.taskForm.assignee.$error">
                     <div ng-message="required">Assignee is required.</div>
                 </div>

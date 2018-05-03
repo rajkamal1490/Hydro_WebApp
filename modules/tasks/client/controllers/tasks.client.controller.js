@@ -6,9 +6,9 @@
     .module('tasks')
     .controller('TasksController', TasksController);
 
-  TasksController.$inject = ['$scope', '$state', '$window', 'Authentication', 'editMode', 'PRIORITIES', '$mdDialog', '$mdpDatePicker', 'Notification', 'NotificationsService', 'task', 'taskResolve', 'TasksService', 'TASK_STATUSES', 'userResolve', 'refCodes', 'projects'];
+  TasksController.$inject = ['$scope', '$state', '$window', '$filter', '$q', '$timeout', 'Authentication', 'editMode', 'PRIORITIES', '$mdDialog', '$mdpDatePicker', 'Notification', 'NotificationsService', 'task', 'taskResolve', 'TasksService', 'TASK_STATUSES', 'userResolve', 'refCodes', 'projects'];
 
-  function TasksController ($scope, $state, $window, Authentication, editMode, PRIORITIES, $mdDialog, $mdpDatePicker, Notification, NotificationsService, task, taskResolve, TasksService, TASK_STATUSES, userResolve, refCodes, projects) {
+  function TasksController ($scope, $state, $window, $filter, $q, $timeout,  Authentication, editMode, PRIORITIES, $mdDialog, $mdpDatePicker, Notification, NotificationsService, task, taskResolve, TasksService, TASK_STATUSES, userResolve, refCodes, projects) {
     var vm = this;
 
     vm.authentication = Authentication;
@@ -23,7 +23,8 @@
     vm.loadinitial = loadinitial;
     vm.hasIndividual = '0';
     vm.refcodetasks = refCodes;
-    vm.projects = projects
+    vm.projects = projects;
+    vm.getMatches = getMatches;    
 
     $scope.eventTime = {
       mStartClock: task ? new Date(task.startDateTime) : new Date(),
@@ -46,7 +47,14 @@
     function loadinitial() {
       vm.task.startDateTime = task ? getTimeToDisplay(new Date(task.startDateTime)) : getTimeToDisplay(new Date());
       vm.task.dueDateTime = task ? getTimeToDisplay(new Date(task.dueDateTime)) : getTimeToDisplay(new Date());
-    }
+    };
+
+    function getMatches(query) {
+      var results = $filter('filter')(userResolve, {displayName:query});
+      var deferred = $q.defer();
+      $timeout(function () { deferred.resolve( results ); }, Math.random() * 1000, false);
+      return deferred.promise;
+    };
 
     // Remove existing Task
     function remove() {
@@ -74,20 +82,20 @@
       vm.task.dueDateTime = $scope.eventTime.mEndToServer;
 
       var notification = new NotificationsService({
-        notifyTo: [vm.task.assignee],
+        notifyTo: [vm.task.assignee._id],
         user: Authentication.user,
         type: 'task'
       });
 
       if (vm.task._id) {
-        if(!angular.equals($scope.model.original.assignee, vm.task.assignee)) {
+        if(!angular.equals($scope.model.original.assignee, vm.task.assignee._id)) {
           new NotificationsService({_id: vm.task.notificationId}).$remove();
         }        
       }
 
       // TODO: move create/update logic to service
       if (vm.task._id) {
-        if (!angular.equals($scope.model.original.assignee, vm.task.assignee)) {
+        if (!angular.equals($scope.model.original.assignee, vm.task.assignee._id)) {
           notification.$save().then(function(res) {
             vm.task.notificationId = res._id;
             vm.task.hasSendMail = true;

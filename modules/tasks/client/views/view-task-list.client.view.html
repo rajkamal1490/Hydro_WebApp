@@ -1,0 +1,36 @@
+<md-dialog flex="60" style="left: 7%">
+  <form name="vm.statusForm" novalidate autocomplete="off">
+    <div class="modal-header bg-primary">
+      <h4>List of tasks</h4>
+    </div>
+    <md-dialog-content style="padding-left: 24px">
+      <div class="col-md-12 col-sm-12 col-xs-12">
+        <table class="table table-hover dataTable" id="table-editable">
+          <thead>
+            <tr>
+              <th>Task ID</th>
+              <th>Title</th>
+              <th>Priority</th>
+              <th>Assignee</th>
+              <th>Created By</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>            
+            <tr ng-repeat="task in vm.tasks track by $index">
+              <td class="col-md-2"> {{task.taskCode}}</td>
+              <td class="col-md-4"> {{task.title}}</td>
+              <td class="col-md-1">{{vm.getPriorityName(task.priority)}}</td>
+              <td class="col-md-2">{{vm.getUserName(task.assignee).displayName}}</td>
+              <td class="col-md-2">{{task.createdBy}}</td>
+              <td class="col-md-3">{{task.status}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </md-dialog-content>
+    <md-dialog-actions layout="row">
+      <md-button class="btn btn-next btn-fill btn-warning btn-wd" flex ng-click="vm.cancel()" type="submit">Cancel</md-button>
+    </md-dialog-actions>
+  </form>
+</md-dialog>
