@@ -19,6 +19,8 @@
     vm.starCase = starCase;
     vm.statuses = statusResolve;
 
+    CommonService.setUserResolve(userResolve);
+
     $scope.$on('$stateChangeSuccess', stateChangeSuccess);
 
     $scope.model = {

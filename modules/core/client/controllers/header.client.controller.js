@@ -153,6 +153,13 @@
     };
 
     $scope.approveLeave = function(event) {
+      var oldShow = $mdDialog.show;
+      $mdDialog.show = function(options) {
+        if (options.hasOwnProperty("skipHide")) {
+          options.multiple = options.skipHide;
+        }
+        return oldShow(options);
+      };
       $mdDialog.show({
         controller: 'LeaveOrPermissionController',
         controllerAs: 'vm',
@@ -179,6 +186,9 @@
           },
           approvedMode: function() {
             return true;
+          },
+          userResolve: function() {
+            return CommonService.getUserResolve;
           }
         },
       })

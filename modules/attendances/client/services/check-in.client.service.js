@@ -34,6 +34,11 @@ angular
         isArray: true,
         url: '../api/checkins/awaitingforapprovalleave'
       },
+      findTaskList: {
+        method: 'POST',
+        isArray: true,
+        url: '../api/checkins/findtasklist'
+      },
     });
 
     angular.extend(CheckIns, {
@@ -45,6 +50,9 @@ angular
       },
       requestFindAwaitingForApprovalLeave: function (attendances) {
         return this.awaitingForApprovalLeave(attendances).$promise;
+      },
+      requestFindTaskList: function (attendances) {
+        return this.findTaskList(attendances).$promise;
       },
       requestValidateOverlap: function (attendances) {
         if(attendances.hasApplyLeave) {

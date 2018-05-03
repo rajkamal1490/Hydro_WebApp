@@ -44,6 +44,9 @@ var AttendanceSchema = new Schema({
   reason: {
     type: String
   },
+  comments: {
+    type: String
+  },
   user: {
     type: Schema.ObjectId,
     ref: 'User'

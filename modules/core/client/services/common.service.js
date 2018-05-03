@@ -10,6 +10,8 @@
 
         CommonService.getAttendanceId = undefined;
 
+        CommonService.getUserResolve = [];
+
         CommonService.hasExecutive = function(authentication) {
             return authentication.user ? _.includes(authentication.user.userGroup, USER_GROUPS[0].code) : false;
         };
@@ -85,7 +87,11 @@
                     break;
                 }
             }
-        }
+        };
+
+        CommonService.setUserResolve = function(users) {
+            CommonService.getUserResolve = users;
+        };
 
         return CommonService;
 

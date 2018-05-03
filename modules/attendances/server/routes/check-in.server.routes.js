@@ -38,6 +38,9 @@ module.exports = function(app) {
   app.route('/api/checkins/findattendancesbyuser')
     .post(checkins.findAttendancesByUser); 
 
+  app.route('/api/checkins/findtasklist')
+    .post(checkins.findTaskList);   
+
   app.route('/admin/api/checkins/awaitingforapprovalleave')
     .post(checkins.awaitingForApprovalLeave);
 

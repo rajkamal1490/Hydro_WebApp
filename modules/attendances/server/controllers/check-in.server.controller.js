@@ -6,6 +6,7 @@
 var path = require('path'),
   mongoose = require('mongoose'),
   Attendance = mongoose.model('Attendance'),
+  Task = mongoose.model('Task'),
   errorHandler = require(path.resolve('./modules/core/server/controllers/errors.server.controller')),
   _ = require('lodash');
 
@@ -118,6 +119,34 @@ exports.validatePermissionOverlap = function(req, res) {
       }
     }],
     user: req.body.userId
+  }, function(err, searchResults) {
+    if (err) {
+      return res.status(400).send({
+        message: errorHandler.getErrorMessage(err)
+      });
+    } else {
+      res.jsonp(searchResults);
+    }
+
+  });
+};
+
+/**
+ * 
+ * Find Task List
+ */
+
+exports.findTaskList = function(req, res) {
+  Task.find({
+    $and: [{
+      dueDateTime: {
+        $gte: req.body.startGMT
+      },
+      startDateTime: {
+        $lte: req.body.endGMT
+      }
+    }],
+    assignee: req.body.userId
   }, function(err, searchResults) {
     if (err) {
       return res.status(400).send({

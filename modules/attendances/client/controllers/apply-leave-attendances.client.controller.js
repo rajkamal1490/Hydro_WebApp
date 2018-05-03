@@ -6,9 +6,9 @@
     .module('attendances')
     .controller('LeaveOrPermissionController', LeaveOrPermissionController);
 
-  LeaveOrPermissionController.$inject = ['$scope', '$http', '$state', '$window', 'AttendancesService', 'Authentication', 'CommonService', 'CheckInAttendancesServices', 'createMode', 'selectedData', 'hasApplyLeave', 'selectedDate', '$mdDialog', '$mdpTimePicker', '$mdpDatePicker', 'Notification', 'userId', 'approvedMode'];
+  LeaveOrPermissionController.$inject = ['$scope', '$http', '$state', '$window', 'AttendancesService', 'Authentication', 'CommonService', 'CheckInAttendancesServices', 'createMode', 'selectedData', 'hasApplyLeave', 'selectedDate', '$mdDialog', '$mdpTimePicker', '$mdpDatePicker', 'Notification', 'userId', 'approvedMode', 'userResolve'];
 
-  function LeaveOrPermissionController($scope, $http, $state, $window, AttendancesService, Authentication, CommonService, CheckInAttendancesServices, createMode, selectedData, hasApplyLeave, selectedDate, $mdDialog, $mdpTimePicker, $mdpDatePicker, Notification, userId, approvedMode) {
+  function LeaveOrPermissionController($scope, $http, $state, $window, AttendancesService, Authentication, CommonService, CheckInAttendancesServices, createMode, selectedData, hasApplyLeave, selectedDate, $mdDialog, $mdpTimePicker, $mdpDatePicker, Notification, userId, approvedMode, userResolve) {
     var vm = this;
 
     vm.authentication = Authentication;
@@ -25,6 +25,7 @@
     vm.approvedMode = approvedMode;
     vm.CommonService = CommonService;
     vm.userId = userId;
+    vm.checkTaskList = checkTaskList;
 
     $scope.applyPermission = {
       mStartClock: selectedData ? new Date(selectedData.start) : new Date(selectedDate),
@@ -76,6 +77,7 @@
             displayEndTime: getDateTimeToDisplay($scope.applyLeave.mEndToServer)
           },
           reason: vm.reason,
+          comments: vm.comments,
           user: userId,
           isApproved: ((CommonService.hasExecutive(Authentication) || CommonService.hasVp(Authentication) && createMode)) ? true : vm.isApproved
         }
@@ -91,6 +93,7 @@
             displayEndTime: getTimeToDisplay($scope.applyPermission.mEndToServer)
           },
           reason: vm.reason,
+          comments: vm.comments,
           user: userId,
           isApproved: ((CommonService.hasExecutive(Authentication) || CommonService.hasVp(Authentication) && createMode)) ? true : vm.isApproved
 
@@ -256,6 +259,48 @@
         });
     };
 
+    function checkTaskList() {
+      var mStartToServer = hasApplyLeave ? $scope.applyLeave.mStartToServer : $scope.applyPermission.mStartToServer;
+      var mEndToServer = hasApplyLeave ? $scope.applyLeave.mEndToServer : $scope.applyPermission.mEndToServer;
+      var data = {
+        startGMT: mStartToServer,
+        endGMT: mEndToServer,
+        userId: userId
+      };
+      CheckInAttendancesServices.requestFindTaskList(data).then(function(results) {
+
+        if (results.length > 0) {
+          $mdDialog.show({
+            controller: 'ViewTaskListCtrl',
+            controllerAs: 'vm',
+            templateUrl: '/modules/tasks/client/views/view-task-list.client.view.html',
+            parent: angular.element(document.body),
+            clickOutsideToClose: false,
+            escapeToClose: false,
+            fullscreen: true,
+            multiple: true,
+            resolve: {
+              taskResolve: function() {
+                return results;
+              },
+              userResolve: function() {
+                return userResolve;
+              }
+            }
+          }).then(function(response) {
+
+          }, function() {
+            console.log('You cancelled the dialog.');
+          });
+        } else {
+          Notification.success({
+            message: '<i class="glyphicon glyphicon-ok"></i> No task found'
+          });
+        }
+
+      });
+    };
+
     function validateStartAndEndTime(startDate, endDate) {
       if (vm.leaveForm) {
         var bool = (Date.parse(endDate) > Date.parse(startDate));
@@ -276,8 +321,6 @@
       var dtGMT = new Date((new Date(date)).toUTCString()).toISOString();
       return dtGMT;
     }
-
-
 
     function cancel() {
       $mdDialog.cancel();

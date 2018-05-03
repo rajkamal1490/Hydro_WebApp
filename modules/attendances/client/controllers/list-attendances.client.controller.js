@@ -248,7 +248,10 @@
 					},
 					userId: function() {
 						return $scope.searchParams.assignee;
-					}
+					},
+					userResolve: function() {
+						return userResolve;
+					},
 				},
 			})
 			.then(function(updatedItem) {
