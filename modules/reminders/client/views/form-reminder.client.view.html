@@ -16,11 +16,15 @@
               <md-input-container flex-gt-md="30">
                 <label>Remind me on</label>
                 <input mdc-datetime-picker="" date="true" time="true" type="text" id="datetime"
-                placeholder="Date" show-todays-date="" min-date="vm.date" ng-model="vm.reminder.reminderDateTime" class=" md-input"
+                placeholder="Date" show-todays-date="" min-date="" ng-model="vm.reminder.reminderDateTime" class=" md-input"
                 readonly="readonly" name="start" required>
                 <div ng-messages="vm.reminderForm.start.$error">
                     <div ng-message="required">Reminder date is required.</div>
                   </div>
+              </md-input-container> 
+              <md-input-container flex-gt-md="30">
+                <label>Need to notify ?</label>
+                <md-switch ng-model="vm.hasReminded"></md-switch>
               </md-input-container>     
              </div>
 

@@ -19,6 +19,7 @@
     vm.cancel = cancel;
     vm.date = new Date();
     vm.loadinitial = loadinitial;
+    vm.hasReminded = reminder ? !reminder.hasReminded : true;
 
     $scope.ui = {
       isReminderInProgress: false,
@@ -35,6 +36,8 @@
         $scope.$broadcast('show-errors-check-validity', 'vm.form.reminderForm');
         return false;
       }
+
+      vm.reminder.hasReminded = !vm.hasReminded;
 
       // TODO: move create/update logic to service
       if (vm.reminder._id) {
