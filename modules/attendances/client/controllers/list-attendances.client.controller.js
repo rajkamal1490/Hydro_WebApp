@@ -299,6 +299,7 @@
 				breakTimes: [],
 				category: PERMISSION,
 				reason: attendance.reason,
+				comments: attendance.comments,
 				className: attendance.isApproved ? 'bg-green' : 'bg-orange',
 				isApproved: attendance.isApproved,
 				stick: true
@@ -314,6 +315,7 @@
 				breakTimes: [],
 				category: LEAVE,
 				reason: attendance.reason,
+				comments: attendance.comments,
 				className: attendance.isApproved ? 'bg-red' : 'bg-orange',
 				isApproved: attendance.isApproved,
 				stick: true

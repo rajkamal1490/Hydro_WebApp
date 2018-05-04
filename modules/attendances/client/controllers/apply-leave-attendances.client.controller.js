@@ -26,6 +26,7 @@
     vm.CommonService = CommonService;
     vm.userId = userId;
     vm.checkTaskList = checkTaskList;
+    vm.comments = selectedData ? selectedData.comments : undefined;
 
     $scope.applyPermission = {
       mStartClock: selectedData ? new Date(selectedData.start) : new Date(selectedDate),

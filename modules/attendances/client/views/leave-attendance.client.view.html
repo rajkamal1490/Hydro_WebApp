@@ -60,10 +60,11 @@
                 </div>
               </md-input-container>
             </div>
-          <div layout="row" flex ng-show="vm.approvedMode && (vm.CommonService.hasExecutive(vm.authentication) || vm.CommonService.hasVp(vm.authentication))">
+          <div layout="row" flex >
               <md-input-container flex>
                 <label class="my-label">Comments</label>
-                <input type="text" name="comments" ng-model="vm.comments"/>
+                <input type="text" name="comments" ng-model="vm.comments" ng-readonly="!(vm.CommonService.hasExecutive(vm.authentication) || vm.CommonService.hasVp(vm.authentication))"/>
+                <small>Authorize only for Executive and vp</small>
               </md-input-container>
             </div>
         </div>
