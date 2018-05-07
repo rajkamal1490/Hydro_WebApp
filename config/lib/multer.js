@@ -18,3 +18,7 @@ module.exports.fileFilter = function (req, file, callback) {
   callback(null, true);
 };
 
+module.exports.allfiles = function (req, file, callback) {  
+  callback(null, true);
+};
+

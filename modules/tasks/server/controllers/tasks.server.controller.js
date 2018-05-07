@@ -270,7 +270,7 @@ exports.uploadFiles = function(req, res) {
 
   // Filtering to upload only images
   var multerConfig = config.uploads.task.file;
-  multerConfig.fileFilter = require(path.resolve('./config/lib/multer')).fileFilter;
+  multerConfig.fileFilter = require(path.resolve('./config/lib/multer')).allfiles;
   var upload = multer(multerConfig).single('newProfilePicture');
   
   uploadImage()

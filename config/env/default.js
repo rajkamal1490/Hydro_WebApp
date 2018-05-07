@@ -66,7 +66,7 @@ module.exports = {
       file: {
         dest: './modules/file-managers/client/img/fileid/uploads/',
         limits: {
-          fileSize: 1 * 1024 * 1024 // Max file size in bytes (1 MB)
+          fileSize: 5242880 // Max file size in bytes (5 MB)
         }
       }
     },
@@ -74,7 +74,7 @@ module.exports = {
       file: {
         dest: './modules/tasks/client/img/fileid/uploads/',
         limits: {
-          fileSize: 1 * 1024 * 1024 // Max file size in bytes (1 MB)
+          fileSize: 5242880 // Max file size in bytes (5 MB)
         }
       }
     }
