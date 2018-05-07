@@ -228,6 +228,7 @@ exports.createMinutesOfMeetingDocx = function(req, res) {
     tableSize: 15,
     tableColor: "white",
     tableAlign: "center",
+    borders: true
   };
   docx.createTable(table, tableStyle);
   docx.generate(out);
