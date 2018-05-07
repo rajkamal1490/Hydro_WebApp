@@ -74,7 +74,7 @@
         <md-button class="btn btn-next btn-fill btn-success btn-sm" flex ng-click=" vm.isApproved=true; vm.save(vm.leaveForm.$valid);" ng-show="vm.approvedMode && (vm.CommonService.hasExecutive(vm.authentication) || vm.CommonService.hasVp(vm.authentication))" type="submit">Approve</md-button>
         <md-button class="btn btn-next btn-fill btn-info btn-sm" flex ng-click="vm.isApproved=false; vm.save(vm.leaveForm.$valid)" ng-show="vm.approvedMode && (vm.CommonService.hasExecutive(vm.authentication) || vm.CommonService.hasVp(vm.authentication))" type="submit">Hold</md-button>
         <md-button class="btn btn-next btn-fill btn-blue btn-sm" flex ng-click="vm.checkTaskList()" ng-show="vm.approvedMode && (vm.CommonService.hasExecutive(vm.authentication) || vm.CommonService.hasVp(vm.authentication))" type="submit"> Check task list </md-button>
-        <md-button class="btn btn-next btn-fill btn-danger btn-sm" ng-show="!vm.createMode && vm.approvedMode" flex ng-click="deleteLeaveOrPermission()" type="submit">Delete</md-button>
+       <!--  <md-button class="btn btn-next btn-fill btn-danger btn-sm" ng-show="!vm.createMode && vm.approvedMode" flex ng-click="deleteLeaveOrPermission()" type="submit">Delete</md-button> -->
         <md-button class="btn btn-next btn-fill btn-warning btn-sm" flex ng-click="vm.cancel()" type="submit">Cancel</md-button>
       </md-dialog-actions>   
   </form>
