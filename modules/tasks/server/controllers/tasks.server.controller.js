@@ -55,14 +55,23 @@ exports.create = function(req, res) {
         httpTransport = 'https://';
       }
       var baseUrl = req.app.get('domain') || httpTransport + req.headers.host;
-      var imageUrl = task.createdProfileImage.replace('./', '/');
+      var imageUrl = task.createdProfileImage.replace('./', '');
+      var server = (process.env.NODE_ENV === 'secure' ? 'https://' : 'http://') + req.headers.host + "/";
+      var imagePath = server + imageUrl;
       res.render(path.resolve('modules/tasks/server/templates/task-create-email'), {
         createdBy: task.createdBy,
         assignee: assignee.displayName,
         taskId: task.taskID,
         taskTitle: task.title,
-        createdImgUrl: imageUrl,
+        createdImgUrl: imagePath,
         appName: config.app.title,
+        projectCode: task.projectCode,
+        taskCode: task.taskCode,
+        status: _.startCase(task.status),
+        hasCommets: false,
+        hasStatus: false,
+        hasAssignee: true,
+        comments: task.comments[0],
         url: baseUrl + '/authentication/signin'
       }, function(err, emailHTML) {
         done(err, emailHTML, task, assignee, req);
@@ -79,7 +88,7 @@ exports.create = function(req, res) {
       var mailOptions = {
         to: assignee.email,
         from: fromCreated,
-        subject: '[Hydro] (HYD-'+task.taskID+') ' + task.title,
+        subject: task.projectCode ? '['+task.projectCode+'] ('+task.taskCode+') ' + task.title : '('+task.taskCode+') ' + task.title,
         html: emailHTML
       };
       smtpTransport.sendMail(mailOptions, function(err) {
@@ -158,13 +167,16 @@ exports.update = function(req, res) {
         httpTransport = 'https://';
       }
       var baseUrl = req.app.get('domain') || httpTransport + req.headers.host;
-      var imageUrl = task.createdProfileImage.replace('./', '/');
+      var imageUrl = task.createdProfileImage.replace('./', '');
+      var split = task.createdProfileImage.split("./");
+      var server = (process.env.NODE_ENV === 'secure' ? 'https://' : 'http://') + req.headers.host + "/";
+      var imagePath = server + imageUrl;
       res.render(path.resolve('modules/tasks/server/templates/task-create-email'), {
         createdBy: task.createdBy,
         assignee: req.user.displayName,
         taskId: task.taskID,
         taskTitle: task.title,
-        createdImgUrl: imageUrl,
+        createdImgUrl: imagePath,
         appName: config.app.title,
         projectCode: task.projectCode,
         taskCode: task.taskCode,
@@ -189,7 +201,7 @@ exports.update = function(req, res) {
       var mailOptions = {
         to: assignee.email,
         from: fromCreated,
-        subject: '['+task.projectCode+'] ('+task.taskCode+') ' + task.title,
+        subject: task.projectCode ? '['+task.projectCode+'] ('+task.taskCode+') ' + task.title : '('+task.taskCode+') ' + task.title,
         html: emailHTML
       };
       smtpTransport.sendMail(mailOptions, function(err) {
