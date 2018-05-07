@@ -23,6 +23,7 @@ exports.renderIndex = function (req, res) {
       firstName: validator.escape(req.user.firstName),
       additionalProvidersData: req.user.additionalProvidersData,
       userGroup: req.user.userGroup,
+      mobileNumber: req.user.mobileNumber,
     };
   }
 

@@ -76,7 +76,6 @@
     }
 
     function getUserGroupName(role) {
-      console.log(clearanceResolve)
       var userGroup = _.find(clearanceResolve, ['code', role]);
       return userGroup.name;
     }

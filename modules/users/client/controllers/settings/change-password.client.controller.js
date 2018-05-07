@@ -31,7 +31,7 @@
     function onChangePasswordSuccess(response) {
       // If successful show success message and clear form
       Notification.success({ message: '<i class="glyphicon glyphicon-ok"></i> Password Changed Successfully' });
-      $state.go('home');
+      $state.go('admin.users');
     }
 
     function onChangePasswordError(response) {
