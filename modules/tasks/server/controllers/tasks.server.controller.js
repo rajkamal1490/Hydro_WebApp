@@ -161,7 +161,7 @@ exports.update = function(req, res) {
       var imageUrl = task.createdProfileImage.replace('./', '/');
       res.render(path.resolve('modules/tasks/server/templates/task-create-email'), {
         createdBy: task.createdBy,
-        assignee: assignee.displayName,
+        assignee: req.user.displayName,
         taskId: task.taskID,
         taskTitle: task.title,
         createdImgUrl: imageUrl,

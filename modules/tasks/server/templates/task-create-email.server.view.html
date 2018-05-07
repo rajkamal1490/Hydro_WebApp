@@ -103,15 +103,19 @@
                                     </tr>
                                     <tr style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;">
                                         <td class="content-block" itemprop="handler" itemscope itemtype="http://schema.org/HttpActionHandler" style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; vertical-align: top; margin: 0; padding: 0 0 20px;" valign="top">
-                                            <span style="color: #666">Created By:</span> {{createdBy}}
-                                            <br />
                                             {{#if hasAssignee}}
+                                                <span style="color: #666">Created By:</span> {{createdBy}}
+                                                <br />
                                                 <span style="color: #666">Assignee: </span> {{assignee}}
                                             {{/if}}
                                             {{#if hasStatus}}
+                                                <span style="color: #666">Change By:</span> {{assignee}}
+                                                <br />
                                                 <span style="color: #666">Status: </span> {{status}}
                                             {{/if}}
                                              {{#if hasCommets}}
+                                                 <span style="color: #666">Change By:</span> {{assignee}}
+                                                    <br />
                                                 <span style="color: #666">Comments: </span> {{comments}}
                                             {{/if}}
                                             
