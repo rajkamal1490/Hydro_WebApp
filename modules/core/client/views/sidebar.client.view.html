@@ -29,8 +29,8 @@
                     <i class="mdi-maps-local-parking"></i><span>Projects</span></a>
                 </li>
 
-                <li ng-class="{ 'nav-active active': isActive('/admin/users') }"><a href="/admin/users">
-                    <i class="icon-user"></i><span>Users </span></a>
+                <li ng-class="{ 'nav-active active': isActive('/admin/users') }" ng-show="vm.CommonService.hasAdmin(vm.authentication) || vm.CommonService.hasExecutive(vm.authentication) || vm.CommonService.hasVp(vm.authentication)"><a href="/admin/users">
+                    <i class="icon-user"></i><span>Employees</span></a>
                 </li>
                 
                 <li class="nav-parent" ng-class="{ 'nav-active active': isActive('/meetings/list', '/attendances/list') }">
