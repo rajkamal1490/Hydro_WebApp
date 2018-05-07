@@ -22,6 +22,7 @@
     vm.getUserName = getUserName;
     vm.statuses = statusResolve;
     vm.users = userResolve;
+    vm.hasLoading = false;
 
     $scope.ui = {
       editTitle: false,
@@ -81,16 +82,19 @@
     }
 
     $scope.updateTask = function() {
+      vm.hasLoading = true;
       vm.task.updated = new Date();
       vm.task.$update().then(function(updated) {
         clearUI();
         Notification.success({
           message: '<i class="glyphicon glyphicon-ok"></i> Task updated successfully'
         });
+        vm.hasLoading = false;
       });
     };
 
     $scope.updateStatus = function(status) {
+      vm.hasLoading = true;
       var comments = {
         name: Authentication.user.displayName,
         comments: "Changed status from " + vm.task.status + " to " +  status,
@@ -100,15 +104,20 @@
       vm.task.status = status;
       vm.task.updated = new Date();      
       vm.task.comments.push(comments);
+      vm.task.hasAssignee = false;
+      vm.task.hasCommets = false;
+      vm.task.hasStatus = true;
       vm.task.$update().then(function(updated) {
         clearUI();
         Notification.success({
           message: '<i class="glyphicon glyphicon-ok"></i> Status updated successfully'
         });
+        vm.hasLoading = false;
       });
     }
 
     $scope.addComment = function() {
+      vm.hasLoading = true;
       var comments = {
         name: Authentication.user.displayName,
         comments: vm.task.comment,
@@ -118,10 +127,15 @@
 
       vm.task.comments.push(comments);
       vm.task.updated = new Date();
+      vm.task.hasAssignee = false;
+      vm.task.hasCommets = true;
+      vm.task.hasStatus = false;
+      vm.task.latestComment = vm.task.comment;
       vm.task.$update().then(function(updated) {
         Notification.success({
           message: '<i class="glyphicon glyphicon-ok"></i> Comments added successfully'
         });
+        vm.hasLoading = false;
       });
 
     };
@@ -164,7 +178,7 @@
       });
     };
 
-    $scope.assignToMe = function(id) {      
+    $scope.assignToMe = function(id) {
       var comments = {
         name: Authentication.user.displayName,
         comments: "Changed status from " + getUserName(vm.task.assignee).displayName + " to " +  Authentication.user.displayName,
@@ -174,6 +188,9 @@
       vm.task.comments.push(comments);
       vm.task.assignee = Authentication.user._id;
       vm.task.updated = new Date();
+      vm.task.hasAssignee = true;
+      vm.task.hasCommets = false;
+      vm.task.hasStatus = false;
       vm.task.$update().then(function(updated) {
         Notification.success({
           message: '<i class="glyphicon glyphicon-ok"></i> Assignee changed successfully'
@@ -182,6 +199,7 @@
     };
 
     $scope.taskAssignee = function(user) {
+      vm.hasLoading = true;
       var comments = {
         name: Authentication.user.displayName,
         comments: "Changed status from " + getUserName(vm.task.assignee).displayName + " to " +  user.displayName,
@@ -191,8 +209,12 @@
       vm.task.comments.push(comments);
       vm.task.assignee = user._id;
       vm.task.updated = new Date();
+      vm.task.hasAssignee = true;
+      vm.task.hasCommets = false;
+      vm.task.hasStatus = false;
       vm.task.$update().then(function(updated) {
         clearUI();
+        vm.hasLoading = false;
         Notification.success({
           message: '<i class="glyphicon glyphicon-ok"></i> Assignee changed successfully'
         });

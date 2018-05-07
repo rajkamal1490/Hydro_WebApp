@@ -65,7 +65,7 @@ module.exports = {
       service: process.env.MAILER_SERVICE_PROVIDER || 'gmail',
       auth: {
         user: process.env.MAILER_EMAIL_ID || 'rajkamalsoftware18@gmail.com',
-        pass: process.env.MAILER_PASSWORD || 'Raj@vino123'
+        pass: process.env.MAILER_PASSWORD || 'Testing$123'
       }
     }
   },

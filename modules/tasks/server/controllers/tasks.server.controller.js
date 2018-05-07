@@ -148,11 +148,7 @@ exports.update = function(req, res) {
             message: errorHandler.getErrorMessage(err)
           });
         } else {
-          if(req.task.hasSendMail) {            
-            done(err, task, assignee);
-          } else {
-            res.jsonp(task);
-          }          
+          done(err, task, assignee);
         }
       });
     },
@@ -170,6 +166,13 @@ exports.update = function(req, res) {
         taskTitle: task.title,
         createdImgUrl: imageUrl,
         appName: config.app.title,
+        projectCode: task.projectCode,
+        taskCode: task.taskCode,
+        status: _.startCase(task.status),
+        hasCommets: task.hasCommets,
+        hasStatus: task.hasStatus,
+        hasAssignee: task.hasAssignee,
+        comments: task.latestComment,
         url: baseUrl + '/authentication/signin'
       }, function(err, emailHTML) {
         done(err, emailHTML, task, assignee, req);
@@ -186,7 +189,7 @@ exports.update = function(req, res) {
       var mailOptions = {
         to: assignee.email,
         from: fromCreated,
-        subject: '[Hydro] (HYD-'+task.taskID+') ' + task.title,
+        subject: '['+task.projectCode+'] ('+task.taskCode+') ' + task.title,
         html: emailHTML
       };
       smtpTransport.sendMail(mailOptions, function(err) {

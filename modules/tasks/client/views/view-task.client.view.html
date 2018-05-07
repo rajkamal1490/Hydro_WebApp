@@ -1,6 +1,13 @@
 <section>  
   <div class="page-content">
     <h2><a ui-sref="tasks.view({ taskId: vm.task._id })">{{vm.task.projectCode ? vm.task.projectCode + ' /' : ""}} {{vm.task.taskCode}}</a></h2>
+    <div ng-if="vm.hasLoading" style="position: fixed; width: 100%; height: 100%;  top: 0; 
+    left: 0;
+    right: 0;
+    bottom: 0; margin-top: 50px; margin-left: 120px; background-color: rgba(0,0,0,0.5);   z-index: 2; 
+    cursor: pointer;" layout="row" layout-sm="column" layout-align="space-around">
+      <md-progress-circular md-mode="indeterminate"></md-progress-circular>
+    </div>
       <h2 ng-mouseover="ui.titleMouseHover = true;" ng-mouseleave="ui.titleMouseHover = false;" ng-hide="ui.editTitle" >{{vm.task.title}}  &nbsp;&nbsp;<span> <i class="fa fa-pencil" style="cursor: pointer" ng-click="ui.editTitle = true;" ng-show="ui.titleMouseHover"></i> </span></h2>
     <div style="height: 50px" ng-show="ui.editTitle">
       <div class="md-form input-group col-md-10">           
