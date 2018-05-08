@@ -135,7 +135,7 @@
     $scope.updateStatus = function(task, status) {
       var comments = {
         name: Authentication.user.displayName,
-        comments: "Changed assignee from " + task.status + " to " +  status,
+        comments: "Changed status from " + task.status + " to " +  status,
         createdDate: new Date(),
         flag: 1,
       };

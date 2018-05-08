@@ -80,6 +80,9 @@
       vm.task.createdProfileImage = Authentication.user.profileImageURL;
       vm.task.startDateTime = $scope.eventTime.mStartToServer;
       vm.task.dueDateTime = $scope.eventTime.mEndToServer;
+      vm.task.hasAssignee = true;
+      vm.task.hasCommets = false;
+      vm.task.hasStatus = false;
 
       var notification = new NotificationsService({
         notifyTo: [vm.task.assignee._id],

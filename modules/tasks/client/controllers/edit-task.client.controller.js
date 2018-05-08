@@ -166,6 +166,7 @@
     };
 
     $scope.deleteFile = function(file) {
+      vm.hasLoading = true;
       vm.task.attachments = _.reject(vm.task.attachments, function(attachment) {
         return _.isEqual(attachment, file);
       });
@@ -175,13 +176,14 @@
         Notification.success({
           message: '<i class="glyphicon glyphicon-ok"></i> File removed successfully'
         });
+        vm.hasLoading = false;
       });
     };
 
     $scope.assignToMe = function(id) {
       var comments = {
         name: Authentication.user.displayName,
-        comments: "Changed status from " + getUserName(vm.task.assignee).displayName + " to " +  Authentication.user.displayName,
+        comments: "Changed assignee from " + getUserName(vm.task.assignee).displayName + " to " +  Authentication.user.displayName,
         createdDate: new Date(),
         flag: 2,
       };
@@ -202,7 +204,7 @@
       vm.hasLoading = true;
       var comments = {
         name: Authentication.user.displayName,
-        comments: "Changed status from " + getUserName(vm.task.assignee).displayName + " to " +  user.displayName,
+        comments: "Changed assignee from " + getUserName(vm.task.assignee).displayName + " to " +  user.displayName,
         createdDate: new Date(),
         flag: 2,
       };
