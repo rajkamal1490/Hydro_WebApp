@@ -41,3 +41,35 @@ a:hover .header-profile-image {
 .has-error .help-inline.error-text {
   display: inline;
 }
+.templateRoot {
+    display: inline-block;
+}
+.hover-edit-trigger {
+    padding: 3px;
+}
+.hover-edit-trigger:hover {
+    border: 1px solid #dcdcdc;
+    border-radius: 4px;
+}
+.hover-text-field:hover .edit-pencil {
+    display: inline-block;
+}
+.edit-pencil {
+    border-left: 1px solid #dcdcdc;
+    display: none;
+    margin-left: 3px;
+    padding: 3px;    
+}
+.edit-button-group {
+    border: 1px solid #dcdcdc;
+    border-radius: 4px;
+    border-top: none;    
+    padding: 0 3px 0 3px;
+}
+.edit-button-group .glyphicon {
+    border: 1px solid #dcdcdc;
+    border-radius: 4px;
+    cursor: pointer;    
+    margin: 1px;    
+}
+
