@@ -18,6 +18,7 @@
     vm.hasShowCheckInDialog = false;
     vm.starCase = starCase;
     vm.statuses = statusResolve;
+    vm.hasLoading = false;
 
     CommonService.setUserResolve(userResolve);
 
@@ -133,6 +134,7 @@
     };
 
     $scope.updateStatus = function(task, status) {
+      vm.hasLoading = true;
       var comments = {
         name: Authentication.user.displayName,
         comments: "Changed status from " + task.status + " to " +  status,
@@ -140,11 +142,12 @@
         flag: 1,
       };
       task.comments.push(comments);
-      var taskService = new TasksService({_id: task._id, status: status, comments: task.comments, updated: new Date()});
+      var taskService = new TasksService({_id: task._id, status: status, assignee: task.assignee, comments: task.comments, updated: new Date()});
       taskService.$update().then(function(updated) {
         task.editStatus = false;
         figureOutItemsToDisplay();
         chartSummary();
+        vm.hasLoading = false;
         Notification.success({
           message: '<i class="glyphicon glyphicon-ok"></i> Status updated successfully'
         });

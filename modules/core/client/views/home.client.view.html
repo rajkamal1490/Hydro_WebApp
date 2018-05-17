@@ -1,5 +1,12 @@
 <section ng-init="loadInitial()">
     <div class="page-content">
+      <div ng-if="vm.hasLoading" style="position: fixed; width: 100%; height: 100%;  top: 0; 
+    left: 0;
+    right: 0;
+    bottom: 0; margin-top: 50px; margin-left: 120px; background-color: rgba(0,0,0,0.5);   z-index: 2; 
+    cursor: pointer;" layout="row" layout-sm="column" layout-align="space-around">
+      <md-progress-circular md-mode="indeterminate"></md-progress-circular>
+    </div>
         <div class="col-xlg-6 col-lg-6">
             <div class="row">
                 <div class="panel no-bd bd-3 panel-stat">
@@ -68,17 +75,17 @@
                                 <tbody>
                                     <tr ng-repeat="task in vm.pagedItems | orderBy: '-taskID'" >
                                         <td class="col-md-1 text-center"><a ui-sref="tasks.view({ taskId: task._id })"> {{task.taskCode}}</a></td>
-                                        <td class="col-md-7 text-center"><a ui-sref="tasks.view({ taskId: task._id })">{{task.title | trim: 25:false}}</a></td>
-                                        <td class="col-md-2 text-center" ng-click="task.editStatus = true;">
-                                          <span ng-hide="task.editStatus"> {{vm.starCase(task.status)}} </span>
-                                              <md-select
-                                                name="status"
-                                                ng-show="task.editStatus"
-                                                ng-model="task.status">
-                                                <md-optgroup label="status">
-                                                  <md-option ng-value="status.code" ng-repeat="status in vm.statuses" ng-click="updateStatus(task, status.code)">{{status.name}}</md-option>
-                                                </md-optgroup>
-                                              </md-select>
+                                        <td class="col-md-4 text-center"><a ui-sref="tasks.view({ taskId: task._id })">{{task.title | trim: 18:false}}</a></td>
+                                        <td class="col-md-4 text-center">
+                                          <span class="hover-edit-trigger" ng-mouseover="task.statusMouseHover = true;" ng-mouseleave="task.statusMouseHover = false;" ng-hide="task.editStatus">{{vm.starCase(task.status)}}   <i class="edit-pencil fa fa-pencil" style="cursor: pointer" ng-click="task.editStatus = true;" ng-show="task.statusMouseHover"></i> </span>
+                                          <md-select
+                                              name="status"
+                                              ng-show="task.editStatus"
+                                              ng-model="task.status">
+                                              <md-optgroup label="status">
+                                                <md-option ng-value="status.code" ng-repeat="status in vm.statuses" ng-click="updateStatus(task, status.code)">{{status.name}}</md-option>
+                                              </md-optgroup>
+                                            </md-select>
                                       </td>                                        
                                     </tr>                      
                                 </tbody>
