@@ -142,7 +142,7 @@
         flag: 1,
       };
       task.comments.push(comments);
-      var taskService = new TasksService({_id: task._id, status: status, assignee: task.assignee, comments: task.comments, updated: new Date()});
+      var taskService = new TasksService({_id: task._id, status: status, assignee: task.assignee, comments: task.comments, updated: new Date(), hasStatus: true});
       taskService.$update().then(function(updated) {
         task.editStatus = false;
         figureOutItemsToDisplay();

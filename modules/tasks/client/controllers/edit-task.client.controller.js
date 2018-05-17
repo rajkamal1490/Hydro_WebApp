@@ -84,6 +84,23 @@
     $scope.updateTask = function() {
       vm.hasLoading = true;
       vm.task.updated = new Date();
+      if ($scope.ui.editTitle) {
+        var comments = {
+          name: Authentication.user.displayName,
+          comments: "Changed the title from " + task.title + " to " + vm.task.title,
+          createdDate: new Date(),
+          flag: 4,
+        };
+      }
+      if ($scope.ui.editDescription) {
+        var comments = {
+          name: Authentication.user.displayName,
+          comments: "Changed the description from " + task.description + " to " + vm.task.description,
+          createdDate: new Date(),
+          flag: 5,
+        };
+      };
+      vm.task.comments.push(comments);
       vm.task.$update().then(function(updated) {
         clearUI();
         Notification.success({
@@ -158,6 +175,13 @@
         response.created = new Date();
         vm.task.attachments = vm.task.attachments ? vm.task.attachments : [];
         vm.task.attachments.push(response);
+        var comments = {
+          name: Authentication.user.displayName,
+          comments: "Uploaded the file " + response.filename,
+          createdDate: new Date(),
+          flag: 3,
+        };
+        vm.task.comments.push(comments);
         vm.task.updated = new Date();
         vm.task.$update();
       }, function() {

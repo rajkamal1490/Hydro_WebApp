@@ -10,17 +10,11 @@
     </div>
     <h2 ng-mouseover="ui.titleMouseHover = true;" ng-mouseleave="ui.titleMouseHover = false;" class="hover-edit-trigger" ng-hide="ui.editTitle">{{vm.task.title}}  &nbsp;&nbsp;<span> <i class="fa fa-pencil" style="cursor: pointer" ng-click="ui.editTitle = true;" ng-show="ui.titleMouseHover"></i> </span></h2>
     <div style="height: 50px" ng-show="ui.editTitle">
-      <!-- <div class="md-form input-group edit-button-group col-md-10">            -->
       <input type="text" class="form-control" ng-model="vm.task.title" style="font-size: 24px; font-weight: bold;">
       <div class="edit-button-group pull-right">
         <div class="glyphicon glyphicon-ok" ng-click="updateTask()"></div>
         <div class="glyphicon glyphicon-remove" ng-click="ui.editTitle = false; ui.titleMouseHover = false"></div>
       </div>
-      <!-- <span class="input-group-btn">
-                 <button class="btn btn-primary" type="button" ng-click="updateTask()"><i class="fa fa-edit"></i></button>
-                <button class="btn btn-danger" type="button" ng-click="ui.editTitle = false; ui.titleMouseHover = false"><i class="fa fa-close"></i></button>
-            </span> -->
-      <!-- </div> -->
     </div>
     <div class="col-xlg-8 col-lg-8 col-md-8">
       <div class="row">
@@ -73,17 +67,11 @@
             <br />
             <span ng-mouseover="ui.descriptionMouseHover = true;" ng-mouseleave="ui.descriptionMouseHover = false;" ng-hide="ui.editDescription"> {{vm.starCase(vm.task.description)}} &nbsp;&nbsp;<span> <i class="fa fa-pencil" style="cursor: pointer" ng-click="ui.editDescription = true;" ng-show="ui.descriptionMouseHover"></i> </span></span>
             <div style="height: 80px" ng-show="ui.editDescription">
-              <!-- <div class="md-form input-group col-sm-10">            -->
               <textarea name="description" ng-model="vm.task.description" id="content" class="form-control" cols="10" placeholder="Add description..." style="font-size: 16px; min-height: 100px;overflow-y: auto;word-wrap:break-word"></textarea>
               <div class="edit-button-group pull-right">
                 <div class="glyphicon glyphicon-ok" ng-click="updateTask()"></div>
                 <div class="glyphicon glyphicon-remove" ng-click="ui.editDescription = false; ui.descriptionMouseHover = false"></div>
               </div>
-              <!-- <span class="input-group-btn">
-                           <button class="btn btn-primary" type="button" ng-click="updateTask()"><i class="fa fa-edit"></i></button>
-                          <button class="btn btn-danger" type="button" ng-click="ui.editDescription = false;"><i class="fa fa-close"></i></button>
-                      </span> -->
-              <!-- </div> -->
             </div>
           </div>
           <div class="form-group panel col-sm-12" style="margin-top: 5%">
@@ -124,19 +112,16 @@
                             <p ng-show="comment.flag === 0"><b>{{comment.name}} </b> added a comment on <b>{{comment.createdDate | date:'short' }}</b></p>
                             <p ng-show="comment.flag === 1"><b>{{comment.name}} </b> updated the status on <b>{{comment.createdDate | date:'short' }}</b></p>
                             <p ng-show="comment.flag === 2"><b>{{comment.name}} </b> changed the assignee on <b>{{comment.createdDate | date:'short' }}</b></p>
+                            <p ng-show="comment.flag === 3"><b>{{comment.name}} </b> uploaded the file on <b>{{comment.createdDate | date:'short' }}</b></p>
+                            <p ng-show="comment.flag === 4"><b>{{comment.name}} </b> changed the title on <b>{{comment.createdDate | date:'short' }}</b></p>
+                            <p ng-show="comment.flag === 5"><b>{{comment.name}} </b> changed the description on <b>{{comment.createdDate | date:'short' }}</b></p>
                             <p ng-mouseover="comment.commentMouseHover = true;" ng-mouseleave="comment.commentMouseHover = false;" ng-hide="comment.editComment">{{comment.comments}}  &nbsp;&nbsp;<span> <i class="fa fa-pencil" style="cursor: pointer" ng-click="comment.editComment = true;" ng-show="comment.commentMouseHover && comment.flag === 0"></i> </span></p>
                   <div style="height: 50px" ng-show="comment.editComment">
-                    <!-- <div class="md-form input-group col-md-10">            -->
                     <input type="text" class="form-control" ng-model="comment.comments" style="font-size: 15px">
-                    <!--  <span class="input-group-btn">
-                                  <button class="btn btn-primary" type="button" ng-click="updateTask(); comment.editComment = false;"><i class="fa fa-edit"></i></button>
-                                  <button class="btn btn-danger" type="button" ng-click="comment.editComment = false; comment.commentMouseHover = false"><i class="fa fa-close"></i></button>
-                                </span> -->
                     <div class="edit-button-group pull-right">
                       <div class="glyphicon glyphicon-ok" ng-click="updateTask(); comment.editComment = false;"></div>
                       <div class="glyphicon glyphicon-remove" ng-click="comment.editComment = false; comment.commentMouseHover = false"></div>
                     </div>
-                    <!-- </div> -->
                   </div>
                   </span>
                 </div>
@@ -144,20 +129,14 @@
                   <span ng-repeat="comment in vm.task.comments | orderBy: 'createdDate' | filter: { flag: 0 } ">
                             <p ng-show="comment.flag === 0"><b>{{comment.name}} </b> added a comment on <b>{{comment.createdDate | date:'short' }}</b></p>
                             <p ng-show="comment.flag === 1"><b>{{comment.name}} </b> updated the status on <b>{{comment.createdDate | date:'short' }}</b></p>
-                            <p ng-show="comment.flag === 2"><b>{{comment.name}} </b> changed the assignee on <b>{{comment.createdDate | date:'short' }}</b></p>
+                            <p ng-show="comment.flag === 2"><b>{{comment.name}} </b> changed the assignee on <b>{{comment.createdDate | date:'short' }}</b></p>                            
                             <p ng-mouseover="comment.commentMouseHover = true;" ng-mouseleave="comment.commentMouseHover = false;" ng-hide="comment.editComment">{{comment.comments}}  &nbsp;&nbsp;<span> <i class="fa fa-pencil" style="cursor: pointer" ng-click="comment.editComment = true;" ng-show="comment.commentMouseHover && comment.flag === 0"></i> </span></p>
                   <div style="height: 50px" ng-show="comment.editComment">
-                    <!-- <div class="md-form input-group col-md-10">            -->
                     <input type="text" class="form-control" ng-model="comment.comments" style="font-size: 15px">
-                    <!-- <span class="input-group-btn">
-                                  <button class="btn btn-primary" type="button" ng-click="updateTask(); comment.editComment = false;"><i class="fa fa-edit"></i></button>
-                                  <button class="btn btn-danger" type="button" ng-click="comment.editComment = false; comment.commentMouseHover = false"><i class="fa fa-close"></i></button>
-                                </span> -->
                     <div class="edit-button-group pull-right">
                       <div class="glyphicon glyphicon-ok" ng-click="updateTask(); comment.editComment = false;"></div>
                       <div class="glyphicon glyphicon-remove" ng-click="comment.editComment = false; comment.commentMouseHover = false"></div>
                     </div>
-                    <!-- </div> -->
                   </div>
                   </span>
                 </div>
