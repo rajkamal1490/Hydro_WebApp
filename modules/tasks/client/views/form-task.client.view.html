@@ -28,7 +28,7 @@
               <md-input-container flex>
                 <label class="my-label"><b>Start Date</b></label>
                   <div ng-click="showStartDatePicker($event)">
-                    <input style="color: #000066; font-weight: bold;" required name="start" ng-model="vm.task.startDateTime" onfocus="this.blur()" readonly></input>
+                    <input style="color: #000066; font-weight: bold;" required name="start" ng-model="vm.task.startDateTime" onfocus="this.blur()" readonly />
                   </div>
                   <div ng-messages="vm.taskForm.start.$error">
                     <div ng-message="required">Start date is required.</div>
@@ -39,7 +39,7 @@
               <md-input-container flex>
                 <label class="my-label"><b>Due Date</b></label>
                   <div ng-click="showEndDatePicker($event)">
-                    <input style="color: #000066; font-weight: bold;" required name="end" ng-model="vm.task.dueDateTime" onfocus="this.blur()" readonly></input>
+                    <input style="color: #000066; font-weight: bold;" required name="end" ng-model="vm.task.dueDateTime" onfocus="this.blur()" readonly />
                   </div>
                   <div ng-messages="vm.taskForm.end.$error">
                     <div ng-message="required">End date is required.</div>

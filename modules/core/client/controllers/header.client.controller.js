@@ -272,7 +272,8 @@
         timeSince: moment(attendance.created).fromNow(),
         appliedOn: attendance.created,
         reason: attendance.reason,
-        category: PERMISSION        
+        category: PERMISSION,
+        comments: attendance.comments
       });
     };
 
@@ -285,7 +286,8 @@
         timeSince: moment(attendance.created).fromNow(),
         appliedOn: attendance.created,
         reason: attendance.reason,
-        category: LEAVE
+        category: LEAVE,
+        comments: attendance.comments
       });
     };
 

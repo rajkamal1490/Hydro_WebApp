@@ -19,7 +19,7 @@
               <md-input-container flex>
                 <label class="my-label"><b>Start time</b></label>
                 <div ng-click="showStartTimePicker($event)">
-                 <input style="color: #000066; font-weight: bold;" required name="start" ng-model="vm.meeting.startTime" onfocus="this.blur()" readonly></input>
+                 <input style="color: #000066; font-weight: bold;" required name="start" ng-model="vm.meeting.startTime" onfocus="this.blur()" readonly />
                 </div>
                 <div ng-messages="vm.meetingForm.start.$error">
                   <div ng-message="required">Start time is required.</div>
@@ -30,7 +30,7 @@
               <md-input-container flex>
                 <label class="my-label"><b>End time</b></label>
                 <div ng-click="showEndTimePicker($event)">
-                  <input style="color: #000066; font-weight: bold;" required name="end" ng-model="vm.meeting.endTime" onfocus="this.blur()" readonly></input>
+                  <input style="color: #000066; font-weight: bold;" required name="end" ng-model="vm.meeting.endTime" onfocus="this.blur()" readonly />
                 </div>
                 <div ng-messages="vm.meetingForm.end.$error">
                   <div ng-message="required">End time is required.</div>

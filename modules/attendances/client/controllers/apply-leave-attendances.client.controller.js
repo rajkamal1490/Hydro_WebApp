@@ -27,6 +27,7 @@
     vm.userId = userId;
     vm.checkTaskList = checkTaskList;
     vm.comments = selectedData ? selectedData.comments : undefined;
+    vm.hasEditOrUpdate = false;
 
     $scope.applyPermission = {
       mStartClock: selectedData ? new Date(selectedData.start) : new Date(selectedDate),
@@ -80,7 +81,7 @@
           reason: vm.reason,
           comments: vm.comments,
           user: userId,
-          isApproved: ((CommonService.hasExecutive(Authentication) || CommonService.hasVp(Authentication) && createMode)) ? true : vm.isApproved
+          isApproved: (createMode && (CommonService.hasExecutive(Authentication) || CommonService.hasVp(Authentication))) ? true : vm.isApproved
         }
       } else {
         vm.attendances = {
@@ -96,7 +97,7 @@
           reason: vm.reason,
           comments: vm.comments,
           user: userId,
-          isApproved: ((CommonService.hasExecutive(Authentication) || CommonService.hasVp(Authentication) && createMode)) ? true : vm.isApproved
+          isApproved: (createMode && (CommonService.hasExecutive(Authentication) || CommonService.hasVp(Authentication))) ? true : vm.isApproved
 
         }
       }
@@ -143,10 +144,17 @@
         res.isDelete = false;
         $mdDialog.hide(res);
         var msg = hasApplyLeave ? "Leave " : "Permission ";
+       if(!vm.hasEditOrUpdate) {
         var requestMsg = approvedMode ? (vm.attendances.isApproved ? " approved " : " hold ") : " request submitted ";
         Notification.success({
           message: '<i class="glyphicon glyphicon-ok"></i> ' + msg + requestMsg + 'successfully'
         });
+      } else {
+        Notification.success({
+          message: '<i class="glyphicon glyphicon-ok"></i> ' + msg + 'apply/update successfully'
+        });
+      }
+        
       }
 
       function errorCallback(errorResponse) {
