@@ -23,6 +23,7 @@
     vm.statuses = statusResolve;
     vm.users = userResolve;
     vm.hasLoading = false;
+    vm.originalTask = angular.copy(task);
 
     $scope.ui = {
       editTitle: false,
@@ -87,7 +88,7 @@
       if ($scope.ui.editTitle) {
         var comments = {
           name: Authentication.user.displayName,
-          comments: "Changed the title from " + task.title + " to " + vm.task.title,
+          comments: "Changed the title from " + originalTask.title + " to " + vm.task.title,
           createdDate: new Date(),
           flag: 4,
         };
@@ -95,7 +96,7 @@
       if ($scope.ui.editDescription) {
         var comments = {
           name: Authentication.user.displayName,
-          comments: "Changed the description from " + task.description + " to " + vm.task.description,
+          comments: "Changed the description from " + originalTask.description + " to " + vm.task.description,
           createdDate: new Date(),
           flag: 5,
         };
