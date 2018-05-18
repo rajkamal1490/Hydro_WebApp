@@ -71,6 +71,9 @@ exports.create = function(req, res) {
         hasCommets: false,
         hasStatus: false,
         hasAssignee: true,
+        hasTitle: false,
+        hasDescription: false,
+        hasAttachments: false,
         comments: task.comments[0],
         url: baseUrl + '/authentication/signin'
       }, function(err, emailHTML) {
@@ -184,6 +187,13 @@ exports.update = function(req, res) {
         hasCommets: task.hasCommets,
         hasStatus: task.hasStatus,
         hasAssignee: task.hasAssignee,
+        hasTitle: task.hasTitle,
+        hasDescription: task.hasDescription,
+        hasAttachments: task.hasAttachments,
+        taskTitle: task.title,
+        taskDescription: task.description,
+        originalTaskTitle: task.originalTaskTitle,
+        originalTaskDescription: task.originalTaskDescription,
         comments: task.latestComment,
         url: baseUrl + '/authentication/signin'
       }, function(err, emailHTML) {

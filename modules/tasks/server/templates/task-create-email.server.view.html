@@ -120,6 +120,21 @@
                                                     <br />
                                                 <span style="color: #666">Comments: </span> {{comments}}
                                             {{/if}}
+                                            {{#if hasTitle}}
+                                                 <span style="color: #666">Change By:</span> {{assignee}}
+                                                    <br />
+                                                <span style="color: #666">Title: </span> <s>{{originalTaskTitle}} </s> to {{taskTitle}}
+                                            {{/if}}
+                                            {{#if hasDescription}}
+                                                 <span style="color: #666">Change By:</span> {{assignee}}
+                                                    <br />
+                                                <span style="color: #666">Description: </span> <s>{{originalTaskDescription}} </s> to {{taskDescription}}
+                                            {{/if}}
+                                            {{#if hasAttachments}}
+                                                 <span style="color: #666">Change By:</span> {{assignee}}
+                                                    <br />
+                                                Attached a new file
+                                            {{/if}}
                                             
                                         </td>
                                     </tr>

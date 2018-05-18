@@ -92,6 +92,8 @@
           createdDate: new Date(),
           flag: 4,
         };
+        vm.task.hasTitle = true;
+        vm.task.originalTaskTitle = vm.originalTask.title;
       }
       if ($scope.ui.editDescription) {
         var comments = {
@@ -100,7 +102,9 @@
           createdDate: new Date(),
           flag: 5,
         };
-      };
+        vm.task.hasDescription = true;
+        vm.task.originalTaskDescription = vm.originalTask.description;
+      };      
       vm.task.comments.push(comments);
       vm.task.$update().then(function(updated) {
         clearUI();
@@ -182,6 +186,7 @@
           createdDate: new Date(),
           flag: 3,
         };
+        vm.task.hasAttachments = true;
         vm.task.comments.push(comments);
         vm.task.updated = new Date();
         vm.task.$update();
