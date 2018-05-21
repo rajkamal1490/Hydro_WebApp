@@ -6,23 +6,93 @@
 var path = require('path'),
   mongoose = require('mongoose'),
   Meeting = mongoose.model('Meeting'),
+  nodemailer = require('nodemailer'),
+  async = require('async'),
+  User = mongoose.model('User'),
+  config = require(path.resolve('./config/config')),
+  fs = require('fs'),
   errorHandler = require(path.resolve('./modules/core/server/controllers/errors.server.controller')),
   _ = require('lodash');
+
+var smtpTransport = nodemailer.createTransport(config.mailer.options);
+
+var ical = require('ical-generator');
 
 /**
  * Create a Meeting
  */
 exports.create = function(req, res) {
-  var meeting = new Meeting(req.body);
-  meeting.user = req.user;
+  async.waterfall([
+    function(done) {
+      var meeting = new Meeting(req.body);
+      meeting.user = req.user;
 
-  meeting.save(function(err) {
-    if (err) {
-      return res.status(400).send({
-        message: errorHandler.getErrorMessage(err)
+      meeting.save(function(err) {
+        if (err) {
+          return res.status(422).send({
+            message: errorHandler.getErrorMessage(err)
+          });
+        } else {
+          done(err, meeting, req);
+        }
       });
-    } else {
-      res.jsonp(meeting);
+    },
+    // If valid email, send reset email using service
+    function(meeting, req, done) {
+      var createdName = meeting.facilitator.displayName;
+      var fromCreated = "";
+      if (createdName != undefined) {
+        fromCreated = config.mailer.from.replace("Hydro-Admin", createdName);
+      }
+      var httpTransport = 'http://';
+      if (config.secure && config.secure.ssl === true) {
+        httpTransport = 'https://';
+      }
+      var baseUrl = req.app.get('domain') || httpTransport + req.headers.host;
+      var cal = ical();
+      cal.setDomain(baseUrl).setName('My ical invite');
+      cal.addEvent({
+        start: meeting.startDateTime,
+        end: meeting.endDateTime,
+        summary: meeting.title,
+        uid: meeting._id, // Some unique identifier
+        sequence: 0,
+        description: meeting.title,
+        location: meeting.location,
+        organizer: {
+          name: meeting.facilitator.displayName,
+          email: meeting.facilitator.email
+        },
+        method: 'request'
+      });      
+      var path = config.uploads.meeting.file.dest + meeting._id + '.ics';
+      cal.saveSync(path);      
+      var mailOptions = {
+        from: config.mailer.from,
+        to: _.map(meeting.attendees, 'email'),
+        subject: meeting.title,
+        text: meeting.title,
+        alternatives: [{
+          contentType: "text/calendar",
+          content: new Buffer(cal.toString())
+        }]
+      };
+      smtpTransport.sendMail(mailOptions, function(err) {
+        console.log(err);
+        if (!err) {
+          res.jsonp(meeting);
+        } else {
+          console.log(err);
+          return res.status(302).send({
+            message: 'Failure sending email'
+          });
+        }
+        done(err);
+      });
+    }
+  ], function(err) {
+    if (err) {
+      return next(err);
     }
   });
 };
@@ -103,7 +173,7 @@ exports.meetingByID = function(req, res, next, id) {
     });
   }
 
-  Meeting.findById(id).populate('user', 'displayName').exec(function (err, meeting) {
+  Meeting.findById(id).populate('user', 'displayName').exec(function(err, meeting) {
     if (err) {
       return next(err);
     } else if (!meeting) {

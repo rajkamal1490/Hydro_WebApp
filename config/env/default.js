@@ -77,7 +77,15 @@ module.exports = {
           fileSize: 5242880 // Max file size in bytes (5 MB)
         }
       }
-    }
+    },
+    meeting: {
+      file: {
+        dest: './modules/meetings/client/img/fileid/uploads/',
+        limits: {
+          fileSize: 5242880 // Max file size in bytes (5 MB)
+        }
+      }
+    },
   },
   shared: {
     owasp: {

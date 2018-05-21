@@ -139,7 +139,7 @@
 			var calendar = $('#calendar').fullCalendar({
 				editable: false,
 				displayEventTime: false,
-				height: $(window).height(),
+				height: $(window).height() - 150,
 				header: {
 					left: 'prev,next today',
 					center: 'title',
