@@ -60,12 +60,12 @@ module.exports = {
     sandbox: true
   },
   mailer: {
-    from: process.env.MAILER_FROM || 'Hydro-Admin <rajkamalsoftware18@gmail.com>',
+    from: process.env.MAILER_FROM || 'Hydro-Admin <dev.hydroelec@gmail.com>',
     options: {
       service: process.env.MAILER_SERVICE_PROVIDER || 'gmail',
       auth: {
-        user: process.env.MAILER_EMAIL_ID || 'ubai.cse@gmail.com',
-        pass: process.env.MAILER_PASSWORD || 'fridaymaula'
+        user: process.env.MAILER_EMAIL_ID || 'dev.hydroelec@gmail.com',
+        pass: process.env.MAILER_PASSWORD || '5(prM:Z:'
       }
     }
   },
