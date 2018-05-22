@@ -1,51 +1,55 @@
 <section ng-init="loadinitial()">
-  <div class="page-content"  ng-if="vm.tasks.length > 0">
-    <div class="col-md-4 pull-right">
-      <div>
-        <h3><i class="icon-magnifier"></i> <strong>Search</strong></h3>
-      </div>       
+  <div class="page-content" ng-if="vm.tasks.length > 0">
+    <div class="row">
+      <div class="col-md-8">
+        <div class="header">
+          <h2>Tasks <strong>List</strong></h2>
+          <div class="col-md-3" style="margin-top: 2%">
+            <md-button class="btn btn-primary" ng-click="createOrUpdateTask(null, false)" type="submit">Create</md-button>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4 pull-right">
+        <div>
+          <h3><i class="icon-magnifier"></i> <strong>Search</strong></h3>
+        </div>
         <div class="row">
           <div class="col-md-12">
             <div layout="row" flex>
               <md-input-container flex>
                 <label class="my-label">Keyword</label>
-                <input type="text" name="keyword" ng-model="searchParams.keyword"/>               
-              </md-input-container>              
+                <input type="text" name="keyword" ng-model="searchParams.keyword" />
+              </md-input-container>
               <md-input-container flex>
-                  <label class="my-label">Status:</label>
-                  <md-select name="status" ng-model="searchParams.status">
-                    <md-optgroup label="Status">
-                      <md-option ng-value=""></md-option>
-                      <md-option ng-value="status.code" ng-repeat="status in vm.statuses">{{status.name}}</md-option>
-                    </md-optgroup>
-                  </md-select>  
-                </md-input-container> 
-                <md-input-container flex>
-                  <label class="my-label">Assignee:</label>
-                  <md-select name="assignee" ng-model="searchParams.assignee">
-                    <md-optgroup label="Assignee">
-                      <md-option ng-value=""></md-option>
-                      <md-option  ng-value="user._id" ng-repeat="user in vm.users">{{user.displayName}}</md-option>
-                    </md-optgroup>
-                  </md-select>               
-                </md-input-container>
+                <label class="my-label">Status:</label>
+                <md-select name="status" ng-model="searchParams.status">
+                  <md-optgroup label="Status">
+                    <md-option ng-value=""></md-option>
+                    <md-option ng-value="status.code" ng-repeat="status in vm.statuses">{{status.name}}</md-option>
+                  </md-optgroup>
+                </md-select>
+              </md-input-container>
+              <md-input-container flex>
+                <label class="my-label">Assignee:</label>
+                <md-select name="assignee" ng-model="searchParams.assignee">
+                  <md-optgroup label="Assignee">
+                    <md-option ng-value=""></md-option>
+                    <md-option ng-value="user._id" ng-repeat="user in vm.users">{{user.displayName}}</md-option>
+                  </md-optgroup>
+                </md-select>
+              </md-input-container>
             </div>
-          </div>          
+          </div>
         </div>
       </div>
-    <div class="header">
-      <h2>Tasks <strong>List</strong></h2>
-      <div class="col-md-3" style="margin-top: 2%">
-        <md-button class="btn btn-primary" ng-click="createOrUpdateTask(null, false)" type="submit">Create</md-button>
-      </div>
-    </div>    
-    <div class="row">      
-      <div class="col-lg-12 portlets">        
+    </div>
+    <div class="row">
+      <div class="col-lg-12 portlets">
         <div class="panel" when-scrolled="loadMoreRows()" style="height: 600px; overflow: auto;">
-          <div class="panel-content"> 
+          <div class="panel-content">
             <div class="control-btn">
               <a href="#" class="panel-reload hidden" ng-click="loadinitial()"><i class="icon-reload"></i></a>
-            </div>                 
+            </div>
             <table class="table table-hover dataTable" id="table-editable">
               <thead>
                 <tr>
@@ -62,11 +66,11 @@
                 <tr ng-repeat="task in vm.tasks | filter: assigneefilterFunc(searchParams.assignee) | filter: statusFilterFunc(searchParams.status) | filter: searchParams.keyword | orderBy: '-created' | limitTo: ui.rowsDisplayedCount track by $index">
                   <td class="col-md-2"><a ui-sref="tasks.view({ taskId: task._id })"> {{task.taskCode}}</a></td>
                   <td class="col-md-4"><a ui-sref="tasks.view({ taskId: task._id })"> {{task.title  | trim: 40:false}}</a></td>
-                  <td class="col-md-1"><a ui-sref="tasks.view({ taskId: task._id })">{{vm.getPriorityName(task.priority)}}</a></td> 
+                  <td class="col-md-1"><a ui-sref="tasks.view({ taskId: task._id })">{{vm.getPriorityName(task.priority)}}</a></td>
                   <td class="col-md-2"><a ui-sref="tasks.view({ taskId: task._id })">{{vm.getUserName(task.assignee).displayName}}</a></td>
-                  <td class="col-md-2"><a ui-sref="tasks.view({ taskId: task._id })">{{task.createdBy}}</a></td>                  
-                  <td class="col-md-3"><a ui-sref="tasks.view({ taskId: task._id })">{{vm.getStatusName(task.status)}}</a></td>                 
-                </tr>                      
+                  <td class="col-md-2"><a ui-sref="tasks.view({ taskId: task._id })">{{task.createdBy}}</a></td>
+                  <td class="col-md-3"><a ui-sref="tasks.view({ taskId: task._id })">{{vm.getStatusName(task.status)}}</a></td>
+                </tr>
               </tbody>
             </table>
           </div>
@@ -74,13 +78,10 @@
       </div>
     </div>
   </div>
- <!--  <uib-pagination boundary-links="true" max-size="10" items-per-page="vm.itemsPerPage" total-items="vm.filterLength" ng-model="vm.currentPage" ng-change="vm.pageChanged()"  ng-if="vm.pagedItems.length > 0"></uib-pagination>   -->
-<div class="page-content">
-  <div class="alert alert-warning text-center" ng-if="vm.tasks.length <= 0">
-    No Tasks yet, <a style="color: #000; cursor: pointer;" ng-click="createOrUpdateTask(null, false)"> Click here to create</a>
+  <!--  <uib-pagination boundary-links="true" max-size="10" items-per-page="vm.itemsPerPage" total-items="vm.filterLength" ng-model="vm.currentPage" ng-change="vm.pageChanged()"  ng-if="vm.pagedItems.length > 0"></uib-pagination>   -->
+  <div class="page-content">
+    <div class="alert alert-warning text-center" ng-if="vm.tasks.length <= 0">
+      No Tasks yet, <a style="color: #000; cursor: pointer;" ng-click="createOrUpdateTask(null, false)"> Click here to create</a>
+    </div>
   </div>
-</div>
 </section>
-
-
-

@@ -1,33 +1,37 @@
 <section ng-init="loadinitial()">
-  <div class="page-content"  ng-if="vm.reminders.length > 0">
-    <div class="col-md-4 pull-right">
-      <div>
-        <h3><i class="icon-magnifier"></i> <strong>Search</strong></h3>
-      </div>       
+  <div class="page-content" ng-if="vm.reminders.length > 0">
+    <div class="row">
+      <div class="col-md-8">
+        <div class="header">
+          <h2>Reminders <strong>List</strong></h2>
+          <div class="col-md-3" style="margin-top: 2%">
+            <md-button class="btn btn-primary" ng-click="createOrUpdateReminder(null, false)" type="submit">Create</md-button>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4 pull-right">
+        <div>
+          <h3><i class="icon-magnifier"></i> <strong>Search</strong></h3>
+        </div>
         <div class="row">
           <div class="col-md-12">
             <div layout="row" flex>
               <md-input-container flex>
                 <label class="my-label">Keyword</label>
-                <input type="text" name="keyword" ng-model="searchParams.keyword"/>               
-              </md-input-container>              
+                <input type="text" name="keyword" ng-model="searchParams.keyword" />
+              </md-input-container>
             </div>
-          </div>          
+          </div>
         </div>
       </div>
-    <div class="header">
-      <h2>Reminders <strong>List</strong></h2>
-      <div class="col-md-3" style="margin-top: 2%">
-        <md-button class="btn btn-primary" ng-click="createOrUpdateReminder(null, false)" type="submit">Create</md-button>
-      </div>
     </div>
-    <div class="row">      
-      <div class="col-lg-12 portlets">         
+    <div class="row">
+      <div class="col-lg-12 portlets">
         <div class="panel" when-scrolled="loadMoreRows()" style="height: 600px; overflow: auto;">
-          <div class="panel-content"> 
+          <div class="panel-content">
             <div class="control-btn">
               <a href="#" class="panel-reload hidden" ng-click="loadinitial()"><i class="icon-reload"></i></a>
-            </div>                 
+            </div>
             <table class="table table-hover dataTable" id="table-editable">
               <thead>
                 <tr>
@@ -38,10 +42,10 @@
               </thead>
               <tbody>
                 <tr ng-repeat="reminder in vm.reminders | filter: searchParams.keyword | orderBy: 'reminderDateTime' | limitTo: ui.rowsDisplayedCount">
-                  <td>{{reminder.title}}</td>                
+                  <td>{{reminder.title}}</td>
                   <td>{{reminder.reminderDateTime | date: 'yyyy-MM-dd hh:mm:ss a'}}</td>
-                  <td><button class="edit btn btn-sm btn-default" ng-click="createOrUpdateReminder(reminder, true)"><i class="icon-note"></i></button>  <button class="delete btn btn-sm btn-danger" ng-click="vm.remove(reminder, $index)"><i class="icons-office-52"></i></button></td>    
-                </tr>                      
+                  <td><button class="edit btn btn-sm btn-default" ng-click="createOrUpdateReminder(reminder, true)"><i class="icon-note"></i></button> <button class="delete btn btn-sm btn-danger" ng-click="vm.remove(reminder, $index)"><i class="icons-office-52"></i></button></td>
+                </tr>
               </tbody>
             </table>
           </div>
@@ -55,6 +59,3 @@
     </div>
   </div>
 </section>
-
-
-
