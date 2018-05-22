@@ -1,10 +1,10 @@
 <section>
   <div class="page-content">
     <h2><a ui-sref="tasks.view({ taskId: vm.task._id })">{{vm.task.projectCode ? vm.task.projectCode + ' /' : ""}} {{vm.task.taskCode}}</a></h2>
-    <div ng-if="vm.hasLoading" style="position: fixed; width: 100%; height: 100%;  top: 0;
+    <div ng-if="vm.hasLoading" style="position: fixed; width: 100%; height: 100%;  top: 0; 
     left: 0;
     right: 0;
-    bottom: 0; margin-top: 50px; margin-left: 120px; background-color: rgba(0,0,0,0.5);   z-index: 2;
+    bottom: 0; margin-top: 50px; margin-left: 120px; background-color: rgba(0,0,0,0.5);   z-index: 2; 
     cursor: pointer;" layout="row" layout-sm="column" layout-align="space-around">
       <md-progress-circular md-mode="indeterminate"></md-progress-circular>
     </div>
@@ -35,18 +35,26 @@
               </div>
             </div>
             <br/>
-            <!-- <div class="form-group">
+            <div class="form-group">
               <label class="col-sm-4" for="labels">Labels:</label>
               <div class="col-sm-8">
                 None
               </div>
-            </div> -->
+            </div>
           </div>
           <div class="col-sm-6">
-            <div class="form-group">
-              <label class="col-sm-4" for="project">Project Code:</label>
-              <div class="col-sm-8">
-                {{vm.task.projectCode}}
+             <div class="form-group">
+              <label class="col-sm-4" for="project">Project:</label>
+              <div class="col-sm-8" ng-show="vm.task.projectCode">
+                <span class="hover-edit-trigger" ng-mouseover="ui.projectMouseHover = true;" ng-mouseleave="ui.projectMouseHover = false;" ng-hide="ui.editProject">{{vm.starCase(vm.task.projectCode)}}  <i class="edit-pencil fa fa-pencil" style="cursor: pointer" ng-click="ui.editProject = true;" ng-show="ui.projectMouseHover"></i> </span>
+                <md-select name="project" ng-show="ui.editProject" ng-model="vm.task.projectCode" style="margin-top: -7px;">
+                  <md-optgroup label="project">
+                    <md-option ng-value="project.code" ng-repeat="project in vm.projects" ng-click="updateProject(project.code)">{{project.name}}</md-option>
+                  </md-optgroup>
+                </md-select>
+              </div>
+              <div class="col-sm-8" ng-hide="vm.task.projectCode">
+                <span>Individual Project</span>
               </div>
             </div>
             <br/>
@@ -107,7 +115,7 @@
                 <li><a href="#tab2_2" data-toggle="tab"> Comments</a></li>
               </ul>
               <div class="tab-content">
-                <div class="tab-pane fade active in" id="tab2_1">
+                <div class="tab-pane fade active in" id="tab2_1" style="height: 350px; overflow-x: auto; overflow-y: auto;">
                   <span ng-repeat="comment in vm.task.comments | orderBy: 'createdDate'">
                             <p ng-show="comment.flag === 0"><b>{{comment.name}} </b> added a comment on <b>{{comment.createdDate | date:'short' }}</b></p>
                             <p ng-show="comment.flag === 1"><b>{{comment.name}} </b> updated the status on <b>{{comment.createdDate | date:'short' }}</b></p>
@@ -115,6 +123,7 @@
                             <p ng-show="comment.flag === 3"><b>{{comment.name}} </b> uploaded the file on <b>{{comment.createdDate | date:'short' }}</b></p>
                             <p ng-show="comment.flag === 4"><b>{{comment.name}} </b> changed the title on <b>{{comment.createdDate | date:'short' }}</b></p>
                             <p ng-show="comment.flag === 5"><b>{{comment.name}} </b> changed the description on <b>{{comment.createdDate | date:'short' }}</b></p>
+                            <p ng-show="comment.flag === 6"><b>{{comment.name}} </b> changed the project on <b>{{comment.createdDate | date:'short' }}</b></p>
                             <p ng-mouseover="comment.commentMouseHover = true;" ng-mouseleave="comment.commentMouseHover = false;" ng-hide="comment.editComment">{{comment.comments}}  &nbsp;&nbsp;<span> <i class="fa fa-pencil" style="cursor: pointer" ng-click="comment.editComment = true;" ng-show="comment.commentMouseHover && comment.flag === 0"></i> </span></p>
                   <div style="height: 50px" ng-show="comment.editComment">
                     <input type="text" class="form-control" ng-model="comment.comments" style="font-size: 15px">

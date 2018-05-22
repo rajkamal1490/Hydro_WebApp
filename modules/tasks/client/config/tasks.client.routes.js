@@ -78,7 +78,10 @@
           }],
           statusResolve: ['$injector', '$q', function($injector, $q) {
             return $injector.invoke(statusData).$promise; // cached, otherwise we would have called IncidentNoteTitle.query().
-          }]
+          }],
+          projectResolve: ['$injector', '$q', function($injector, $q) {
+            return $injector.invoke(projectData).$promise;   // cached, otherwise we would have called IncidentNoteTitle.query().
+          }],
         },
         data: {
           pageTitle: 'Task {{ taskResolve.name }}'

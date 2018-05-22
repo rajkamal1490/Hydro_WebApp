@@ -115,6 +115,11 @@
                                                 <br />
                                                 <span style="color: #666">Status: </span> {{status}}
                                             {{/if}}
+                                            {{#if hasProjectCode}}
+                                                <span style="color: #666">Change By:</span> {{assignee}}
+                                                <br />
+                                                <span style="color: #666">Project: </span> {{projectCode}}
+                                            {{/if}}
                                              {{#if hasCommets}}
                                                  <span style="color: #666">Change By:</span> {{assignee}}
                                                     <br />

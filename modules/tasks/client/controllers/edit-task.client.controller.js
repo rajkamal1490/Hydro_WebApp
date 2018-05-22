@@ -6,9 +6,9 @@
     .module('tasks')
     .controller('TasksEditController', TasksEditController);
 
-  TasksEditController.$inject = ['CommonService', '$scope', '$state', '$window', '$mdDialog', 'Authentication', 'PRIORITIES', 'taskResolve', 'userResolve', 'Notification', 'statusResolve'];
+  TasksEditController.$inject = ['CommonService', '$scope', '$state', '$window', '$mdDialog', 'Authentication', 'PRIORITIES', 'taskResolve', 'userResolve', 'Notification', 'statusResolve', 'projectResolve'];
 
-  function TasksEditController(CommonService, $scope, $state, $window, $mdDialog, Authentication, PRIORITIES, task, userResolve, Notification, statusResolve) {
+  function TasksEditController(CommonService, $scope, $state, $window, $mdDialog, Authentication, PRIORITIES, task, userResolve, Notification, statusResolve, projectResolve) {
     var vm = this;
 
     vm.authentication = Authentication;
@@ -24,6 +24,7 @@
     vm.users = userResolve;
     vm.hasLoading = false;
     vm.originalTask = angular.copy(task);
+    vm.projects = projectResolve;
 
     $scope.ui = {
       editTitle: false,
@@ -133,6 +134,27 @@
         clearUI();
         Notification.success({
           message: '<i class="glyphicon glyphicon-ok"></i> Status updated successfully'
+        });
+        vm.hasLoading = false;
+      });
+    };
+
+    $scope.updateProject = function(projectCode) {
+      vm.hasLoading = true;
+      var comments = {
+        name: Authentication.user.displayName,
+        comments: "Changed project from " + vm.task.projectCode + " to " +  projectCode,
+        createdDate: new Date(),
+        flag: 6,
+      };
+      vm.task.projectCode = projectCode;
+      vm.task.updated = new Date();      
+      vm.task.comments.push(comments);
+      vm.task.hasProjectCode = true;
+      vm.task.$update().then(function(updated) {
+        clearUI();
+        Notification.success({
+          message: '<i class="glyphicon glyphicon-ok"></i> Project updated successfully'
         });
         vm.hasLoading = false;
       });

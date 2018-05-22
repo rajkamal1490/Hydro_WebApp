@@ -186,6 +186,7 @@ exports.update = function(req, res) {
         status: _.startCase(task.status),
         hasCommets: task.hasCommets,
         hasStatus: task.hasStatus,
+        hasProjectCode: task.hasProjectCode,
         hasAssignee: task.hasAssignee,
         hasTitle: task.hasTitle,
         hasDescription: task.hasDescription,

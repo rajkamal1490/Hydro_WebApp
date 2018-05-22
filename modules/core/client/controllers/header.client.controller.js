@@ -152,6 +152,10 @@
 
     };
 
+    $scope.signout = function(ev) {
+      window.location.href = '../api/auth/signout';
+    };
+
     $scope.approveLeave = function(event) {
       var oldShow = $mdDialog.show;
       $mdDialog.show = function(options) {
@@ -238,7 +242,7 @@
               title: '<i class="glyphicon glyphicon-remove"></i> Your check-out time not inserted successfully, Please contact your adminstrator'
             });
           }
-          window.location.href = '/api/auth/signout';
+          window.location.href = '../api/auth/signout';
         },
         function() {
           confirmBeforeLogout(ev);
