@@ -216,12 +216,12 @@
 
     function checkOut(ev, todayCheckIn) {
       var checkoutConfirm = $mdDialog.confirm()
-        .title('Do you want to checkout before logout ?')
+        .title('What do you want to like ?')
         .clickOutsideToClose(false)
         .escapeToClose(false)
         .targetEvent(ev)
-        .ok('Yes')
-        .cancel('No');
+        .ok('Checkout')
+        .cancel('Logout');
 
       $mdDialog.show(checkoutConfirm).then(function() {
           var attendance = new AttendancesService(todayCheckIn);
@@ -245,7 +245,7 @@
           window.location.href = '../api/auth/signout';
         },
         function() {
-          confirmBeforeLogout(ev);
+          window.location.href = '../api/auth/signout';
         });
     };
 

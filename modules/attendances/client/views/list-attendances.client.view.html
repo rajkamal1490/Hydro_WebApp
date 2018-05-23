@@ -2,37 +2,37 @@
   <div class="page-content">
     <div class="header">
       <h2><strong>Attendances</strong></h2>
-    </div> 
-
-    <div class="panel">
-      <div class="control-btn">
-        <a href="#" class="panel-reload hidden" ng-click="refresh()"><i class="icon-reload"></i></a>
-      </div>      
-      <div class="page-content">
-        <div class="row">
-          <div class="pull-right">
-            <button type="button" class="btn btn-sm btn-icon btn-rounded bg-orange"><i class="icon-clock"></i> </button>
-            <small><strong>Waiting for approval</strong></small>
-            <button type="button" class="btn btn-sm btn-icon btn-rounded bg-red"><i class="mdi-action-thumb-up"></i> </button>
-            <small><strong>Leave approved</strong></small>
-            <button type="button" class="btn btn-sm btn-icon btn-rounded bg-green"><i class="mdi-action-thumb-up"></i> </button>
-            <small><strong>Permission approved</strong></small>
-          </div>
-          <div class="col-md-4" ng-show="vm.CommonService.hasExecutive(vm.authentication) || vm.CommonService.hasVp(vm.authentication)">
-            <div layout="row" flex>             
-                <md-input-container flex>
-                  <label class="my-label">Employee:</label>
-                  <md-select ng-change="findAttendancesByUser()" name="assignee" ng-model="searchParams.assignee">
-                    <md-optgroup label="Employee">
-                      <md-option  ng-value="user._id" ng-repeat="user in model.users">{{user.displayName}}</md-option>
-                    </md-optgroup>
-                  </md-select>               
-                </md-input-container>
-            </div>
-          </div>          
+    </div>
+    <div class="row">
+      <div class="pull-right">
+        <button type="button" class="btn btn-sm btn-icon btn-rounded bg-orange"><i class="icon-clock"></i> </button>
+        <small><strong>Waiting for approval</strong></small>
+        <button type="button" class="btn btn-sm btn-icon btn-rounded bg-red"><i class="mdi-action-thumb-up"></i> </button>
+        <small><strong>Leave approved</strong></small>
+        <button type="button" class="btn btn-sm btn-icon btn-rounded bg-green"><i class="mdi-action-thumb-up"></i> </button>
+        <small><strong>Permission approved</strong></small>
+      </div>
+      <div class="col-md-4" ng-show="vm.CommonService.hasExecutive(vm.authentication) || vm.CommonService.hasVp(vm.authentication)">
+        <div layout="row" flex>
+          <md-input-container flex>
+            <label class="my-label">Employee:</label>
+            <md-select ng-change="findAttendancesByUser()" name="assignee" ng-model="searchParams.assignee">
+              <md-optgroup label="Employee">
+                <md-option ng-value="user._id" ng-repeat="user in model.users">{{user.displayName}}</md-option>
+              </md-optgroup>
+            </md-select>
+          </md-input-container>
         </div>
-        <div layout="row">
-          <div flex=100 id="calendar" class="calendar" ng-model="eventSources" config="uiConfig.calendar" ui-calendar="uiConfig.calendar"></div>
+      </div>
+    </div>
+    <div class="col-md-12 col-xlg-12 p-0 no-bd">
+      <div class="widget">
+        <div class="widget-body">
+          <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+              <div flex=100 id="calendar" class="calendar" ng-model="eventSources" config="uiConfig.calendar" ui-calendar="uiConfig.calendar"></div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
