@@ -1,11 +1,11 @@
 <div ng-controller="SidebarController as vm">
-    <div class="sidebar" ng-show="vm.authentication.user" ng-style="ui.isAllowToClick ? {'pointer-events': 'none'} : {'pointer-events': 'visible'}">
+    <div class="sidebar" ng-show="vm.authentication.user" ng-style="ui.isAllowToClick ? {'pointer-events': 'none'} : {'pointer-events': 'visible'}" ng-init="CalendarClick = false; SettingsClick = false">
         <div class="logopanel">
           <h1 style="text-align: center; font-weight: bold;">
             Hydro
           </h1>
         </div>
-        <div class="sidebar-inner">
+        <div class="sidebar-inner" style="height:750px; overflow-x: auto; overflow-y: auto;">
             <div class="sidebar-top medium-img">
                 <div class="user-image">
                   <img ng-src="/{{vm.authentication.user.profileImageURL}}" alt="{{vm.authentication.user.displayName}}" class="img-responsive img-circle" >
@@ -31,15 +31,15 @@
 
                 <li ng-class="{ 'nav-active active': isActive('/admin/users') }" ng-show="vm.CommonService.hasAdmin(vm.authentication) || vm.CommonService.hasExecutive(vm.authentication) || vm.CommonService.hasVp(vm.authentication)"><a href="/admin/users">
                     <i class="icon-user"></i><span>Employees</span></a>
-                </li>
-                
-                <li class="nav-parent" ng-class="{ 'nav-active active': isActive('/meetings/list', '/attendances/list') }">
-                    <a href=""><i class="fa fa-calendar"></i><span>My Calendar</span><span class="fa arrow"></span></a>
-                    <ul class="children collapse">
+                </li>                
+               
+                <li class="nav-parent" ng-class="{ 'nav-active active': isActive('/meetings/list', '/attendances/list') }" ng-click="CalendarClick = !CalendarClick; SettingsClick = false">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#"><i class="fa fa-calendar"></i><span>My Calendar</span><span class="fa arrow" ng-class="{ 'active': CalendarClick }"></span></a>
+                    <ul class="dropdown-menu child">
                         <li ng-class="{ 'active': isChildrenActive('/attendances') }"><a href="/attendances">Attendance</a></li>
                         <li ng-class="{ 'active': isChildrenActive('/meetings') }"><a href="/meetings">Meetings</a></li>
                     </ul>
-                </li>               
+                </li>              
 
                <!--   <li class="nav-parent">
                     <a href=""><i class="icon-cup"></i><span>Extra </span><span class="fa arrow"></span></a>
@@ -54,9 +54,9 @@
                     </ul>
                 </li> -->
 
-                <li class="nav-parent" ng-class="{ 'nav-active active': isActive('/admin/createuser, /refcodetasks, /statuses, /clearances') }" ng-show="vm.CommonService.hasAdmin(vm.authentication)">
-                    <a href=""><i class="icon-settings"></i><span>Settings </span><span class="fa arrow"></span></a>
-                    <ul class="children collapse">                        
+                <li class="nav-parent" ng-class="{ 'nav-active active': isActive('/admin/createuser, /refcodetasks, /statuses, /clearances') }" ng-show="vm.CommonService.hasAdmin(vm.authentication)"  ng-click="SettingsClick = !SettingsClick; CalendarClick = false">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#"><i class="icon-settings"></i><span>Settings </span><span class="fa arrow" ng-class="{ 'active': SettingsClick }"></span></a>
+                    <ul class="dropdown-menu child">                        
                         <li ng-class="{ 'active': isChildrenActive('/admin/createuser') }"><a ui-sref="admin.user-create"> Create User</a></li>
                         <li ng-class="{ 'active': isChildrenActive('/refcodetasks') }"><a href="/refcodetasks"> Ref Code</a></li>
                         <li ng-class="{ 'active': isChildrenActive('/statuses') }"><a href="/statuses"> Status</a></li>
