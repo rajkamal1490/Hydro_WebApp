@@ -104,18 +104,18 @@ a:hover .header-profile-image {
   transition: all 0.2s ease-out;
 }
 .sidebar .sidebar-inner .nav-sidebar .child > li > a:hover {
-  color: #fff;
+  color: #75AFB9;
   text-decoration: none;
 }
 .sidebar .sidebar-inner .nav-sidebar .child > li > a > span:not(.badge) {
   margin-top: 2px;
 }
 .sidebar .sidebar-inner .nav-sidebar .child > li.active > a {
-  color: #fff;
+  color: #75AFB9;
 }
 
 .sidebar .sidebar-inner .nav-sidebar .nav-parent > li.active > a {
-  color: #fff;
+  color: #75AFB9;
 }
 .sidebar .sidebar-inner .nav-sidebar .child > li .fa {
   font-size: 12px;
