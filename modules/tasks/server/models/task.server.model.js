@@ -50,6 +50,9 @@ var TaskSchema = new Schema({
   createdProfileImage: {
     type: String,
   },
+  createdID: {
+    type: String,
+  },
   isViewed: {
     type: Boolean,
     default: false
