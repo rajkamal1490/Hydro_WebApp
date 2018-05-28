@@ -46,12 +46,13 @@
              <div class="form-group">
               <label class="col-sm-4" for="project">Project:</label>
               <div class="col-sm-8" ng-show="vm.task.projectCode">
-                <span class="hover-edit-trigger" ng-mouseover="ui.projectMouseHover = true;" ng-mouseleave="ui.projectMouseHover = false;" ng-hide="ui.editProject">{{vm.starCase(vm.task.projectCode)}}  <i class="edit-pencil fa fa-pencil" style="cursor: pointer" ng-click="ui.editProject = true;" ng-show="ui.projectMouseHover"></i> </span>
+               <!--  <span class="hover-edit-trigger" ng-mouseover="ui.projectMouseHover = true;" ng-mouseleave="ui.projectMouseHover = false;" ng-hide="ui.editProject">{{vm.starCase(vm.task.projectCode)}}  <i class="edit-pencil fa fa-pencil" style="cursor: pointer" ng-click="ui.editProject = true;" ng-show="ui.projectMouseHover"></i> </span>
                 <md-select name="project" ng-show="ui.editProject" ng-model="vm.task.projectCode" style="margin-top: -7px;">
                   <md-optgroup label="project">
                     <md-option ng-value="project.code" ng-repeat="project in vm.projects" ng-click="updateProject(project.code)">{{project.name}}</md-option>
                   </md-optgroup>
-                </md-select>
+                </md-select> -->
+                 <span>{{vm.starCase(vm.task.projectCode)}}</span>
               </div>
               <div class="col-sm-8" ng-hide="vm.task.projectCode">
                 <span>Individual Project</span>
@@ -191,30 +192,30 @@
               <br/>
               <br/>
               <div class="form-group">
-                <label class="col-sm-5" for="labels">Start Date:</label>
-                <div class="col-sm-7">
+                <label class="col-sm-6" for="labels">Start Date:</label>
+                <div class="col-sm-6">
                   {{vm.task.startDateTime | date:'short'}}
                 </div>
               </div>
               <br/>
               <div class="form-group">
-                <label class="col-sm-5" for="labels">Due Date:</label>
-                <div class="col-sm-7">
+                <label class="col-sm-6" for="labels">Due Date:</label>
+                <div class="col-sm-6">
                   {{vm.task.dueDateTime | date:'short'}}
                 </div>
               </div>
               <br/>
               <br/>
               <div class="form-group">
-                <label class="col-sm-5" for="labels">Created:</label>
-                <div class="col-sm-7">
+                <label class="col-sm-6" for="labels">Created:</label>
+                <div class="col-sm-6">
                   {{vm.task.created | date:'short'}}
                 </div>
               </div>
               <br/>
               <div class="form-group">
-                <label class="col-sm-5" for="labels">Updated:</label>
-                <div class="col-sm-7">
+                <label class="col-sm-6" for="labels">Updated:</label>
+                <div class="col-sm-6">
                   {{vm.task.updated | date:'short'}}
                 </div>
               </div>
