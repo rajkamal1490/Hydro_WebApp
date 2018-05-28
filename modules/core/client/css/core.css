@@ -344,3 +344,11 @@ a:hover .header-profile-image {
   .sidebar-collapsed .sidebar .sidebar-inner .nav-sidebar .nav-parent.nav-hover.active .child {
     display: block;
   }
+
+  .scrollbar {
+    max-height: 620px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    padding-right: 5px;
+    visibility: visible;
+  }
