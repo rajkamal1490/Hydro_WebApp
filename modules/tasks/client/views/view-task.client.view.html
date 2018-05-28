@@ -116,7 +116,7 @@
                 <li><a href="#tab2_2" data-toggle="tab"> Comments</a></li>
               </ul>
               <div class="tab-content">
-                <div class="tab-pane fade active in" id="tab2_1" style="height: 350px; overflow-x: auto; overflow-y: auto;">
+                <div class="tab-pane fade active in" id="tab2_1" style="height: auto; overflow-x: auto; overflow-y: auto;">
                   <span ng-repeat="comment in vm.task.comments | orderBy: 'createdDate'">
                             <p ng-show="comment.flag === 0"><b>{{comment.name}} </b> added a comment on <b>{{comment.createdDate | date:'short' }}</b></p>
                             <p ng-show="comment.flag === 1"><b>{{comment.name}} </b> updated the status on <b>{{comment.createdDate | date:'short' }}</b></p>
@@ -151,7 +151,7 @@
                   </span>
                 </div>
               </div>
-              <textarea name="comment" ng-model="vm.task.comment" id="content" class="form-control" cols="30" rows="10" placeholder="Add comments..." style="font-weight: bold; font-size: 15px" required></textarea>
+              <textarea name="comment" ng-model="vm.task.comment" id="content" class="form-control" cols="5" rows="5" placeholder="Add comments..." style="font-weight: bold; font-size: 15px" required></textarea>
               <br />
               <br />
               <md-button class="btn btn-danger btn-sm" ng-click="addComment()" type="submit">Add Comment</md-button>
