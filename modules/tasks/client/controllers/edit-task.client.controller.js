@@ -40,11 +40,28 @@
     };
 
     // Remove existing Account
-    function remove() {
-      if ($window.confirm('Are you sure you want to delete?')) {
-        vm.task.$remove($state.go('accounts.list'));
-      }
-    }
+
+    function remove(task, index) {
+			var confirm = $mdDialog.confirm().title('Do you want to delete the task?').textContent('task detail will be deleted permanently.').ok('Yes').cancel('No').multiple(true);
+			$mdDialog.show(confirm).then(function() {
+        console.log(angular.toJson($state.get()));
+					vm.task.$remove(deleteSuccessCallback, deleteErrorCallback);
+					function deleteSuccessCallback(res) {
+            $window.location.href= '/tasks';
+            Notification.success({ message: '<i class="glyphicon glyphicon-ok"></i> Tasks deleted successfully!' });
+					}
+
+					function deleteErrorCallback(res) {
+						Notification.error({
+							message: res.data.message,
+							title: '<i class="glyphicon glyphicon-remove"></i> Delete Task Error'
+						});
+					}
+				},
+				function() {
+					console.log('no');
+				});
+		}
 
     // Save Account
     function save(isValid) {
@@ -105,7 +122,7 @@
         };
         vm.task.hasDescription = true;
         vm.task.originalTaskDescription = vm.originalTask.description;
-      };      
+      };
       vm.task.comments.push(comments);
       vm.task.$update().then(function(updated) {
         clearUI();
@@ -125,7 +142,7 @@
         flag: 1,
       };
       vm.task.status = status;
-      vm.task.updated = new Date();      
+      vm.task.updated = new Date();
       vm.task.comments.push(comments);
       vm.task.hasAssignee = false;
       vm.task.hasCommets = false;
@@ -148,7 +165,7 @@
         flag: 6,
       };
       vm.task.projectCode = projectCode;
-      vm.task.updated = new Date();      
+      vm.task.updated = new Date();
       vm.task.comments.push(comments);
       vm.task.hasProjectCode = true;
       vm.task.$update().then(function(updated) {

@@ -13212,11 +13212,11 @@ html .form-group .select2-container--default.select2-container--open.select2-con
 html .form-group .select2-container--default.select2-container--focus .select2-selection--multiple {border:none !important}
 .select2-container{z-index: 900000;}*/
 
-textarea:hover, 
-input:hover, 
-textarea:active, 
-input:active, 
-textarea:focus, 
+textarea:hover,
+input:hover,
+textarea:active,
+input:active,
+textarea:focus,
 input:focus,
 button:focus,
 button:active,
@@ -13236,6 +13236,8 @@ select:focus,
 .page-builder .placeholder-container, .page-builder .placeholder, .page-builder .placeholder-content {background: #E9E9E9}
 .page-builder .placeholder-content .placeholder-content-area {background: #fff;}
 .mCSB_scrollTools .mCSB_draggerRail, .mCSB_scrollTools .mCSB_dragger .mCSB_dragger_bar {-webkit-border-radius: 0;-moz-border-radius: 0;border-radius: 0;}
-.mCSB_scrollTools {width: 5px;}
+.mCSB_scrollTools {width: 8px;}
 .sidebar-widgets .progress {margin-top: 10px; }
-
+.mCSB_scrollTools .mCSB_dragger .mCSB_dragger_bar { background: white; width: 8px; }
+.mCSB_scrollTools .mCSB_draggerRail{ width:8px; }
+.mCS-autoHide>.mCustomScrollBox>.mCSB_scrollTools, .mCS-autoHide>.mCustomScrollBox~.mCSB_scrollTools { opacity: 1; }
