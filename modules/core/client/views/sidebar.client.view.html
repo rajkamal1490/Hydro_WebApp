@@ -5,13 +5,13 @@
             Hydro
           </h1>
         </div>
-        <div class="sidebar-inner scrollbar">
-            <div class="sidebar-top medium-img">
+        <div class="sidebar-inner scrollbar" style="height: 550px">
+          <!--   <div class="sidebar-top medium-img">
                 <div class="user-image">
                   <img ng-src="/{{vm.authentication.user.profileImageURL}}" alt="{{vm.authentication.user.displayName}}" class="img-responsive img-circle" >
                 </div>
                 <h4 class="col-md-offset-3">{{vm.authentication.user.displayName}}</h4>
-            </div>           
+            </div>  -->          
             <ul class="nav nav-sidebar">
                 <li ng-class="{ 'nav-active active': isActive('/') }" ng-click="setActive($event)"><a href="/">
                     <i class="mdi-action-dashboard"></i><span>Dashboard</span></a>
@@ -35,7 +35,7 @@
                
                 <li class="nav-parent" ng-class="{ 'nav-active active': isActive('/meetings/list', '/attendances/list') }" ng-click="CalendarClick = !CalendarClick; SettingsClick = false">
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#"><i class="fa fa-calendar"></i><span>My Calendar</span><span class="fa arrow" ng-class="{ 'active': CalendarClick }"></span></a>
-                    <ul class="dropdown-menu child">
+                    <ul class="dropdown-menu child">  
                         <li ng-class="{ 'active': isChildrenActive('/attendances') }"><a href="/attendances">Attendance</a></li>
                         <li ng-class="{ 'active': isChildrenActive('/meetings') }"><a href="/meetings">Meetings</a></li>
                     </ul>
@@ -65,7 +65,7 @@
                 </li>
             </ul>
             <!-- SIDEBAR WIDGET FOLDERS -->
-            <div class="sidebar-widgets">
+         <!--    <div class="sidebar-widgets">
                 <p class="menu-title widget-title">Directives</p>
                 <ul class="folders">
                     <li>
@@ -81,7 +81,24 @@
                 <div class="pull-right">
                     <a style="cursor: pointer" ng-click="takeABreak()"><i class="fa fa-coffee" style="font-size: 40px"></i> </a>
                 </div> 
-            </div>          
-        </div>    
+            </div> -->          
+        </div> 
+           <div class="sidebar-widgets">
+                <!-- <p class="menu-title widget-title">Directives</p>
+                <ul class="folders">
+                    <li>
+                        <a href="/file-managers"><i class="icon-doc c-primary"></i>Documents Library</a> 
+                    </li>
+                    <li>
+                        <a ng-click="setActive($event)" href="/contacts"><i class="icon-docs"></i>Contacts Library</a> 
+                    </li>
+                     <li>
+                        <a ng-click="setActive($event)" href="/reminders"><i class="mdi-action-alarm" style="font-size: 16px"></i>Set Reminders</a> 
+                    </li>
+                </ul> -->
+                <div class="pull-right" style="margin-top: -70px;margin-right: 60px">
+                    <a style="cursor: pointer" ng-click="takeABreak()"><i class="fa fa-coffee" style="font-size: 30px; color: white"></i> </a>
+                </div> 
+            </div>    
     </div>
 </div>

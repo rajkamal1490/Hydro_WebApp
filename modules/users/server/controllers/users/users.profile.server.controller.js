@@ -28,6 +28,8 @@ exports.update = function (req, res) {
 
     user.updated = Date.now();
     user.displayName = user.firstName + ' ' + user.lastName;
+    user.mobileNumber = req.body.mobileNumber;
+    user.department = req.body.department;
 
     user.save(function (err) {
       if (err) {

@@ -1,5 +1,29 @@
-<div class="page-content">
-  <div class="row">
-    <div ui-view></div>            
+<section>
+  <div class="page-content">
+    <div class="row">
+      <div class="col-md-8">
+        <div class="header">
+          <h2>Settings</h2>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <nav class="col-sm-3 col-md-3">
+        <ul class="nav nav-pills nav-stacked" style="height: 150px">
+          <li ui-sref-active="active">
+            <a ui-sref="settings.profile">Edit Profile</a>
+          </li>
+          <li ui-sref-active="active">
+            <a ui-sref="settings.picture">Change Profile Picture</a>
+          </li>
+          <li ui-sref-active="active" ng-show="vm.user.provider === 'local'">
+            <a ui-sref="settings.password">Change Password</a>
+          </li>
+        </ul>
+      </nav>
+      <div class="col-sm-9 col-md-8 settings-view">
+        <div ui-view></div>
+      </div>
+    </div>
   </div>
-</div>
+</section>

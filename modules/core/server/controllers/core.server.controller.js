@@ -24,13 +24,14 @@ exports.renderIndex = function (req, res) {
       additionalProvidersData: req.user.additionalProvidersData,
       userGroup: req.user.userGroup,
       mobileNumber: req.user.mobileNumber,
+      department: req.user.department,
     };
   }
 
   res.render('modules/core/server/views/index', {
     user: JSON.stringify(safeUserObject),
     sharedConfig: JSON.stringify(config.shared),
-    bodyClass: JSON.stringify(safeUserObject).length > 4 ? 'sidebar-condensed fixed-topbar fixed-sidebar theme-sdtd color-primary' : 'account separate-inputs',
+    bodyClass: JSON.stringify(safeUserObject).length > 4 ? 'sidebar-light fixed-topbar theme-sdtd color-primary' : 'account separate-inputs',
     mainContent: JSON.stringify(safeUserObject).length > 4 ? 'main-content' : '',
     dataPage: JSON.stringify(safeUserObject).length > 4 ? '' : 'login',
     css: JSON.stringify(safeUserObject).length > 4 ? 'md-layout1' : 'layout1',

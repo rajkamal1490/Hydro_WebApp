@@ -1,42 +1,42 @@
 <div class="container" ng-controller="HeaderController as vm">
-  <div class="topbar" ng-show="vm.authentication.user"  ng-style="vm.commonService.getIsAllowToClick ? {'pointer-events': 'none'} : {'pointer-events': 'visible'}">
+  <div class="topbar" ng-show="vm.authentication.user" ng-style="vm.commonService.getIsAllowToClick ? {'pointer-events': 'none'} : {'pointer-events': 'visible'}">
     <div class="header-left">
       <div class="topnav">
         <a class="menutoggle" href="#" data-toggle="sidebar-collapsed"><span class="menu__handle"><span>Menu</span></span></a>
         <ul class="nav nav-icons">
-          <li><a href="#" class="toggle-sidebar-top"><span class="icon-user-following"></span></a></li>
-          <!-- <li><a href="mailbox.html"><span class="octicon octicon-mail-read"></span></a></li>
-          <li><a href="#"><span class="octicon octicon-flame"></span></a></li>
-          <li><a href="builder-page.html"><span class="octicon octicon-rocket"></span></a></li> -->
+          <li><a href="/contacts" title="Contacts"><span class="icon-user-following"></span></a></li>
+          <li><a href="/file-managers" title="File-managers"><span class="icon-doc"></span></a></li>
+          <li><a href="/reminders" title="Reminders"><span class="mdi-action-alarm"></span></a></li>
+          <!-- <li><a href="builder-page.html"><span class="octicon octicon-rocket"></span></a></li> -->
         </ul>
       </div>
     </div>
     <div class="header-right">
       <ul class="header-menu nav navbar-nav">
         <!-- BEGIN USER DROPDOWN -->
-          <li class="dropdown" id="notifications-header">
-            <a href="#" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
+        <li class="dropdown" id="notifications-header">
+          <a href="#" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
               <i class="icon-bell faa-ring undefined visible" ng-class="{ animated : vm.originalReminders.length !== vm.reminders.length }"></i>
               <span class="badge badge-danger badge-header faa-ring undefined visible" ng-class="{ animated: vm.originalReminders.length !== vm.reminders.length }">{{vm.reminders.length}}</span>
             </a>
-            <ul class="dropdown-menu">
-              <li class="dropdown-header clearfix">
-                <p class="pull-left">You have {{vm.reminders.length}} reminders today</p>
-              </li>
-              <li>
-                <ul class="dropdown-menu-list withScroll" data-height="220">                 
-                  <li ng-repeat="reminder in vm.reminders | orderBy: 'reminderDateTime'">
-                    <a ng-click="reminderViewed(reminder)">
+          <ul class="dropdown-menu">
+            <li class="dropdown-header clearfix">
+              <p class="pull-left">You have {{vm.reminders.length}} reminders today</p>
+            </li>
+            <li>
+              <ul class="dropdown-menu-list withScroll" data-height="220">
+                <li ng-repeat="reminder in vm.reminders | orderBy: 'reminderDateTime'">
+                  <a ng-click="reminderViewed(reminder)">
                       <span class="glyphicon glyphicon-time" style="color: orange"></span>
                      <small> {{reminder.title}}</small>
                      <span class="dropdown-time">{{inHour(reminder.reminderDateTime)}}</span> <br />
                      <span class="dropdown-time">Okay, Got it</span>
                     </a>
-                  </li>
-                </ul>
-              </li>
-            </ul>
-          </li>
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </li>
         <!-- END USER DROPDOWN -->
         <!-- BEGIN NOTIFICATION DROPDOWN -->
         <li class="dropdown" id="messages-header">
@@ -49,7 +49,7 @@
               <p class="pull-left">{{vm.commonService.hasExecutive(vm.authentication) || vm.commonService.hasVp(vm.authentication) ? vm.meetings.length + vm.events.length : vm.meetings.length}} Pending Notifications</p>
             </li>
             <li>
-              <ul class="dropdown-menu-list withScroll" data-height="220">               
+              <ul class="dropdown-menu-list withScroll" data-height="220">
                 <li ng-repeat="event in vm.events | orderBy: '-appliedOn' | limitTo: 5" ng-init="getProfileDetails(event)" ng-if="vm.commonService.hasExecutive(vm.authentication) || vm.commonService.hasVp(vm.authentication)">
                   <a ng-click="approveLeave(event)">
                     <span class="glyphicon glyphicon-time" style="color: orange"></span>
@@ -74,91 +74,6 @@
             </li>
           </ul>
         </li>
-        <!-- END NOTIFICATION DROPDOWN -->
-        <!-- BEGIN MESSAGES DROPDOWN -->
-        <!-- <li class="dropdown" id="messages-header">
-          <a href="#" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
-            <i class="icon-paper-plane"></i>
-            <span class="badge badge-primary badge-header">
-            8
-            </span>
-          </a>
-          <ul class="dropdown-menu">
-            <li class="dropdown-header clearfix">
-              <p class="pull-left">
-                You have 8 Messages
-              </p>
-            </li>
-            <li class="dropdown-body">
-              <ul class="dropdown-menu-list withScroll" data-height="220">
-                <li class="clearfix">
-                  <span class="pull-left p-r-5">
-                    <img src="/assets/global/images/avatars/avatar3.png" alt="avatar 3">
-                  </span>
-                  <div class="clearfix">
-                    <div>
-                      <strong>Alexa Johnson</strong> 
-                        <small class="pull-right text-muted">
-                          <span class="glyphicon glyphicon-time p-r-5"></span>12 mins ago
-                        </small>
-                    </div>
-                      <p>Lorem ipsum dolor sit amet, consectetur...</p>
-                  </div>
-                </li>
-                <li class="clearfix">
-                  <span class="pull-left p-r-5">
-                    <img src="/assets/global/images/avatars/avatar4.png" alt="avatar 4">
-                  </span>
-                  <div class="clearfix">
-                    <div>
-                      <strong>John Smith</strong> 
-                        <small class="pull-right text-muted">
-                      <span class="glyphicon glyphicon-time p-r-5"></span>47 mins ago
-                    </small>
-                  </div>
-                    <p>Lorem ipsum dolor sit amet, consectetur...</p>
-                  </div>
-                </li>
-                <li class="clearfix">
-                  <span class="pull-left p-r-5">
-                    <img src="/assets/global/images/avatars/avatar5.png" alt="avatar 5">
-                  </span>
-                  <div class="clearfix">
-                    <div>
-                      <strong>Bobby Brown</strong>  
-                      <small class="pull-right text-muted">
-                        <span class="glyphicon glyphicon-time p-r-5"></span>1 hour ago
-                      </small>
-                    </div>
-                    <p>Lorem ipsum dolor sit amet, consectetur...</p>
-                  </div>
-                </li>
-                <li class="clearfix">
-                  <span class="pull-left p-r-5">
-                    <img src="/assets/global/images/avatars/avatar6.png" alt="avatar 6">
-                  </span>
-                  <div class="clearfix">
-                    <div>
-                      <strong>James Miller</strong> 
-                        <small class="pull-right text-muted">
-                          <span class="glyphicon glyphicon-time p-r-5"></span>2 days ago
-                        </small>
-                    </div>
-                    <p>Lorem ipsum dolor sit amet, consectetur...</p>
-                  </div>
-                </li>
-              </ul>
-            </li>
-            <li class="dropdown-footer clearfix">
-              <a href="mailbox.html" class="pull-left">See all messages</a>
-              <a href="#" class="pull-right">
-                <i class="icon-settings"></i>
-              </a>
-            </li>
-          </ul>
-        </li> -->
-        <!-- END MESSAGES DROPDOWN -->
-        <!-- BEGIN USER DROPDOWN -->
         <li class="dropdown" id="user-header">
           <a href="#" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
             <img ng-src="/{{vm.authentication.user.profileImageURL}}" alt="{{vm.authentication.user.displayName}}">
@@ -166,13 +81,7 @@
           </a>
           <ul class="dropdown-menu">
             <li>
-             <a ui-sref="settings.profile"><i class="icon-user"></i><span>My Profile</span></a>
-            </li>
-            <li>
-              <a ui-sref="settings.picture"><i class="icon-camera"></i><span>Edit Profile Picture</span></a>
-            </li>
-             <li>
-              <a ui-sref="settings.password"><i class="icon-eye"></i><span>Change Password</span></a>
+              <a ui-sref="settings.profile"><i class="icon-user"></i><span>My Profile</span></a>
             </li>
             <li>
               <a href="/my-calendar"><i class="icon-calendar"></i><span>My Calendar</span></a>
@@ -187,6 +96,6 @@
         <!-- <li id="quickview-toggle"><a ng-click="signout($event)"><i class="fa fa-power-off" aria-hidden="true"></i></a></li> -->
       </ul>
     </div>
-  <!-- header-right -->
+    <!-- header-right -->
   </div>
 </div>
