@@ -5,13 +5,14 @@
             Hydro
           </h1>
         </div>
-        <div class="sidebar-inner scrollbar" style="height: 550px">
+        <div class="sidebar-inner scrollbar" style="height: 650px">
             <div class="sidebar-top small-img">
                 <div class="user-image">
                   <img ng-src="/{{vm.authentication.user.profileImageURL}}" alt="{{vm.authentication.user.displayName}}" class="img-responsive img-circle" >
                 </div>
-                <h4 class="col-md-offset-3">{{vm.authentication.user.displayName}}</h4>
-            </div>           
+                <h4 class="col-md-offset-3" style="margin: 30px 0px 0px 15px">{{vm.authentication.user.displayName}}</h4>
+            </div> 
+            <hr>          
             <ul class="nav nav-sidebar">
                 <li ng-class="{ 'nav-active active': isActive('/') }" ng-click="setActive($event)"><a href="/">
                     <i class="mdi-action-dashboard"></i><span>Dashboard</span></a>
@@ -63,7 +64,21 @@
                         <li ng-class="{ 'active': isChildrenActive('/clearances') }"><a href="/clearances"> Clearance</a></li>
                     </ul>
                 </li>
+
             </ul>
+            <p class="menu-title widget-title" style="color: white; margin-left: 10px">Links :-</p>
+            <ul class="col-md-offset-3" style="margin-top: 20px"> 
+     <li style="display: inline-block;">
+        <div ><a href="/contacts" title="Contacts"><span class="icon-user-following" style="font-size: 20px; color: white"></span></a></div>
+    </li>&nbsp;&nbsp;&nbsp;&nbsp;
+     <li style="display: inline-block;">
+        <div ><a href="/file-managers" title="File-managers"><span class="icon-doc" style="font-size: 20px; color: white"></span></a></div>
+    </li>&nbsp;&nbsp;&nbsp;&nbsp;
+     <li style="display: inline-block;">
+        <div ><a href="/reminders" title="Reminders"><span class="mdi-action-alarm" style="font-size: 20px; color: white"></span></a></div>
+    </li>
+   </ul>
+
             <!-- SIDEBAR WIDGET FOLDERS -->
          <!--    <div class="sidebar-widgets">
                 <p class="menu-title widget-title">Directives</p>
@@ -96,6 +111,7 @@
                         <a ng-click="setActive($event)" href="/reminders"><i class="mdi-action-alarm" style="font-size: 16px"></i>Set Reminders</a> 
                     </li>
                 </ul> -->
+                  
                 <div class="pull-right" style="margin-top: -70px;margin-right: 60px">
                     <a style="cursor: pointer" ng-click="takeABreak()"><i class="fa fa-coffee" style="font-size: 30px; color: white"></i> </a>
                 </div> 
