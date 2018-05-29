@@ -8,7 +8,7 @@
                 <uib-alert type="danger" ng-show="vm.error" class="text-center text-danger">
                                     <span ng-bind="vm.error"></span>
                                 </uib-alert>
-                                <input type="email" id="usernameOrEmail" name="usernameOrEmail" class="form-control form-white username" placeholder="Username" ng-model="vm.credentials.usernameOrEmail" required autofocus>
+                                <input type="email" id="usernameOrEmail" name="usernameOrEmail" class="form-control form-white username" placeholder="Email" ng-model="vm.credentials.usernameOrEmail" required autofocus>
  <div ng-messages="vm.userForm.usernameOrEmail.$error" role="alert">
                                                     <p class="help-block error-msg" ng-message="required">Email address is required.</p>
                                                     <p class="help-block error-msg" ng-message="email">Email address is invalid.</p>
