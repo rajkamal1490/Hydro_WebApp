@@ -64,6 +64,7 @@
         controller: 'AuthenticationController',
         controllerAs: 'vm'
       })
+      /*
       .state('authentication.signup', {
         url: '/signup',
         templateUrl: '/modules/users/client/views/admin/create-user.client.view.html',
@@ -78,6 +79,7 @@
           }]
         },
       })
+      */
       .state('authentication.signin', {
         url: '/signin?err',
         templateUrl: '/modules/users/client/views/authentication/signin.client.view.html',
