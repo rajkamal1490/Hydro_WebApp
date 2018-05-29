@@ -38,8 +38,8 @@
     }
 
     function stateChangeSuccess(event, toState, toParams, fromState, fromParams) {
-      // Record previous state
-      if(!Authentication.user && toState.url !== '/signup') {
+      // Record previous state      
+      if(!Authentication.user && toState.url !== '/forgot' && toState.url !== '/:token') {
         $state.go('authentication.signin')
       }
       storePreviousState(fromState, fromParams);

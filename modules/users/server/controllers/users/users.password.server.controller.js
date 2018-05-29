@@ -17,24 +17,24 @@ var smtpTransport = nodemailer.createTransport(config.mailer.options);
 /**
  * Forgot for reset password (forgot POST)
  */
-exports.forgot = function (req, res, next) {
+exports.forgot = function(req, res, next) {
   async.waterfall([
     // Generate random token
-    function (done) {
-      crypto.randomBytes(20, function (err, buffer) {
+    function(done) {
+      crypto.randomBytes(20, function(err, buffer) {
         var token = buffer.toString('hex');
         done(err, token);
       });
     },
-    // Lookup user by username
-    function (token, done) {
-      if (req.body.username) {
+    // Lookup user by email
+    function(token, done) {
+      if (req.body.email) {
         User.findOne({
-          username: req.body.username.toLowerCase()
-        }, '-salt -password', function (err, user) {
+          email: req.body.email.toLowerCase()
+        }, '-salt -password', function(err, user) {
           if (err || !user) {
-            return res.status(400).send({
-              message: 'No account with that username has been found'
+            return res.status(422).send({
+              message: 'No account found with that email address'
             });
           } else if (user.provider !== 'local') {
             return res.status(400).send({
@@ -44,47 +44,47 @@ exports.forgot = function (req, res, next) {
             user.resetPasswordToken = token;
             user.resetPasswordExpires = Date.now() + 3600000; // 1 hour
 
-            user.save(function (err) {
+            user.save(function(err) {
               done(err, token, user);
             });
           }
         });
       } else {
         return res.status(422).send({
-          message: 'Username field must not be blank'
+          message: 'Email field must not be blank'
         });
       }
     },
-    function (token, user, done) {
+    function(token, user, done) {
 
       var httpTransport = 'http://';
       if (config.secure && config.secure.ssl === true) {
         httpTransport = 'https://';
       }
-      var baseUrl = config.domain || httpTransport + req.headers.host;
+      var baseUrl = req.app.get('domain') || httpTransport + req.headers.host;
       res.render(path.resolve('modules/users/server/templates/reset-password-email'), {
         name: user.displayName,
         appName: config.app.title,
         url: baseUrl + '/api/auth/reset/' + token
-      }, function (err, emailHTML) {
+      }, function(err, emailHTML) {
         done(err, emailHTML, user);
       });
     },
     // If valid email, send reset email using service
-    function (emailHTML, user, done) {
+    function(emailHTML, user, done) {
       var mailOptions = {
         to: user.email,
         from: config.mailer.from,
         subject: 'Password Reset',
         html: emailHTML
       };
-      smtpTransport.sendMail(mailOptions, function (err) {
+      smtpTransport.sendMail(mailOptions, function(err) {
         if (!err) {
           res.send({
-            message: 'An email has been sent to the provided email with further instructions.'
+            message: 'An email is sent to the registered email with further instructions'
           });
         } else {
-          return res.status(400).send({
+          return res.status(422).send({
             message: 'Failure sending email'
           });
         }
@@ -92,7 +92,7 @@ exports.forgot = function (req, res, next) {
         done(err);
       });
     }
-  ], function (err) {
+  ], function(err) {
     if (err) {
       return next(err);
     }
@@ -102,13 +102,13 @@ exports.forgot = function (req, res, next) {
 /**
  * Reset password GET from email token
  */
-exports.validateResetToken = function (req, res) {
+exports.validateResetToken = function(req, res) {
   User.findOne({
     resetPasswordToken: req.params.token,
     resetPasswordExpires: {
       $gt: Date.now()
     }
-  }, function (err, user) {
+  }, function(err, user) {
     if (err || !user) {
       return res.redirect('/password/reset/invalid');
     }
@@ -120,32 +120,37 @@ exports.validateResetToken = function (req, res) {
 /**
  * Reset password POST from email token
  */
-exports.reset = function (req, res, next) {
+exports.reset = function(req, res, next) {
   // Init Variables
   var passwordDetails = req.body;
 
   async.waterfall([
 
-    function (done) {
+    function(done) {
       User.findOne({
         resetPasswordToken: req.params.token,
         resetPasswordExpires: {
           $gt: Date.now()
         }
-      }, function (err, user) {
+      }, function(err, user) {
         if (!err && user) {
+          if (user.authenticate(passwordDetails.newPassword)) {
+            return res.status(422).send({
+              message: 'New Password cannot be same as old Password.'
+            });
+          }
           if (passwordDetails.newPassword === passwordDetails.verifyPassword) {
             user.password = passwordDetails.newPassword;
             user.resetPasswordToken = undefined;
             user.resetPasswordExpires = undefined;
 
-            user.save(function (err) {
+            user.save(function(err) {
               if (err) {
                 return res.status(422).send({
                   message: errorHandler.getErrorMessage(err)
                 });
               } else {
-                req.login(user, function (err) {
+                req.login(user, function(err) {
                   if (err) {
                     res.status(400).send(err);
                   } else {
@@ -172,16 +177,16 @@ exports.reset = function (req, res, next) {
         }
       });
     },
-    function (user, done) {
+    function(user, done) {
       res.render('modules/users/server/templates/reset-password-confirm-email', {
         name: user.displayName,
         appName: config.app.title
-      }, function (err, emailHTML) {
+      }, function(err, emailHTML) {
         done(err, emailHTML, user);
       });
     },
     // If valid email, send reset email using service
-    function (emailHTML, user, done) {
+    function(emailHTML, user, done) {
       var mailOptions = {
         to: user.email,
         from: config.mailer.from,
@@ -189,11 +194,11 @@ exports.reset = function (req, res, next) {
         html: emailHTML
       };
 
-      smtpTransport.sendMail(mailOptions, function (err) {
+      smtpTransport.sendMail(mailOptions, function(err) {
         done(err, 'done');
       });
     }
-  ], function (err) {
+  ], function(err) {
     if (err) {
       return next(err);
     }
@@ -203,25 +208,30 @@ exports.reset = function (req, res, next) {
 /**
  * Change Password
  */
-exports.changePassword = function (req, res, next) {
+exports.changePassword = function(req, res, next) {
   // Init Variables
   var passwordDetails = req.body;
 
   if (req.user) {
     if (passwordDetails.newPassword) {
-      User.findById(req.user.id, function (err, user) {
+      User.findById(req.user.id, function(err, user) {
         if (!err && user) {
           if (user.authenticate(passwordDetails.currentPassword)) {
+            if (passwordDetails.currentPassword === passwordDetails.newPassword) {
+              res.status(422).send({
+                message: 'New Password cannot be same as old Password.'
+              });
+            }
             if (passwordDetails.newPassword === passwordDetails.verifyPassword) {
               user.password = passwordDetails.newPassword;
 
-              user.save(function (err) {
+              user.save(function(err) {
                 if (err) {
                   return res.status(422).send({
                     message: errorHandler.getErrorMessage(err)
                   });
                 } else {
-                  req.login(user, function (err) {
+                  req.login(user, function(err) {
                     if (err) {
                       res.status(400).send(err);
                     } else {
@@ -234,7 +244,7 @@ exports.changePassword = function (req, res, next) {
               });
             } else {
               res.status(422).send({
-                message: 'Passwords do not match'
+                message: 'New Password and Verify Password does not match.'
               });
             }
           } else {
