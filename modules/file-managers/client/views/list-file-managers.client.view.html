@@ -1,33 +1,37 @@
 <section>
   <div class="page-content">
-    <div class="col-md-4 pull-right">
-      <div>
-        <h3><i class="icon-magnifier"></i> <strong>Search</strong></h3>
-      </div>       
+    <div class="row">
+      <div class="col-md-8">
+        <div class="page-header">
+          <h2>File <strong>Managers</strong></h2>
+          <md-button class="btn btn-primary btn-sm pull-left" ng-click="fileUpload()" type="submit"><i class="mdi-file-cloud-upload" style="font-size: 13px"> Upload</i></md-button>
+          <md-button class="btn btn-primary btn-sm pull-left" ng-click="creatFolder()" type="submit"><i class="fa fa-folder" style="font-size: 13px">  Create Folder</i></md-button>
+        </div>
+      </div>
+      <div class="col-md-4 pull-right">
+        <div>
+          <h3><i class="icon-magnifier"></i> <strong>Search</strong></h3>
+        </div>
         <div class="row">
           <div class="col-md-12">
             <div layout="row" flex>
               <md-input-container flex>
                 <label class="my-label">Keyword</label>
-                <input type="text" name="keyword" ng-model="searchParams.keyword"/>               
-              </md-input-container>                          
+                <input type="text" name="keyword" ng-model="searchParams.keyword" />
+              </md-input-container>
             </div>
-            <div style="margin-top: -30px"><small style="color: red;">Note: Max file size allowed - 5 MB and avoid space in File name</small> </div> 
-          </div>          
+            <div style="margin-top: -30px; margin-bottom: 10px;"><small style="color: red;">Note: Max file size allowed - 5 MB and avoid space in File name</small> </div>
+          </div>
         </div>
       </div>
-    <div class="page-header">
-      <h2>File <strong>Managers</strong></h2>
-          <md-button class="btn btn-primary btn-sm pull-left" ng-click="fileUpload()" type="submit"><i class="mdi-file-cloud-upload" style="font-size: 13px"> Upload</i></md-button>
-          <md-button class="btn btn-primary btn-sm pull-left" ng-click="creatFolder()" type="submit"><i class="fa fa-folder" style="font-size: 13px">  Create Folder</i></md-button>    
-      </div>
-    <div class="row">      
+    </div>
+    <div class="row">
       <div class="col-lg-12 portlets">
-        <div class="panel"> 
-          
-          <div class="panel-content">         
-            <div class="row">             
-              <div class="col-lg-12 col-md-12">            
+        <div class="panel">
+
+          <div class="panel-content">
+            <div class="row">
+              <div class="col-lg-12 col-md-12">
                 <div class="profil-content">
                   <div class="pull-right" ng-show="vm.gotoFolder">
                     <md-button class="btn btn-primary btn-sm pull-right" ng-click="vm.gotoFolder = false" type="submit"><i class="fa fa-arrow-left" style="font-size: 16px"></i></md-button>
@@ -38,7 +42,7 @@
                       <hr>
                     </h3>
                     <div class="col-xlg-2 col-lg-3 col-md-3 col-sm-3 col-xs-12" ng-repeat="folder in model.folders | filter: searchParams.keyword | orderBy: '-created'">
-                      <div class="panel"  ng-click="clickFolder(folder);" style="cursor: pointer;">
+                      <div class="panel" ng-click="clickFolder(folder);" style="cursor: pointer;">
                         <div class="panel-content widget-info">
                           <div class="row">
                             <div class="left">
@@ -50,7 +54,7 @@
                           </div>
                         </div>
                       </div>
-                    </div>            
+                    </div>
                   </div>
                   <div ng-show="vm.gotoFolder">
                     <div class="row m-t-10" ng-hide="!model.files.length">
@@ -66,14 +70,14 @@
                                 <i class="fa fa-file bg-orange"></i>
                               </div>
                               <div class="right">
-                                <p class="text" title="{{file.filename}}">{{file.filename  | trim: 15:false}}</p>
+                                <p class="text" title="{{file.filename}}">{{file.filename | trim: 15:false}}</p>
                                 <p> <a download="{{file.filename}}" target="_self" ng-href="./{{file.fileURL}}"><i class="fa fa-download"></i></a>
-                                <a ng-click="deleteFile(file)" style="cursor: pointer"> <i class="fa fa-trash text-danger"></i></a></p>
+                                  <a ng-click="deleteFile(file)" style="cursor: pointer"> <i class="fa fa-trash text-danger"></i></a></p>
                               </div>
                             </div>
                           </div>
                         </div>
-                      </div>            
+                      </div>
                     </div>
                     <div class="row m-t-10" ng-hide="!model.files.length">
                       <h3 class="m-t-30 m-b-10">
@@ -87,15 +91,15 @@
                               <div class="left">
                                 <i class="fa fa-file bg-red"></i>
                               </div>
-                               <div class="right">
-                                <p class="text" title="{{file.filename}}">{{file.filename  | trim: 15:false}}</p>
+                              <div class="right">
+                                <p class="text" title="{{file.filename}}">{{file.filename | trim: 15:false}}</p>
                                 <p> <a download="{{file.filename}}" target="_self" ng-href="./{{file.fileURL}}"><i class="fa fa-download"></i></a>
-                                <a ng-click="deleteFile(file)" style="cursor: pointer"> <i class="fa fa-trash text-danger"></i></a></p>
+                                  <a ng-click="deleteFile(file)" style="cursor: pointer"> <i class="fa fa-trash text-danger"></i></a></p>
                               </div>
                             </div>
                           </div>
                         </div>
-                      </div>            
+                      </div>
                     </div>
                     <div class="row m-t-10" ng-hide="!model.files.length">
                       <h3 class="m-t-30 m-b-10">
@@ -109,17 +113,17 @@
                               <div class="left">
                                 <i class="fa fa-file bg-green"></i>
                               </div>
-                               <div class="right">
-                                <p class="text" title="{{file.filename}}">{{file.filename  | trim: 15:false}}</p>
+                              <div class="right">
+                                <p class="text" title="{{file.filename}}">{{file.filename | trim: 15:false}}</p>
                                 <p> <a download="{{file.filename}}" target="_self" ng-href="./{{file.fileURL}}"><i class="fa fa-download"></i></a>
-                                <a ng-click="deleteFile(file)" style="cursor: pointer"> <i class="fa fa-trash text-danger"></i></a></p>
+                                  <a ng-click="deleteFile(file)" style="cursor: pointer"> <i class="fa fa-trash text-danger"></i></a></p>
                               </div>
                             </div>
                           </div>
                         </div>
-                      </div>            
+                      </div>
                     </div>
-                </div>
+                  </div>
                   <div class="row m-t-10" ng-hide="!model.files.length && !model.minutesOfMeeting.length || vm.gotoFolder">
                     <h3 class="m-t-30 m-b-10">
                       <strong>&nbsp;&nbsp;&nbsp;&nbsp; Minutes Of </strong> Meeting
@@ -132,15 +136,15 @@
                             <div class="left">
                               <i class="fa fa-file bg-green"></i>
                             </div>
-                             <div class="right">
-                              <p class="text" title="{{file.title}}">{{file.title  | trim: 15:false}}</p>
+                            <div class="right">
+                              <p class="text" title="{{file.title}}">{{file.title | trim: 15:false}}</p>
                               <p> <a download="{{file.title}}.docx" target="_self" ng-href="{{file.minutesFilePath}}"><i class="fa fa-download"></i></a>
-                              <a target="_blank" ng-href="http://docs.google.com/gview?url={{file.minutesFilePath}}&embedded=true"><i class="fa fa-eye text-warning"></i></a></p>
+                                <a target="_blank" ng-href="http://docs.google.com/gview?url={{file.minutesFilePath}}&embedded=true"><i class="fa fa-eye text-warning"></i></a></p>
                             </div>
                           </div>
                         </div>
                       </div>
-                    </div>            
+                    </div>
                   </div>
                   <div class="alert alert-warning text-center" ng-if="model.files.$resolved && !model.files.length && !model.minutesOfMeeting.length  && !model.folders.length">
                     No Files found ...

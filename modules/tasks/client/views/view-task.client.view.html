@@ -83,7 +83,7 @@
               </div>
             </div>
           </div>
-          <div class="form-group panel col-sm-12" style="margin-top: 5%">
+          <div class="form-group col-sm-12" style="margin-top: 5%">
             <label class="control-label col-sm-2" for="type">Attachments:</label>
             <br />
             <br />
@@ -167,8 +167,8 @@
             <br />
             <div class="col-sm-12">
               <div class="form-group">
-                <label class="col-sm-4" for="type">Assignee:</label>
-                <div class="col-sm-8">
+                <label class="col-sm-12 col-lg-4" for="type">Assignee:</label>
+                <div class="col-sm-12 col-lg-8">
                   <span class="hover-edit-trigger" ng-mouseover="ui.assigneeMouseHover = true;" ng-mouseleave="ui.assigneeMouseHover = false;" ng-hide="ui.assigneeProject">{{vm.getUserName(vm.task.assignee).displayName}} &nbsp;&nbsp; <i class="edit-pencil fa fa-pencil" style="cursor: pointer" ng-click="ui.assigneeProject = true;" ng-show="ui.assigneeMouseHover"></i> </span>
                   <md-select name="Assignee" ng-show="ui.assigneeProject" ng-model="vm.task.assignee" style="margin-top: -8px;">
                     <md-optgroup label="Assignee">
@@ -182,8 +182,8 @@
               </div>
               <br/>
               <div class="form-group">
-                <label class="col-sm-4" for="priority">Reporter:</label>
-                <div class="col-sm-8">
+                <label class="col-sm-12 col-lg-4" for="priority">Reporter:</label>
+                <div class="col-sm-12 col-lg-8">
                   {{vm.task.createdBy}}
                 </div>
               </div>

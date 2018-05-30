@@ -3,16 +3,16 @@
     <div class="col-md-4 pull-right">
       <div>
         <h3><i class="icon-magnifier"></i> <strong>Search</strong></h3>
-      </div>       
+      </div>
         <div class="row">
           <div class="col-md-12">
             <div layout="row" flex>
               <md-input-container flex>
                 <label class="my-label">Keyword</label>
-                <input type="text" name="keyword" ng-model="searchParams.keyword"/>               
-              </md-input-container>              
+                <input type="text" name="keyword" ng-model="searchParams.keyword"/>
+              </md-input-container>
             </div>
-          </div>          
+          </div>
         </div>
       </div>
     <div class="header">
@@ -24,26 +24,26 @@
        </div>
       <div class="panel">
         <div class="panel-header md-panel-controls ui-sortable-handle" ng-if="vm.pagedItems.length > 0">
-          <div class="panel-content page-app page-profil">         
-            <div class="row">             
-                <div class="col-lg-12 col-md-12">            
+          <div class="panel-content page-app page-profil">
+            <div class="row">
+                <div class="col-lg-12 col-md-12">
                   <div class="profil-content" >
                       <div class="control-btn">
                         <a href="#" class="panel-reload hidden"><i class="icon-reload"></i></a>
                       </div>
-                      <div class="col-md-3"  ng-repeat="contact in vm.pagedItems | filter: searchParams.keyword | orderBy: 'firstName'">
-                        <div class="row">                    
+                      <div class="col-md-6"  ng-repeat="contact in vm.pagedItems | filter: searchParams.keyword | orderBy: 'firstName'">
+                        <div class="row">
                           <div class="col-md-12 col-sm-6 col-xs-12">
                             <div class="item item-comment"  ng-click="hasShowContact(contact) ? addContacts(contact, true) : infoMsg(contact)">
                               <div class="user">
                                 <div class="user-image">
                                     <img ng-src="/{{contact.photoIdPath}}" alt="{{contact.firstName}}" class="img-responsive img-circle" >
                                 </div>
-                                
+
                                 <h5 class="name">{{contact.firstName}} {{contact.lastName}}</h5>
                                 <div class="clearfix">
-                                  
-                                  <p class="place"><i class="icon-industry"></i> {{contact.designation}}, {{contact.department}}</p>                            
+
+                                  <p class="place"><i class="icon-industry"></i> {{contact.designation}}, {{contact.department}}</p>
                                 </div>
                                 <div class="comment">
                                   <p class="c-primary m-b-0"><i class="icon-envelope  c-gray-light p-r-10"></i> {{contact.email}}</p>
@@ -51,7 +51,7 @@
                                   <p class="c-primary m-b-0"><i class="fa fa-building c-gray-light p-r-10"></i> {{contact.company}}</p>
                                   <p class="c-primary m-b-0"><i class="icon-pointer c-gray-light p-r-10"></i> {{contact.state}}</p>
                                 </div>
-                              </div>                       
+                              </div>
                             </div>
                           </div>
                         </div>
@@ -62,8 +62,8 @@
                </div>
             </div>
           <uib-pagination boundary-links="true" max-size="10" items-per-page="vm.itemsPerPage" total-items="vm.filterLength" ng-model="vm.currentPage" ng-change="vm.pageChanged()"></uib-pagination>
-      </div> 
-      </div>  
+      </div>
+      </div>
     </div>
     <div class="alert alert-warning text-center" ng-if="vm.pagedItems.$resolved && !vm.pagedItems.length">
       No Contacts yet
