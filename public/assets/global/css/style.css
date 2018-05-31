@@ -13242,18 +13242,4 @@ select:focus,
 .mCSB_scrollTools .mCSB_draggerRail{ width:8px; }
 .mCS-autoHide>.mCustomScrollBox>.mCSB_scrollTools, .mCS-autoHide>.mCustomScrollBox~.mCSB_scrollTools { opacity: 1; }
 
-
-/* for keeping sidebar below popup */
-.md-dialog-container{
-  z-index: 101;
-}
-
-/* for keeping dropdown above popup */
-.md-select-menu-container{
-  z-index: 102;
-}
-
-/* for keeping suggestions above popup */
-.md-virtual-repeat-container.md-autocomplete-suggestions-container{
-  z-index: 102;
-}
+.sidebar{ z-index: 79; }
