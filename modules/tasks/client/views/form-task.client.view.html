@@ -1,9 +1,9 @@
-<md-dialog flex="70" style="left: 7%" ng-init="vm.loadinitial()"> 
+<md-dialog flex="70" style="left: 7%" ng-init="vm.loadinitial()">
   <form name="vm.taskForm" novalidate autocomplete="off">
     <div class="modal-header bg-primary">
       <h4>{{vm.task._id ? 'Edit task' : 'Create task'}}</h4>
     </div>
-       <md-dialog-content style="padding-left: 24px">         
+       <md-dialog-content style="padding-left: 24px">
           <div class="col-md-12 col-sm-12 col-xs-12">
             <div layout="row" flex>
               <md-input-container flex>
@@ -24,7 +24,7 @@
             </div>
 
             <div layout="row" flex>
-            
+
               <md-input-container flex>
                 <label class="my-label"><b>Start Date</b></label>
                   <div ng-click="showStartDatePicker($event)">
@@ -47,10 +47,10 @@
                   </div>
               </md-input-container>
             </div>
-            <div layout="row" flex>                       
-               
+            <div layout="row" flex>
+
               <md-input-container flex>
-                <label class="my-label">Priority</label>               
+                <label class="my-label">Priority</label>
                 <md-select
                         required
                         name="priority"
@@ -62,8 +62,8 @@
                 <div ng-messages="vm.taskForm.priority.$error">
                     <div ng-message="required">Priority is required.</div>
                 </div>
-              </md-input-container>           
-           
+              </md-input-container>
+
               <md-input-container flex>
                 <label class="my-label">Assignee:</label>
                 <md-autocomplete md-selected-item="vm.task.assignee" ng-model="vm.task.assignee" md-search-text="searchText" md-items="user in vm.getMatches(searchText)" md-item-text="user.displayName">
@@ -101,7 +101,7 @@
              <div layout="row" flex ng-if="vm.hasIndividual === '1'">
 
                <md-input-container flex>
-                <label class="my-label">Project Name</label>               
+                <label class="my-label">Project Name</label>
                 <md-select
                         required
                         name="projectname"
@@ -113,10 +113,10 @@
                 <div ng-messages="vm.taskForm.order.$error">
                     <div ng-message="required">Project Name is required.</div>
                 </div>
-              </md-input-container> 
-               
+              </md-input-container>
+
               <md-input-container flex>
-                <label class="my-label">Order Status</label>               
+                <label class="my-label">Order Status</label>
                 <md-select
                         required
                         name="order"
@@ -128,10 +128,10 @@
                 <div ng-messages="vm.taskForm.order.$error">
                     <div ng-message="required">Order Status is required.</div>
                 </div>
-              </md-input-container>   
+              </md-input-container>
 
                <md-input-container flex>
-                <label class="my-label">State</label>               
+                <label class="my-label">State</label>
                 <md-select
                         required
                         name="state"
@@ -143,10 +143,10 @@
                 <div ng-messages="vm.taskForm.state.$error">
                     <div ng-message="required">State is required.</div>
                 </div>
-              </md-input-container> 
+              </md-input-container>
 
                <md-input-container flex>
-                <label class="my-label">Work Category</label>               
+                <label class="my-label">Work Category</label>
                 <md-select
                         required
                         name="work"
@@ -158,20 +158,20 @@
                 <div ng-messages="vm.taskForm.work.$error">
                     <div ng-message="required">Work Category is required.</div>
                 </div>
-              </md-input-container>             
-             </div>
-
-             <div layout="row" flex>                       
-               
-              <md-input-container flex>
-                <label class="my-label">Comments</label>
-                <input type="text" name="comment" ng-model="vm.task.comment"/>                
               </md-input-container>
              </div>
-             <div layout="row" flex ng-if="vm.authentication.user._id === vm.task.assignee && ui.editMode">               
+
+             <div layout="row" flex>
+
               <md-input-container flex>
-                <label class="my-label">Status</label>               
-                <md-select                        
+                <label class="my-label">Comments</label>
+                <input type="text" name="comment" ng-model="vm.task.comment"/>
+              </md-input-container>
+             </div>
+             <div layout="row" flex ng-if="vm.authentication.user._id === vm.task.assignee && ui.editMode">
+              <md-input-container flex>
+                <label class="my-label">Status</label>
+                <md-select
                         name="status"
                         ng-model="vm.task.status">
                   <md-optgroup label="Status">
@@ -183,7 +183,7 @@
 
           </div>
       </md-dialog-content>
-     <md-dialog-actions layout="row">  
+     <md-dialog-actions layout="row">
         <span flex></span>
         <md-button class="btn btn-next btn-fill btn-success btn-wd"  ng-hide="ui.isTaskInProgress" flex ng-click="vm.save(vm.taskForm.$valid)" type="submit">{{vm.task._id ? 'Update' : 'Create'}}</md-button>
         <md-button class="btn btn-next btn-fill btn-success btn-wd"  ng-disabled="true" flex ng-show="ui.isTaskInProgress" type="submit"><i class="fa fa-spinner fa-spin"></i> {{vm.task._id ? 'Updating' : 'Creating'}}</md-button>
@@ -192,6 +192,6 @@
         <span flex></span>
         <md-button class="btn btn-next btn-fill btn-warning btn-wd" flex ng-click="vm.cancel()" type="submit">Cancel</md-button>
         <span flex></span>
-      </md-dialog-actions>   
+      </md-dialog-actions>
   </form>
 </md-dialog>

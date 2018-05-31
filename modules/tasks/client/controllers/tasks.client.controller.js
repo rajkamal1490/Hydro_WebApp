@@ -24,11 +24,11 @@
     vm.hasIndividual = '0';
     vm.refcodetasks = refCodes;
     vm.projects = projects;
-    vm.getMatches = getMatches;    
+    vm.getMatches = getMatches;
 
     $scope.eventTime = {
       mStartClock: task ? new Date(task.startDateTime) : new Date(),
-      mEndClock: task ? new Date(task.dueDateTime) : new Date(),      
+      mEndClock: task ? new Date(task.dueDateTime) : new Date(),
       mStartToServer: task ? getTimeToServer(new Date(task.startDateTime)) : getTimeToServer(new Date()),
       mEndToServer: task ? getTimeToServer(new Date(task.dueDateTime)) : getTimeToServer(new Date())
     };
@@ -74,7 +74,7 @@
         return;
       } else {
         $scope.ui.isTaskInProgress = true;
-      }      
+      }
 
       vm.task.createdBy = Authentication.user.displayName;
       vm.task.createdProfileImage = Authentication.user.profileImageURL;
@@ -94,7 +94,7 @@
       if (vm.task._id) {
         if(!angular.equals($scope.model.original.assignee, vm.task.assignee._id)) {
           new NotificationsService({_id: vm.task.notificationId}).$remove();
-        }        
+        }
       }
 
       // TODO: move create/update logic to service
@@ -113,7 +113,7 @@
         var filterTasksByCode = _.filter(taskResolve, function(filterTask) {
           return filterTask.projectCode === vm.task.projectCode && filterTask.orderCode === vm.task.orderCode && filterTask.stateCode === vm.task.stateCode && filterTask.workCode === vm.task.workCode;
         });
-        if (filterTasksByCode.length > 0) {          
+        if (filterTasksByCode.length > 0) {
           var taskIDs = _.map(filterTasksByCode, 'taskID');
           var latestTaskID = _.max(taskIDs);
           vm.task.taskID = latestTaskID + 1;
@@ -165,7 +165,7 @@
           vm.task.startDateTime = getTimeToDisplay(dateTime);
           $scope.eventTime.mStartToServer = getTimeToServer(dateTime);
 
-          validateStartAndEndDate();          
+          validateStartAndEndDate();
         });
     };
 
@@ -183,7 +183,7 @@
     };
 
     function validateStartAndEndDate() {
-      if (vm.taskForm) {        
+      if (vm.taskForm) {
         var bool = (Date.parse($scope.eventTime.mEndToServer) > Date.parse($scope.eventTime.mStartToServer));
         vm.taskForm.end.$setValidity('greater', bool);
         vm.taskForm.start.$setValidity('lesser', bool);

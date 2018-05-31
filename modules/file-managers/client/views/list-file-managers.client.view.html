@@ -56,6 +56,30 @@
                       </div>
                     </div>
                   </div>
+                  <div class="row m-t-10" ng-hide="!model.folders.length || vm.gotoFolder">
+                    <h3 class="m-t-30 m-b-10">
+                      <strong>&nbsp;&nbsp;&nbsp;&nbsp;Files</strong>
+                      <hr>
+                    </h3>
+                    <div class="col-xlg-2 col-lg-3 col-md-3 col-sm-3 col-xs-12" ng-repeat="file in model.files | filter: searchParams.keyword | filter: { foldername: '!' } | orderBy: '-created' | orderBy: '-hasImportant'">
+                      <div class="panel">
+                        <div class="panel-content widget-info">
+                          <div class="row">
+                            <div class="left">
+                              <i class="fa fa-file bg-green"></i>
+                            </div>
+                            <div class="right">
+                              <p class="text" title="{{file.filename}}">{{file.filename | trim: 15:false}}</p>
+                              <p> <a download="{{file.filename}}" target="_self" ng-href="./{{file.fileURL}}"><i class="fa fa-download"></i></a>
+                                <a ng-click="deleteFile(file)" style="cursor: pointer"> <i class="fa fa-trash text-danger"></i></a>
+                                <span ng-if="file.hasImportant"><i class="fa fa-exclamation-triangle text-warning"></i></span>
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                   <div ng-show="vm.gotoFolder">
                     <div class="row m-t-10" ng-hide="!model.files.length">
                       <h3 class="m-t-30 m-b-10">
@@ -72,7 +96,9 @@
                               <div class="right">
                                 <p class="text" title="{{file.filename}}">{{file.filename | trim: 15:false}}</p>
                                 <p> <a download="{{file.filename}}" target="_self" ng-href="./{{file.fileURL}}"><i class="fa fa-download"></i></a>
-                                  <a ng-click="deleteFile(file)" style="cursor: pointer"> <i class="fa fa-trash text-danger"></i></a></p>
+                                  <a ng-click="deleteFile(file)" style="cursor: pointer"> <i class="fa fa-trash text-danger"></i></a>
+                                  <span ng-if="file.hasImportant"><i class="fa fa-exclamation-triangle text-warning"></i></span>
+                                </p>
                               </div>
                             </div>
                           </div>
@@ -94,7 +120,9 @@
                               <div class="right">
                                 <p class="text" title="{{file.filename}}">{{file.filename | trim: 15:false}}</p>
                                 <p> <a download="{{file.filename}}" target="_self" ng-href="./{{file.fileURL}}"><i class="fa fa-download"></i></a>
-                                  <a ng-click="deleteFile(file)" style="cursor: pointer"> <i class="fa fa-trash text-danger"></i></a></p>
+                                  <a ng-click="deleteFile(file)" style="cursor: pointer"> <i class="fa fa-trash text-danger"></i></a>
+                                  <span ng-if="file.hasImportant"><i class="fa fa-exclamation-triangle text-warning"></i></span>
+                                </p>
                               </div>
                             </div>
                           </div>
@@ -116,7 +144,9 @@
                               <div class="right">
                                 <p class="text" title="{{file.filename}}">{{file.filename | trim: 15:false}}</p>
                                 <p> <a download="{{file.filename}}" target="_self" ng-href="./{{file.fileURL}}"><i class="fa fa-download"></i></a>
-                                  <a ng-click="deleteFile(file)" style="cursor: pointer"> <i class="fa fa-trash text-danger"></i></a></p>
+                                  <a ng-click="deleteFile(file)" style="cursor: pointer"> <i class="fa fa-trash text-danger"></i></a>
+                                  <span ng-if="file.hasImportant"><i class="fa fa-exclamation-triangle text-warning"></i></span>
+                                </p>
                               </div>
                             </div>
                           </div>
