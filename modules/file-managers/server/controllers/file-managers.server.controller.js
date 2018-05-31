@@ -69,7 +69,8 @@ exports.update = function(req, res) {
 exports.delete = function(req, res) {
   var fileManager = req.fileManager;
 
-  fs.unlink(fileManager.fileURL);
+  if(fileManager.fileURL)
+    fs.unlink(fileManager.fileURL);
 
   fileManager.remove(function(err) {
     if (err) {
@@ -97,21 +98,21 @@ exports.list = function(req, res) {
   });
 };
 
-exports.uploadFiles = function(req, res) {  
+exports.uploadFiles = function(req, res) {
   var existingImageUrl;
   var fileManager = req.fileManager;
   fileManager = _.extend(fileManager, req.body);
-  
+
 
   // Filtering to upload only images
   var multerConfig = config.uploads.fileManager.file;
   multerConfig.fileFilter = require(path.resolve('./config/lib/multer')).fileFilter;
   var upload = multer(multerConfig).single('newProfilePicture');
-  
+
   uploadImage()
     .then(function() {
-      var photoIdImageURL = config.uploads.fileManager.file.dest + req.file.filename;     
-      
+      var photoIdImageURL = config.uploads.fileManager.file.dest + req.file.filename;
+
       fileManager.fileURL =  photoIdImageURL;
       fileManager.filename =  req.file.originalname;
 
