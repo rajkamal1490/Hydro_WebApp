@@ -19,6 +19,7 @@
     vm.cancel = cancel;
     vm.agendas = selectedEvent ? (selectedEvent.agendas ? selectedEvent.agendas : []) : [];
     vm.users = userResolve;
+    vm.originalMeeting = angular.copy(selectedEvent);
 
     $scope.eventTime = {
       mStartClock: selectedEvent ? new Date(selectedEvent.startDateTime) : new Date('1991-05-04T06:00:00'),

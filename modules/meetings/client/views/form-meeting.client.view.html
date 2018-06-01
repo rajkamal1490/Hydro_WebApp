@@ -7,7 +7,7 @@
             <div layout="column" flex>
               <md-input-container flex>
                 <label class="my-label">Title</label>
-                <input required type="text" name="title" ng-model="vm.meeting.title"/>
+                <input required type="text" name="title" ng-model="vm.meeting.title" ng-disabled="vm.authentication.user._id !== vm.originalMeeting.facilitator._id && vm.meeting._id"/>
                 <div ng-messages="vm.meetingForm.title.$error">
                   <div ng-message="required">Title is required.</div>
                 </div>
@@ -40,7 +40,7 @@
 
               <md-input-container flex>
                   <label class="my-label">Location</label>
-                  <input required type="text" name="location" ng-model="vm.meeting.location"/>
+                  <input required type="text" name="location" ng-model="vm.meeting.location" ng-disabled="vm.authentication.user._id !== vm.originalMeeting.facilitator._id && vm.meeting._id"/>
                   <div ng-messages="vm.meetingForm.location.$error">
                     <div ng-message="required">Location is required.</div>
                   </div>
@@ -53,6 +53,7 @@
                   <md-select
                       required
                       name="facilitator"
+                      ng-disabled="vm.authentication.user._id !== vm.originalMeeting.facilitator._id && vm.meeting._id"
                       ng-model="vm.meeting.facilitator"
                       ng-model-options= "{trackBy: '$value._id'}">
                     <md-optgroup label="Facilitator">
@@ -70,6 +71,7 @@
                       required
                       name="attendees"
                       ng-model="vm.meeting.attendees"
+                      ng-disabled="vm.authentication.user._id !== vm.originalMeeting.facilitator._id && vm.meeting._id"
                       ng-model-options= "{trackBy: '$value._id'}">
                     <md-optgroup label="Attendees">
                       <md-option ng-value="user" ng-repeat="user in vm.users">{{user.displayName}}</md-option>
@@ -85,15 +87,15 @@
             <div layout="row">
               <md-input-container flex>
                 <label class="my-label">Title</label>                      
-                  <input type="text" name="agendaTitle" ng-model="unconfirmedAgenda.agendaTitle"  />
+                  <input type="text" name="agendaTitle" ng-model="unconfirmedAgenda.agendaTitle"  ng-disabled="vm.authentication.user._id !== vm.originalMeeting.facilitator._id && vm.meeting._id" />
               </md-input-container> 
               <md-input-container flex>
                 <label class="my-label">Description</label>                      
-                  <input type="text" name="agendaDescription" ng-model="unconfirmedAgenda.agendaDescription" />
+                  <input type="text" name="agendaDescription" ng-model="unconfirmedAgenda.agendaDescription" ng-disabled="vm.authentication.user._id !== vm.originalMeeting.facilitator._id && vm.meeting._id" />
               </md-input-container>
               <md-input-container flex>
                 <label class="my-label">Responsible Person</label>                      
-                  <input type="text" name="agendaResponsiblePerson" ng-model="unconfirmedAgenda.agendaResponsiblePerson"  />
+                  <input type="text" name="agendaResponsiblePerson" ng-model="unconfirmedAgenda.agendaResponsiblePerson" ng-disabled="vm.authentication.user._id !== vm.originalMeeting.facilitator._id && vm.meeting._id"  />
               </md-input-container>
                <div class="pull-right">
                   <md-button class="md-raised md-primary nonecase" style="min-width: 50px" ng-click="addAgenda()" ng-disabled="unconfirmedAgenda.agendaResponsiblePerson === undefined || unconfirmedAgenda.agendaDescription === undefined || unconfirmedAgenda.agendaTitle === undefined || unconfirmedAgenda.agendaResponsiblePerson === '' || unconfirmedAgenda.agendaDescription === '' || unconfirmedAgenda.agendaTitle === ''" type="submit"><span class="glyphicon glyphicon-plus"></span></md-button>
@@ -122,10 +124,10 @@
       </md-dialog-content>
      <md-dialog-actions layout="row">  
         <span flex></span>
-        <md-button class="btn btn-next btn-fill btn-success btn-wd"  ng-hide="ui.isMeetingInProgress" flex ng-click="vm.save(vm.meetingForm.$valid)" type="submit">{{vm.meeting._id ? 'Update' : 'Create'}}</md-button>
+        <md-button class="btn btn-next btn-fill btn-success btn-wd"  ng-hide="ui.isMeetingInProgress" ng-disabled="vm.authentication.user._id !== vm.originalMeeting.facilitator._id && vm.meeting._id" flex ng-click="vm.save(vm.meetingForm.$valid)" type="submit">{{vm.meeting._id ? 'Update' : 'Create'}}</md-button>
         <md-button class="btn btn-next btn-fill btn-success btn-wd"  ng-disabled="true" flex ng-show="ui.isMeetingInProgress" type="submit"><i class="fa fa-spinner fa-spin"></i> {{vm.meeting._id ? 'Updating' : 'Creating'}}</md-button>
         <span flex></span>
-        <md-button class="btn btn-next btn-fill btn-danger btn-wd" ng-show="ui.viewMode" flex ng-click="deleteMeeting()" type="submit">Delete</md-button>
+        <md-button class="btn btn-next btn-fill btn-danger btn-wd" ng-show="ui.viewMode" flex ng-click="deleteMeeting()"  ng-disabled="vm.authentication.user._id !== vm.originalMeeting.facilitator._id && vm.meeting._id" type="submit">Delete</md-button>
         <span flex></span>
         <md-button class="btn btn-next btn-fill btn-warning btn-wd" flex ng-click="vm.cancel()" type="submit">Cancel</md-button>
         <span flex></span>

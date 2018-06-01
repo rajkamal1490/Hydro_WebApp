@@ -5,9 +5,9 @@
     .module('meetings')
     .controller('MeetingsListController', MeetingsListController);
 
-  MeetingsListController.$inject = ['MeetingsService', 'EmployeeMeetingsService', 'CommonService', '$scope', '$mdDialog', 'meetingResolve', '$timeout', 'userResolve'];
+  MeetingsListController.$inject = ['Authentication', 'MeetingsService', 'EmployeeMeetingsService', 'CommonService', '$scope', '$mdDialog', 'meetingResolve', '$timeout', 'userResolve'];
 
-  function MeetingsListController(MeetingsService, EmployeeMeetingsService, CommonService, $scope, $mdDialog, meetingResolve, $timeout, userResolve) {
+  function MeetingsListController(Authentication, MeetingsService, EmployeeMeetingsService, CommonService, $scope, $mdDialog, meetingResolve, $timeout, userResolve) {
     var vm = this;
 
     $scope.model = {
@@ -84,20 +84,24 @@
         meetingId: event._id
       };
 
-      EmployeeMeetingsService.validateAlreadyCreatedMinutes(postData).then(function(results) {
-        if (results.length > 0) {
-          editMeeting(event);
-        } else {
-          var confirm = $mdDialog.confirm().title('Do you edit or start the meeting?').ok('Edit Meeting').cancel('Start Meeting').multiple(true).clickOutsideToClose(false).escapeToClose(false);
-          $mdDialog.show(confirm).then(function() {
-              editMeeting(event);
-            },
-            function() {
-              startMeeting(event);
-            });
-        }
+      if (event.facilitator === Authentication.user._id) {
+        EmployeeMeetingsService.validateAlreadyCreatedMinutes(postData).then(function(results) {
+          if (results.length > 0) {
+            editMeeting(event);
+          } else {
+            var confirm = $mdDialog.confirm().title('Do you edit or start the meeting?').ok('Edit Meeting').cancel('Start Meeting').multiple(true).clickOutsideToClose(false).escapeToClose(false);
+            $mdDialog.show(confirm).then(function() {
+                editMeeting(event);
+              },
+              function() {
+                startMeeting(event);
+              });
+          }
 
-      });
+        });
+      } else {
+        editMeeting(event);
+      }
     }
 
     function editMeeting(event) {
@@ -205,6 +209,7 @@
         title: meeting.title,
         start: new Date(meeting.startDateTime),
         end: new Date(meeting.endDateTime),
+        facilitator: meeting.facilitator._id,
         className: 'bg-red',
         stick: true
       });
