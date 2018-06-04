@@ -1,4 +1,4 @@
-<md-dialog flex="70" style="left: 7%"> 
+<md-dialog flex="70" style="left: 7%">
   <form name="vm.startMeetingForm" novalidate autocomplete="off">
     <div class="modal-header bg-primary">
       <h4>{{vm.meeting.title}}</h4>
@@ -19,14 +19,14 @@
                   <div ng-messages="vm.startMeetingForm.attendees.$error">
                     <div ng-message="required">Attendees is required.</div>
                   </div>
-              </md-input-container>           
+              </md-input-container>
 
               <md-input-container flex>
                 <label class="my-label">Date: <b style="font-weight: bold; color: #333"> &nbsp;&nbsp;{{eventTime.startTime}} </b></label>
               </md-input-container>
 
               <md-input-container flex>
-                <label class="my-label"><b>Duration: </b> <i class="mdi-image-timer"  style="font-size: 15px; font-weight: bold; color: #333"> {{ clock }} </i></label>               
+                <label class="my-label"><b>Duration: </b> <i class="mdi-image-timer"  style="font-size: 15px; font-weight: bold; color: #333"> {{ clock }} </i></label>
               </md-input-container>
             </div>
 
@@ -41,7 +41,7 @@
                     <md-optgroup label="Facilitator">
                       <md-option ng-value="user" ng-repeat="user in vm.users">{{user.displayName}}</md-option>
                     </md-optgroup>
-                  </md-select>                  
+                  </md-select>
                   <div ng-messages="vm.startMeetingForm.facilitator.$error">
                     <div ng-message="required">Facilitator is required.</div>
                   </div>
@@ -55,50 +55,56 @@
                   </div>
               </md-input-container>
             </div>
-            
-            <div layout="row" flex> 
+
+            <div layout="row" flex>
               <md-input-container flex>
-                  <label class="my-label">S.No</label>   
-                </md-input-container>        
+                  <label class="my-label">S.No</label>
+                </md-input-container>
                <md-input-container flex>
-                  <label class="my-label">Topics</label>   
-                </md-input-container> 
-                <md-input-container flex>
-                  <label class="my-label">Solution Provided</label>  
+                  <label class="my-label">Topics</label>
+                </md-input-container>
+               <md-input-container flex>
+                  <label class="my-label">Description</label>
                 </md-input-container>
                 <md-input-container flex>
-                  <label class="my-label">Action Plan</label>            
-                </md-input-container>                
-                <md-input-container flex>
-                  <label class="my-label">Decision By</label>            
-                </md-input-container>                           
-            </div>
-            <div layout="row" flex ng-repeat="agenda in vm.agendas track by $index"> 
-              <md-input-container flex>                      
-                    <input type="text" name="sno" style="font-weight: bold" ng-value="$index + 1" ng-disabled="true"  />               
-                </md-input-container>        
-               <md-input-container flex>                    
-                    <input type="text" name="agendaTitle" style="font-weight: bold" ng-model="agenda.agendaTitle"  />               
-                </md-input-container> 
-                <md-input-container flex>                    
-                    <input type="text" name="agendaSolution" style="font-weight: bold" ng-model="agenda.agendaSolution"  />               
-                </md-input-container> 
-                <md-input-container flex>                     
-                    <input type="text" name="agendaActionPlan" style="font-weight: bold" ng-model="agenda.agendaActionPlan" />               
+                  <label class="my-label">Solution Provided</label>
                 </md-input-container>
-                <md-input-container flex>                      
-                    <input type="text" style="font-weight: bold" name="agendaResponsiblePerson" ng-model="agenda.agendaResponsiblePerson"  />               
-                </md-input-container>                            
+                <md-input-container flex>
+                  <label class="my-label">Action Plan</label>
+                </md-input-container>
+                <md-input-container flex>
+                  <label class="my-label">Responsible Person <br/>/ Decision By</label>
+                </md-input-container>
             </div>
-                        
+            <div layout="row" flex ng-repeat="agenda in vm.agendas track by $index">
+              <md-input-container flex>
+                    <input type="text" name="sno" style="font-weight: bold" ng-value="$index + 1" ng-disabled="true"  />
+                </md-input-container>
+               <md-input-container flex>
+                    <input type="text" name="agendaTitle" style="font-weight: bold" ng-model="agenda.agendaTitle"  />
+                </md-input-container>
+               <md-input-container flex>
+                    <textarea class="autoExpand" name="agendaDescription" style="font-weight: bold" ng-model="agenda.agendaDescription" ></textarea>
+                </md-input-container>
+                <md-input-container flex>
+                    <textarea class="autoExpand" name="agendaSolution" style="font-weight: bold" ng-model="agenda.agendaSolution"  ></textarea>
+                </md-input-container>
+                <md-input-container flex>
+                    <textarea class="autoExpand" name="agendaActionPlan" style="font-weight: bold" ng-model="agenda.agendaActionPlan" ></textarea>
+                </md-input-container>
+                <md-input-container flex>
+                    <input type="text" style="font-weight: bold" name="agendaResponsiblePerson" ng-model="agenda.agendaResponsiblePerson"  />
+                </md-input-container>
+            </div>
+
       </md-dialog-content>
-     <md-dialog-actions layout="row">  
+     <md-dialog-actions layout="row">
         <span flex></span>
         <md-button class="btn btn-next btn-fill btn-success btn-wd"  ng-hide="ui.isMeetingInProgress" flex ng-click="vm.save(vm.startMeetingForm.$valid)" type="submit">Create</md-button>
         <md-button class="btn btn-next btn-fill btn-success btn-wd"  ng-disabled="true" flex ng-show="ui.isMeetingInProgress" type="submit"><i class="fa fa-spinner fa-spin"></i> Creating</md-button>
-        <span flex></span>        
+        <span flex></span>
         <md-button class="btn btn-next btn-fill btn-warning btn-wd" flex ng-click="vm.cancel()" type="submit">Cancel</md-button>
         <span flex></span>
-      </md-dialog-actions>   
+      </md-dialog-actions>
   </form>
 </md-dialog>
