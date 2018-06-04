@@ -42,7 +42,7 @@ exports.create = function(req, res) {
       var createdName = meeting.facilitator.displayName;
       var fromCreated = "";
       if (createdName != undefined) {
-        fromCreated = config.mailer.from.replace("Hydro-Admin", createdName);
+        //fromCreated = config.mailer.from.replace("Hydro-Admin", createdName);
       }
       var httpTransport = 'http://';
       if (config.secure && config.secure.ssl === true) {
@@ -64,9 +64,9 @@ exports.create = function(req, res) {
           email: meeting.facilitator.email
         },
         method: 'request'
-      });      
+      });
       var path = config.uploads.meeting.file.dest + meeting._id + '.ics';
-      cal.saveSync(path);      
+      cal.saveSync(path);
       var mailOptions = {
         from: config.mailer.from,
         to: _.map(meeting.attendees, 'email'),

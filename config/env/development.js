@@ -60,7 +60,7 @@ module.exports = {
     sandbox: true
   },
   mailer: {
-    from: process.env.MAILER_FROM || 'Hydro-Admin <dev.hydroelec@gmail.com>',
+    from: process.env.MAILER_FROM || 'Hydro Enterprise App<dev.hydroelec@gmail.com>',
     options: {
       service: process.env.MAILER_SERVICE_PROVIDER || 'gmail',
       auth: {

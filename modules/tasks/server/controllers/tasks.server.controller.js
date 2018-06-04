@@ -86,7 +86,7 @@ exports.create = function(req, res) {
       var createdName = req.user.displayName;
       var fromCreated = "";
       if (createdName != undefined) {
-        fromCreated = config.mailer.from.replace("Hydro-Admin", createdName);
+        //fromCreated = config.mailer.from.replace("Hydro-Admin", createdName);
       }
       var mailOptions = {
         to: assignee.email,
@@ -112,7 +112,7 @@ exports.create = function(req, res) {
     if (err) {
       return next(err);
     }
-  }); 
+  });
 };
 
 /**
@@ -147,7 +147,7 @@ exports.update = function(req, res) {
         }
       });
     },
-    
+
     function(assignee, done) {
       var task = req.task;
       task = _.extend(task, req.body);
@@ -207,7 +207,7 @@ exports.update = function(req, res) {
       var createdName = req.user.displayName;
       var fromCreated = "";
       if (createdName != undefined) {
-        fromCreated = config.mailer.from.replace("Hydro-Admin", createdName);
+        //fromCreated = config.mailer.from.replace("Hydro-Admin", createdName);
       }
       var mailOptions = {
         to: assignee.email,
@@ -233,7 +233,7 @@ exports.update = function(req, res) {
     if (err) {
       return next(err);
     }
-  }); 
+  });
 };
 
 /**
@@ -271,7 +271,7 @@ exports.list = function(req, res) {
 /**
  * List of Tasks by Assignee
  */
-exports.getTasksByAssignee = function(req, res) {  
+exports.getTasksByAssignee = function(req, res) {
   Task.find({
       assignee: req.user._id
     }, function(err, entries) {
@@ -283,23 +283,23 @@ exports.getTasksByAssignee = function(req, res) {
       res.jsonp(entries);
     }
   });
-}; 
+};
 
-exports.uploadFiles = function(req, res) {  
+exports.uploadFiles = function(req, res) {
   var existingImageUrl;
   var task = req.task;
   task = _.extend(task, req.body);
-  
+
 
   // Filtering to upload only images
   var multerConfig = config.uploads.task.file;
   multerConfig.fileFilter = require(path.resolve('./config/lib/multer')).allfiles;
   var upload = multer(multerConfig).single('newProfilePicture');
-  
+
   uploadImage()
     .then(function() {
-      var photoIdImageURL = config.uploads.task.file.dest + req.file.filename;     
-      
+      var photoIdImageURL = config.uploads.task.file.dest + req.file.filename;
+
       task.fileURL =  photoIdImageURL;
       task.filename =  req.file.originalname;
 
