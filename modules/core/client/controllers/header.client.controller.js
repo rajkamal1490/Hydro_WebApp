@@ -31,7 +31,7 @@
         });
         attendances = _.reject(attendances, function(attendance) {
           return vm.events ? _.includes(_.map(vm.events, '_id'), attendance._id) : false;
-        });        
+        });
         angular.forEach(attendances, function(attendance) {
           if (attendance.applyPermission) {
             attendancesPermissionPush(attendance);
@@ -52,13 +52,13 @@
         startDate: getDateTimeToServer(today.setMinutes(today.getMinutes() + 20)),
         endDate: getDateTimeToServer(new Date())
       };
-      EmployeeMeetingsService.requestFindTodayMeetingsByUser(gmtDateTime).then(function(employeeMeetings) {        
+      EmployeeMeetingsService.requestFindTodayMeetingsByUser(gmtDateTime).then(function(employeeMeetings) {
         employeeMeetings = _.reject(employeeMeetings, function(employeeMeeting) {
           return vm.meetings ? _.includes(_.map(vm.meetings, '_id'), employeeMeeting._id) : false;
         });
-        angular.forEach(employeeMeetings, function(employeeMeeting) {  
-          var haveMeetingToday = _.includes(_.map(employeeMeeting.attendees, '_id'), Authentication.user._id);          
-          if (moment(beforeTwentyMinutes).format('YYYY-MM-DD hh:mm:ss') >= moment(employeeMeeting.startDateTime).format('YYYY-MM-DD hh:mm:ss') && moment(new Date()).format('YYYY-MM-DD hh:mm:ss') < moment(employeeMeeting.startDateTime).format('YYYY-MM-DD hh:mm:ss')) {            
+        angular.forEach(employeeMeetings, function(employeeMeeting) {
+          var haveMeetingToday = _.includes(_.map(employeeMeeting.attendees, '_id'), Authentication.user._id);
+          if (moment(beforeTwentyMinutes).format('YYYY-MM-DD hh:mm:ss') >= moment(employeeMeeting.startDateTime).format('YYYY-MM-DD hh:mm:ss') && moment(new Date()).format('YYYY-MM-DD hh:mm:ss') < moment(employeeMeeting.startDateTime).format('YYYY-MM-DD hh:mm:ss')) {
             vm.meetings.push(employeeMeeting);
           }
         });
@@ -75,11 +75,11 @@
         startDate: getDateTimeToServer(today.setMinutes(today.getMinutes() + 20)),
         endDate: getDateTimeToServer(new Date())
       };
-      TodayReminderService.requestFindTodayRemindersByUser(gmtDateTime).then(function(reminders) {        
+      TodayReminderService.requestFindTodayRemindersByUser(gmtDateTime).then(function(reminders) {
         reminders = _.reject(reminders, function(reminder) {
           return vm.reminders ? _.includes(_.map(vm.reminders, '_id'), reminder._id) : false;
         });
-        angular.forEach(reminders, function(reminder) {            
+        angular.forEach(reminders, function(reminder) {
           if (moment(beforeTwentyMinutes).format('YYYY-MM-DD hh:mm:ss') >= moment(reminder.reminderDateTime).format('YYYY-MM-DD hh:mm:ss') && moment(new Date()).format('YYYY-MM-DD hh:mm:ss') < moment(reminder.reminderDateTime).format('YYYY-MM-DD hh:mm:ss')) {
             vm.reminders.push(reminder);
           }
@@ -108,9 +108,9 @@
           message: errorResponse.data.message,
           title: '<i class="glyphicon glyphicon-remove"></i> Reminder error!'
         });
-      }      
+      }
     };
-    
+
     var getMyNotifications = function() {
       NotificationsService.requestFindNotificationByUser({
         userId: Authentication.user._id
@@ -121,7 +121,7 @@
           }
           buildNotificationContent(notification);
         });
-      });      
+      });
     };
 
     if (Authentication.user) {
@@ -153,6 +153,7 @@
     };
 
     $scope.signout = function(ev) {
+      localStorage.removeItem('log_in_time');
       window.location.href = '../api/auth/signout';
     };
 
@@ -197,8 +198,8 @@
         },
       })
       .then(function(updatedItem) {
-        if (updatedItem.isDelete || updatedItem.isApproved) {  
-          var index = CommonService.findIndexByID(vm.events, event._id);        
+        if (updatedItem.isDelete || updatedItem.isApproved) {
+          var index = CommonService.findIndexByID(vm.events, event._id);
           vm.events.splice(index, 1);
         }
       }, function() {
@@ -242,9 +243,11 @@
               title: '<i class="glyphicon glyphicon-remove"></i> Your check-out time not inserted successfully, Please contact your adminstrator'
             });
           }
+          localStorage.removeItem('log_in_time');
           window.location.href = '../api/auth/signout';
         },
         function() {
+          localStorage.removeItem('log_in_time');
           window.location.href = '../api/auth/signout';
         });
     };
@@ -260,6 +263,7 @@
 
       vm.checkOutInProgress = false;
       $mdDialog.show(logoutConfirm).then(function() {
+        localStorage.removeItem('log_in_time');
         window.location.href = '../api/auth/signout';
       },
       function() {
@@ -302,7 +306,7 @@
         setTimeout(function() {
           generateNotifDashboard(notifContent);
         }, 4500);
-        
+
         if (notification.notifyTo.length <= 1) {
           notification.$remove();
         } else {
@@ -313,7 +317,7 @@
         }
       }
     }
-    
+
     function generateNotifDashboard(content) {
       var position = 'topRight';
       if ($('body').hasClass('rtl')) position = 'topLeft';

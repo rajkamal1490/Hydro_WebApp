@@ -84,7 +84,7 @@
       Notification.info({ message: 'Welcome ' + response.firstName });
       // And redirect to the previous or home page
      // $state.go($state.previous.state.name || 'home', $state.previous.params);
-      
+     localStorage.setItem('log_in_time',new Date().getTime());
     }
 
     function onUserSigninError(response) {

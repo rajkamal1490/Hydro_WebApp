@@ -35,7 +35,7 @@
       viewMode: viewMode
     };
 
-    $scope.unconfirmedAgenda = {     
+    $scope.unconfirmedAgenda = {
       agendaTitle: undefined,
       agendaDescription: undefined,
       agendaResponsiblePerson: undefined
@@ -88,9 +88,9 @@
         vm.meeting.notificationId = res._id;
         // TODO: move create/update logic to service
         if (vm.meeting._id) {
-          vm.meeting.$update(successCallback, errorCallback);
+          vm.meeting.$update(successCallback(res), errorCallback);
         } else {
-          vm.meeting.$save(successCallback, errorCallback);
+          vm.meeting.$save(successCallback(res), errorCallback);
         }
       }
 
