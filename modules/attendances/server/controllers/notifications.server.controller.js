@@ -6,7 +6,7 @@
 var path = require('path'),
   mongoose = require('mongoose'),
   Notification = mongoose.model('Notification'),
-  errorHandler = require(path.resolve('./modules/core/server/controllers/errors.server.controller')),  
+  errorHandler = require(path.resolve('./modules/core/server/controllers/errors.server.controller')),
   _ = require('lodash');
 
 /**
@@ -49,7 +49,8 @@ exports.update = function(req, res) {
     _id: req.body._id
   }, {
     $set: {
-      notifyTo: req.body.notifyTo
+      notifyTo: req.body.notifyTo,
+      hasPopUped: req.body.hasPopUped
     },
     upsert: true
   }, function(err, result) {
@@ -64,7 +65,7 @@ exports.update = function(req, res) {
  */
 exports.delete = function(req, res) {
   var notification = new Notification();
-  
+
   Notification.deleteOne({
     _id: req.params.notificationId
   }, function(err) {
@@ -91,13 +92,43 @@ exports.list = function(req, res) {
 };
 
 /**
- * Find of Notifications
+ * Find of Notifications to PopUp
  */
 exports.findNotificationByUser = function(req, res) {
   Notification.find({
-    notifyTo: {
-      $in: [req.body.userId]
+    $and : [
+      {
+        notifyTo: { $in: [req.body.userId] }
+      },
+      {
+        $or: [ { hasPopUped : { $in: [req.body.hasPopUped ] } }, { hasPopUped : { $exists: false } } ]
+      }
+    ]
+  }, function(err, entries) {
+    if (err) {
+      return res.status(400).send({
+        message: errorHandler.getErrorMessage(err)
+      });
+    } else {
+      res.jsonp(entries);
     }
+  });
+};
+
+
+/**
+ * Find of Notifications to Persistently show in Header
+ */
+exports.findPersistentNotificationByUser = function(req, res) {
+  Notification.find({
+    $and : [
+      {
+        notifyTo: { $in: [req.body.userId] }
+      },
+      {
+        $or: [ { isDismissed : { $in: [req.body.isDismissed ] } }, { isDismissed : { $exists: false } } ]
+      }
+    ]
   }, function(err, entries) {
     if (err) {
       return res.status(400).send({

@@ -37,4 +37,7 @@ module.exports = function(app) {
 
   app.route('/authentication/api/notifications/getnotification')
     .post(notifications.findNotificationByUser);
+
+  app.route('/api/notifications/getpersistentnotification')
+    .post(notifications.findPersistentNotificationByUser);
 };

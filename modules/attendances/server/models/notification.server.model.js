@@ -9,7 +9,7 @@ var mongoose = require('mongoose'),
 /**
  * Attendance Schema
  */
-var NotificationSchema = new Schema({  
+var NotificationSchema = new Schema({
   notifyTo: {
     type: Object
   },
@@ -25,6 +25,14 @@ var NotificationSchema = new Schema({
   },
   user: {
     type: Object
+  },
+  hasPopUped: {
+    type: Boolean,
+    default: false
+  },
+  isDismissed: {
+    type: Boolean,
+    default: false
   }
 });
 

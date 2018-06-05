@@ -21,6 +21,7 @@
     vm.events = [];
     vm.meetings = [];
     vm.reminders = [];
+    vm.notifications = [];
 
     $scope.$on('$stateChangeSuccess', stateChangeSuccess);
 
@@ -111,9 +112,28 @@
       }
     };
 
+    $scope.alertAboutMeeting = function() {
+      alert('This notification will be on until the meeting\'s scheduled start time.');
+    };
+
+    $scope.handleMyPersistentNotifications = function(notification) {
+      if(notification.type == "task"){
+        $state.go('tasks.list');//$state.go('tasks.view',{taskId:"5b162cb73823bd1d84378bb8"});
+        var input = $('[ng-model="searchParams.keyword"]');
+        input.val(notification._id);
+        input.trigger('input'); // Use for Chrome/Firefox/Edge
+        input.trigger('change'); // Use for Chrome/Firefox/Edge + IE11
+        input.trigger('keyup');
+        input.focus();
+      }
+      if(notification.type == "meeting")
+        $state.go('meetings.list');
+    }
+
     var getMyNotifications = function() {
       NotificationsService.requestFindNotificationByUser({
-        userId: Authentication.user._id
+        userId: Authentication.user._id,
+        hasPopUped: false
       }).then(function(notifications) {
         angular.forEach(notifications, function(notification) {
           if(notifications.length > 1) {
@@ -124,14 +144,32 @@
       });
     };
 
+    var getMyPersistentNotifications = function() {
+      NotificationsService.requestFindPersistentNotificationByUser({
+        userId: Authentication.user._id,
+        isDismissed: false
+      }).then(function(notifications) {
+        notifications = _.reject(notifications, function(notification) {
+          return vm.notifications ? _.includes(_.map(vm.notifications, '_id'), notification._id) : false;
+        });
+        angular.forEach(notifications, function(notification) {
+            vm.notifications.push(notification);
+        });
+        //console.log("notifications:"+vm.notifications);
+      });
+    };
+
     if (Authentication.user) {
       getAttendances();
       getMyTodayMeetings();
       getMyTodayReminders();
+      getMyNotifications();
+      getMyPersistentNotifications();
       $interval(getAttendances, 5000);
       $interval(getMyTodayMeetings, 5000);
       $interval(getMyNotifications, 10000);
       $interval(getMyTodayReminders, 10000);
+      $interval(getMyPersistentNotifications, 10000);
     }
 
     $scope.logout = function(ev) {
@@ -308,7 +346,9 @@
         }, 4500);
 
         if (notification.notifyTo.length <= 1) {
-          notification.$remove();
+          //console.log(notification);
+          notification.hasPopUped = true;
+          notification.$update();
         } else {
           notification.notifyTo = _.reject(notification.notifyTo, function(notify) {
             return notify === Authentication.user._id;

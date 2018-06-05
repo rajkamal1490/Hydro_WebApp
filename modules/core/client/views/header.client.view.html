@@ -6,7 +6,7 @@
         <ul class="nav nav-icons">
           <!-- <li><a href="/contacts" title="Contacts"><span class="icon-user-following"></span></a></li>
           <li><a href="/file-managers" title="File-managers"><span class="icon-doc"></span></a></li>
-          <li><a href="/reminders" title="Reminders"><span class="mdi-action-alarm"></span></a></li> 
+          <li><a href="/reminders" title="Reminders"><span class="mdi-action-alarm"></span></a></li>
           <li><a href="builder-page.html"><span class="octicon octicon-rocket"></span></a></li> -->
         </ul>
       </div>
@@ -42,26 +42,43 @@
         <li class="dropdown" id="messages-header">
           <a href="#" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
             <i class="icon-paper-plane"></i>
-            <span class="badge badge-danger badge-header">{{vm.commonService.hasExecutive(vm.authentication) || vm.commonService.hasVp(vm.authentication) ? vm.meetings.length + vm.events.length : vm.meetings.length}}</span>
+            <span class="badge badge-danger badge-header">{{vm.commonService.hasExecutive(vm.authentication) || vm.commonService.hasVp(vm.authentication) ? vm.meetings.length + vm.events.length + vm.notifications.length : vm.meetings.length + vm.notifications.length}}</span>
           </a>
           <ul class="dropdown-menu">
             <li class="dropdown-header clearfix">
-              <p class="pull-left">{{vm.commonService.hasExecutive(vm.authentication) || vm.commonService.hasVp(vm.authentication) ? vm.meetings.length + vm.events.length : vm.meetings.length}} Pending Notifications</p>
+              <p class="pull-left">{{vm.commonService.hasExecutive(vm.authentication) || vm.commonService.hasVp(vm.authentication) ? vm.meetings.length + vm.events.length + vm.notifications.length : vm.meetings.length + vm.notifications.length }} Pending Notifications</p>
             </li>
             <li>
               <ul class="dropdown-menu-list withScroll" data-height="220">
-                <li ng-repeat="event in vm.events | orderBy: '-appliedOn' | limitTo: 5" ng-init="getProfileDetails(event)" ng-if="vm.commonService.hasExecutive(vm.authentication) || vm.commonService.hasVp(vm.authentication)">
+                <li ng-repeat="event in vm.events | orderBy: '-appliedOn'" ng-init="getProfileDetails(event)" ng-if="vm.commonService.hasExecutive(vm.authentication) || vm.commonService.hasVp(vm.authentication)">
                   <a ng-click="approveLeave(event)">
                     <span class="glyphicon glyphicon-time" style="color: orange"></span>
-                   <small> {{event.user.displayName}} have applied for {{event.category === vm.LEAVE ? 'Leave'  : 'Permission' }}</small>
+                   <small> {{event.user.displayName}} has applied for {{event.category === vm.LEAVE ? 'Leave'  : 'Permission' }}</small>
                     <span class="dropdown-time">{{inHour(event.appliedOn)}}</span>
                   </a>
                 </li>
-                <li ng-repeat="meeting in vm.meetings | orderBy: 'startDateTime' | limitTo: 5">
-                  <a>
+                <li ng-repeat="meeting in vm.meetings | orderBy: 'startDateTime'">
+                  <a ng-click="alertAboutMeeting()">
                     <span class="glyphicon glyphicon-bell" style="color: orange"></span>
                    <small> {{meeting.title}} {{inHour(meeting.startDateTime)}}</small>
                     <span class="dropdown-time">{{inHour(meeting.startDateTime)}}</span>
+                  </a>
+                </li>
+                <li ng-repeat="notification in vm.notifications | orderBy: 'created'">
+                  <a ng-click="handleMyPersistentNotifications(notification)" ng-if=" notification.type == 'task' ">
+                    <span class="glyphicon glyphicon-tasks" style="color: red"></span>
+                    <small> Task assigned/updated by {{notification.user.displayName}}</small>
+                    <span class="dropdown-time">{{inHour(notification.created)}}</span>
+                  </a>
+                  <a ng-click="handleMyPersistentNotifications(notification)" ng-if=" notification.type == 'meeting' ">
+                    <span class="glyphicon glyphicon-calendar" style="color: green"></span>
+                    <small> Meeting created/updated by {{notification.user.displayName}}</small>
+                    <span class="dropdown-time">{{inHour(notification.created)}}</span>
+                  </a>
+                  <a ng-click="handleMyPersistentNotifications(notification)" ng-if=" notification.type != 'task' && notification.type != 'meeting' ">
+                    <span class="glyphicon glyphicon-calendar" style="color: black"></span>
+                    <small> Unidentified Notification created/updated by {{notification.user.displayName}}</small>
+                    <span class="dropdown-time">{{inHour(notification.created)}}</span>
                   </a>
                 </li>
               </ul>

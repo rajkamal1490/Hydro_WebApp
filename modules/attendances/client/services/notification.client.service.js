@@ -14,11 +14,19 @@ angular
         isArray: true,
         url: '../api/notifications/getnotification'
       },
+      getPersistentNotificationByUser: {
+        method: 'POST',
+        isArray: true,
+        url: '../api/notifications/getpersistentnotification'
+      }
     });
 
     angular.extend(Notifications, {
       requestFindNotificationByUser: function (notifications) {
         return this.getNotificationByUser(notifications).$promise;
+      },
+      requestFindPersistentNotificationByUser: function (notifications) {
+        return this.getPersistentNotificationByUser(notifications).$promise;
       }
     });
 

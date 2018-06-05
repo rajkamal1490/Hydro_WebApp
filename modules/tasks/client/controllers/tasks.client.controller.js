@@ -88,7 +88,9 @@
       var notification = new NotificationsService({
         notifyTo: [vm.task.assignee._id],
         user: Authentication.user,
-        type: 'task'
+        type: 'task',
+        hasPopUped: false,
+        isDismissed: false
       });
 
       if (vm.task._id) {

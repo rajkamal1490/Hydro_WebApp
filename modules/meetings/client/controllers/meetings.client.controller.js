@@ -75,7 +75,9 @@
         notifyTo: _.map(vm.meeting.attendees, '_id'),
         user: vm.meeting.facilitator,
         type: 'meeting',
-        meetingScheduleDate: $scope.eventTime.mStartToServer
+        meetingScheduleDate: $scope.eventTime.mStartToServer,
+        hasPopUped: false,
+        isDismissed: false
       });
 
       if (vm.meeting._id) {
