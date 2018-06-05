@@ -20,7 +20,10 @@ module.exports = function(app) {
   app.route('/api/tasks/assignee/:assigneeId')/*.all(tasksPolicy.isAllowed)*/
     .get(tasks.getTasksByAssignee);
 
-  app.route('/api/tasks/upload/:taskId').post(tasks.uploadFiles);  
+  app.route('/api/tasks/upload/:taskId').post(tasks.uploadFiles);
+
+  app.route('/api/tasks/filter/notification')/*.all(tasksPolicy.isAllowed)*/
+    .post(tasks.getTaskByNotifcationID);
 
   // Finish by binding the Task middleware
   app.param('taskId', tasks.taskByID);

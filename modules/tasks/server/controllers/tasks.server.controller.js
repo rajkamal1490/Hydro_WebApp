@@ -373,3 +373,20 @@ exports.taskByID = function(req, res, next, id) {
     next();
   });
 };
+
+/**
+ * Get task by notification id
+ */
+exports.getTaskByNotifcationID = function(req, res) {
+  Task.findOne({
+      notificationId: { $in: [req.body.notificationId] }
+    }, function(err, entries) {
+    if (err) {
+      return res.status(400).send({
+        message: errorHandler.getErrorMessage(err)
+      });
+    } else {
+      res.jsonp(entries);
+    }
+  });
+};

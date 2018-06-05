@@ -9,12 +9,26 @@
   TasksService.$inject = ['$resource'];
 
   function TasksService($resource) {
-    return $resource('../api/tasks/:taskId', {
+    var Tasks = $resource('../api/tasks/:taskId', {
       taskId: '@_id'
     }, {
       update: {
         method: 'PUT'
+      },
+      getTaskByNotifcationID: {
+        method: 'POST',
+        isArray: false,
+        url: '../api/tasks/filter/notification'
       }
     });
+
+    angular.extend(Tasks, {
+      getTaskByNotifcationIDFromNotificationClick: function (notifications) {
+        return this.getTaskByNotifcationID(notifications).$promise;
+      }
+    });
+
+    return Tasks;
+
   }
 }());

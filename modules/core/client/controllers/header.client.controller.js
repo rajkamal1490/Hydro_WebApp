@@ -5,9 +5,9 @@
     .module('core')
     .controller('HeaderController', HeaderController);
 
-  HeaderController.$inject = ['$scope', '$state', '$http', 'AdminService', 'AttendancesService', 'Authentication', 'CheckInAttendancesServices', 'CommonService', 'EmployeeMeetingsService', 'menuService', '$mdDialog', '$interval', 'Notification', 'NotificationsService', 'PERMISSION', 'LEAVE', 'RemindersService', 'TodayReminderService'];
+  HeaderController.$inject = ['$scope', '$state', '$http', 'AdminService', 'AttendancesService', 'Authentication', 'CheckInAttendancesServices', 'CommonService', 'EmployeeMeetingsService', 'menuService', '$mdDialog', '$interval', 'Notification', 'NotificationsService', 'PERMISSION', 'LEAVE', 'RemindersService', 'TodayReminderService', 'TasksService'];
 
-  function HeaderController($scope, $state, $http, AdminService, AttendancesService, Authentication, CheckInAttendancesServices, CommonService, EmployeeMeetingsService, menuService, $mdDialog, $interval, Notification, NotificationsService, PERMISSION, LEAVE, RemindersService, TodayReminderService) {
+  function HeaderController($scope, $state, $http, AdminService, AttendancesService, Authentication, CheckInAttendancesServices, CommonService, EmployeeMeetingsService, menuService, $mdDialog, $interval, Notification, NotificationsService, PERMISSION, LEAVE, RemindersService, TodayReminderService, TasksService) {
     var vm = this;
 
     vm.accountMenu = menuService.getMenu('account').items[0];
@@ -47,6 +47,7 @@
     var getMyTodayMeetings = function() {
       var today = new Date();
       var beforeTwentyMinutes = getDateTimeToServer(today.setMinutes(today.getMinutes() + 20))
+      vm.originalMeetings = angular.copy(vm.meetings);
 
       var gmtDateTime = {
         userId: Authentication.user._id,
@@ -118,16 +119,63 @@
 
     $scope.handleMyPersistentNotifications = function(notification) {
       if(notification.type == "task"){
-        $state.go('tasks.list');//$state.go('tasks.view',{taskId:"5b162cb73823bd1d84378bb8"});
-        var input = $('[ng-model="searchParams.keyword"]');
-        input.val(notification._id);
-        input.trigger('input'); // Use for Chrome/Firefox/Edge
-        input.trigger('change'); // Use for Chrome/Firefox/Edge + IE11
-        input.trigger('keyup');
-        input.focus();
+        TasksService.getTaskByNotifcationIDFromNotificationClick({
+          notificationId: notification._id
+        })
+        .then(function(task) {
+          // console.log(Object.keys($state.current));
+          if($state.current.name=="tasks.list" || $state.current.name=="home" ){
+            notification = new NotificationsService(notification);
+            notification.isDismissed = true;
+            notification.hasPopUped = true;
+            notification.$update(successCallback, errorCallback);
+            function successCallback(res) {
+              // console.log(res);
+              var index = CommonService.findIndexByID(vm.notifications, res._id);
+              vm.notifications.splice(index, 1);
+              $state.go('tasks.view',{taskId:task._id});
+            }
+
+            function errorCallback(errorResponse) {
+              // console.log(errorResponse);
+              Notification.error({
+                message: errorResponse.data.message,
+                title: '<i class="glyphicon glyphicon-remove"></i> Notification could not be dismissed!'
+              });
+            }
+          }
+          else{
+            alert("there is a bug. click again from tasks list.");
+            window.location.href = "/tasks";
+          }
+        });
       }
-      if(notification.type == "meeting")
-        $state.go('meetings.list');
+      if(notification.type == "meeting"){
+        if($state.current.name=="meetings.list" || $state.current.name=="home" ){
+          notification = new NotificationsService(notification);
+          notification.isDismissed = true;
+          notification.hasPopUped = true;
+          notification.$update(successCallback, errorCallback);
+          function successCallback(res) {
+            // console.log(res);
+            var index = CommonService.findIndexByID(vm.notifications, res._id);
+            vm.notifications.splice(index, 1);
+            $state.go('meetings.list');
+          }
+
+          function errorCallback(errorResponse) {
+            // console.log(errorResponse);
+            Notification.error({
+              message: errorResponse.data.message,
+              title: '<i class="glyphicon glyphicon-remove"></i> Notification could not be dismissed!'
+            });
+          }
+        }
+        else{
+          alert("there is a bug. click again from meetings list.");
+          window.location.href = "/meetings";
+        }
+      }
     }
 
     var getMyNotifications = function() {

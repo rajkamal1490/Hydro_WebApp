@@ -50,13 +50,17 @@ exports.update = function(req, res) {
   }, {
     $set: {
       notifyTo: req.body.notifyTo,
-      hasPopUped: req.body.hasPopUped
+      hasPopUped: req.body.hasPopUped,
+      isDismissed: req.body.isDismissed
     },
     upsert: true
   }, function(err, result) {
     if (err) {
-      console.log("failed");
-      throw err;
+      return res.status(400).send({
+        message: errorHandler.getErrorMessage(err)
+      });
+    } else {
+      res.jsonp(result);
     }
   });
 };
