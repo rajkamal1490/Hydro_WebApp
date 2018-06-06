@@ -300,7 +300,7 @@
 				category: PERMISSION,
 				reason: attendance.reason,
 				comments: attendance.comments,
-				className: attendance.isApproved ? 'bg-green' : 'bg-orange',
+				className: attendance.isApproved ? 'bg-green' : (attendance.onHold ? 'bg-red' : 'bg-orange'),
 				isApproved: attendance.isApproved,
 				stick: true
 			});
@@ -316,7 +316,7 @@
 				category: LEAVE,
 				reason: attendance.reason,
 				comments: attendance.comments,
-				className: attendance.isApproved ? 'bg-red' : 'bg-orange',
+				className: attendance.isApproved ? 'bg-green' : (attendance.onHold ? 'bg-red' : 'bg-orange'),
 				isApproved: attendance.isApproved,
 				stick: true
 			});
