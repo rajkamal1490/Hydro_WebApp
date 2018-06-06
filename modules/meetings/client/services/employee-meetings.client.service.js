@@ -12,7 +12,7 @@ angular
       getTodayMeetingsByUser: {
         method: 'POST',
         isArray: true,
-        url: '../api/employeemeetings/gettodaymeetings'
+        url: '/api/employeemeetings/gettodaymeetings'
       },
       getMyMeetings: {
         method: 'POST',
@@ -27,7 +27,7 @@ angular
       createAndUploadMinutes: {
         method: 'POST',
         isArray: true,
-        url: 'api/startmeetings/createminutesofmeetingdocx'
+        url: '/api/startmeetings/createminutesofmeetingdocx'
       },
     });
 

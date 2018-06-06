@@ -9,7 +9,7 @@
   AttendancesService.$inject = ['$resource'];
 
   function AttendancesService($resource) {
-    return $resource('../api/attendances/:attendanceId', {
+    return $resource('/api/attendances/:attendanceId', {
       attendanceId: '@_id'
     }, {
       update: {

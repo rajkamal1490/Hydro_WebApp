@@ -5,14 +5,14 @@ angular
   CheckInAttendancesServices.$inject = ['$resource'];
 
   function CheckInAttendancesServices($resource) {
-    var CheckIns = $resource('api/checkins/', { attendanceId: '@_id' }, {
+    var CheckIns = $resource('/api/checkins/', { attendanceId: '@_id' }, {
       update: {
         method: 'PUT'
       },
       todayCheckIn: {
         method: 'POST',
         isArray: true,
-        url: '../api/checkins/todaycheckin'
+        url: '/api/checkins/todaycheckin'
       },
       findAttendancesByUser: {
         method: 'POST',
@@ -32,12 +32,12 @@ angular
       awaitingForApprovalLeave: {
         method: 'POST',
         isArray: true,
-        url: '../api/checkins/awaitingforapprovalleave'
+        url: '/api/checkins/awaitingforapprovalleave'
       },
       findTaskList: {
         method: 'POST',
         isArray: true,
-        url: '../api/checkins/findtasklist'
+        url: '/api/checkins/findtasklist'
       },
     });
 

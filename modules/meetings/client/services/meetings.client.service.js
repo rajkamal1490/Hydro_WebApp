@@ -9,7 +9,7 @@
   MeetingsService.$inject = ['$resource'];
 
   function MeetingsService($resource) {
-    return $resource('api/meetings/:meetingId', {
+    return $resource('/api/meetings/:meetingId', {
       meetingId: '@_id'
     }, {
       update: {

@@ -9,7 +9,7 @@
   TasksService.$inject = ['$resource'];
 
   function TasksService($resource) {
-    var Tasks = $resource('../api/tasks/:taskId', {
+    var Tasks = $resource('/api/tasks/:taskId', {
       taskId: '@_id'
     }, {
       update: {
@@ -18,7 +18,7 @@
       getTaskByNotifcationID: {
         method: 'POST',
         isArray: false,
-        url: '../api/tasks/filter/notification'
+        url: '/api/tasks/filter/notification'
       }
     });
 

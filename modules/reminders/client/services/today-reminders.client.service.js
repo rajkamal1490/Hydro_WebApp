@@ -15,7 +15,7 @@
       getTodayRemindersByUser: {
         method: 'POST',
         isArray: true,
-        url: '../api/todayreminders/getreminders'
+        url: '/api/todayreminders/getreminders'
       },
     });
 
