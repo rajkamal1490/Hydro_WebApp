@@ -240,7 +240,7 @@
 
     $scope.signout = function(ev) {
       localStorage.removeItem('log_in_time');
-      window.location.href = '../api/auth/signout';
+      window.location.href = '/api/auth/signout';
     };
 
     $scope.approveLeave = function(event) {
@@ -330,11 +330,11 @@
             });
           }
           localStorage.removeItem('log_in_time');
-          window.location.href = '../api/auth/signout';
+          window.location.href = '/api/auth/signout';
         },
         function() {
           localStorage.removeItem('log_in_time');
-          window.location.href = '../api/auth/signout';
+          window.location.href = '/api/auth/signout';
         });
     };
 
@@ -350,7 +350,7 @@
       vm.checkOutInProgress = false;
       $mdDialog.show(logoutConfirm).then(function() {
         localStorage.removeItem('log_in_time');
-        window.location.href = '../api/auth/signout';
+        window.location.href = '/api/auth/signout';
       },
       function() {
 

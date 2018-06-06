@@ -48,17 +48,17 @@
         if( 0 < diffGetTime(time_now, office_opening_time) && 0 > diffGetTime(localStorage.getItem('log_in_time'), office_opening_time) ){
           // console.log("check if logged in from Yesterday");
           localStorage.removeItem('log_in_time');
-          window.location.href = '../api/auth/signout';
+          window.location.href = '/api/auth/signout';
         }
         else if( 0 < diffGetTime(time_now, office_overtime) && 0 > diffGetTime(localStorage.getItem('log_in_time'), office_overtime) ){
           // console.log("check if logged in before over time");
           localStorage.removeItem('log_in_time');
-          window.location.href = '../api/auth/signout';
+          window.location.href = '/api/auth/signout';
         }
         else if( 0 < diffGetTime(time_now, office_closing_time) && 0 > diffGetTime(localStorage.getItem('log_in_time'), office_closing_time) ){
           // console.log("check if logged in before closing time");
           localStorage.removeItem('log_in_time');
-          window.location.href = '../api/auth/signout';
+          window.location.href = '/api/auth/signout';
         }
         else{
           // console.log("keep logged in!");
