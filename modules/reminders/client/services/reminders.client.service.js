@@ -9,7 +9,7 @@
   RemindersService.$inject = ['$resource'];
 
   function RemindersService($resource) {
-    return $resource('api/reminders/:reminderId', {
+    return $resource('/api/reminders/:reminderId', {
       reminderId: '@_id'
     }, {
       update: {

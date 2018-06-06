@@ -9,7 +9,7 @@
   ContactsService.$inject = ['$resource'];
 
   function ContactsService($resource) {
-    return $resource('api/contacts/:contactId', {
+    return $resource('/api/contacts/:contactId', {
       contactId: '@_id'
     }, {
       update: {

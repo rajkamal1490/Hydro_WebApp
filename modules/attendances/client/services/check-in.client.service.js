@@ -17,17 +17,17 @@ angular
       findAttendancesByUser: {
         method: 'POST',
         isArray: true,
-        url: 'api/checkins/findattendancesbyuser'
+        url: '/api/checkins/findattendancesbyuser'
       },
       validateLeaveOverlap: {
         method: 'POST',
         isArray: true,
-        url: 'api/checkins/validateLeaveOverlap'
+        url: '/api/checkins/validateLeaveOverlap'
       },
       validatePermissionOverlap: {
         method: 'POST',
         isArray: true,
-        url: 'api/checkins/validatePermissionOverlap'
+        url: '/api/checkins/validatePermissionOverlap'
       },
       awaitingForApprovalLeave: {
         method: 'POST',

@@ -9,7 +9,7 @@
   FileManagersService.$inject = ['$resource'];
 
   function FileManagersService($resource) {
-    return $resource('api/file-managers/:fileManagerId', {
+    return $resource('/api/file-managers/:fileManagerId', {
       fileManagerId: '@_id'
     }, {
       update: {

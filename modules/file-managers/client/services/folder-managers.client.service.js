@@ -9,7 +9,7 @@
   FolderManagersService.$inject = ['$resource'];
 
   function FolderManagersService($resource) {
-    return $resource('api/folder-managers/:folderManagerId', {
+    return $resource('/api/folder-managers/:folderManagerId', {
       folderManagerId: '@_id'
     }, {
       update: {

@@ -9,7 +9,7 @@
   StatusesService.$inject = ['$resource'];
 
   function StatusesService($resource) {
-    return $resource('api/statuses/:statusId', {
+    return $resource('/api/statuses/:statusId', {
       statusId: '@_id'
     }, {
       update: {

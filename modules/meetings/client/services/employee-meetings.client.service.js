@@ -5,7 +5,7 @@ angular
   EmployeeMeetingsService.$inject = ['$resource'];
 
   function EmployeeMeetingsService($resource) {
-    var EmployeeMeetings = $resource('api/employeemeetings/', { meetingId: '@_id' }, {
+    var EmployeeMeetings = $resource('/api/employeemeetings/', { meetingId: '@_id' }, {
       update: {
         method: 'PUT'
       },
@@ -17,12 +17,12 @@ angular
       getMyMeetings: {
         method: 'POST',
         isArray: true,
-        url: 'api/employeemeetings/getmymeetings'
+        url: '/api/employeemeetings/getmymeetings'
       },
       getAlreadyCreatedMinutes: {
         method: 'POST',
         isArray: true,
-        url: 'api/startmeetings/validatealreadycreatedminutes'
+        url: '/api/startmeetings/validatealreadycreatedminutes'
       },
       createAndUploadMinutes: {
         method: 'POST',

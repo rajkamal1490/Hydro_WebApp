@@ -237,7 +237,7 @@
             vm.applyInProgress = true;
           }
 
-          $http.delete('api/attendances/' + selectedData._id)
+          $http.delete('/api/attendances/' + selectedData._id)
             .then(
               function(response) {
                 deleteSuccessCallback(response)

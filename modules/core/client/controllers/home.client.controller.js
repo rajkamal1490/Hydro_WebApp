@@ -46,7 +46,7 @@
 
       $http({
         method: 'GET',
-        url: 'api/tasks/assignee/' + vm.authentication.user._id
+        url: '/api/tasks/assignee/' + vm.authentication.user._id
       }).then(function(tasks) {
         vm.tasks = tasks.data;
         vm.pagedItems = [];

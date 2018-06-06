@@ -9,7 +9,7 @@
   RefcodetasksService.$inject = ['$resource'];
 
   function RefcodetasksService($resource) {
-    return $resource('api/refcodetasks/:refcodetaskId', {
+    return $resource('/api/refcodetasks/:refcodetaskId', {
       refcodetaskId: '@_id'
     }, {
       update: {

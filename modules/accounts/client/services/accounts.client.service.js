@@ -9,7 +9,7 @@
   AccountsService.$inject = ['$resource'];
 
   function AccountsService($resource) {
-    return $resource('api/accounts/:accountId', {
+    return $resource('/api/accounts/:accountId', {
       accountId: '@_id'
     }, {
       update: {

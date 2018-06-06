@@ -8,7 +8,7 @@
   TodayReminderService.$inject = ['$resource'];
 
   function TodayReminderService($resource) {
-    var TodayReminder = $resource('api/todayreminders/', { reminderId: '@_id' }, {
+    var TodayReminder = $resource('/api/todayreminders/', { reminderId: '@_id' }, {
       update: {
         method: 'PUT'
       },
