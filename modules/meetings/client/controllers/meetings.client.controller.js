@@ -20,6 +20,7 @@
     vm.agendas = selectedEvent ? (selectedEvent.agendas ? selectedEvent.agendas : []) : [];
     vm.users = userResolve;
     vm.originalMeeting = angular.copy(selectedEvent);
+    vm.selectedDate = selectedDate;
 
     $scope.eventTime = {
       mStartClock: selectedEvent ? new Date(selectedEvent.startDateTime) : new Date('1991-05-04T06:00:00'),
@@ -206,7 +207,7 @@
     }
 
     function getTimeToServer(date) {
-      var selectedDate = selectedDate ? selectedDate : selectedEvent.startDateTime;
+      var selectedDate = vm.selectedDate ? vm.selectedDate : selectedEvent.startDateTime;
       var dt = (new Date(selectedDate)).setHours(date.getHours(), date.getMinutes(), 0, 0);
       var dtGMT = new Date((new Date(dt)).toUTCString()).toISOString();
 
