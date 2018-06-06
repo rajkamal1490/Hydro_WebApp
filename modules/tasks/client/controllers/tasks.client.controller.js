@@ -142,11 +142,13 @@
       }
 
       function successCallback(res) {
-        var msg = editMode ? "Task updated successfully" : "Task created successfully"
-        $mdDialog.hide(res);
+        var msg = editMode ? "Task updated successfully" : "Task created successfully"        
         Notification.success({
           message: '<i class="glyphicon glyphicon-ok"></i> ' + msg
         });
+        setTimeout(function() {
+          $window.location.href= '/tasks';
+        }, 1000);
       }
 
       function errorCallback(errorResponse) {

@@ -1,11 +1,14 @@
-<md-dialog flex="70" style="left: 7%" ng-init="vm.loadinitial()">
-  <form name="vm.taskForm" novalidate autocomplete="off">
-    <div class="modal-header bg-primary">
-      <h4>{{vm.task._id ? 'Edit task' : 'Create task'}}</h4>
+<div class="col-md-12" ng-init="vm.loadinitial()">
+  <div class="page-content">
+    <div class="panel-header">
+      <h2><strong>Create</strong> Task</h2>
     </div>
-       <md-dialog-content style="padding-left: 24px">
+    <div class="panel">
+      <div class="panel-content">
+        <div class="row">
           <div class="col-md-12 col-sm-12 col-xs-12">
-            <div layout="row" flex>
+            <form name="vm.taskForm" autocomplete="off" novalidate>
+             <div layout="row" flex>
               <md-input-container flex>
                 <label class="my-label">Title</label>
                 <input required type="text" name="title" ng-model="vm.task.title"/>
@@ -180,18 +183,14 @@
                 </md-select>
               </md-input-container>
              </div>
-
+              <div class="text-center  m-t-20">
+                <button type="submit" class="btn btn-next btn-fill btn-success btn-wd" ng-hide="ui.isTaskInProgress" ng-click="vm.save(vm.taskForm.$valid)" type="submit">Create</button>
+                <button type="submit" class="btn btn-next btn-fill btn-success btn-wd" ng-show="ui.isTaskInProgress" ng-disabled="true"><i class="fa fa-spinner fa-spin" style="font-size: 18px"></i>Creating...</button>
+                <a href="/tasks" class="btn btn-next btn-fill btn-primary btn-wd">Back</a>
+            </form>
           </div>
-      </md-dialog-content>
-     <md-dialog-actions layout="row">
-        <span flex></span>
-        <md-button class="btn btn-next btn-fill btn-success btn-wd"  ng-hide="ui.isTaskInProgress" flex ng-click="vm.save(vm.taskForm.$valid)" type="submit">{{vm.task._id ? 'Update' : 'Create'}}</md-button>
-        <md-button class="btn btn-next btn-fill btn-success btn-wd"  ng-disabled="true" flex ng-show="ui.isTaskInProgress" type="submit"><i class="fa fa-spinner fa-spin"></i> {{vm.task._id ? 'Updating' : 'Creating'}}</md-button>
-        <span flex></span>
-        <!-- <md-button class="btn btn-next btn-fill btn-danger btn-wd" ng-show="ui.editMode" flex ng-click="deletetask()" type="submit">Delete</md-button> -->
-        <span flex></span>
-        <md-button class="btn btn-next btn-fill btn-warning btn-wd" flex ng-click="vm.cancel()" type="submit">Cancel</md-button>
-        <span flex></span>
-      </md-dialog-actions>
-  </form>
-</md-dialog>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

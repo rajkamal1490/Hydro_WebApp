@@ -5,9 +5,9 @@
     .module('meetings')
     .controller('MeetingsListController', MeetingsListController);
 
-  MeetingsListController.$inject = ['Authentication', 'MeetingsService', 'EmployeeMeetingsService', 'CommonService', '$scope', '$mdDialog', 'meetingResolve', '$timeout', 'userResolve'];
+  MeetingsListController.$inject = ['Authentication', 'MeetingsService', 'EmployeeMeetingsService', 'CommonService', '$scope', '$state', '$mdDialog', 'meetingResolve', '$timeout', 'userResolve'];
 
-  function MeetingsListController(Authentication, MeetingsService, EmployeeMeetingsService, CommonService, $scope, $mdDialog, meetingResolve, $timeout, userResolve) {
+  function MeetingsListController(Authentication, MeetingsService, EmployeeMeetingsService, CommonService, $scope, $state, $mdDialog, meetingResolve, $timeout, userResolve) {
     var vm = this;
 
     $scope.model = {
@@ -105,86 +105,15 @@
     }
 
     function editMeeting(event) {
-      MeetingsService.get({
+      $state.go('meetings.edit', {
         meetingId: event._id
-      }, function(data) {
-        $mdDialog.show({
-            controller: 'MeetingsController',
-            controllerAs: 'vm',
-            templateUrl: '/modules/meetings/client/views/form-meeting.client.view.html',
-            parent: angular.element(document.body),
-            clickOutsideToClose: false,
-            escapeToClose: false,
-            fullscreen: true,
-            resolve: {
-              selectedDate: function() {
-                return event.start;
-              },
-              selectedEvent: function() {
-                return data;
-              },
-              viewMode: function() {
-                return true;
-              },
-              userResolve: function() {
-                return userResolve;
-              }
-            },
-          })
-          .then(function(updatedItem) {
-            var index = CommonService.findIndexByID($scope.model.events, event._id);
-            var eventIndex = CommonService.findIndexByID($scope.model.newEvents, data._id);
-            $scope.model.events.splice(index, 1);
-            if (updatedItem.isDelete) {
-              $scope.model.newEvents.splice(eventIndex, 1);
-              fullCalenderRerender();
-            } else {
-              $scope.model.newEvents[eventIndex] = updatedItem;
-              $timeout(function() {
-                eventsPush(updatedItem);
-                $scope.$apply();
-                fullCalenderRerender();
-              })
-            }
-          }, function() {
-            console.log('You cancelled the dialog.');
-          });
-      });
+      });     
     };
 
     function startMeeting(event) {
-      MeetingsService.get({
+      $state.go('meetings.view', {
         meetingId: event._id
-      }, function(data) {
-        $mdDialog.show({
-            controller: 'StartMeetingsController',
-            controllerAs: 'vm',
-            templateUrl: '/modules/meetings/client/views/start-meeting.client.view.html',
-            parent: angular.element(document.body),
-            clickOutsideToClose: false,
-            escapeToClose: false,
-            fullscreen: true,
-            resolve: {
-              selectedDate: function() {
-                return event.start;
-              },
-              selectedEvent: function() {
-                return data;
-              },
-              userResolve: function() {
-                return userResolve;
-              },
-              meetingStartTime: function() {
-                return new Date();
-              }
-            },
-          })
-          .then(function(updatedItem) {
-            
-          }, function() {
-            console.log('You cancelled the dialog.');
-          });
-      });
+      });      
     };
 
     $scope.renderView = function(view) {
@@ -216,35 +145,9 @@
     };
 
     function openCreateMeetingDialog(date) {
-      $mdDialog.show({
-        controller: 'MeetingsController',
-        controllerAs: 'vm',
-        templateUrl: '/modules/meetings/client/views/form-meeting.client.view.html',
-        parent: angular.element(document.body),
-        clickOutsideToClose: false,
-        escapeToClose: false,
-        fullscreen: true,
-        resolve: {
-          selectedDate: function() {
-            return date;
-          },
-          selectedEvent: function() {
-            return null;
-          },
-          viewMode: function() {
-            return false;
-          },
-          userResolve: function() {
-            return userResolve;
-          }
-        }
-      }).then(function(createdItem) {
-        $scope.model.newEvents.push(createdItem);
-        eventsPush(createdItem);
-        fullCalenderRerender();
-      }, function() {
-        console.log('You cancelled the dialog.');
-      });
+      $state.go('meetings.create', {
+        meetingId: date
+      });      
     }
 
     function fullCalenderRerender() {

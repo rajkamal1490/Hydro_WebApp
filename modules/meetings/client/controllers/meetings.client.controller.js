@@ -101,11 +101,13 @@
       }
 
       function successCallback(res) {
-        var msg = viewMode ? "Meeting updated successfully" : "Meeting created successfully"
-        $mdDialog.hide(res);
+        var msg = viewMode ? "Meeting updated successfully" : "Meeting created successfully"        
         Notification.success({
           message: '<i class="glyphicon glyphicon-ok"></i> ' + msg
         });
+         setTimeout(function() {
+          $window.location.href= '/meetings';
+        }, 1000);
       }
 
       function errorCallback(errorResponse) {
@@ -151,11 +153,13 @@
           selectedEvent.$remove(deleteSuccessCallback, deleteErrorCallback);
 
           function deleteSuccessCallback(res) {
-            res.isDelete = true;
-            $mdDialog.hide(res);
+            res.isDelete = true;            
             Notification.success({
               message: '<i class="glyphicon glyphicon-ok"></i> Meeting deleted successfully'
             });
+            setTimeout(function() {
+              $window.location.href = '/meetings';
+            }, 1000);
           }
 
           function deleteErrorCallback(res) {
@@ -202,6 +206,7 @@
     }
 
     function getTimeToServer(date) {
+      var selectedDate = selectedDate ? selectedDate : selectedEvent.startDateTime;
       var dt = (new Date(selectedDate)).setHours(date.getHours(), date.getMinutes(), 0, 0);
       var dtGMT = new Date((new Date(dt)).toUTCString()).toISOString();
 

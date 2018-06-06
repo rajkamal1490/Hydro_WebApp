@@ -67,17 +67,18 @@
       EmployeeMeetingsService.createMinutesOfMeetingDocx({
         minutes: startMeeting
       }).then(function(results) {
-        console.log(results)
         startMeeting.minutesFilePath = results[0].filePath;
         startMeeting.$save(successCallback, errorCallback);
       });
 
       function successCallback(res) {
         var msg = "Minutes Of Meeting created successfully"
-        $mdDialog.hide(res);
         Notification.success({
           message: '<i class="glyphicon glyphicon-ok"></i> ' + msg
         });
+        setTimeout(function() {
+          $window.location.href= '/meetings';
+        }, 1000);
       }
 
       function errorCallback(errorResponse) {

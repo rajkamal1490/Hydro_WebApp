@@ -32,12 +32,23 @@
         },
       })
       .state('meetings.create', {
-        url: '/create',
+        url: '/:meetingId/create',
         templateUrl: 'modules/meetings/client/views/form-meeting.client.view.html',
         controller: 'MeetingsController',
         controllerAs: 'vm',
         resolve: {
-          meetingResolve: newMeeting
+          selectedDate: ['$stateParams', function($stateParams) {
+            return $stateParams.meetingId;
+          }],
+          selectedEvent: function() {
+            return null;
+          },
+          viewMode: function() {
+            return false;
+          },
+          userResolve: ['$injector', '$q', function($injector, $q) {
+            return $injector.invoke(userData).$promise;   // cached, otherwise we would have called IncidentNoteTitle.query().
+          }]
         },
         data: {
           roles: ['user', 'admin'],
@@ -49,24 +60,43 @@
         templateUrl: 'modules/meetings/client/views/form-meeting.client.view.html',
         controller: 'MeetingsController',
         controllerAs: 'vm',
-        resolve: {
-          meetingResolve: getMeeting
+        resolve: {          
+          selectedEvent: getMeeting,
+          selectedDate: function() {
+            return undefined;
+          },
+          viewMode: function() {
+            return true;
+          },
+          userResolve: ['$injector', '$q', function($injector, $q) {
+            return $injector.invoke(userData).$promise;   // cached, otherwise we would have called IncidentNoteTitle.query().
+          }]
         },
         data: {
           roles: ['user', 'admin'],
-          pageTitle: 'Edit Meeting {{ meetingResolve.name }}'
+          pageTitle: 'Edit Meeting {{ selectedEvent.name }}'
         }
       })
       .state('meetings.view', {
-        url: '/:meetingId',
-        templateUrl: 'modules/meetings/client/views/view-meeting.client.view.html',
-        controller: 'MeetingsController',
+        url: '/:meetingId/view',
+        templateUrl: 'modules/meetings/client/views/start-meeting.client.view.html',
+        controller: 'StartMeetingsController',
         controllerAs: 'vm',
         resolve: {
-          meetingResolve: getMeeting
+          selectedEvent: getMeeting,
+          selectedDate: function() {
+            return undefined;
+          },
+          meetingStartTime: function() {
+            return new Date();;
+          },
+          userResolve: ['$injector', '$q', function($injector, $q) {
+            return $injector.invoke(userData).$promise;   // cached, otherwise we would have called IncidentNoteTitle.query().
+          }]
         },
         data: {
-          pageTitle: 'Meeting {{ meetingResolve.name }}'
+          roles: ['user', 'admin'],
+          pageTitle: 'Meeting {{ selectedEvent.name }}'
         }
       });
   }

@@ -31,61 +31,6 @@
 		$scope.loadinitial = function() {
 			
 		};
-		
-		$scope.createOrUpdateTask = function(task, editMode) {
-			var oldShow = $mdDialog.show;
-			$mdDialog.show = function(options) {
-				if (options.hasOwnProperty("skipHide")) {
-					options.multiple = options.skipHide;
-				}
-				return oldShow(options);
-			};
-			$mdDialog.show({
-				controller: 'TasksController',
-				controllerAs: 'vm',
-				templateUrl: '/modules/tasks/client/views/form-task.client.view.html',
-				parent: angular.element(document.body),
-				clickOutsideToClose: false,
-				escapeToClose: false,
-				fullscreen: true,
-				resolve: {
-					task: function() {
-						return task;
-					},
-					editMode: function() {
-						return editMode;
-					},
-					taskResolve: function() {
-						return vm.tasks;
-					},
-					userResolve: function() {
-						return userResolve;
-					},
-					refCodes: function() {
-						return refCodeResolve;
-					},
-					projects: function() {
-						return projectResolve;
-					},
-				}
-			}).then(function(createdItem) {
-
-				if (editMode) {
-					var taskIndex = CommonService.findIndexByID(vm.tasks, task._id);
-					if (createdItem.isDelete) {
-						vm.tasks.splice(taskIndex, 1);
-					} else {
-						vm.tasks[taskIndex] = createdItem;
-					}
-				} else {
-					//vm.filteredTasks.push(createdItem);
-					vm.tasks.push(createdItem);
-				}
-
-			}, function() {
-				console.log('You cancelled the dialog.');
-			});
-		};
 
 		$scope.statusFilterFunc = function(status) {
 			if (angular.isDefined(status) && status !== null) {

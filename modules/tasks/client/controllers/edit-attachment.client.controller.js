@@ -34,7 +34,7 @@
       };
       $scope.mixins.havingProgressBar.start();
       Upload.upload({
-        url: '../api/tasks/upload/' + task._id,
+        url: '/api/tasks/upload/' + task._id,
         data: {
             newProfilePicture: vm.picFile
           }

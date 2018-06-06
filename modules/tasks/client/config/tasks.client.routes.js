@@ -46,11 +46,28 @@
         controller: 'TasksController',
         controllerAs: 'vm',
         resolve: {
-          taskResolve: newTask
+          task: function() {
+            return undefined;
+          },
+          editMode: function() {
+            return false;
+          },
+          taskResolve: ['$injector', '$q', function($injector, $q) {
+            return $injector.invoke(taskData).$promise;   // cached, otherwise we would have called IncidentNoteTitle.query().
+          }],
+          userResolve: ['$injector', '$q', function($injector, $q) {
+            return $injector.invoke(userData).$promise;   // cached, otherwise we would have called IncidentNoteTitle.query().
+          }],
+          refCodes: ['$injector', '$q', function($injector, $q) {
+            return $injector.invoke(refCodeData).$promise;   // cached, otherwise we would have called IncidentNoteTitle.query().
+          }],
+          projects: ['$injector', '$q', function($injector, $q) {
+            return $injector.invoke(projectData).$promise;   // cached, otherwise we would have called IncidentNoteTitle.query().
+          }]
         },
         data: {
           roles: ['user', 'admin'],
-          pageTitle: 'Tasks Create'
+          pageTitle: 'Create New Task'
         }
       })
       .state('tasks.edit', {
