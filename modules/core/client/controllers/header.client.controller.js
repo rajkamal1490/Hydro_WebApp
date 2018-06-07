@@ -5,9 +5,9 @@
     .module('core')
     .controller('HeaderController', HeaderController);
 
-  HeaderController.$inject = ['$scope', '$state', '$http', 'AdminService', 'AttendancesService', 'Authentication', 'CheckInAttendancesServices', 'CommonService', 'EmployeeMeetingsService', 'menuService', '$mdDialog', '$interval', 'Notification', 'NotificationsService', 'PERMISSION', 'LEAVE', 'RemindersService', 'TodayReminderService', 'TasksService'];
+  HeaderController.$inject = ['$scope', '$state', '$http', 'AdminService', 'AttendancesService', 'Authentication', 'CheckInAttendancesServices', 'CommonService', 'EmployeeMeetingsService', 'menuService', '$mdDialog', '$interval', 'Notification', 'NotificationsService', 'PERMISSION', 'LEAVE', 'RemindersService', 'TodayReminderService', 'TasksService', 'MeetingsService'];
 
-  function HeaderController($scope, $state, $http, AdminService, AttendancesService, Authentication, CheckInAttendancesServices, CommonService, EmployeeMeetingsService, menuService, $mdDialog, $interval, Notification, NotificationsService, PERMISSION, LEAVE, RemindersService, TodayReminderService, TasksService) {
+  function HeaderController($scope, $state, $http, AdminService, AttendancesService, Authentication, CheckInAttendancesServices, CommonService, EmployeeMeetingsService, menuService, $mdDialog, $interval, Notification, NotificationsService, PERMISSION, LEAVE, RemindersService, TodayReminderService, TasksService, MeetingsService) {
     var vm = this;
 
     vm.accountMenu = menuService.getMenu('account').items[0];
@@ -124,7 +124,7 @@
         })
         .then(function(task) {
           // console.log(Object.keys($state.current));
-          if($state.current.name=="tasks.list" || $state.current.name=="home" ){
+          if( true || $state.current.name=="tasks.list" || $state.current.name=="home" ){
             notification = new NotificationsService(notification);
             notification.isDismissed = true;
             notification.hasPopUped = true;
@@ -133,7 +133,7 @@
               // console.log(res);
               var index = CommonService.findIndexByID(vm.notifications, res._id);
               vm.notifications.splice(index, 1);
-              $state.go('tasks.view',{taskId:task._id});
+              $state.go('tasks.view', {taskId:task._id}, {reload: true});
             }
 
             function errorCallback(errorResponse) {
@@ -151,30 +151,37 @@
         });
       }
       if(notification.type == "meeting"){
-        if($state.current.name=="meetings.list" || $state.current.name=="home" ){
-          notification = new NotificationsService(notification);
-          notification.isDismissed = true;
-          notification.hasPopUped = true;
-          notification.$update(successCallback, errorCallback);
-          function successCallback(res) {
-            // console.log(res);
-            var index = CommonService.findIndexByID(vm.notifications, res._id);
-            vm.notifications.splice(index, 1);
-            $state.go('meetings.list');
-          }
+        MeetingsService.getMeetingByNotifcationIDFromNotificationClick({
+          notificationId: notification._id
+        })
+        .then(function(meeting) {
+          // console.log(meeting._id);
+          if( true || $state.current.name=="meetings.list" || $state.current.name=="home" ){
+            notification = new NotificationsService(notification);
+            notification.isDismissed = true;
+            notification.hasPopUped = true;
+            notification.$update(successCallback, errorCallback);
+            function successCallback(res) {
+              // console.log(res);
+              var index = CommonService.findIndexByID(vm.notifications, res._id);
+              vm.notifications.splice(index, 1);
+              $state.go('meetings.edit', {meetingId:meeting._id}, {reload: true});
+            }
 
-          function errorCallback(errorResponse) {
-            // console.log(errorResponse);
-            Notification.error({
-              message: errorResponse.data.message,
-              title: '<i class="glyphicon glyphicon-remove"></i> Notification could not be dismissed!'
-            });
+            function errorCallback(errorResponse) {
+              // console.log(errorResponse);
+              Notification.error({
+                message: errorResponse.data.message,
+                title: '<i class="glyphicon glyphicon-remove"></i> Notification could not be dismissed!'
+              });
+            }
           }
-        }
-        else{
-          alert("there is a bug. click again from meetings list.");
-          window.location.href = "/meetings";
-        }
+          else{
+            alert("there is a bug. click again from meetings list.");
+            window.location.href = "/meetings";
+          }
+        });
+
       }
     }
 
@@ -198,6 +205,7 @@
         isDismissed: false
       }).then(function(notifications) {
         notifications = _.reject(notifications, function(notification) {
+          // console.log(notification._id);
           return vm.notifications ? _.includes(_.map(vm.notifications, '_id'), notification._id) : false;
         });
         angular.forEach(notifications, function(notification) {
@@ -215,9 +223,9 @@
       getMyPersistentNotifications();
       $interval(getAttendances, 5000);
       $interval(getMyTodayMeetings, 5000);
-      $interval(getMyNotifications, 10000);
-      $interval(getMyTodayReminders, 10000);
-      $interval(getMyPersistentNotifications, 10000);
+      $interval(getMyNotifications, 5000);
+      $interval(getMyTodayReminders, 5000);
+      $interval(getMyPersistentNotifications, 5000);
     }
 
     $scope.logout = function(ev) {

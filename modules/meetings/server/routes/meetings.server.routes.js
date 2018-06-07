@@ -17,6 +17,9 @@ module.exports = function(app) {
     .put(meetings.update)
     .delete(meetings.delete);
 
+  app.route('/api/meetings/filter/notification')/*.all(tasksPolicy.isAllowed)*/
+    .post(meetings.getMeetingByNotifcationID);
+
   // Finish by binding the Meeting middleware
   app.param('meetingId', meetings.meetingByID);
 };

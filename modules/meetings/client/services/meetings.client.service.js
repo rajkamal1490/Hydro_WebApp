@@ -9,12 +9,25 @@
   MeetingsService.$inject = ['$resource'];
 
   function MeetingsService($resource) {
-    return $resource('/api/meetings/:meetingId', {
+    var Meetings = $resource('/api/meetings/:meetingId', {
       meetingId: '@_id'
     }, {
       update: {
         method: 'PUT'
+      },
+      getMeetingByNotifcationID: {
+        method: 'POST',
+        isArray: false,
+        url: '/api/meetings/filter/notification'
       }
     });
+
+    angular.extend(Meetings, {
+      getMeetingByNotifcationIDFromNotificationClick: function (notifications) {
+        return this.getMeetingByNotifcationID(notifications).$promise;
+      }
+    });
+
+    return Meetings;
   }
 }());

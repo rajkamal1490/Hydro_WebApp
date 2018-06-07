@@ -13243,3 +13243,5 @@ select:focus,
 .mCS-autoHide>.mCustomScrollBox>.mCSB_scrollTools, .mCS-autoHide>.mCustomScrollBox~.mCSB_scrollTools { opacity: 1; }
 
 .sidebar{ z-index: 79; }
+
+.md-whiteframe-1dp, .md-whiteframe-z1 { box-shadow: none; }

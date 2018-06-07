@@ -69,7 +69,7 @@
 
               <md-input-container flex>
                 <label class="my-label">Assignee:</label>
-                <md-autocomplete md-selected-item="vm.task.assignee" ng-model="vm.task.assignee" md-search-text="searchText" md-items="user in vm.getMatches(searchText)" md-item-text="user.displayName">
+                <md-autocomplete class="noBorderAutocompletes" md-selected-item="vm.task.assignee" ng-model="vm.task.assignee" md-search-text="searchText" md-items="user in vm.getMatches(searchText)" md-item-text="user.displayName">
                   <md-item-template>
                     <span md-highlight-text="searchText">{{user.displayName}}</span>
                   </md-item-template>

@@ -185,3 +185,20 @@ exports.meetingByID = function(req, res, next, id) {
     next();
   });
 };
+
+/**
+ * Get meeting by notification id
+ */
+exports.getMeetingByNotifcationID = function(req, res) {
+  Meeting.findOne({
+      notificationId: { $in: [req.body.notificationId] }
+    }, function(err, entries) {
+    if (err) {
+      return res.status(400).send({
+        message: errorHandler.getErrorMessage(err)
+      });
+    } else {
+      res.jsonp(entries);
+    }
+  });
+};

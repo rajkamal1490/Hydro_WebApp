@@ -33,19 +33,16 @@
             </label>
             </div>
             <div class="checkbox checkbox-success text-center">
-              <label>
+              <!-- <label> -->
              <md-input-container flex>
-                      <label class="my-label">Drop Here</label>
-              <md-select required name="folder" ng-model="vm.fileManager.foldername">
+                      <label for="folder">Drop Here</label>
+              <md-select name="folder" ng-model="vm.fileManager.foldername">
                 <md-optgroup label="Drop Here">
                   <md-option ng-value="folder.code" ng-repeat="folder in model.folders">{{folder.name}}</md-option>
                 </md-optgroup>
               </md-select>
-              <div ng-messages="vm.fileUpload.folder.$error">
-                <div ng-message="required">Folder Name is required.</div>
-              </div>
               </md-input-container>
-              </label>
+              <!-- </label> -->
             </div>
             <md-button class="btn btn-warning" ng-disabled="mixins.havingProgressBar.progress" ng-click="vm.fileSelected = false">Remove</md-button>
           </div>

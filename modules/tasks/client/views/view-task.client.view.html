@@ -1,11 +1,7 @@
 <section>
   <div class="page-content">
     <h2><a ui-sref="tasks.view({ taskId: vm.task._id })">{{vm.task.projectCode ? vm.task.projectCode + ' /' : ""}} {{vm.task.taskCode}}</a> &nbsp;<button class="delete btn btn-sm btn-danger" ng-if="(!vm.task.updated && vm.authentication.user._id === vm.task.createdID) || vm.authentication.user.userGroup.indexOf('admin') !== -1" ng-click="vm.remove(task, $index)"><i class="icons-office-52"></i> Delete</button></h2>
-    <div ng-if="vm.hasLoading" style="position: fixed; width: 100%; height: 100%;  top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0; margin-top: 50px; margin-left: 120px; background-color: rgba(0,0,0,0.5);   z-index: 2;
-    cursor: pointer;" layout="row" layout-sm="column" layout-align="space-around">
+    <div ng-if="vm.hasLoading" style="position: fixed; width: 100%; height: 100%;  top: 0;left: 0;right: 0;bottom: 0; margin-top: 50px; margin-left: 120px; background-color: rgba(0,0,0,0.5);   z-index: 2;cursor: pointer;" layout="row" layout-sm="column" layout-align="space-around">
       <md-progress-circular md-mode="indeterminate"></md-progress-circular>
     </div>
     <h2 ng-mouseover="ui.titleMouseHover = true;" ng-mouseleave="ui.titleMouseHover = false;" class="hover-edit-trigger" ng-hide="ui.editTitle">{{vm.task.title}}  &nbsp;&nbsp;<span> <i class="fa fa-pencil" style="cursor: pointer" ng-click="ui.editTitle = true;" ng-show="ui.titleMouseHover"></i> </span></h2>
@@ -22,37 +18,38 @@
           <br />
           <div class="col-sm-6">
             <div class="form-group">
-              <label class="col-sm-4" for="type">Type:</label>
-              <div class="col-sm-8">
+              <label class="col-xs-4 col-sm-4" for="type">Type:</label>
+              <div class="col-xs-8 col-sm-8">
                 Task
               </div>
             </div>
             <br/>
             <div class="form-group">
-              <label class="col-sm-4" for="priority">Priority:</label>
-              <div class="col-sm-8">
+              <label class="col-xs-4 col-sm-4" for="priority">Priority:</label>
+              <div class="col-xs-8 col-sm-8">
                 {{vm.getPriorityName(vm.task.priority)}}
               </div>
             </div>
             <br/>
             <div class="form-group">
-              <label class="col-sm-4" for="labels">Labels:</label>
-              <div class="col-sm-8">
+              <label class="col-xs-4 col-sm-4" for="labels">Labels:</label>
+              <div class="col-xs-8 col-sm-8">
                 None
               </div>
             </div>
+            <br/>
           </div>
           <div class="col-sm-6">
-             <div class="form-group">
-              <label class="col-sm-4" for="project">Project:</label>
-              <div class="col-sm-8" ng-show="vm.task.projectCode">
-               <!--  <span class="hover-edit-trigger" ng-mouseover="ui.projectMouseHover = true;" ng-mouseleave="ui.projectMouseHover = false;" ng-hide="ui.editProject">{{vm.starCase(vm.task.projectCode)}}  <i class="edit-pencil fa fa-pencil" style="cursor: pointer" ng-click="ui.editProject = true;" ng-show="ui.projectMouseHover"></i> </span>
+            <div class="form-group">
+              <label class="col-xs-4 col-sm-4" for="project">Project:</label>
+              <div class="col-xs-8 col-sm-8" ng-show="vm.task.projectCode">
+                <!--  <span class="hover-edit-trigger" ng-mouseover="ui.projectMouseHover = true;" ng-mouseleave="ui.projectMouseHover = false;" ng-hide="ui.editProject">{{vm.starCase(vm.task.projectCode)}}  <i class="edit-pencil fa fa-pencil" style="cursor: pointer" ng-click="ui.editProject = true;" ng-show="ui.projectMouseHover"></i> </span>
                 <md-select name="project" ng-show="ui.editProject" ng-model="vm.task.projectCode" style="margin-top: -7px;">
                   <md-optgroup label="project">
                     <md-option ng-value="project.code" ng-repeat="project in vm.projects" ng-click="updateProject(project.code)">{{project.name}}</md-option>
                   </md-optgroup>
                 </md-select> -->
-                 <span>{{vm.starCase(vm.task.projectCode)}}</span>
+                <span>{{vm.starCase(vm.task.projectCode)}}</span>
               </div>
               <div class="col-sm-8" ng-hide="vm.task.projectCode">
                 <span>Individual Project</span>
@@ -60,8 +57,8 @@
             </div>
             <br/>
             <div class="form-group">
-              <label class="col-sm-4" for="status">Status:</label>
-              <div class="col-sm-8">
+              <label class="col-xs-4 col-sm-4" for="status">Status:</label>
+              <div class="col-xs-8 col-sm-8">
                 <span class="hover-edit-trigger" ng-mouseover="ui.statusMouseHover = true;" ng-mouseleave="ui.statusMouseHover = false;" ng-hide="ui.editStatus">{{vm.starCase(vm.task.status)}}  <i class="edit-pencil fa fa-pencil" style="cursor: pointer" ng-click="ui.editStatus = true;" ng-show="ui.statusMouseHover"></i> </span>
                 <md-select name="status" ng-show="ui.editStatus" ng-model="vm.task.status" style="margin-top: -8px;">
                   <md-optgroup label="status">
@@ -71,43 +68,54 @@
               </div>
             </div>
           </div>
-          <div class="form-group col-sm-12" style="margin-top: 5%">
-            <label class="control-label col-sm-2" for="type">Description:</label>
-            <br />
-            <span ng-mouseover="ui.descriptionMouseHover = true;" ng-mouseleave="ui.descriptionMouseHover = false;" ng-hide="ui.editDescription"> {{vm.starCase(vm.task.description)}} &nbsp;&nbsp;<span> <i class="fa fa-pencil" style="cursor: pointer" ng-click="ui.editDescription = true;" ng-show="ui.descriptionMouseHover"></i> </span></span>
-            <div style="height: 80px" ng-show="ui.editDescription">
-              <textarea name="description" ng-model="vm.task.description" id="content" class="form-control" cols="10" placeholder="Add description..." style="font-size: 16px; min-height: 100px;overflow-y: auto;word-wrap:break-word"></textarea>
-              <div class="edit-button-group pull-right">
-                <div class="glyphicon glyphicon-ok" ng-click="updateTask()"></div>
-                <div class="glyphicon glyphicon-remove" ng-click="ui.editDescription = false; ui.descriptionMouseHover = false"></div>
+          <div class="col-xs-12">
+            <div class="form-group">
+              <label class="col-xs-12" for="type">Description:</label>
+              <div class="col-xs-12">
+                <span ng-mouseover="ui.descriptionMouseHover = true;" ng-mouseleave="ui.descriptionMouseHover = false;" ng-hide="ui.editDescription" style="white-space: pre;"> {{vm.task.description}} &nbsp;&nbsp;<span> <i class="fa fa-pencil" style="cursor: pointer" ng-click="ui.editDescription = true;" ng-show="ui.descriptionMouseHover"></i> </span></span>
+                <div style="height: 80px" ng-show="ui.editDescription">
+                  <textarea name="description" ng-model="vm.task.description" id="content" class="form-control" cols="10" placeholder="Add description..." style="font-size: 16px; min-height: 100px;overflow-y: auto;word-wrap:break-word"></textarea>
+                  <div class="edit-button-group pull-right">
+                    <div class="glyphicon glyphicon-ok" ng-click="updateTask()"></div>
+                    <div class="glyphicon glyphicon-remove" ng-click="ui.editDescription = false; ui.descriptionMouseHover = false"></div>
+                  </div>
+                </div>
               </div>
             </div>
+            <br/>
+            <br/>
           </div>
-          <div class="form-group col-sm-12" style="margin-top: 5%">
-            <label class="control-label col-sm-2" for="type">Attachments:</label>
-            <br />
-            <br />
-            <div>
-              <md-button class="btn btn-danger" ng-click="fileUpload()" type="submit"><i class="mdi-file-cloud-upload" style="font-size: 15px"></i></md-button>
-            </div>
-            <div class="col-sm-5" ng-repeat="file in vm.task.attachments | orderBy: '-created'">
-              <div class="panel">
-                <div class="panel-content widget-info">
-                  <div class="row">
-                    <div class="left">
-                      <i class="fa fa-file bg-orange"></i>
-                    </div>
-                    <div class="right">
-                      <p class="text" title="{{file.filename}}">{{file.filename | trim: 15:false}}</p>
-                      <p> <a download="{{file.filename}}" target="_self" ng-href="./{{file.fileURL}}"><i class="fa fa-download"></i></a>
-                        <a ng-click="deleteFile(file)" style="cursor: pointer"> <i class="fa fa-trash text-danger"></i></a></p>
+          <div class="col-xs-12">
+            <div class="form-group">
+              <label class="col-xs-12 col-sm-12" for="type">Attachments:</label>
+              <br />
+              <div class="col-xs-12 col-sm-12">
+                <div class="row">
+                  <div class="col-xs-12">
+                    <md-button class="btn btn-danger" ng-click="fileUpload()" type="submit"><i class="mdi-file-cloud-upload" style="font-size: 15px"></i></md-button>
+                  </div>
+                  <div class="col-sm-5" ng-repeat="file in vm.task.attachments | orderBy: '-created'">
+                    <div class="panel">
+                      <div class="panel-content widget-info">
+                        <div class="row">
+                          <div class="left">
+                            <i class="fa fa-file bg-orange"></i>
+                          </div>
+                          <div class="right">
+                            <p class="text" title="{{file.filename}}">{{file.filename | trim: 15:false}}</p>
+                            <p> <a download="{{file.filename}}" target="_self" ng-href="./{{file.fileURL}}"><i class="fa fa-download"></i></a>
+                              <a ng-click="deleteFile(file)" style="cursor: pointer"> <i class="fa fa-trash text-danger"></i></a></p>
+                          </div>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
+            <br/>
           </div>
-          <div class="form-group col-sm-12" style="margin-top: 5%">
+          <div class="col-sm-12" style="padding-top: 5%; border-top: 1px solid grey">
             <label class="control-label col-sm-2" for="type">Activity:</label>
             <br />
             <div class="col-sm-12">
@@ -151,10 +159,11 @@
                   </span>
                 </div>
               </div>
-              <textarea name="comment" ng-model="vm.task.comment" id="content" class="form-control" cols="5" rows="5" placeholder="Add comments..." style="font-weight: bold; font-size: 15px" required></textarea>
-              <br />
-              <br />
-              <md-button class="btn btn-danger btn-sm" ng-click="addComment()" type="submit">Add Comment</md-button>
+              <div class="jumbotron">
+                <textarea name="comment" ng-model="vm.task.comment" id="content" class="form-control autoExpand" rows="5" placeholder="Add comments..." required></textarea>
+                <br><br>
+                <md-button class="btn btn-danger btn-sm" ng-click="addComment()" type="submit">Add Comment</md-button>
+              </div>
             </div>
           </div>
         </div>
@@ -162,13 +171,13 @@
     </div>
     <div class="col-xlg-4 col-lg-4 col-md-4">
       <div class="row">
-        <div class="col-sm-12">
+        <div class="col-xs-12">
           <div class="panel no-bd bd-3 panel-stat">
             <br />
-            <div class="col-sm-12">
-              <div class="form-group">
-                <label class="col-sm-12 col-lg-4" for="type">Assignee:</label>
-                <div class="col-sm-12 col-lg-8">
+            <div class="">
+              <div class="col-xs-12">
+                <label class="col-xs-6 col-sm-6 col-lg-4" for="type">Assignee:</label>
+                <div class="col-xs-6 col-sm-6 col-lg-8">
                   <span class="hover-edit-trigger" ng-mouseover="ui.assigneeMouseHover = true;" ng-mouseleave="ui.assigneeMouseHover = false;" ng-hide="ui.assigneeProject">{{vm.getUserName(vm.task.assignee).displayName}} &nbsp;&nbsp; <i class="edit-pencil fa fa-pencil" style="cursor: pointer" ng-click="ui.assigneeProject = true;" ng-show="ui.assigneeMouseHover"></i> </span>
                   <md-select name="Assignee" ng-show="ui.assigneeProject" ng-model="vm.task.assignee" style="margin-top: -8px;">
                     <md-optgroup label="Assignee">
@@ -178,45 +187,48 @@
                   <div style="height: 20px" ng-show="vm.getUserName(vm.task.assignee).displayName !== vm.authentication.user.displayName">
                     <a href="#" ng-click="assignToMe()">Assign to me</a>
                   </div>
+                  <br/>
+                  <br/>
                 </div>
               </div>
-              <br/>
-              <div class="form-group">
-                <label class="col-sm-12 col-lg-4" for="priority">Reporter:</label>
-                <div class="col-sm-12 col-lg-8">
+              <div class="col-xs-12">
+                <label class="col-xs-6 col-sm-6 col-lg-4" for="priority">Reporter:</label>
+                <div class="col-xs-6 col-sm-6 col-lg-8">
                   {{vm.task.createdBy}}
+                  <br/>
+                  <br/>
                 </div>
               </div>
-              <br/>
-              <br/>
-              <br/>
-              <br/>
-              <div class="form-group">
-                <label class="col-sm-6" for="labels">Start Date:</label>
-                <div class="col-sm-6">
+              <div class="col-xs-12">
+                <label class="col-xs-6 col-sm-6 col-lg-4" for="labels">Start Date:</label>
+                <div class="col-xs-6 col-sm-6 col-lg-8">
                   {{vm.task.startDateTime | date:'short'}}
+                  <br/>
+                  <br/>
                 </div>
               </div>
-              <br/>
-              <div class="form-group">
-                <label class="col-sm-6" for="labels">Due Date:</label>
-                <div class="col-sm-6">
+              <div class="col-xs-12">
+                <label class="col-xs-6 col-sm-6 col-lg-4" for="labels">Due Date:</label>
+                <div class="col-xs-6 col-sm-6 col-lg-8">
                   {{vm.task.dueDateTime | date:'short'}}
+                  <br/>
+                  <br/>
                 </div>
               </div>
-              <br/>
-              <br/>
-              <div class="form-group">
-                <label class="col-sm-6" for="labels">Created:</label>
-                <div class="col-sm-6">
+              <div class="col-xs-12">
+                <label class="col-xs-6 col-sm-6 col-lg-4" for="labels">Created:</label>
+                <div class="col-xs-6 col-sm-6 col-lg-8">
                   {{vm.task.created | date:'short'}}
+                  <br/>
+                  <br/>
                 </div>
               </div>
-              <br/>
-              <div class="form-group">
-                <label class="col-sm-6" for="labels">Updated:</label>
-                <div class="col-sm-6">
+              <div class="col-xs-12">
+                <label class="col-xs-6 col-sm-6 col-lg-4" for="labels">Updated:</label>
+                <div class="col-xs-6 col-sm-6 col-lg-8">
                   {{vm.task.updated | date:'short'}}
+                  <br/>
+                  <br/>
                 </div>
               </div>
             </div>
