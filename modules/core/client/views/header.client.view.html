@@ -75,7 +75,12 @@
                     <small> Meeting created/updated by {{notification.user.displayName}}</small>
                     <span class="dropdown-time">{{inHour(notification.created)}}</span>
                   </a>
-                  <a ng-click="handleMyPersistentNotifications(notification)" ng-if=" notification.type != 'task' && notification.type != 'meeting' ">
+                  <a ng-click="handleMyPersistentNotifications(notification)" ng-if=" notification.type == 'leaveOrPermission' ">
+                    <span class="fa fa-check" style="color: blue"></span>
+                    <small> {{notification.message}}</small>
+                    <span class="dropdown-time">{{inHour(notification.created)}}</span>
+                  </a>
+                  <a ng-click="handleMyPersistentNotifications(notification)" ng-if=" notification.type != 'task' && notification.type != 'meeting' && notification.type != 'leaveOrPermission' ">
                     <span class="glyphicon glyphicon-calendar" style="color: black"></span>
                     <small> Unidentified Notification created/updated by {{notification.user.displayName}}</small>
                     <span class="dropdown-time">{{inHour(notification.created)}}</span>

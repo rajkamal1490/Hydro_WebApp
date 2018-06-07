@@ -182,6 +182,26 @@
           }
         });
 
+      } 
+
+      if(notification.type == "leaveOrPermission") {
+          notification = new NotificationsService(notification);
+          notification.isDismissed = true;
+          notification.hasPopUped = true;
+          notification.$update(successCallback, errorCallback);
+          function successCallback(res) {
+            // console.log(res);
+            var index = CommonService.findIndexByID(vm.notifications, res._id);
+            vm.notifications.splice(index, 1);
+          }
+
+          function errorCallback(errorResponse) {
+            // console.log(errorResponse);
+            Notification.error({
+              message: errorResponse.data.message,
+              title: '<i class="glyphicon glyphicon-remove"></i> Notification could not be dismissed!'
+            });
+          }
       }
     }
 
@@ -194,7 +214,9 @@
           if(notifications.length > 1) {
             CommonService.sleep(5000);
           }
-          buildNotificationContent(notification);
+          if(notification.type !== 'leaveOrPermission') {
+            buildNotificationContent(notification);
+          }          
         });
       });
     };
