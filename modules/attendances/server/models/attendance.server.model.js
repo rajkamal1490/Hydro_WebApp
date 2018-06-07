@@ -41,6 +41,9 @@ var AttendanceSchema = new Schema({
   isApproved: {
     type: Boolean
   },
+  onHold: {
+    type: Boolean
+  },
   reason: {
     type: String
   },

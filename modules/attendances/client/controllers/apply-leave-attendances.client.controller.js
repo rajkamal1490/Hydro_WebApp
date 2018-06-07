@@ -20,7 +20,8 @@
     vm.hasApplyLeave = hasApplyLeave;
     vm.applyInProgress = false;
     vm.reason = selectedData ? selectedData.reason : undefined;
-    vm.isApproved = selectedData ? selectedData.isApproved : false
+    vm.isApproved = selectedData ? selectedData.isApproved : false;
+    vm.onHold = false;
     vm.createMode = createMode;
     vm.approvedMode = approvedMode;
     vm.CommonService = CommonService;
@@ -81,7 +82,8 @@
           reason: vm.reason,
           comments: vm.comments,
           user: userId,
-          isApproved: (createMode && (CommonService.hasExecutive(Authentication) || CommonService.hasVp(Authentication))) ? true : vm.isApproved
+          isApproved: (createMode && (CommonService.hasExecutive(Authentication) || CommonService.hasVp(Authentication))) ? true : vm.isApproved, 
+          onHold: vm.onHold
         }
       } else {
         vm.attendances = {
@@ -97,7 +99,8 @@
           reason: vm.reason,
           comments: vm.comments,
           user: userId,
-          isApproved: (createMode && (CommonService.hasExecutive(Authentication) || CommonService.hasVp(Authentication))) ? true : vm.isApproved
+          isApproved: (createMode && (CommonService.hasExecutive(Authentication) || CommonService.hasVp(Authentication))) ? true : vm.isApproved,
+          onHold: vm.onHold
 
         }
       }
