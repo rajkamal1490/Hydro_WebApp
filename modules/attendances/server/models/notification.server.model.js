@@ -33,6 +33,9 @@ var NotificationSchema = new Schema({
   isDismissed: {
     type: Boolean,
     default: false
+  },
+  message: {
+    type: String
   }
 });
 

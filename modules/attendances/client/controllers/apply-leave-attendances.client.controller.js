@@ -6,9 +6,9 @@
     .module('attendances')
     .controller('LeaveOrPermissionController', LeaveOrPermissionController);
 
-  LeaveOrPermissionController.$inject = ['$scope', '$http', '$state', '$window', 'AttendancesService', 'Authentication', 'CommonService', 'CheckInAttendancesServices', 'createMode', 'selectedData', 'hasApplyLeave', 'selectedDate', '$mdDialog', '$mdpTimePicker', '$mdpDatePicker', 'Notification', 'userId', 'approvedMode', 'userResolve'];
+  LeaveOrPermissionController.$inject = ['$scope', '$http', '$state', '$window', 'AttendancesService', 'Authentication', 'CommonService', 'CheckInAttendancesServices', 'createMode', 'selectedData', 'hasApplyLeave', 'selectedDate', '$mdDialog', '$mdpTimePicker', '$mdpDatePicker', 'Notification', 'userId', 'approvedMode', 'userResolve', 'NotificationsService'];
 
-  function LeaveOrPermissionController($scope, $http, $state, $window, AttendancesService, Authentication, CommonService, CheckInAttendancesServices, createMode, selectedData, hasApplyLeave, selectedDate, $mdDialog, $mdpTimePicker, $mdpDatePicker, Notification, userId, approvedMode, userResolve) {
+  function LeaveOrPermissionController($scope, $http, $state, $window, AttendancesService, Authentication, CommonService, CheckInAttendancesServices, createMode, selectedData, hasApplyLeave, selectedDate, $mdDialog, $mdpTimePicker, $mdpDatePicker, Notification, userId, approvedMode, userResolve, NotificationsService) {
     var vm = this;
 
     vm.authentication = Authentication;
@@ -143,6 +143,22 @@
       });
 
       function successCallback(res) {
+        var message;
+        if (hasApplyLeave) {
+          message = res.isApproved ? "Your leave have been approved." : res.onHold ? "Your leave put on hold." : "Your leave awaiting for approval";
+        } else {
+          message = res.isApproved ? "Your permission have been approved." : res.onHold ? "Your permission put on hold." : "Your permission awaiting for approval";
+        }
+        var notification = new NotificationsService({
+          notifyTo: [userId],
+          user: Authentication.user._id,
+          type: 'leaveOrPermission',
+          meetingScheduleDate: new Date(),
+          hasPopUped: false,
+          isDismissed: false,
+          message: message
+        });
+        notification.$save();
         vm.applyInProgress = false;
         res.isDelete = false;
         $mdDialog.hide(res);
