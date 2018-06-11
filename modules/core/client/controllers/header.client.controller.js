@@ -165,7 +165,10 @@
               // console.log(res);
               var index = CommonService.findIndexByID(vm.notifications, res._id);
               vm.notifications.splice(index, 1);
-              $state.go('meetings.edit', {meetingId:meeting._id}, {reload: true});
+              if(meeting.facilitator._id === Authentication.user._id)
+                $state.go('meetings.show', {meetingId:meeting._id}, {reload: true});
+              else
+                $state.go('meetings.edit', {meetingId:meeting._id}, {reload: true});
             }
 
             function errorCallback(errorResponse) {
@@ -182,7 +185,7 @@
           }
         });
 
-      } 
+      }
 
       if(notification.type == "leaveOrPermission") {
           notification = new NotificationsService(notification);
@@ -216,7 +219,7 @@
           }
           if(notification.type !== 'leaveOrPermission') {
             buildNotificationContent(notification);
-          }          
+          }
         });
       });
     };

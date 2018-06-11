@@ -45,6 +45,9 @@ var MeetingSchema = new Schema({
     type: Object,
     required: 'Please fill in facilitator'
   },
+  createdID: {
+    type: String,
+  },
   updated: {
     type: Date
   },

@@ -1,7 +1,7 @@
 <div class="col-md-12">
   <div class="page-content">
     <div class="panel-header">
-      <h2><strong>{{vm.meeting._id ? 'Edit' : 'Create'}}</strong> Meeting</h2>
+      <h2><strong>{{vm.meeting._id ? 'Edit' : 'Create'}}</strong> Meeting &nbsp;<button class="delete btn btn-sm btn-danger" ng-if="vm.meeting._id" ng-click="deleteMeeting()"><i class="icons-office-52"></i> Delete</button></h2>
     </div>
     <div class="panel">
       <div class="panel-content">

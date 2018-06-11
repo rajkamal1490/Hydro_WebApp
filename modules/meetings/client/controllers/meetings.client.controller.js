@@ -71,6 +71,7 @@
       vm.meeting.startDateTime = $scope.eventTime.mStartToServer;
       vm.meeting.endDateTime = $scope.eventTime.mEndToServer;
       vm.meeting.agendas = vm.agendas;
+      vm.meeting.createdID = Authentication.user._id;
 
       var notification = new NotificationsService({
         notifyTo: _.map(vm.meeting.attendees, '_id'),
@@ -102,7 +103,7 @@
       }
 
       function successCallback(res) {
-        var msg = viewMode ? "Meeting updated successfully" : "Meeting created successfully"        
+        var msg = viewMode ? "Meeting updated successfully" : "Meeting created successfully"
         Notification.success({
           message: '<i class="glyphicon glyphicon-ok"></i> ' + msg
         });
@@ -154,7 +155,7 @@
           selectedEvent.$remove(deleteSuccessCallback, deleteErrorCallback);
 
           function deleteSuccessCallback(res) {
-            res.isDelete = true;            
+            res.isDelete = true;
             Notification.success({
               message: '<i class="glyphicon glyphicon-ok"></i> Meeting deleted successfully'
             });

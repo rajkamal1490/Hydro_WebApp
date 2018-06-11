@@ -10,6 +10,8 @@
   function MeetingsListController(Authentication, MeetingsService, EmployeeMeetingsService, CommonService, $scope, $state, $mdDialog, meetingResolve, $timeout, userResolve) {
     var vm = this;
 
+    vm.authentication = Authentication;
+
     $scope.model = {
       events: [],
       newEvents: meetingResolve
@@ -99,7 +101,11 @@
           }
 
         });
-      } else {
+      }
+      else if ( vm.authentication.user.userGroup.indexOf('admin') !== -1 ){
+        editMeeting(event);
+      }
+      else {
         viewMeeting(event);
       }
     }
