@@ -103,7 +103,7 @@
                           </div>
                           <div class="right">
                             <p class="text" title="{{file.filename}}">{{file.filename | trim: 15:false}}</p>
-                            <p> <a download="{{file.filename}}" target="_self" ng-href="./{{file.fileURL}}"><i class="fa fa-download"></i></a>
+                            <p> <a download="{{file.filename}}" target="_self" ng-href="/{{file.fileURL}}"><i class="fa fa-download"></i></a>
                               <a ng-click="deleteFile(file)" style="cursor: pointer"> <i class="fa fa-trash text-danger"></i></a></p>
                           </div>
                         </div>

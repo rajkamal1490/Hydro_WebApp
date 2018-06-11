@@ -1,26 +1,51 @@
-<section>
-  <div class="page-header">
-    <h1 ng-bind="vm.meeting.name"></h1>
+<div class="page-content">
+  <div class="header">
+    <h2 style="text-transform: uppercase"><strong ng-bind="vm.meeting.title"></strong></h2>
   </div>
-  <div class="pull-right"
-       ng-show="vm.meeting.isCurrentUserOwner">
-    <a class="btn btn-primary"
-       ui-sref="meetings.edit({ meetingId: vm.meeting._id })">
-      <i class="glyphicon glyphicon-edit"></i>
-    </a>
-    <a class="btn btn-primary" ng-click="vm.remove()">
-      <i class="glyphicon glyphicon-trash"></i>
-    </a>
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="m-t-10 m-b-10" style="padding: 15px 0px;">
+          <span class="alert label-info"><i class="icon-clock"></i> &nbsp;{{vm.meeting.startTime}} - {{vm.meeting.endTime}}</span>
+          <span class="alert label-success"><i class="fa fa-map-marker"></i> &nbsp;{{vm.meeting.location}}</span>
+      </div>
+      <div class="panel">
+        <div class="panel-content">
+          <div class="row">
+            <div class="col-md-3">
+              <h3><strong>facilitator</strong></h3>
+              <i class="icon icons-faces-users-01"></i>{{vm.meeting.facilitator.displayName}}
+              <h3><strong>attendees</strong></h3>
+              <ul class="list-unstyled">
+                <li ng-repeat="attendees in vm.meeting.attendees">{{$index+1}}. {{attendees.displayName}}</li>
+              </ul>
+            </div>
+            <div class="col-md-9">
+              <h3><strong>Agendas</strong></h3>
+              <table class="table table-hover" ng-if="vm.meeting.agendas">
+                <thead>
+                  <tr>
+                    <th style="width:30px" class="unseen text-center">S.NO</th>
+                    <th style="width:150px" class="text-left">TITLE</th>
+                    <th class="text-left">DESCRIPTION</th>
+                    <th style="width:150px" class="text-right">RESPONSIBLE PERSON</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr class="item-row" ng-repeat="agenda in vm.meeting.agendas">
+                    <td class="text-center">{{$index+1}}</td>
+                    <td class="text-primary">{{agenda.agendaTitle}}</td>
+                    <td style="white-space: pre;">{{agenda.agendaDescription}}</td>
+                    <td class="text-right">{{agenda.agendaResponsiblePerson}}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="col-md-12 text-center">
+              <a ui-sref="meetings.list" class="btn btn-next btn-fill btn-primary btn-wd">Back</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
-  <small>
-    <em class="text-muted">
-      Posted on
-      <span ng-bind="vm.meeting.created | date:'mediumDate'"></span>
-      by
-      <span ng-if="vm.meeting.user"
-            ng-bind="vm.meeting.user.displayName"></span>
-      <span ng-if="!vm.meeting.user">Deleted User</span>
-    </em>
-  </small>
-  <p class="lead" ng-bind="vm.meeting.content"></p>
-</section>
+</div>

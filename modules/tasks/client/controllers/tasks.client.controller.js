@@ -136,13 +136,13 @@
           } else {
             vm.task.comments = [];
           }
-          vm.task.taskCode = vm.hasIndividual === '0' ? 'INDU-' + vm.task.taskID : _.upperCase(vm.task.projectCode) + _.upperCase(vm.task.orderCode) + _.upperCase(vm.task.stateCode) + _.upperCase(vm.task.workCode) + '-' + vm.task.taskID;
+          vm.task.taskCode = vm.hasIndividual === '0' ? 'HEST-' + vm.task.taskID : _.upperCase(vm.task.projectCode) + _.upperCase(vm.task.orderCode) + _.upperCase(vm.task.stateCode) + _.upperCase(vm.task.workCode) + '-' + vm.task.taskID;
           vm.task.$save(successCallback, errorCallback);
         });
       }
 
       function successCallback(res) {
-        var msg = editMode ? "Task updated successfully" : "Task created successfully"        
+        var msg = editMode ? "Task updated successfully" : "Task created successfully"
         Notification.success({
           message: '<i class="glyphicon glyphicon-ok"></i> ' + msg
         });

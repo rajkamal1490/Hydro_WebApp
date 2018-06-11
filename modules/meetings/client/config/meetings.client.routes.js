@@ -60,7 +60,7 @@
         templateUrl: 'modules/meetings/client/views/form-meeting.client.view.html',
         controller: 'MeetingsController',
         controllerAs: 'vm',
-        resolve: {          
+        resolve: {
           selectedEvent: getMeeting,
           selectedDate: function() {
             return undefined;
@@ -75,6 +75,18 @@
         data: {
           roles: ['user', 'admin'],
           pageTitle: 'Edit Meeting {{ selectedEvent.name }}'
+        }
+      })
+      .state('meetings.show', {
+        url: '/:meetingId/show',
+        templateUrl: 'modules/meetings/client/views/view-meeting.client.view.html',
+        controller: 'ShowMeetingsController',
+        controllerAs: 'vm',
+        resolve: {
+          meetingResolve: getMeeting
+        },
+        data: {
+          pageTitle: '{{ meetingResolve.title }}'
         }
       })
       .state('meetings.view', {

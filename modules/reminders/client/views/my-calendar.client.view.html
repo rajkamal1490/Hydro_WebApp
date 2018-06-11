@@ -2,13 +2,22 @@
 	<div class="page-content">
 		<div class="header">
 			<h2><strong>My Calendar</strong></h2>
-		</div> 
+		</div>
 
 		<div class="panel">
-			<div class="control-btn">
-                <a href="#" class="panel-reload hidden" ng-click="loadInitial()"><i class="icon-reload"></i></a>
-             </div>
-			<div class="page-content">
+			<!-- <div class="control-btn"> -->
+			<!-- <a href="#" class="panel-reload hidden" ng-click="loadInitial()"><i class="icon-reload"></i></a> -->
+			<!-- </div> -->
+			<div class="panel-content">
+				<div class="row">
+					<div class="pull-right">
+						<span style="display: inline-block;">LEGENDS: </span>
+						<span class="fc-event bg-blue" style="display: inline-block;">Reminder [With Notifcation On]</span>
+						<span class="fc-event bg-red" style="display: inline-block;">Reminder [With Notifcation Off]</span>
+						<span class="fc-event bg-yellow" style="display: inline-block;">Meeting [You're Facilitating]</span>
+						<span class="fc-event bg-pink" style="display: inline-block;">Meeting [Just Attending]</span>
+					</div>
+				</div>
 				<div layout="row">
 					<div flex=100 id="calendar" class="calendar" ng-model="eventSources" config="uiConfig.calendar" ui-calendar="uiConfig.calendar"></div>
 				</div>

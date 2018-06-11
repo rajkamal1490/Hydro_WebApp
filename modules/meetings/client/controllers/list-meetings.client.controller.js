@@ -21,7 +21,7 @@
       });
 
       var calendar = $('#calendar').fullCalendar({
-        editable: true,
+        editable: false,
         displayEventTime: true,
         height: $(window).height() - 200,
         header: {
@@ -100,20 +100,26 @@
 
         });
       } else {
-        editMeeting(event);
+        viewMeeting(event);
       }
     }
 
     function editMeeting(event) {
       $state.go('meetings.edit', {
         meetingId: event._id
-      });     
+      });
+    };
+
+    function viewMeeting(event) {
+      $state.go('meetings.show', {
+        meetingId: event._id
+      });
     };
 
     function startMeeting(event) {
       $state.go('meetings.view', {
         meetingId: event._id
-      });      
+      });
     };
 
     $scope.renderView = function(view) {
@@ -147,7 +153,7 @@
     function openCreateMeetingDialog(date) {
       $state.go('meetings.create', {
         meetingId: date
-      });      
+      });
     }
 
     function fullCalenderRerender() {
