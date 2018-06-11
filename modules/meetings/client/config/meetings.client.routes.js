@@ -16,7 +16,7 @@
       })
       .state('meetings.list', {
         url: '',
-        templateUrl: 'modules/meetings/client/views/list-meetings.client.view.html',
+        templateUrl: '/modules/meetings/client/views/list-meetings.client.view.html',
         controller: 'MeetingsListController',
         controllerAs: 'vm',
         data: {
@@ -33,7 +33,7 @@
       })
       .state('meetings.create', {
         url: '/:meetingId/create',
-        templateUrl: 'modules/meetings/client/views/form-meeting.client.view.html',
+        templateUrl: '/modules/meetings/client/views/form-meeting.client.view.html',
         controller: 'MeetingsController',
         controllerAs: 'vm',
         resolve: {
@@ -57,7 +57,7 @@
       })
       .state('meetings.edit', {
         url: '/:meetingId/edit',
-        templateUrl: 'modules/meetings/client/views/form-meeting.client.view.html',
+        templateUrl: '/modules/meetings/client/views/form-meeting.client.view.html',
         controller: 'MeetingsController',
         controllerAs: 'vm',
         resolve: {
@@ -79,7 +79,7 @@
       })
       .state('meetings.show', {
         url: '/:meetingId/show',
-        templateUrl: 'modules/meetings/client/views/view-meeting.client.view.html',
+        templateUrl: '/modules/meetings/client/views/view-meeting.client.view.html',
         controller: 'ShowMeetingsController',
         controllerAs: 'vm',
         resolve: {
@@ -91,7 +91,7 @@
       })
       .state('meetings.view', {
         url: '/:meetingId/view',
-        templateUrl: 'modules/meetings/client/views/start-meeting.client.view.html',
+        templateUrl: '/modules/meetings/client/views/start-meeting.client.view.html',
         controller: 'StartMeetingsController',
         controllerAs: 'vm',
         resolve: {

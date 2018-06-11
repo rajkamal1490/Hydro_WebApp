@@ -16,7 +16,7 @@
       })
       .state('tasks.list', {
         url: '',
-        templateUrl: 'modules/tasks/client/views/list-tasks.client.view.html',
+        templateUrl: '/modules/tasks/client/views/list-tasks.client.view.html',
         controller: 'TasksListController',
         controllerAs: 'vm',
         data: {
@@ -42,7 +42,7 @@
       })
       .state('tasks.create', {
         url: '/create',
-        templateUrl: 'modules/tasks/client/views/form-task.client.view.html',
+        templateUrl: '/modules/tasks/client/views/form-task.client.view.html',
         controller: 'TasksController',
         controllerAs: 'vm',
         resolve: {
@@ -72,7 +72,7 @@
       })
       .state('tasks.edit', {
         url: '/:taskId/edit',
-        templateUrl: 'modules/tasks/client/views/form-task.client.view.html',
+        templateUrl: '/modules/tasks/client/views/form-task.client.view.html',
         controller: 'TasksController',
         controllerAs: 'vm',
         resolve: {
@@ -85,7 +85,7 @@
       })
       .state('tasks.view', {
         url: '/:taskId',
-        templateUrl: 'modules/tasks/client/views/view-task.client.view.html',
+        templateUrl: '/modules/tasks/client/views/view-task.client.view.html',
         controller: 'TasksEditController',
         controllerAs: 'vm',
         resolve: {
