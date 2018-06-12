@@ -1,0 +1,22 @@
+<section>
+  <div class="page-header">
+    <h1>Tenderprocesses</h1>
+  </div>
+  <div class="list-group">
+    <a ng-repeat="tenderprocess in vm.tenderprocesses"
+       ui-sref="tenderprocesses.view({ tenderprocessId: tenderprocess._id })"
+       class="list-group-item">
+      <small class="list-group-item-text">
+        Posted on
+        <span ng-bind="tenderprocess.created | date:'mediumDate'"></span>
+        by
+        <span ng-if="tenderprocess.user" ng-bind="tenderprocess.user.displayName"></span>
+        <span ng-if="!tenderprocess.user">Deleted User</span>
+      </small>
+      <h4 class="list-group-item-heading" ng-bind="tenderprocess.name"></h4>
+    </a>
+  </div>
+  <div class="alert alert-warning text-center" ng-if="vm.tenderprocesses.$resolved && !vm.tenderprocesses.length">
+    No Tenderprocesses yet, why don't you <a ui-sref="tenderprocesses.create">create one</a>?
+  </div>
+</section>
