@@ -1,4 +1,4 @@
-(function () {
+(function() {
   'use strict';
 
   // Tenderprocesses controller
@@ -6,48 +6,47 @@
     .module('tenderprocesses')
     .controller('TenderprocessesController', TenderprocessesController);
 
-  TenderprocessesController.$inject = ['$scope', '$state', '$window', 'Authentication', 'tenderprocessResolve'];
+  TenderprocessesController.$inject = ['$scope', '$state', '$window', 'Authentication'];
 
-  function TenderprocessesController ($scope, $state, $window, Authentication, tenderprocess) {
+  function TenderprocessesController($scope, $state, $window, Authentication) {
     var vm = this;
 
     vm.authentication = Authentication;
-    vm.tenderprocess = tenderprocess;
-    vm.error = null;
-    vm.form = {};
-    vm.remove = remove;
-    vm.save = save;
+    vm.loadinitial = loadinitial;
+    vm.myTabIndex = 0;
 
-    // Remove existing Tenderprocess
-    function remove() {
-      if ($window.confirm('Are you sure you want to delete?')) {
-        vm.tenderprocess.$remove($state.go('tenderprocesses.list'));
-      }
+    function loadinitial() {
+        switch (window.location.pathname.split("/").pop()) {
+          case 'nit':
+            vm.myTabIndex = 1;
+            break;
+          case 'checklist':
+            vm.myTabIndex = 2;
+            break;
+          case 'emd':
+            vm.myTabIndex = 3;
+            break;
+          case 'itemsheet':
+            vm.myTabIndex = 4;
+            break;
+          case 'boq':
+            vm.myTabIndex = 5;
+            break;
+          case 'enquiry':
+            vm.myTabIndex = 6;
+            break;
+          case 'quoteform':
+            vm.myTabIndex = 7;
+            break;
+          case 'estimation':
+            vm.myTabIndex = 8;
+            break;
+          default:
+            vm.myTabIndex = 0;
+            break;
+        }
     }
 
-    // Save Tenderprocess
-    function save(isValid) {
-      if (!isValid) {
-        $scope.$broadcast('show-errors-check-validity', 'vm.form.tenderprocessForm');
-        return false;
-      }
 
-      // TODO: move create/update logic to service
-      if (vm.tenderprocess._id) {
-        vm.tenderprocess.$update(successCallback, errorCallback);
-      } else {
-        vm.tenderprocess.$save(successCallback, errorCallback);
-      }
-
-      function successCallback(res) {
-        $state.go('tenderprocesses.view', {
-          tenderprocessId: res._id
-        });
-      }
-
-      function errorCallback(res) {
-        vm.error = res.data.message;
-      }
-    }
   }
 }());

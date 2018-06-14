@@ -1,0 +1,102 @@
+<!-- List of EMD's -->
+<section ng-init="vm.loadinitial()">
+  <div class="row" ng-hide="vm.hasCreateEmd">
+    <div class="col-md-8">
+      <div class="header">
+        <h2>EMD <strong>List</strong></h2>
+        <div class="col-md-3" style="margin-top: 2%">
+          <md-button class="btn btn-primary" ng-click="vm.hasCreateEmd = true" type="submit">Create</md-button>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-12 portlets">
+      <div class="col-md-3 col-xs-6 col-sm-5 panel" ng-repeat="emdTenderProcess in vm.emdTenderProcesses | orderBy: '$index'" style="margin: 25px;">
+        <div class="row">
+          <a ui-sref="tenderprocesses.emdedit({ emdId: emdTenderProcess._id })">
+            <h2 class="name" style="text-align: center;"><b>EMD {{$index + 1}}</b></h2>
+            <div class="clearfix">
+              <p style="text-align: center;"> {{emdTenderProcess.dueDateTime | date:'short'}}</p>
+            </div>
+          </a>
+        </div>        
+      </div>     
+    </div>
+  </div>
+</section>
+<!-- Create EMD's -->
+<div class="col-md-12" ng-show="vm.hasCreateEmd">
+  <h2><strong>Create</strong> EMD</h2>
+  <div class="row">
+    <div class="col-md-12 col-sm-12 col-xs-12">
+      <form name="vm.emdForm" autocomplete="off" novalidate>
+        <div layout="row" flex>
+          <md-input-container flex>
+            <label class="my-label">Offer No</label>
+            <input type="text" name="title" ng-model="vm.offerNo" style="color: #000; font-weight: bold" ng-disabled="true" />            
+          </md-input-container>
+          <md-input-container flex>
+            <label class="my-label">EMD Amount</label>
+            <input required type="text" name="emdAmount" ng-model="vm.emdprocess.emdAmount" />
+            <div ng-messages="vm.emdForm.emdAmount.$error">
+              <div ng-message="required">EMD Amount is required.</div>
+            </div>
+          </md-input-container>
+        </div>
+        <div layout="row" flex>
+          <md-input-container flex>
+            <label class="my-label">EMD In Favour of</label>
+            <input required type="text" name="emdFavour" ng-model="vm.emdprocess.emdFavour" />
+            <div ng-messages="vm.emdForm.emdFavour.$error">
+              <div ng-message="required">EMD In Favour of is required.</div>
+            </div>
+          </md-input-container>
+          <md-input-container flex>
+            <label class="my-label">EMD Mode/Type</label>
+            <input required type="text" name="emdModeOrType" ng-model="vm.emdprocess.emdModeOrType" />
+            <div ng-messages="vm.emdForm.emdModeOrType.$error">
+              <div ng-message="required">EMD Mode/Type is required.</div>
+            </div>
+          </md-input-container>
+        </div>
+        <div layout="row" flex>
+          <md-input-container flex>
+            <label class="my-label"><b>Due Date</b></label>
+            <div ng-click="showEndDatePicker($event)">
+              <input style="color: #000066; font-weight: bold;" required name="end" ng-model="vm.emdprocess.dueDateTime" onfocus="this.blur()" readonly />
+            </div>
+            <div ng-messages="vm.emdForm.end.$error">
+              <div ng-message="required">End date is required.</div>
+            </div>
+          </md-input-container>
+          <md-input-container flex>
+            Upload Doc
+            <div ng-hide="vm.emdDocName">
+              <div class="form-group text-center">
+                <div class="panel text-center" ng-show="vm.fileSelected">
+                  <i class="fa fa-file"></i> &nbsp;<span>{{vm.picFile.name}}</span>
+                </div>
+              </div>
+              <div ng-show="!vm.fileSelected" class="text-center form-group">
+                <md-button class="btn btn-primary" ngf-select="(vm.fileSelected = true) && (vm.loading = false)" ng-model="vm.picFile">Select file</md-button>
+                <md-button ng-show="vm.emdprocess.filename" class="btn btn-warning" ng-click="vm.emdDocName = vm.emdprocess.filename"><i class="fa fa-undo"></i>Undo</md-button>
+               
+              </span>
+              </div>              
+            </div>
+            <div class="right" ng-show="vm.emdDocName">
+              <p class="text" title="{{vm.emdprocess.filename}}">{{vm.emdprocess.filename}}</p>
+              <p> <a download="{{vm.emdprocess.filename}}" target="_self" ng-href="/{{vm.emdprocess.fileURL}}"><i class="fa fa-download"></i></a>
+                <a ng-click="vm.emdDocName = undefined" style="cursor: pointer"> <i class="fa fa-trash text-danger"></i></a>
+              </p>
+            </div>
+          </md-input-container>
+        </div>
+        <div class="text-center  m-t-20">
+          <button type="submit" class="btn btn-next btn-fill btn-success btn-wd" ng-hide="ui.isEmdInProgress" ng-click="vm.save(vm.emdForm.$valid);" type="submit">{{vm.emdprocess._id ? 'Update' : 'Create'}}</button>
+          <button type="submit" class="btn btn-next btn-fill btn-success btn-wd" ng-show="ui.isEmdInProgress" ng-disabled="true"><i class="fa fa-spinner fa-spin" style="font-size: 18px"></i>{{vm.emdprocess._id ? 'Updating' : 'Creating'}}</button>
+          <button type="submit" ng-click="vm.redirectEmdForm()" class="btn btn-next btn-fill btn-primary btn-wd">Back</button>
+        </div>
+      </form>
+      </div>
+    </div>
+  </div>

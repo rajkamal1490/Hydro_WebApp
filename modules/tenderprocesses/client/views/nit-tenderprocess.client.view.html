@@ -1,0 +1,168 @@
+<!-- List of NIT's -->
+<section ng-init="vm.loadinitial()">
+  <div class="row" ng-hide="vm.hasCreateNit">
+    <div class="col-md-8">
+      <div class="header">
+        <h2>NIT <strong>List</strong></h2>
+        <div class="col-md-3" style="margin-top: 2%">
+          <md-button class="btn btn-primary" ng-click="vm.hasCreateNit = true" type="submit">Create</md-button>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-12 portlets">
+      <div class="col-md-3 col-xs-6 col-sm-5 panel" ng-repeat="nitTenderProcess in vm.nitTenderProcesses | orderBy: 'name'" style="margin: 25px;">
+        <div class="row">
+          <a ui-sref="tenderprocesses.nitedit({ nitId: nitTenderProcess._id })">
+            <h2 class="name" style="text-align: center;"><b>{{nitTenderProcess.name}}</b><small>({{nitTenderProcess.tender.name}})</small></h2>
+            <div class="clearfix">
+              <p style="text-align: center;"> {{nitTenderProcess.dueDateTime | date:'short'}}</p>
+              <p style="text-align: center;" class="text-info" ng-if="nitTenderProcess.hasApproved === 0"><i class="glyphicon glyphicon-time"></i> Awaiting for approval </p>
+              <p style="text-align: center;" class="text-success" ng-if="nitTenderProcess.hasApproved === 1"><i class="fa fa-thumbs-up"></i> Approved </p>
+              <p style="text-align: center;" class="text-warning" ng-if="nitTenderProcess.hasApproved === 2"><i class="fa fa-check-circle-o"></i> Need more clarification </p>
+              <p style="text-align: center;" class="text-danger" ng-if="nitTenderProcess.hasApproved === 3"><i class="fa fa-ban"></i> Rejected </p>
+            </div>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- Create NIT's -->
+<div class="col-md-12" ng-show="vm.hasCreateNit">
+  <h2><strong>{{vm.hasApproval ? 'Approval' : vm.nitprocess._id ? 'Update' : 'Create'}}</strong> NIT</h2>
+  <div class="row">
+    <div class="col-md-12 col-sm-12 col-xs-12">
+      <form name="vm.nitForm" autocomplete="off" novalidate>
+        <div layout="row" flex>
+          <md-input-container flex>
+            <label class="my-label">Tender</label>
+            <md-select required name="tender" ng-model="vm.nitprocess.tender" ng-model-options= "{trackBy: '$value._id'}">
+              <md-optgroup label="Tender">
+                <md-option ng-value="tenderprocess" ng-repeat="tenderprocess in vm.tenderprocessesResolve">{{tenderprocess.name}}</md-option>
+              </md-optgroup>
+            </md-select>
+            <div ng-messages="vm.nitForm.tender.$error">
+              <div ng-message="required">Tender is required.</div>
+            </div>
+          </md-input-container>
+          <md-input-container flex>
+            <label class="my-label">State</label>
+            <input required type="text" name="title" ng-model="vm.nitprocess.state" />
+            <div ng-messages="vm.nitForm.state.$error">
+              <div ng-message="required">State is required.</div>
+            </div>
+          </md-input-container>
+          <md-input-container flex>
+            <label class="my-label">Board</label>
+            <input required type="text" name="board" ng-model="vm.nitprocess.board" />
+            <div ng-messages="vm.nitForm.board.$error">
+              <div ng-message="required">Board is required.</div>
+            </div>
+          </md-input-container>
+        </div>
+        <div layout="row" flex>
+          <md-input-container flex>
+            <label class="my-label">Tender Type</label>
+            <md-select required name="tendertype" ng-model="vm.nitprocess.tendertype">
+              <md-optgroup label="Tendertype">
+                <md-option ng-value="tendertype.code" ng-repeat="tendertype in vm.tendertypes">{{tendertype.name}}</md-option>
+              </md-optgroup>
+            </md-select>
+            <div ng-messages="vm.nitForm.tendertype.$error">
+              <div ng-message="required">Tender Type is required.</div>
+            </div>
+          </md-input-container>
+          <md-input-container flex>
+            <label class="my-label">Item</label>
+            <md-select required name="item" ng-model="vm.nitprocess.tenderitem">
+              <md-optgroup label="Item">
+                <md-option ng-value="item.code" ng-repeat="item in vm.tenderitems">{{item.name}}</md-option>
+              </md-optgroup>
+            </md-select>
+            <div ng-messages="vm.nitForm.item.$error">
+              <div ng-message="required">Item is required.</div>
+            </div>
+          </md-input-container>
+        </div>
+        <div layout="row" flex>
+          <md-input-container flex>
+            <label class="my-label">Ref URL</label>
+            <input required type="text" name="refurl" ng-model="vm.nitprocess.refurl" />
+            <div ng-messages="vm.nitForm.refurl.$error">
+              <div ng-message="required">Ref URL is required.</div>
+            </div>
+          </md-input-container>
+        </div>
+        <div layout="row" flex>
+          <md-input-container flex>
+            <label class="my-label">ECV</label>
+            <input required type="text" name="ecv" ng-model="vm.nitprocess.ecv" />
+            <div ng-messages="vm.nitForm.ecv.$error">
+              <div ng-message="required">ECV is required.</div>
+            </div>
+          </md-input-container>
+          <md-input-container flex>
+            <label class="my-label">EMD</label>
+            <input required type="text" name="emd" ng-model="vm.nitprocess.emd" />
+            <div ng-messages="vm.nitForm.emd.$error">
+              <div ng-message="required">EMD is required.</div>
+            </div>
+          </md-input-container>
+        </div>
+        <div layout="row" flex>
+          <md-input-container flex>
+            <label class="my-label"><b>Due Date</b></label>
+            <div ng-click="showEndDatePicker($event)">
+              <input style="color: #000066; font-weight: bold;" required name="end" ng-model="vm.nitprocess.dueDateTime" onfocus="this.blur()" readonly />
+            </div>
+            <div ng-messages="vm.nitForm.end.$error">
+              <div ng-message="required">End date is required.</div>
+            </div>
+          </md-input-container>
+          <md-input-container flex>
+            Upload Doc
+            <div ng-hide="vm.nitDocName">
+              <div class="form-group text-center">
+                <div class="panel text-center" ng-show="vm.fileSelected">
+                  <i class="fa fa-file"></i> &nbsp;<span>{{vm.picFile.name}}</span>
+                </div>
+              </div>
+              <div ng-show="!vm.fileSelected" class="text-center form-group">
+                <md-button class="btn btn-primary" ngf-select="(vm.fileSelected = true) && (vm.loading = false)" ng-model="vm.picFile">Select file</md-button>
+                <md-button ng-show="vm.nitprocess.filename" class="btn btn-warning" ng-click="vm.nitDocName = vm.nitprocess.filename"><i class="fa fa-undo"></i>Undo</md-button>
+                </span>
+              </div>
+            </div>
+            <div class="right" ng-show="vm.nitDocName">
+              <p class="text" title="{{vm.nitprocess.filename}}">{{vm.nitprocess.filename}}</p>
+              <p> <a download="{{vm.nitprocess.filename}}" target="_self" ng-href="/{{vm.nitprocess.fileURL}}"><i class="fa fa-download"></i></a>
+                <a ng-click="vm.nitDocName = undefined" style="cursor: pointer"> <i class="fa fa-trash text-danger"></i></a>
+              </p>
+            </div>
+          </md-input-container>
+        </div>
+        <div class="row" ng-if="vm.nitprocess.comments">
+          <b>{{vm.nitprocess.hasApproved === 2 ? 'Find the below clarification' : 'Find the reason for rejection'}}:</b> 
+          <div>
+            <span ng-repeat="comment in vm.nitprocess.comments track by $index">
+              {{comment.comment}} <br />
+            </span>
+          </div>
+        </div>
+        <div class="text-center  m-t-20">
+          <span ng-if="!vm.hasApproval">
+            <button type="submit" class="btn btn-next btn-fill btn-success btn-wd" ng-hide="ui.isNitInProgress || vm.nitprocess.hasApproved === 3" ng-click="vm.save(vm.nitForm.$valid);" type="submit">{{vm.nitprocess._id ? 'Update' : 'Create'}}</button>
+            <button type="submit" class="btn btn-next btn-fill btn-success btn-wd" ng-show="ui.isNitInProgress" ng-disabled="true"><i class="fa fa-spinner fa-spin" style="font-size: 18px"></i>{{vm.nitprocess._id ? 'Updating' : 'Creating'}}</button>
+            <button type="submit" ng-click="vm.redirectNitForm()" class="btn btn-next btn-fill btn-primary btn-wd">Back</button>
+          </span>
+          <span ng-if="vm.hasApproval">
+            <button type="submit" class="btn btn-next btn-fill btn-success btn-wd" ng-click="vm.nitprocess.hasApproved = 1; vm.save(vm.nitForm.$valid);" type="submit">Approved</button>           
+            <button type="submit" ng-click="openCommentsDialog(true)" class="btn btn-next btn-fill btn-primary btn-wd">Need Clarification</button>
+
+            <button type="submit" ng-click="openCommentsDialog(false)" class="btn btn-next btn-fill btn-danger btn-wd">Reject</button>
+          </span>
+        </div>
+      </form>
+      </div>
+    </div>
+  </div>

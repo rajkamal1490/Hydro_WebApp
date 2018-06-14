@@ -49,11 +49,11 @@
         <li class="dropdown" id="messages-header">
           <a href="#" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
             <i class="icon-paper-plane"></i>
-            <span class="badge badge-danger badge-header">{{vm.commonService.hasExecutive(vm.authentication) || vm.commonService.hasVp(vm.authentication) ? vm.events.length + vm.notifications.length : vm.notifications.length}}</span>
+            <span class="badge badge-danger badge-header">{{vm.commonService.hasExecutive(vm.authentication) || vm.commonService.hasVp(vm.authentication) ? vm.events.length + vm.notifications.length + vm.nitEvents.length : vm.notifications.length}}</span>
           </a>
           <ul class="dropdown-menu">
             <li class="dropdown-header clearfix">
-              <p class="pull-left">{{vm.commonService.hasExecutive(vm.authentication) || vm.commonService.hasVp(vm.authentication) ? vm.events.length + vm.notifications.length : vm.notifications.length }} Pending Notifications</p>
+              <p class="pull-left">{{vm.commonService.hasExecutive(vm.authentication) || vm.commonService.hasVp(vm.authentication) ? vm.events.length + vm.notifications.length + vm.nitEvents.length : vm.notifications.length }} Pending Notifications</p>
             </li>
             <li>
               <ul class="dropdown-menu-list withScroll" data-height="220">
@@ -62,6 +62,13 @@
                     <span class="glyphicon glyphicon-time" style="color: orange"></span>
                    <small> {{event.user.displayName}} has applied for {{event.category === vm.LEAVE ? 'Leave'  : 'Permission' }}</small>
                     <span class="dropdown-time">{{inHour(event.appliedOn)}}</span>
+                  </a>
+                </li>
+                <li ng-repeat="nitEvent in vm.nitEvents | orderBy: '-dueDateTime'" ng-if="vm.commonService.hasExecutive(vm.authentication) || vm.commonService.hasVp(vm.authentication)" class="light-blue lighten-5">
+                  <a ng-click="approveNit(nitEvent)">
+                    <span class="glyphicon glyphicon-time" style="color: orange"></span>
+                   <small> {{nitEvent.name}} based on the state: {{nitEvent.state}}</small>
+                    <span class="dropdown-time">{{inHour(nitEvent.created)}}</span>
                   </a>
                 </li>
                 <li ng-repeat="notification in vm.notifications | orderBy: '-created'">
@@ -80,7 +87,12 @@
                     <small> {{notification.message}}</small>
                     <span class="dropdown-time">{{inHour(notification.created)}}</span>
                   </a>
-                  <a ng-click="handleMyPersistentNotifications(notification)" ng-if=" notification.type != 'task' && notification.type != 'meeting' && notification.type != 'leaveOrPermission' ">
+                  <a ng-click="redirectToNitForm()" ng-if="notification.type == 'nitapprovalinfo' ">
+                    <span class="fa fa-check" style="color: blue"></span>
+                    <small> {{notification.message}}</small>
+                    <span class="dropdown-time">{{inHour(notification.created)}}</span>
+                  </a>
+                  <a ng-click="handleMyPersistentNotifications(notification)" ng-if=" notification.type != 'task' && notification.type != 'meeting' && notification.type != 'leaveOrPermission' && notification.type != 'nitapprovalinfo' ">
                     <span class="glyphicon glyphicon-calendar" style="color: black"></span>
                     <small> Unidentified Notification created/updated by {{notification.user.displayName}}</small>
                     <span class="dropdown-time">{{inHour(notification.created)}}</span>

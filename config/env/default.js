@@ -86,6 +86,22 @@ module.exports = {
         }
       }
     },
+    nitProcess: {
+      file: {
+        dest: './modules/tenderprocesses/client/img/nitid/uploads/',
+        limits: {
+          fileSize: 5242880 // Max file size in bytes (5 MB)
+        }
+      }
+    },
+    emdProcess: {
+      file: {
+        dest: './modules/tenderprocesses/client/img/emdid/uploads/',
+        limits: {
+          fileSize: 5242880 // Max file size in bytes (5 MB)
+        }
+      }
+    },
   },
   shared: {
     owasp: {

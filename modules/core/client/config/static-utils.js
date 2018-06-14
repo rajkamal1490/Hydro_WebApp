@@ -106,6 +106,14 @@
             "rgba(100, 200, 112,1)",
             "rgba(100, 200, 112,1)"
         ])
+        .constant('TENDER_TYPES', [{
+            name: "Supply",
+            code: "supply"
+        }])
+        .constant('TENDER_ITEMS', [{
+            name: "Starters",
+            code: "starters"
+        }])
         .constant('ATTENDANCE', 'attendance')
         .constant('PERMISSION', 'permission')
         .constant('LEAVE', 'leave')

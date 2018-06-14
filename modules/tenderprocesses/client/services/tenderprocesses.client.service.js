@@ -9,7 +9,7 @@
   TenderprocessesService.$inject = ['$resource'];
 
   function TenderprocessesService($resource) {
-    return $resource('api/tenderprocesses/:tenderprocessId', {
+    return $resource('/api/tenderprocesses/:tenderprocessId', {
       tenderprocessId: '@_id'
     }, {
       update: {

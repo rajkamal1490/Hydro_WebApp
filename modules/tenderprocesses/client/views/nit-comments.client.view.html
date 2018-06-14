@@ -1,0 +1,38 @@
+<md-dialog flex="30" style="left: 7%"> 
+  <form name="vm.nitCommentForm" novalidate autocomplete="off">
+    <div class="modal-header bg-primary">
+      <h4>{{vm.hasNeedInfo ? 'Add Clarification Comments' : 'Add Rejected Reason'}}</h4>
+    </div>
+       <md-dialog-content style="padding-left: 24px">         
+          <div class="col-md-12 col-sm-12 col-xs-12">
+            <label class="my-label" style="padding-top: 20px">{{vm.hasNeedInfo ? 'Comments' : 'Reason' }}: </label>
+            <div layout="row">
+              <md-input-container flex>
+                <label class="my-label">Comment</label>
+                  <input type="text" name="comment" ng-model="unconfirmedComments.comment" style="font-weight: bold; color: black" />
+              </md-input-container>
+              
+               <div class="pull-right">
+                  <md-button class="md-raised md-primary nonecase" style="min-width: 50px" ng-click="addComment()" ng-disabled="unconfirmedComments.comment === undefined || unconfirmedComments.comment === ''" type="submit"><span class="glyphicon glyphicon-plus"></span></md-button>
+              </div>
+            </div>
+            <div layout="row" flex ng-repeat="comment in vm.comments track by $index" ng-init="addIsEdit(comment)">
+               <md-input-container flex>
+                  <label class="my-label">Title</label>
+                    <input type="text" name="comment" ng-model="comment.comment" ng-disabled="!comment.isEdit" style="font-weight: bold; color: black"  />
+                </md-input-container>               
+
+              <div class="pull-right">
+              <md-button class="md-raised md-primary nonecase" style="min-width: 50px" ng-click="isEdit(comment)" type="submit"><span class="glyphicon glyphicon-pencil"></span></md-button>
+                <md-button class="md-raised btn-danger nonecase" style="min-width: 50px" ng-click="removeComment($index)" type="submit"><span class="glyphicon glyphicon-remove"></span></md-button>
+              </div>
+            </div>
+
+          </div>
+      </md-dialog-content>
+     <md-dialog-actions layout="row"> 
+        <md-button class="btn btn-next btn-fill btn-success btn-wd"  flex ng-click="vm.save(vm.nitCommentForm.$valid)" type="submit">Save</md-button>
+        <md-button class="btn btn-next btn-fill btn-warning btn-wd" flex ng-click="vm.cancel()" type="submit">Cancel</md-button>
+      </md-dialog-actions>   
+  </form>
+</md-dialog>

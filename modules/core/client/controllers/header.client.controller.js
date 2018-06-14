@@ -5,9 +5,9 @@
     .module('core')
     .controller('HeaderController', HeaderController);
 
-  HeaderController.$inject = ['$scope', '$state', '$http', 'AdminService', 'AttendancesService', 'Authentication', 'CheckInAttendancesServices', 'CommonService', 'EmployeeMeetingsService', 'menuService', '$mdDialog', '$interval', 'Notification', 'NotificationsService', 'PERMISSION', 'LEAVE', 'RemindersService', 'TodayReminderService', 'TasksService', 'MeetingsService'];
+  HeaderController.$inject = ['$scope', '$state', '$http', 'AdminService', 'AttendancesService', 'Authentication', 'CheckInAttendancesServices', 'CommonService', 'EmployeeMeetingsService', 'menuService', '$mdDialog', '$interval', 'Notification', 'NotificationsService', 'PERMISSION', 'LEAVE', 'RemindersService', 'TodayReminderService', 'TasksService', 'MeetingsService', 'TenderprocessesNitService'];
 
-  function HeaderController($scope, $state, $http, AdminService, AttendancesService, Authentication, CheckInAttendancesServices, CommonService, EmployeeMeetingsService, menuService, $mdDialog, $interval, Notification, NotificationsService, PERMISSION, LEAVE, RemindersService, TodayReminderService, TasksService, MeetingsService) {
+  function HeaderController($scope, $state, $http, AdminService, AttendancesService, Authentication, CheckInAttendancesServices, CommonService, EmployeeMeetingsService, menuService, $mdDialog, $interval, Notification, NotificationsService, PERMISSION, LEAVE, RemindersService, TodayReminderService, TasksService, MeetingsService, TenderprocessesNitService) {
     var vm = this;
 
     vm.accountMenu = menuService.getMenu('account').items[0];
@@ -22,6 +22,7 @@
     vm.meetings = [];
     vm.reminders = [];
     vm.notifications = [];
+    vm.nitEvents = [];
 
     $scope.$on('$stateChangeSuccess', stateChangeSuccess);
 
@@ -89,6 +90,17 @@
       });
     };
 
+    var getTenderNitAwaitingForApproval = function() {
+      TenderprocessesNitService.getAwaitingNitForms(function(nitforms) {        
+        nitforms = _.reject(nitforms, function(nitform) {
+          return vm.nitEvents ? _.includes(_.map(vm.nitEvents, '_id'), nitform._id) : false;
+        });
+        angular.forEach(nitforms, function(nitform) {
+          vm.nitEvents.push(nitform);
+        });
+      });
+    }
+
     $scope.inHour = function(startTime) {
       return moment(startTime).fromNow();
     };
@@ -115,6 +127,14 @@
 
     $scope.alertAboutMeeting = function() {
       alert('This notification will be on until the meeting\'s scheduled start time.');
+    };
+
+    $scope.approveNit = function(nitevent) {      
+      window.location.href = "/tenderprocesses/"+nitevent._id+"/approval/nit"; 
+    };
+
+    $scope.redirectToNitForm = function() {
+      window.location.href = "/tenderprocesses/nit";      
     };
 
     $scope.handleMyPersistentNotifications = function(notification) {
@@ -217,7 +237,7 @@
           if(notifications.length > 1) {
             CommonService.sleep(5000);
           }
-          if(notification.type !== 'leaveOrPermission') {
+          if(notification.type !== 'leaveOrPermission' && notification.type !== 'nitapprovalinfo') {
             buildNotificationContent(notification);
           }
         });
@@ -246,11 +266,13 @@
       getMyTodayReminders();
       getMyNotifications();
       getMyPersistentNotifications();
+      getTenderNitAwaitingForApproval();
       $interval(getAttendances, 5000);
       $interval(getMyTodayMeetings, 5000);
       $interval(getMyNotifications, 5000);
       $interval(getMyTodayReminders, 5000);
       $interval(getMyPersistentNotifications, 5000);
+      $interval(getTenderNitAwaitingForApproval, 5000);
     }
 
     $scope.logout = function(ev) {

@@ -16,6 +16,9 @@ var TenderprocessSchema = new Schema({
     required: 'Please fill Tenderprocess name',
     trim: true
   },
+  dueDateTime: {
+    type: Date,
+  },
   created: {
     type: Date,
     default: Date.now

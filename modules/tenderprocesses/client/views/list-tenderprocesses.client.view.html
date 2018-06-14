@@ -1,22 +1,59 @@
-<section>
-  <div class="page-header">
-    <h1>Tenderprocesses</h1>
-  </div>
-  <div class="list-group">
-    <a ng-repeat="tenderprocess in vm.tenderprocesses"
-       ui-sref="tenderprocesses.view({ tenderprocessId: tenderprocess._id })"
-       class="list-group-item">
-      <small class="list-group-item-text">
-        Posted on
-        <span ng-bind="tenderprocess.created | date:'mediumDate'"></span>
-        by
-        <span ng-if="tenderprocess.user" ng-bind="tenderprocess.user.displayName"></span>
-        <span ng-if="!tenderprocess.user">Deleted User</span>
-      </small>
-      <h4 class="list-group-item-heading" ng-bind="tenderprocess.name"></h4>
-    </a>
-  </div>
-  <div class="alert alert-warning text-center" ng-if="vm.tenderprocesses.$resolved && !vm.tenderprocesses.length">
-    No Tenderprocesses yet, why don't you <a ui-sref="tenderprocesses.create">create one</a>?
+<section ng-init="vm.loadinitial()">
+  <div class="row" ng-hide="vm.hasCreateTender">
+    <div class="col-md-8">
+      <div class="header">
+        <h2>Tender <strong>List</strong></h2>
+        <div class="col-md-3" style="margin-top: 2%">
+          <md-button class="btn btn-primary" ng-click="vm.hasCreateTender = true" type="submit">Create</md-button>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-12 portlets">
+      <div class="col-md-3 col-xs-6 col-sm-5 panel" ng-repeat="tender in vm.tenderprocesses | orderBy: '$index'" style="margin: 25px;">
+        <div class="row">
+          <a ui-sref="tenderprocesses.edit({ tenderprocessId: tender._id })">
+            <h2 class="name" style="text-align: center;"><b>{{tender.name}}</b></h2>
+            <div class="clearfix">
+              <p style="text-align: center;"> {{tender.dueDateTime | date:'short'}}</p>
+            </div>
+          </a>
+        </div>
+      </div>
+    </div>
   </div>
 </section>
+<!-- Create NIT's -->
+<div class="col-md-12" ng-show="vm.hasCreateTender">
+  <h2><strong>Create</strong> Tender</h2>
+  <div class="row">
+    <div class="col-md-12 col-sm-12 col-xs-12">
+      <form name="vm.tenderForm" autocomplete="off" novalidate>
+        <div layout="row" flex>
+          <md-input-container flex>
+            <label class="my-label">Name</label>
+            <input required type="text" name="name" ng-model="vm.tenderprocess.name" />
+            <div ng-messages="vm.tenderForm.name.$error">
+              <div ng-message="required">Name is required.</div>
+            </div>
+          </md-input-container>
+        </div>
+        <div layout="row" flex>
+          <md-input-container flex>
+            <label class="my-label"><b>Due Date</b></label>
+            <div ng-click="showEndDatePicker($event)">
+              <input style="color: #000066; font-weight: bold;" required name="end" ng-model="vm.tenderprocess.dueDateTime" onfocus="this.blur()" readonly />
+            </div>
+            <div ng-messages="vm.tenderForm.end.$error">
+              <div ng-message="required">End date is required.</div>
+            </div>
+          </md-input-container>
+        </div>
+        <div class="text-center  m-t-20">
+          <button type="submit" class="btn btn-next btn-fill btn-success btn-wd" ng-hide="ui.isTenderInProgress" ng-click="vm.save(vm.tenderForm.$valid);" type="submit">{{vm.tenderprocess._id ? 'Update' : 'Create'}}</button>
+          <button type="submit" class="btn btn-next btn-fill btn-success btn-wd" ng-show="ui.isTenderInProgress" ng-disabled="true"><i class="fa fa-spinner fa-spin" style="font-size: 18px"></i>{{vm.tenderprocess._id ? 'Updating' : 'Creating'}}</button>
+          <button type="submit" ng-click="vm.redirectNitForm()" class="btn btn-next btn-fill btn-primary btn-wd">Back</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
