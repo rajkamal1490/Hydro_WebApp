@@ -5,9 +5,9 @@
     .module('core')
     .controller('HomeController', HomeController);
 
-  HomeController.$inject = ['CHART_BACKGROUND_COLOR', 'CHART_HOVER_BACKGROUND_COLOR', 'CheckInAttendancesServices', '$scope', '$http', '$filter', '$state', 'CommonService', 'PRIORITIES', 'Authentication', 'menuService', '$mdDialog', 'Notification',  'userResolve', 'TASK_STATUSES', 'taskResolve', 'TasksService', 'statusResolve'];
+  HomeController.$inject = ['CHART_BACKGROUND_COLOR', 'CHART_HOVER_BACKGROUND_COLOR', 'CheckInAttendancesServices', 'EmployeeMeetingsService', '$scope', '$http', '$filter', '$state', 'CommonService', 'PRIORITIES', 'Authentication', 'menuService', '$mdDialog', 'Notification',  'userResolve', 'TASK_STATUSES', 'taskResolve', 'TasksService', 'statusResolve'];
 
-  function HomeController(CHART_BACKGROUND_COLOR, CHART_HOVER_BACKGROUND_COLOR, CheckInAttendancesServices, $scope, $http, $filter, $state, CommonService, PRIORITIES, Authentication, menuService, $mdDialog, Notification, userResolve, TASK_STATUSES, taskResolve, TasksService, statusResolve) {
+  function HomeController(CHART_BACKGROUND_COLOR, CHART_HOVER_BACKGROUND_COLOR, CheckInAttendancesServices, EmployeeMeetingsService, $scope, $http, $filter, $state, CommonService, PRIORITIES, Authentication, menuService, $mdDialog, Notification, userResolve, TASK_STATUSES, taskResolve, TasksService, statusResolve) {
     var vm = this;
     vm.accountMenu = menuService.getMenu('account').items[0];
     vm.authentication = Authentication;
@@ -19,6 +19,7 @@
     vm.starCase = starCase;
     vm.statuses = statusResolve;
     vm.hasLoading = false;
+    vm.meetings = [];
 
     CommonService.setUserResolve(userResolve);
 
@@ -61,12 +62,15 @@
           title: '<i class="glyphicon glyphicon-remove"></i> Task error!'
         });
       });
+
+      getMyTodayMeetings()
     };
 
     function figureOutItemsToDisplay() {
       var sortedTasks = $filter('orderBy')(vm.tasks, '-taskID');
+      var today = new Date();      
       vm.filteredItems = $filter('filter')(sortedTasks, function(sortedTask) {
-        return sortedTask.status !== TASK_STATUSES[2].code;
+        return sortedTask.status !== TASK_STATUSES[2].code && moment(new Date()).format('YYYY-MM-DD hh:mm:ss') >= moment(sortedTask.startDateTime).format('YYYY-MM-DD hh:mm:ss');
       });
       vm.filterLength = vm.filteredItems.length;
       var begin = ((vm.currentPage - 1) * vm.itemsPerPage);
@@ -81,6 +85,32 @@
     function getPriorityName(priority) {
       return CommonService.getArrayValue(PRIORITIES, priority);
     };
+
+    function getMyTodayMeetings() {
+      var today = new Date();
+      var beforeTwentyMinutes = getDateTimeToServer(today.setMinutes(today.getMinutes() + 20))
+      vm.originalMeetings = angular.copy(vm.meetings);
+
+      var gmtDateTime = {
+        userId: Authentication.user._id,
+        startDate: getDateTimeToServer(new Date()),
+        endDate: getDateTimeToServer(new Date())
+      };
+      EmployeeMeetingsService.requestFindTodayMeetingsByUser(gmtDateTime).then(function(employeeMeetings) { 
+      alert(JSON.stringify(employeeMeetings))      
+        angular.forEach(employeeMeetings, function(employeeMeeting) {
+          var haveMeetingToday = _.includes(_.map(employeeMeeting.attendees, '_id'), Authentication.user._id);
+          if (moment(new Date()).format('YYYY-MM-DD hh:mm:ss') < moment(employeeMeeting.startDateTime).format('YYYY-MM-DD hh:mm:ss')) {
+            vm.meetings.push(employeeMeeting);
+          }
+        });
+      });
+    };
+
+    function getDateTimeToServer(date) {
+      var dtGMT = new Date((new Date(date)).toUTCString()).toISOString();
+      return dtGMT;
+    }
 
     $scope.updateTask = function(task, editMode) {
       var oldShow = $mdDialog.show;

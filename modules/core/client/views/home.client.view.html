@@ -57,7 +57,7 @@
         <div class="col-md-12">
           <div class="panel no-bd bd-3 panel-stat">
             <div class="panel-header">
-              <h3><i class="mdi-content-content-paste"></i> <strong>Tasks</strong> Assigned to Me</h3>
+              <h3><i class="mdi-content-content-paste"></i> <strong>Today</strong> Tasks</h3>
               <div class="control-btn">
                 <a href="#" class="panel-reload hidden"><i class="icon-reload"></i></a>
               </div>
@@ -95,5 +95,45 @@
         </div>
       </div>
     </div>
+
+    <div class="col-xlg-6 col-lg-6 col-visitors">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="panel no-bd bd-3 panel-stat">
+            <div class="panel-header">
+              <h3><i class="mdi-content-content-paste"></i> <strong>Today</strong> Meetings</h3>
+              <div class="control-btn">
+                <a href="#" class="panel-reload hidden"><i class="icon-reload"></i></a>
+              </div>
+            </div>
+            <div class="panel-body">
+              <table class="table table-hover dataTable" id="table-editable">
+                <thead>
+                  <tr>
+                    <th class="text-center">Title</th>
+                    <th class="text-center">Start Time</th>
+                    <th class="text-center">End Time</th>
+                    <th class="text-center">Location</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr ng-repeat="meeting in vm.meetings | orderBy: '-startDateTime'">
+                    <td class="col-md-6 text-center"><a ui-sref="meetings.view({ meetingId: meeting._id })"> {{meeting.title}}</a></td>
+                    <td class="col-md-2 text-center">{{meeting.startDateTime | date: 'hh:ss a'}}</td>
+                    <td class="col-md-2 text-center">{{meeting.endDateTime | date: 'hh:ss a' }}</td>
+                    <td class="col-md-2 text-center">{{meeting.location}}</td>
+                    
+                  </tr>
+                </tbody>
+              </table>
+              <div class="text-center" ng-if="vm.meetings.length <= 0">
+                <strong>No Meetings Today !!! </strong>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
   </div>
 </section>
