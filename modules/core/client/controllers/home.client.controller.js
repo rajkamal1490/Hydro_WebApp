@@ -96,9 +96,8 @@
         startDate: getDateTimeToServer(new Date()),
         endDate: getDateTimeToServer(new Date())
       };
-      EmployeeMeetingsService.requestFindTodayMeetingsByUser(gmtDateTime).then(function(employeeMeetings) { 
-      alert(JSON.stringify(employeeMeetings))      
-        angular.forEach(employeeMeetings, function(employeeMeeting) {
+      EmployeeMeetingsService.requestFindTodayMeetingsByUser(gmtDateTime).then(function(employeeMeetings) {
+        angular.forEach(_.uniqBy(employeeMeetings, '_id'), function(employeeMeeting) {
           var haveMeetingToday = _.includes(_.map(employeeMeeting.attendees, '_id'), Authentication.user._id);
           if (moment(new Date()).format('YYYY-MM-DD hh:mm:ss') < moment(employeeMeeting.startDateTime).format('YYYY-MM-DD hh:mm:ss')) {
             vm.meetings.push(employeeMeeting);

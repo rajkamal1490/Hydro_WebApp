@@ -59,7 +59,7 @@
         employeeMeetings = _.reject(employeeMeetings, function(employeeMeeting) {
           return vm.meetings ? _.includes(_.map(vm.meetings, '_id'), employeeMeeting._id) : false;
         });
-        angular.forEach(employeeMeetings, function(employeeMeeting) {
+        angular.forEach(_.uniqBy(employeeMeetings, '_id'), function(employeeMeeting) {
           var haveMeetingToday = _.includes(_.map(employeeMeeting.attendees, '_id'), Authentication.user._id);
           if (moment(beforeTwentyMinutes).format('YYYY-MM-DD hh:mm:ss') >= moment(employeeMeeting.startDateTime).format('YYYY-MM-DD hh:mm:ss') && moment(new Date()).format('YYYY-MM-DD hh:mm:ss') < moment(employeeMeeting.startDateTime).format('YYYY-MM-DD hh:mm:ss')) {
             vm.meetings.push(employeeMeeting);

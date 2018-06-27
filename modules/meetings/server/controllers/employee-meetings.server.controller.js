@@ -30,13 +30,27 @@ exports.getTodayMeetingsByUser = function(req, res) {
         }
       }
     }]
-  }, function(err, searchResults) {
+  }, function(err, results) {
     if (err) {
       return res.status(400).send({
         message: errorHandler.getErrorMessage(err)
       });
     } else {
-      res.jsonp(searchResults);
+      Meeting.find({
+        $and: [{
+          "facilitator._id": req.body.userId
+        }]
+      }, function(err, searchResults) {
+        if (err) {
+          return res.status(400).send({
+            message: errorHandler.getErrorMessage(err)
+          });
+        } else {
+          var response = results.concat(searchResults);
+          res.jsonp(response);
+        }
+
+      });
     }
 
   });
