@@ -34,15 +34,25 @@
             </div>
             <div class="checkbox checkbox-success text-center">
               <!-- <label> -->
-             <md-input-container flex>
-                      <label for="folder">Drop Here</label>
-              <md-select name="folder" ng-model="vm.fileManager.foldername">
-                <md-optgroup label="Drop Here">
-                  <md-option ng-value="folder.code" ng-repeat="folder in model.folders">{{folder.name}}</md-option>
-                </md-optgroup>
-              </md-select>
+              <md-input-container flex>
+                <label for="folder">Drop Here</label>
+                <md-select name="folder" ng-model="vm.fileManager.foldername">
+                  <md-optgroup label="Drop Here">
+                    <md-option ng-value="folder.code" ng-repeat="folder in model.folders">{{folder.name}}</md-option>
+                  </md-optgroup>
+                </md-select>
               </md-input-container>
               <!-- </label> -->
+            </div>
+            <div layout="row" flex>
+              <md-input-container flex>
+                <label class="my-label">Who can view?</label>
+                <md-select multiple name="visible" ng-model="vm.fileManager.visible">
+                  <md-optgroup label="Who can view?">
+                    <md-option ng-value="userGroup.code" ng-repeat="userGroup in vm.userGroups | orderBy: 'name'">{{userGroup.name}}</md-option>
+                  </md-optgroup>
+                </md-select>
+              </md-input-container>
             </div>
             <md-button class="btn btn-warning" ng-disabled="mixins.havingProgressBar.progress" ng-click="vm.fileSelected = false">Remove</md-button>
           </div>

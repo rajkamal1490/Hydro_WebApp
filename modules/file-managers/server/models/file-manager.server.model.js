@@ -22,6 +22,11 @@ var FileManagerSchema = new Schema({
   foldername: {
     type: String,
   },
+  visible: {
+    type: [{
+      type: String,
+    }],
+  },
   created: {
     type: Date,
     default: Date.now

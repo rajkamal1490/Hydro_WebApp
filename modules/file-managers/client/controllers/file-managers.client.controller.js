@@ -1,4 +1,4 @@
-(function () {
+(function() {
   'use strict';
 
   // File managers controller
@@ -6,13 +6,29 @@
     .module('file-managers')
     .controller('FileManagersController', FileManagersController);
 
-  FileManagersController.$inject = ['$timeout', 'Upload', 'Notification', 'havingProgressBar', '$scope', '$mdDialog', 'PROFILE_MAX_SIZE', 'FileManagersService', 'folders'];
+  FileManagersController.$inject = ['$http', '$timeout', 'Upload', 'Notification', 'havingProgressBar', '$scope', '$mdDialog', 'PROFILE_MAX_SIZE', 'FileManagersService', 'folders'];
 
-  function FileManagersController ($timeout, Upload, Notification, havingProgressBar, $scope, $mdDialog, PROFILE_MAX_SIZE, FileManagersService, folders) {
+  function FileManagersController($http, $timeout, Upload, Notification, havingProgressBar, $scope, $mdDialog, PROFILE_MAX_SIZE, FileManagersService, folders) {
     var vm = this;
-    
+
     vm.fileManager = new FileManagersService();
-   
+
+    vm.userGroups;
+
+    $http({
+      method: 'GET',
+      url: '/api/clearances'
+    }).then(function(response) {
+      vm.userGroups = response.data;
+      // console.log(response.data);
+
+    }, function(errorResponse) {
+      Notification.error({
+        message: errorResponse.data.message,
+        title: '<i class="glyphicon glyphicon-remove"></i> Cannot get User Groups!'
+      });
+    });
+
     $scope.model = {
       fileUpload: undefined,
       folders: folders
@@ -24,7 +40,7 @@
 
     $scope.mixins = {
       havingProgressBar: havingProgressBar,
-    };  
+    };
 
     $scope.save = function() {
       if (vm.picFile.size > PROFILE_MAX_SIZE) {
@@ -46,12 +62,12 @@
     };
 
 
-    function uploadFile(res) {      
+    function uploadFile(res) {
       Upload.upload({
         url: '/api/file-managers/upload/' + res._id,
         data: {
-            newProfilePicture: vm.picFile
-          }
+          newProfilePicture: vm.picFile
+        }
       }).then(function(response) {
         $scope.mixins.havingProgressBar.complete();
         $timeout(function() {

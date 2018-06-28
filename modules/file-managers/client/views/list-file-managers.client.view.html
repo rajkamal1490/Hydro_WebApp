@@ -64,7 +64,7 @@
                       <strong>&nbsp;&nbsp;&nbsp;&nbsp;Files</strong>
                       <hr>
                     </h3>
-                    <div ng-repeat="file in model.files | filter: searchParams.keyword | filter: { foldername: '!' } | orderBy: '-created' | orderBy: '-hasImportant'">
+                    <div ng-repeat="file in model.files | filter: searchParams.keyword | filter: { foldername: '!' } | filter: hasShowFile | orderBy: '-created' | orderBy: '-hasImportant'">
                       <div class="clearfix" ng-if="$index % 4 == 0"></div>
                       <div class="col-xlg-3 col-lg-3 col-md-3 col-sm-3 col-xs-12">
                         <div class="panel">
@@ -77,7 +77,8 @@
                                 <p class="text" title="{{file.filename}}">{{file.filename | trim: 15:false}}</p>
                                 <p> <a download="{{file.filename}}" target="_self" ng-href="/{{file.fileURL}}"><i class="fa fa-download"></i></a>
                                   <a ng-click="deleteFile(file)" style="cursor: pointer"> <i class="fa fa-trash text-danger"></i></a>
-                                  <span ng-if="file.hasImportant"><i class="fa fa-star text-warning"></i></span>
+                                  <span ng-if="file.hasImportant" data-toggle="tooltip" title="Marked as Important."><i class="fa fa-star text-warning"></i></span>
+                                  <span data-toggle="tooltip" title="{{displayVisibility(file.visible)}}"><i class="fa fa-info-circle text-info"></i></span>
                                 </p>
                               </div>
                             </div>
@@ -92,7 +93,7 @@
                         <strong>&nbsp;&nbsp;&nbsp;&nbsp;Recent</strong> Files
                         <hr>
                       </h3>
-                      <div ng-repeat="file in model.files | filter: searchParams.keyword | filter: { foldername: vm.foldercode } | orderBy: '-created' | limitTo: 4">
+                      <div ng-repeat="file in model.files | filter: searchParams.keyword | filter: { foldername: vm.foldercode } | filter: hasShowFile | orderBy: '-created' | limitTo: 4">
                         <div class="clearfix" ng-if="$index % 4 == 0"></div>
                         <div class="col-xlg-3 col-lg-3 col-md-3 col-sm-3 col-xs-12">
                           <div class="panel">
@@ -105,7 +106,8 @@
                                   <p class="text" title="{{file.filename}}">{{file.filename | trim: 15:false}}</p>
                                   <p> <a download="{{file.filename}}" target="_self" ng-href="/{{file.fileURL}}"><i class="fa fa-download"></i></a>
                                     <a ng-click="deleteFile(file)" style="cursor: pointer"> <i class="fa fa-trash text-danger"></i></a>
-                                    <span ng-if="file.hasImportant"><i class="fa fa-star text-warning"></i></span>
+                                    <span ng-if="file.hasImportant" data-toggle="tooltip" title="Marked as Important."><i class="fa fa-star text-warning"></i></span>
+                                    <span data-toggle="tooltip" title="{{displayVisibility(file.visible)}}"><i class="fa fa-info-circle text-info"></i></span>
                                   </p>
                                 </div>
                               </div>
@@ -119,7 +121,7 @@
                         <strong>&nbsp;&nbsp;&nbsp;&nbsp; Important</strong> Files
                         <hr>
                       </h3>
-                      <div ng-repeat="file in model.files | filter: searchParams.keyword  | filter: { foldername: vm.foldercode } | orderBy: '-created' | filter: { hasImportant: true }">
+                      <div ng-repeat="file in model.files | filter: searchParams.keyword  | filter: { foldername: vm.foldercode } | filter: hasShowFile | orderBy: '-created' | filter: { hasImportant: true }">
                         <div class="clearfix" ng-if="$index % 4 == 0"></div>
                         <div class="col-xlg-3 col-lg-3 col-md-3 col-sm-3 col-xs-12">
                           <div class="panel">
@@ -132,7 +134,8 @@
                                   <p class="text" title="{{file.filename}}">{{file.filename | trim: 15:false}}</p>
                                   <p> <a download="{{file.filename}}" target="_self" ng-href="/{{file.fileURL}}"><i class="fa fa-download"></i></a>
                                     <a ng-click="deleteFile(file)" style="cursor: pointer"> <i class="fa fa-trash text-danger"></i></a>
-                                    <span ng-if="file.hasImportant"><i class="fa fa-star text-warning"></i></span>
+                                    <span ng-if="file.hasImportant" data-toggle="tooltip" title="Marked as Important."><i class="fa fa-star text-warning"></i></span>
+                                    <span data-toggle="tooltip" title="{{displayVisibility(file.visible)}}"><i class="fa fa-info-circle text-info"></i></span>
                                   </p>
                                 </div>
                               </div>
@@ -146,7 +149,7 @@
                         <strong>&nbsp;&nbsp;&nbsp;&nbsp; All </strong> Files
                         <hr>
                       </h3>
-                      <div ng-repeat="file in model.files | filter: searchParams.keyword  | filter: { foldername: vm.foldercode } | orderBy: '-created' | filter: { hasImportant: false }">
+                      <div ng-repeat="file in model.files | filter: searchParams.keyword  | filter: { foldername: vm.foldercode } | filter: hasShowFile | orderBy: '-created'">
                         <div class="clearfix" ng-if="$index % 4 == 0"></div>
                         <div class="col-xlg-3 col-lg-3 col-md-3 col-sm-3 col-xs-12">
                           <div class="panel">
@@ -159,7 +162,8 @@
                                   <p class="text" title="{{file.filename}}">{{file.filename | trim: 15:false}}</p>
                                   <p> <a download="{{file.filename}}" target="_self" ng-href="/{{file.fileURL}}"><i class="fa fa-download"></i></a>
                                     <a ng-click="deleteFile(file)" style="cursor: pointer"> <i class="fa fa-trash text-danger"></i></a>
-                                    <span ng-if="file.hasImportant"><i class="fa fa-star text-warning"></i></span>
+                                    <span ng-if="file.hasImportant" data-toggle="tooltip" title="Marked as Important."><i class="fa fa-star text-warning"></i></span>
+                                    <span data-toggle="tooltip" title="{{displayVisibility(file.visible)}}"><i class="fa fa-info-circle text-info"></i></span>
                                   </p>
                                 </div>
                               </div>

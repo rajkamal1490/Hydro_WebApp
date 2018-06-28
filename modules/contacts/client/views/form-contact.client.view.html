@@ -1,17 +1,17 @@
-<md-dialog flex="70" style="left: 7%"> 
+<md-dialog flex="70" style="left: 7%">
   <form name="vm.contactForm" novalidate autocomplete="off">
     <div class="modal-header bg-primary">
       <h4>{{vm.contact._id ? 'Edit Contact' : 'Create Contact'}}</h4>
     </div>
        <md-dialog-content style="padding-left: 24px">
-         <div class="col-md-4 col-sm-4 col-xs-4">            
+         <div class="col-md-4 col-sm-4 col-xs-4">
             <div class="panel-content">
               <div class="form-group text-center">
                   <img ngf-src="vm.fileSelected ? vm.picFile : vm.contact._id ? '/' + vm.contact.photoIdPath : 'modules/users/client/img/profile/default.png'" alt="{{vm.user.displayName}}" class="img-thumbnail user-profile-picture" ngf-drop>
                 </div>
-                  <div class="text-center form-group">                
+                  <div class="text-center form-group">
                     <md-button class="btn btn-danger"  ng-click="upload()">Upload</md-button>
-                  </div>                     
+                  </div>
             </div>
           </div>
           <div class="col-md-8 col-sm-8 col-xs-8">
@@ -31,7 +31,7 @@
                     <div ng-message="required">Lastname is required.</div>
                   </div>
               </md-input-container>
-            </div>  
+            </div>
 
             <div layout="row" flex>
               <md-input-container flex>
@@ -50,9 +50,9 @@
                   <div ng-message="required">Phone Number is required.</div>
                 </div>
               </md-input-container>
-            </div>  
+            </div>
 
-            <div layout="row" flex>           
+            <div layout="row" flex>
                <md-input-container flex>
                   <label class="my-label">Designation</label>
                   <input required type="text" name="designation" ng-model="vm.contact.designation"/>
@@ -69,7 +69,7 @@
                   </div>
               </md-input-container>
 
-            </div>  
+            </div>
 
             <div layout="row" flex>
               <md-input-container flex>
@@ -78,7 +78,7 @@
                   <div ng-messages="vm.contactForm.state.$error">
                     <div ng-message="required">State is required.</div>
                   </div>
-              </md-input-container>  
+              </md-input-container>
 
               <md-input-container flex>
                   <label class="my-label">Board/Company</label>
@@ -88,28 +88,28 @@
                   </div>
               </md-input-container>
 
-            </div>  
+            </div>
 
             <div layout="row" flex>
               <md-input-container flex>
-                <label class="my-label">Visible To:</label>
-                <md-select  multiple 
+                <label class="my-label">Who can edit?</label>
+                <md-select  multiple
                       required
                       name="visible"
                       ng-model="vm.contact.visible">
-                  <md-optgroup label="Visible">
+                  <md-optgroup label="Who can edit?">
                     <md-option ng-value="userGroup.code" ng-repeat="userGroup in vm.userGroups | orderBy: 'name'">{{userGroup.name}}</md-option>
                   </md-optgroup>
                 </md-select>
                 <div ng-messages="reports.visible.$error">
-                    <div ng-message="required">Visible To is required.</div>
+                    <div ng-message="required">"Who can edit?" is required.</div>
                 </div>
               </md-input-container>
              </div>
 
           </div>
       </md-dialog-content>
-     <md-dialog-actions layout="row">  
+     <md-dialog-actions layout="row">
         <span flex></span>
         <md-button class="btn btn-next btn-fill btn-success btn-wd"  ng-hide="ui.isContactInProgress" flex ng-click="vm.save(vm.contactForm.$valid)" type="submit">{{vm.contact._id ? 'Update' : 'Create'}}</md-button>
         <md-button class="btn btn-next btn-fill btn-success btn-wd"  ng-disabled="true" flex ng-show="ui.isContactInProgress" type="submit"><i class="fa fa-spinner fa-spin"></i> {{vm.contact._id ? 'Updating' : 'Creating'}}</md-button>
@@ -118,6 +118,6 @@
         <span flex></span>
         <md-button class="btn btn-next btn-fill btn-warning btn-wd" flex ng-click="vm.cancel()" type="submit">Cancel</md-button>
         <span flex></span>
-      </md-dialog-actions>   
+      </md-dialog-actions>
   </form>
 </md-dialog>

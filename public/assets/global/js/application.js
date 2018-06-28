@@ -95,7 +95,7 @@ function handlePanelAction() {
         });
     }
     handlePanelControls();
-    // Remove Panel 
+    // Remove Panel
     $(".panel-header .panel-close").on("click", function(event) {
         event.preventDefault();
         $item = $(this).parents(".panel:first");
@@ -153,7 +153,7 @@ function handlePanelAction() {
             unblockUI(el);
         }, 1800);
     });
-    // Maximize Panel Dimension 
+    // Maximize Panel Dimension
     $(document).on("click", ".panel-header .panel-maximize", function(event) {
         event.preventDefault();
         var panel = $(this).parents(".panel:first");
@@ -184,15 +184,15 @@ function maximizePanel(){
         if(panel.hasClass('maximized')){
             if(windowHeight > panelHeight){
                 panel.parent().height(windowHeight);
-            } 
+            }
             else{
                 if($('.main-content').height() > panelHeight) {
-                    panel.parent().height($('.main-content').height()); 
+                    panel.parent().height($('.main-content').height());
                 }
                 else{
-                    panel.parent().height(panelHeight); 
+                    panel.parent().height(panelHeight);
                 }
-            } 
+            }
         }
         else {
             panel.parent().height('');
@@ -607,7 +607,7 @@ function reposition_topnav() {
 if ($('body').hasClass('sidebar-collapsed')) $('.nav-sidebar .children').css({
     display: ''
 });
-// Handles form inside of dropdown 
+// Handles form inside of dropdown
 $('.dropdown-menu').find('form').click(function(e) {
     e.stopPropagation();
 });
@@ -656,7 +656,7 @@ function detectIE() {
     var trident = ua.indexOf('Trident/');
     var edge = ua.indexOf('Edge/');
     if (msie > 0 || trident > 0 || edge > 0) {
-        $('html').addClass('ie-browser');   
+        $('html').addClass('ie-browser');
     }
 }
 
@@ -689,3 +689,15 @@ $(window).resize(function() {
         maximizePanel();
     }, 100);
 });
+
+
+
+$(document).ready(function(){
+    activateTooltip();
+    setInterval(activateTooltip, 500);
+});
+
+function activateTooltip()
+{
+   $('[data-toggle="tooltip"]').tooltip();
+}
