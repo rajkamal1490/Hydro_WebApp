@@ -39,6 +39,11 @@ angular
         isArray: true,
         url: '/api/checkins/findtasklist'
       },
+      usersToday: {
+        method: 'GET',
+        isArray: true,
+        url: '/api/checkins/getuserstoday'
+      },
     });
 
     angular.extend(CheckIns, {
@@ -60,7 +65,10 @@ angular
         } else {
           return this.validatePermissionOverlap(attendances).$promise;
         }
-        
+
+      },
+      requestFindUsersToday: function () {
+        return this.usersToday().$promise;
       }
     });
 

@@ -1,9 +1,9 @@
 <section ng-init="loadInitial()">
   <div class="page-content">
-    <div ng-if="vm.hasLoading" style="position: fixed; width: 100%; height: 100%;  top: 0; 
+    <div ng-if="vm.hasLoading" style="position: fixed; width: 100%; height: 100%;  top: 0;
     left: 0;
     right: 0;
-    bottom: 0; margin-top: 50px; margin-left: 120px; background-color: rgba(0,0,0,0.5);   z-index: 2; 
+    bottom: 0; margin-top: 50px; margin-left: 120px; background-color: rgba(0,0,0,0.5);   z-index: 2;
     cursor: pointer;" layout="row" layout-sm="column" layout-align="space-around">
       <md-progress-circular md-mode="indeterminate"></md-progress-circular>
     </div>
@@ -122,7 +122,7 @@
                     <td class="col-md-2 text-center">{{meeting.startDateTime | date: 'hh:ss a'}}</td>
                     <td class="col-md-2 text-center">{{meeting.endDateTime | date: 'hh:ss a' }}</td>
                     <td class="col-md-2 text-center">{{meeting.location}}</td>
-                    
+
                   </tr>
                 </tbody>
               </table>
@@ -134,6 +134,8 @@
         </div>
       </div>
     </div>
+
+    <div class="col-xlg-6 col-lg-6 col-visitors" ng-include="'/modules/attendances/client/views/blocks/users-today.client.view.html'"></div>
 
   </div>
 </section>

@@ -132,7 +132,7 @@ exports.validatePermissionOverlap = function(req, res) {
 };
 
 /**
- * 
+ *
  * Find Task List
  */
 
@@ -156,5 +156,30 @@ exports.findTaskList = function(req, res) {
       res.jsonp(searchResults);
     }
 
+  });
+};
+
+
+/**
+ * Find of Users Checked In Today
+ */
+exports.findUsersToday = function(req, res) {
+  var date = new Date();
+  Attendance.find({
+    $and: [{
+      year: date.getFullYear()
+    }, {
+      month: date.getMonth()+1
+    }, {
+      date: date.getDate()
+    }]
+  }, function(err, entries) {
+    if (err) {
+      return res.status(400).send({
+        message: errorHandler.getErrorMessage(err)
+      });
+    } else {
+      res.jsonp(entries);
+    }
   });
 };

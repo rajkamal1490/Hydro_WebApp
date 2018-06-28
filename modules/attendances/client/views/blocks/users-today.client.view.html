@@ -1,0 +1,34 @@
+<div class="row" ng-controller="UsersTodayController as vm">
+  <div class="col-md-12">
+    <div class="panel no-bd bd-3 panel-stat">
+      <div class="panel-header">
+        <h3><i class="mdi-content-content-paste"></i> <strong>Users</strong> - Today's Check In Info</h3>
+        <div class="control-btn">
+          <a href="#" class="panel-reload hidden"><i class="icon-reload"></i>???</a>
+        </div>
+      </div>
+      <div class="panel-body">
+        <table class="table table-hover table-dynamic filter-head">
+          <thead>
+            <tr>
+              <th class="text-center">User</th>
+              <th class="text-center">Check In Time</th>
+              <th class="text-center">Check Out Time</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-repeat="user in vm.usersToday | orderBy: '-checkInTime'">
+              <td class="col-md-4">{{user.displayName}}</td>
+              <td class="col-md-4 text-center">{{user.checkInTime}}</td>
+              <td class="col-md-4 text-center">{{user.checkOutTime}}</td>
+            </tr>
+          </tbody>
+        </table>
+        <uib-pagination boundary-links="true" max-size="10" items-per-page="vm.itemsPerPage" total-items="vm.filterLength" ng-model="vm.currentPage" ng-change="vm.pageChanged()" ng-if="vm.pagedItems.length > 0"></uib-pagination>
+        <div class="text-center" ng-if="vm.usersToday.length <= 0">
+          <strong>No one has Checked In Today !!! </strong>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

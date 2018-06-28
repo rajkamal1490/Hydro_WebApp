@@ -36,10 +36,10 @@ module.exports = function(app) {
     .post(checkins.findTodayCheckIn);
 
   app.route('/api/checkins/findattendancesbyuser')
-    .post(checkins.findAttendancesByUser); 
+    .post(checkins.findAttendancesByUser);
 
   app.route('/api/checkins/findtasklist')
-    .post(checkins.findTaskList);   
+    .post(checkins.findTaskList);
 
   app.route('/admin/api/checkins/awaitingforapprovalleave')
     .post(checkins.awaitingForApprovalLeave);
@@ -48,8 +48,12 @@ module.exports = function(app) {
     .post(checkins.awaitingForApprovalLeave);
 
   app.route('/api/checkins/awaitingforapprovalleave')
-    .post(checkins.awaitingForApprovalLeave);  
+    .post(checkins.awaitingForApprovalLeave);
 
   app.route('/settings/api/checkins/awaitingforapprovalleave')
     .post(checkins.awaitingForApprovalLeave);
+
+
+  app.route('/api/checkins/getuserstoday')
+    .get(checkins.findUsersToday);
 };
