@@ -134,8 +134,8 @@
         </div>
       </div>
     </div>
-
-    <div class="col-xlg-6 col-lg-6 col-visitors" ng-include="'/modules/attendances/client/views/blocks/users-today.client.view.html'"></div>
+    
+    <div class="col-xlg-6 col-lg-6 col-visitors" ng-if="vm.authentication.user.userGroup.indexOf('staff') == -1" ng-include="'/modules/attendances/client/views/blocks/users-today.client.view.html'"></div>
 
   </div>
 </section>

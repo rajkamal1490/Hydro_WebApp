@@ -17,7 +17,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr ng-repeat="user in vm.usersToday | orderBy: '-checkInTime'">
+            <tr ng-repeat="user in vm.pagedItems | orderBy: '-checkInTime'">
               <td class="col-md-4">{{user.displayName}}</td>
               <td class="col-md-4 text-center">{{user.checkInTime}}</td>
               <td class="col-md-4 text-center">{{user.checkOutTime}}</td>

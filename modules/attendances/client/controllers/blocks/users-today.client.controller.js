@@ -10,6 +10,7 @@
   function UsersTodayController($scope, $state, $http, $filter) {
     var vm = this;
     vm.usersToday = [];
+    vm.pagedItems = [];
     vm.figureOutItemsToDisplay = figureOutItemsToDisplay;
     vm.pageChanged = pageChanged;
     vm.getUserName = getUserName;
@@ -25,9 +26,9 @@
           vm.usersToday[key].displayName = result;
         });
         if (value.checkInTime)
-          vm.usersToday[key].checkInTime = value.checkInTime.substr(11, 5) //.replace(/T/, ' ').replace(/\..+/, '');
+          vm.usersToday[key].checkInTime = moment(value.checkInTime).toDate().getHours() + ":" + moment(value.checkInTime).toDate().getMinutes();
         if (value.checkOutTime)
-          vm.usersToday[key].checkOutTime = value.checkOutTime.substr(11, 5) //.replace(/T/, ' ').replace(/\..+/, '');
+          vm.usersToday[key].checkOutTime = moment(value.checkOutTime).toDate().getHours() + ":" + moment(value.checkOutTime).toDate().getMinutes();
       });
 
       vm.itemsPerPage = 10;
