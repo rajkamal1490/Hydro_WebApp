@@ -235,7 +235,7 @@
       }).then(function(notifications) {
         angular.forEach(notifications, function(notification) {
           if(notifications.length > 1) {
-            CommonService.sleep(5000);
+            CommonService.sleep(0);
           }
           if(notification.type !== 'leaveOrPermission' && notification.type !== 'nitapprovalinfo') {
             buildNotificationContent(notification);
