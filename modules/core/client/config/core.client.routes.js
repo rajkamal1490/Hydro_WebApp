@@ -5,9 +5,9 @@
     .module('core.routes')
     .config(routeConfig);
 
-  routeConfig.$inject = ['$stateProvider', '$urlRouterProvider'];
+  routeConfig.$inject = ['$stateProvider', '$urlRouterProvider', 'cacheManagerProvider'];
 
-  function routeConfig($stateProvider, $urlRouterProvider) {
+  function routeConfig($stateProvider, $urlRouterProvider, cacheManagerProvider) {
     $urlRouterProvider.rule(function ($injector, $location) {
       var path = $location.path();
       var hasTrailingSlash = path.length > 1 && path[path.length - 1] === '/';
@@ -37,7 +37,7 @@
             return $injector.invoke(taskData).$promise;   // cached, otherwise we would have called IncidentNoteTitle.query().
           }],
           userResolve: ['$injector', '$q', function($injector, $q) {
-            return $injector.invoke(userData).$promise;   // cached, otherwise we would have called IncidentNoteTitle.query().
+            return $injector.invoke(cacheManagerProvider.usersResolve).$promise;   // cached, otherwise we would have called IncidentNoteTitle.query().
           }],
           statusResolve: ['$injector', '$q', function($injector, $q) {
             return $injector.invoke(statusData).$promise; // cached, otherwise we would have called IncidentNoteTitle.query().
@@ -108,12 +108,6 @@
 
   function taskData(TasksService) {
     return TasksService.query();
-  }
-
-  userData.$inject = ['AdminService'];
-
-  function userData(AdminService) {
-    return AdminService.query();
   }
 
   reminderData.$inject = ['RemindersService'];

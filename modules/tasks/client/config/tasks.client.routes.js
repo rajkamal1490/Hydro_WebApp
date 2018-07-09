@@ -5,9 +5,9 @@
     .module('tasks')
     .config(routeConfig);
 
-  routeConfig.$inject = ['$stateProvider'];
+  routeConfig.$inject = ['$stateProvider', 'cacheManagerProvider'];
 
-  function routeConfig($stateProvider) {
+  function routeConfig($stateProvider, cacheManagerProvider) {
     $stateProvider
       .state('tasks', {
         abstract: true,
@@ -27,7 +27,7 @@
             return $injector.invoke(taskData).$promise;   // cached, otherwise we would have called IncidentNoteTitle.query().
           }],
           userResolve: ['$injector', '$q', function($injector, $q) {
-            return $injector.invoke(userData).$promise;   // cached, otherwise we would have called IncidentNoteTitle.query().
+            return $injector.invoke(cacheManagerProvider.usersResolve).$promise;   // cached, otherwise we would have called IncidentNoteTitle.query().
           }],
           refCodeResolve: ['$injector', '$q', function($injector, $q) {
             return $injector.invoke(refCodeData).$promise;   // cached, otherwise we would have called IncidentNoteTitle.query().
@@ -56,7 +56,7 @@
             return $injector.invoke(taskData).$promise;   // cached, otherwise we would have called IncidentNoteTitle.query().
           }],
           userResolve: ['$injector', '$q', function($injector, $q) {
-            return $injector.invoke(userData).$promise;   // cached, otherwise we would have called IncidentNoteTitle.query().
+            return $injector.invoke(cacheManagerProvider.usersResolve).$promise;   // cached, otherwise we would have called IncidentNoteTitle.query().
           }],
           refCodes: ['$injector', '$q', function($injector, $q) {
             return $injector.invoke(refCodeData).$promise;   // cached, otherwise we would have called IncidentNoteTitle.query().
@@ -91,7 +91,7 @@
         resolve: {
           taskResolve: getTask,
           userResolve: ['$injector', '$q', function($injector, $q) {
-            return $injector.invoke(userData).$promise;   // cached, otherwise we would have called IncidentNoteTitle.query().
+            return $injector.invoke(cacheManagerProvider.usersResolve).$promise;   // cached, otherwise we would have called IncidentNoteTitle.query().
           }],
           statusResolve: ['$injector', '$q', function($injector, $q) {
             return $injector.invoke(statusData).$promise; // cached, otherwise we would have called IncidentNoteTitle.query().
@@ -124,12 +124,6 @@
 
   function taskData(TasksService) {
     return TasksService.query();
-  }
-
-  userData.$inject = ['AdminService'];
-
-  function userData(AdminService) {
-    return AdminService.query();
   }
 
   refCodeData.$inject = ['RefcodetasksService'];

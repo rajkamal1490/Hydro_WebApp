@@ -5,9 +5,9 @@
     .module('projects')
     .config(routeConfig);
 
-  routeConfig.$inject = ['$stateProvider'];
+  routeConfig.$inject = ['$stateProvider', 'cacheManagerProvider'];
 
-  function routeConfig($stateProvider) {
+  function routeConfig($stateProvider, cacheManagerProvider) {
     $stateProvider
       .state('projects', {
         abstract: true,
@@ -27,7 +27,7 @@
             return $injector.invoke(projectData).$promise; // cached, otherwise we would have called IncidentNoteTitle.query().
           }],
           userResolve: ['$injector', '$q', function($injector, $q) {
-            return $injector.invoke(userData).$promise; // cached, otherwise we would have called IncidentNoteTitle.query().
+            return $injector.invoke(cacheManagerProvider.usersResolve).$promise; // cached, otherwise we would have called IncidentNoteTitle.query().
           }]
         }
       })
@@ -89,12 +89,6 @@
 
   function projectData(ProjectsService) {
     return ProjectsService.query();
-  }
-
-  userData.$inject = ['AdminService'];
-
-  function userData(AdminService) {
-    return AdminService.query();
   }
 
 }());

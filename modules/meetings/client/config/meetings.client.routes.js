@@ -5,9 +5,9 @@
     .module('meetings')
     .config(routeConfig);
 
-  routeConfig.$inject = ['$stateProvider'];
+  routeConfig.$inject = ['$stateProvider', 'cacheManagerProvider'];
 
-  function routeConfig($stateProvider) {
+  function routeConfig($stateProvider, cacheManagerProvider) {
     $stateProvider
       .state('meetings', {
         abstract: true,
@@ -27,7 +27,7 @@
             return $injector.invoke(bookedEventData).$promise;   // cached, otherwise we would have called IncidentNoteTitle.query().
           }],
           userResolve: ['$injector', '$q', function($injector, $q) {
-            return $injector.invoke(userData).$promise;   // cached, otherwise we would have called IncidentNoteTitle.query().
+            return $injector.invoke(cacheManagerProvider.usersResolve).$promise;  // cached, otherwise we would have called IncidentNoteTitle.query().
           }]
         },
       })
@@ -47,7 +47,7 @@
             return false;
           },
           userResolve: ['$injector', '$q', function($injector, $q) {
-            return $injector.invoke(userData).$promise;   // cached, otherwise we would have called IncidentNoteTitle.query().
+            return $injector.invoke(cacheManagerProvider.usersResolve).$promise;   // cached, otherwise we would have called IncidentNoteTitle.query().
           }]
         },
         data: {
@@ -69,7 +69,7 @@
             return true;
           },
           userResolve: ['$injector', '$q', function($injector, $q) {
-            return $injector.invoke(userData).$promise;   // cached, otherwise we would have called IncidentNoteTitle.query().
+            return $injector.invoke(cacheManagerProvider.usersResolve).$promise;   // cached, otherwise we would have called IncidentNoteTitle.query().
           }]
         },
         data: {
@@ -103,7 +103,7 @@
             return new Date();;
           },
           userResolve: ['$injector', '$q', function($injector, $q) {
-            return $injector.invoke(userData).$promise;   // cached, otherwise we would have called IncidentNoteTitle.query().
+            return $injector.invoke(cacheManagerProvider.usersResolve).$promise;   // cached, otherwise we would have called IncidentNoteTitle.query().
           }]
         },
         data: {
@@ -131,12 +131,6 @@
 
   function bookedEventData(MeetingsService) {
     return MeetingsService.query();
-  }
-
-  userData.$inject = ['AdminService'];
-
-  function userData(AdminService) {
-    return AdminService.query();
   }
 
 }());
