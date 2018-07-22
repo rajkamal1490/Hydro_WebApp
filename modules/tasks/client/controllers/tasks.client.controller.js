@@ -25,6 +25,10 @@
     vm.refcodetasks = refCodes;
     vm.projects = projects;
     vm.getMatches = getMatches;
+    vm.removeLocalStorageNewTask = removeLocalStorageNewTask;
+    vm.showSavingOffline = false;
+    vm.showSavedOffline = false;
+    var new_task = {}
 
     $scope.eventTime = {
       mStartClock: task ? new Date(task.startDateTime) : new Date(),
@@ -42,6 +46,151 @@
       isTaskInProgress: false,
       editMode: editMode,
     };
+
+    // set false where values are initialized by default. this avoids triggering watch during initialiation
+    var taskfileds = {
+      'title': true,
+      'description': true,
+      'startDateTime': false,
+      'dueDateTime': false,
+      'priority': true,
+      'assignee': true,
+      'hasIndividual': false,
+      'projectCode': true,
+      'orderCode': true,
+      'stateCode': true,
+      'workCode': true,
+      'comment': true
+    };
+
+    if(localStorage.getItem('new_task')==null){
+      localStorage.setItem('new_task',JSON.stringify((new_task)));
+      vm.showSavedOffline = false;
+    }
+    else{
+      var temp = JSON.parse(localStorage.getItem('new_task'));
+      console.log("localStorage new_task: " + localStorage.getItem('new_task'));
+      if(Object.keys(temp).length>0){
+        vm.showSavedOffline = true;
+        new_task = temp;
+        if(new_task['title'] != undefined){
+          vm.task.title = new_task['title'];
+        }
+        if(new_task['description'] != undefined){
+          vm.task.description = new_task['description'];
+        }
+        var d = new Date();
+        if(new_task['startDateTime'] != undefined){
+          vm.task.startDateTime = new_task['startDateTime'];
+          var startDateTime = new_task['startDateTime'].split(":");
+          d.setYear(startDateTime[0]);
+          d.setMonth(startDateTime[1]);
+          d.setDate(startDateTime[2]);
+          $scope.eventTime.mStartClock = d;
+        }
+        if(new_task['dueDateTime'] != undefined){
+          vm.task.dueDateTime = new_task['dueDateTime'];
+          var dueDateTime = new_task['dueDateTime'].split(":");
+          d.setYear(dueDateTime[0]);
+          d.setMonth(dueDateTime[1]);
+          d.setDate(dueDateTime[2]);
+          $scope.eventTime.mEndClock = d;
+        }
+        if(new_task['priority'] != undefined){
+          vm.task.priority = new_task['priority'];
+        }
+        if(new_task['assignee'] != undefined){
+          vm.task.assignee = new_task['assignee'];
+        }
+        if(new_task['hasIndividual'] != undefined){
+          vm.hasIndividual = new_task['hasIndividual'];
+          // console.log(vm.hasIndividual);
+          if(vm.hasIndividual == 1){
+            if(new_task['projectCode'] != undefined){
+              vm.task.projectCode = new_task['projectCode'];
+            }
+            if(new_task['orderCode'] != undefined){
+              vm.task.orderCode = new_task['orderCode'];
+            }
+            if(new_task['stateCode'] != undefined){
+              vm.task.stateCode = new_task['stateCode'];
+            }
+            if(new_task['workCode'] != undefined){
+              vm.task.workCode = new_task['workCode'];
+            }
+          }
+        }
+        if(new_task['comment'] != undefined){
+          vm.task.comment = new_task['comment'];
+        }
+      }
+    }
+
+    // using taskfileds instead of vm.task after it stopped working for no reason
+    angular.forEach(taskfileds,function(value,index){
+      if(index=="hasIndividual"){
+        $scope.$watch('vm.'+index, function (newValue, oldValue) {
+          if(taskfileds[index]){
+            vm.showSavedOffline = false;
+            vm.showSavingOffline = true;
+            console.log("before waiting and displaying saved offline for field "+ index);
+            var doShowOfflineInfo = setInterval(function(){
+                                  console.log("end of waiting and displaying saved offline for field "+ index);
+                                  vm.showSavingOffline = false;
+                                  vm.showSavedOffline = true;
+                                  clearInterval(doShowOfflineInfo);
+                                }, 1000);
+            console.log("continuing without waiting for displaying saved offline for field "+ index);
+            if( vm.task[index]==null || vm.task[index].length==0 ){
+              delete new_task[index];
+            }
+            else{
+              new_task[index] = vm.hasIndividual;
+            }
+            localStorage.setItem('new_task',JSON.stringify(new_task));
+            console.log(localStorage.getItem('new_task'));
+          }
+          taskfileds[index] = true;
+        });
+      }
+      else{
+        $scope.$watch('vm.task.'+index, function (newValue, oldValue) {
+          if(taskfileds[index]){
+            vm.showSavedOffline = false;
+            vm.showSavingOffline = true;
+            console.log("before waiting and displaying saved offline for field "+ index);
+            var doShowOfflineInfo = setInterval(function(){
+                                  console.log("end of waiting and displaying saved offline for field "+ index);
+                                  vm.showSavingOffline = false;
+                                  vm.showSavedOffline = true;
+                                  clearInterval(doShowOfflineInfo);
+                                }, 1000);
+            console.log("continuing without waiting for displaying saved offline for field "+ index);
+            if( vm.task[index]==null || vm.task[index].length==0 ){
+              delete new_task[index];
+            }
+            else{
+              new_task[index] = vm.task[index];
+            }
+            localStorage.setItem('new_task',JSON.stringify(new_task));
+            console.log(localStorage.getItem('new_task'));
+          }
+          taskfileds[index] = true;
+        });
+      }
+    });
+
+    function removeLocalStorageNewTask(){
+      localStorage.removeItem('new_task');
+      new_task = {};
+      angular.forEach(taskfileds,function(value,index){
+        taskfileds[index] = false;
+        console.log("clearing field "+index);
+        vm.task[index] = "";
+      });
+      vm.showSavedOffline = false;
+      vm.showSavingOffline = false;
+    }
 
 
     function loadinitial() {

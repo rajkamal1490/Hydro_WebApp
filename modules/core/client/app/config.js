@@ -30,7 +30,7 @@
       verticalSpacing: 20,
       horizontalSpacing: 20,
       positionX: 'right',
-      positionY: 'bottom'
+      positionY: 'top'
     });
   });
 }(window));

@@ -1,7 +1,12 @@
 <div class="col-md-12" ng-init="vm.loadinitial()">
   <div class="page-content">
     <div class="panel-header">
-      <h2><strong>Create</strong> Task</h2>
+      <h2>
+        <strong>Create</strong> Task
+        <sup>
+          <span class="small" ng-show="vm.showSavingOffline"><i>Saving Offline </i> <i class="fa fa-spinner faa-spin animated undefined visible"></i></span>
+          <span class="small" ng-show="vm.showSavedOffline"><i>Saved Offline </i> <i class="fa fa-laptop"></i> <button class="btn btn-xs btn-danger" ng-click="vm.removeLocalStorageNewTask()">Remove</button></span>
+        </sup>
     </div>
     <div class="panel">
       <div class="panel-content">
@@ -125,7 +130,7 @@
                         name="order"
                         ng-model="vm.task.orderCode">
                   <md-optgroup label="Order Status">
-                    <md-option ng-value="order.orderCode" ng-repeat="order in vm.refcodetasks[0].orderCodes">{{order.orderCode | uppercase}}</md-option>
+                    <md-option ng-value="order.orderCode" ng-repeat="order in vm.refcodetasks[0].orderCodes">{{order.orderName ? order.orderName : order.orderCode | uppercase}}</md-option>
                   </md-optgroup>
                 </md-select>
                 <div ng-messages="vm.taskForm.order.$error">
@@ -140,7 +145,7 @@
                         name="state"
                         ng-model="vm.task.stateCode">
                   <md-optgroup label="State">
-                    <md-option ng-value="state.stateCode" ng-repeat="state in vm.refcodetasks[0].stateCodes">{{state.stateCode | uppercase}}</md-option>
+                    <md-option ng-value="state.stateCode" ng-repeat="state in vm.refcodetasks[0].stateCodes">{{state.stateName ? state.stateName : state.stateCode | uppercase}}</md-option>
                   </md-optgroup>
                 </md-select>
                 <div ng-messages="vm.taskForm.state.$error">
@@ -155,7 +160,7 @@
                         name="work"
                         ng-model="vm.task.workCode">
                   <md-optgroup label="Work Category">
-                    <md-option ng-value="work.workCode" ng-repeat="work in vm.refcodetasks[0].workCodes">{{work.workCode | uppercase}}</md-option>
+                    <md-option ng-value="work.workCode" ng-repeat="work in vm.refcodetasks[0].workCodes">{{work.workName ? work.workName : work.workCode | uppercase}}</md-option>
                   </md-optgroup>
                 </md-select>
                 <div ng-messages="vm.taskForm.work.$error">

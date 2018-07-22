@@ -1,18 +1,18 @@
 <section ng-init="loadinitial()">
-  <div class="page-content"  ng-if="vm.refcodetasks.length > 0">    
+  <div class="page-content"  ng-if="vm.refcodetasks.length > 0">
     <div class="header">
       <h2>Ref Code <strong>List</strong></h2>
       <div style="margin-top: 10px;">
           <md-button class="btn btn-primary" ng-click="createOrUpdateRefCode(vm.refcodetasks[0], false)" type="submit">{{vm.refcodetasks[0].orderCodes.length <=0 && vm.refcodetasks[0].stateCodes.length <=0 && vm.refcodetasks[0].workCodes.length <=0 ? 'Create' : 'Edit' }}</md-button>
       </div>
     </div>
-    <div class="row">      
-      <div class="col-lg-4 portlets">         
+    <div class="row">
+      <div class="col-lg-4 portlets">
         <div class="panel">
-          <div class="panel-content"> 
+          <div class="panel-content">
             <div class="control-btn">
               <a href="#" class="panel-reload hidden" ng-click="loadinitial()"><i class="icon-reload"></i></a>
-            </div>                 
+            </div>
             <table class="table table-hover dataTable" id="table-editable">
               <thead>
                 <tr>
@@ -21,19 +21,19 @@
               </thead>
               <tbody>
                 <tr ng-repeat="order in vm.filteredRefcodetasks = (vm.refcodetasks[0].orderCodes | filter: searchParams.keyword) | orderBy: '-created'  track by $index">
-                  <td style="text-align: center">{{order.orderCode | uppercase}}</td>                   
-                </tr>                      
+                  <td style="text-align: center">{{order.orderCode | uppercase}} - {{order.orderName | uppercase}}</td>
+                </tr>
               </tbody>
             </table>
           </div>
         </div>
       </div>
-      <div class="col-lg-4 portlets">         
+      <div class="col-lg-4 portlets">
         <div class="panel">
-          <div class="panel-content"> 
+          <div class="panel-content">
             <div class="control-btn">
               <a href="#" class="panel-reload hidden" ng-click="loadinitial()"><i class="icon-reload"></i></a>
-            </div>                 
+            </div>
             <table class="table table-hover dataTable" id="table-editable">
               <thead>
                 <tr>
@@ -42,19 +42,19 @@
               </thead>
               <tbody>
                 <tr ng-repeat="state in vm.filteredRefcodetasks = (vm.refcodetasks[0].stateCodes | filter: searchParams.keyword) | orderBy: '-created'  track by $index">
-                  <td style="text-align: center">{{state.stateCode | uppercase}}</td>                     
-                </tr>                      
+                  <td style="text-align: center">{{state.stateCode | uppercase}} - {{state.stateName | uppercase}}</td>
+                </tr>
               </tbody>
             </table>
           </div>
         </div>
       </div>
-      <div class="col-lg-4 portlets">         
+      <div class="col-lg-4 portlets">
         <div class="panel">
-          <div class="panel-content"> 
+          <div class="panel-content">
             <div class="control-btn">
               <a href="#" class="panel-reload hidden" ng-click="loadinitial()"><i class="icon-reload"></i></a>
-            </div>                 
+            </div>
             <table class="table table-hover dataTable" id="table-editable">
               <thead>
                 <tr>
@@ -63,8 +63,8 @@
               </thead>
               <tbody>
                 <tr ng-repeat="work in vm.filteredRefcodetasks = (vm.refcodetasks[0].workCodes | filter: searchParams.keyword) | orderBy: '-created' track by $index">
-                  <td style="text-align: center">{{work.workCode | uppercase}}</td>                    
-                </tr>                      
+                  <td style="text-align: center">{{work.workCode | uppercase}} - {{work.workName | uppercase}}</td>
+                </tr>
               </tbody>
             </table>
           </div>
@@ -78,6 +78,3 @@
     </div>
   </div>
 </section>
-
-
-

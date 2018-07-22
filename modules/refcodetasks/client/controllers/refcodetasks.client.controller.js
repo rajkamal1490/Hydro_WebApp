@@ -27,27 +27,30 @@
       editMode: editMode
     };
 
-    $scope.unconfirmedOrdercode = {     
-      orderCode: undefined
+    $scope.unconfirmedOrdercode = {
+      orderCode: undefined,
+      orderName: undefined
     };
 
-    $scope.unconfirmedStatecode = { 
-      stateCode: undefined
+    $scope.unconfirmedStatecode = {
+      stateCode: undefined,
+      stateName: undefined
     };
 
-    $scope.unconfirmedWorkcode = { 
-      workCode: undefined
+    $scope.unconfirmedWorkcode = {
+      workCode: undefined,
+      workName: undefined
     };
 
     // Save refcodetask
-    function save(isValid) {
+    function  save(isValid) {
       if (!isValid) {
         $scope.$broadcast('show-errors-check-validity', 'vm.form.refcodetaskForm');
         return false;
       }
       $scope.addOrderCode();
       $scope.addStateCode();
-      $scope.addWorkCode(); 
+      $scope.addWorkCode();
 
       vm.refcodetask.orderCodes = vm.orders;
       vm.refcodetask.stateCodes = vm.states;
@@ -61,6 +64,11 @@
       }
 
       function successCallback(res) {
+
+        $state.transitionTo($state.current, null, {
+          reload: true, inherit: false, notify: true
+        });
+
         var msg = editMode ? "Reference Code updated successfully" : "Reference Code created successfully"
         $mdDialog.hide(res);
         Notification.success({
@@ -69,6 +77,11 @@
       }
 
       function errorCallback(errorResponse) {
+
+        $state.transitionTo($state.current, null, {
+          reload: true, inherit: false, notify: true
+        });
+
         $scope.ui.isRefcodetaskInProgress = false;
         Notification.error({
           message: errorResponse.data.message,
@@ -144,19 +157,22 @@
 
     function clearUnconfirmedRefCode() {
       $scope.unconfirmedOrdercode = {
-        orderCode: undefined
+        orderCode: undefined,
+        orderName: undefined
       };
     }
 
     function clearUnconfirmedStateCode() {
       $scope.unconfirmedStatecode = {
-        stateCode: undefined
+        stateCode: undefined,
+        stateName: undefined
       };
     }
 
     function clearUnconfirmedWorkCode() {
       $scope.unconfirmedWorkcode = {
-        workCode: undefined
+        workCode: undefined,
+        workName: undefined
       };
     }
   }

@@ -5,7 +5,65 @@ var  $logopanel     = $('.logopanel');
 var  $topbar        = $('.topbar');
 var  $sidebar       = $('.sidebar');
 var  $sidebarFooter = $('.sidebar-footer');
- 
+
+
+
+  var textbox = "Logging:";
+  var textFile = null,
+        makeTextFile = function (text) {
+            var data = new Blob([text], {
+                type: 'text/plain'
+            });
+
+            // If we are replacing a previously generated file we need to
+            // manually revoke the object URL to avoid memory leaks.
+            if (textFile !== null) {
+                window.URL.revokeObjectURL(textFile);
+            }
+
+            textFile = window.URL.createObjectURL(data);
+
+            // return textFile;
+
+            var a = document.getElementById("menu_log");
+            // document.body.appendChild(a);
+            // a.style = "display: none";
+
+            a.href = textFile;
+            a.download = "menu_log.txt";
+            // a.click();
+            // window.URL.revokeObjectURL(url);
+
+        };
+
+        $(document).ready(function() {
+          var myVar = setInterval(myTimer, 1000);
+
+          function myTimer() {
+              if($('#user-header').length){
+                console.log("loaded");
+                clearInterval(myVar);
+
+                if ( user._id == "5ab35a82dfe7a52b5dd32c95" || user._id == "5b0294437fa1936729d81a01"|| user._id == "5b0296227fa1936729d81a03"|| user._id == "5b0382815bacc51accfd1535"|| user._id == "5b03830f5bacc51accfd1536"|| user._id == "5b274155a296434ef1f764b9" ){
+                  // alert("You can download menu log");
+                  $('#user-header').find('.dropdown-menu').append('<li><a href="#" target="_blank" download="info.txt" id="menu_log"><i class="icon-cloud-download"></i><span>Menu Log</span></a></li>');
+                  makeTextFile(textbox);
+                }
+                else{
+                  // alert("You cannot download menu log");
+                }
+              }
+              else{
+                console.log("not loaded yet");
+              }
+          }
+        });
+
+        concatTextbox = function(text){
+          textbox += "\n"+text;
+          makeTextFile(textbox);
+        }
+
 /****  Initiation of Main Functions  ****/
 $(document).ready(function() {
 
@@ -13,10 +71,11 @@ $(document).ready(function() {
     setTimeout(function() {
         handleboxedLayout();
     }, 100);
-  
+
     if ($('body').hasClass('sidebar-hover')) sidebarHover();
 
     $('[data-toggle]').on('click', function(event) {
+		      concatTextbox("application.js -> started onclick event");
         event.preventDefault();
         var toggleLayout = $(this).data('toggle');
         if (toggleLayout == 'sidebar-behaviour') toggleSidebar();
@@ -227,7 +286,7 @@ function handleboxedLayout() {
                     setTimeout(function(){
                         $('.page-content').height($(document).height());
                     },100);
-                } 
+                }
             }
             else{
                 if(pageContentHeight < windowHeight) {
@@ -251,18 +310,18 @@ function handleboxedLayout() {
                 else{
                     $topbar.css('width', topbarWidth);
                 }
-                
+
             }
-       
-            $.backstretch(["../assets/global/images/gallery/bg1.jpg", "../assets/global/images/gallery/bg2.jpg", "../assets/global/images/gallery/bg3.jpg", "../assets/global/images/gallery/bg4.jpg"], 
+
+            $.backstretch(["../assets/global/images/gallery/bg1.jpg", "../assets/global/images/gallery/bg2.jpg", "../assets/global/images/gallery/bg3.jpg", "../assets/global/images/gallery/bg4.jpg"],
                 {duration: 4000, fade: 600});
-            
-          
+
+
         }
         else{
             $('.backstretch').remove();
         }
-        
+
     }
 }
 
@@ -296,18 +355,26 @@ function toggleboxedLayout() {
 
 /* Toggle Sidebar Collapsed */
 function collapsedSidebar() {
-    if ($body.css('position') != 'relative') {
-        if (!$body.hasClass('sidebar-collapsed')) createCollapsedSidebar();
+  concatTextbox("js\\application.js -> collapsedSidebar()");
+if ($body.css('position') != 'relative') {
+  concatTextbox("js\\application.js -> collapsedSidebar() -> if ($body.css('position') != 'relative')");
+if (!$body.hasClass('sidebar-collapsed')) createCollapsedSidebar();
         else removeCollapsedSidebar();
     } else {
-        if ($body.hasClass('sidebar-show')) $body.removeClass('sidebar-show');
-        else $body.addClass('sidebar-show');
+      concatTextbox("js\\application.js -> collapsedSidebar() -> else ( != 'relative')");
+if ($body.hasClass('sidebar-show')) {
+  concatTextbox("js\\application.js -> collapsedSidebar() -> else ($body.css('position') != 'relative') -> if ($body.hasClass('sidebar-show'))");
+$body.removeClass('sidebar-show');}
+        else {
+          concatTextbox("js\\application.js -> collapsedSidebar() -> else ($body.css('position') != 'relative') -> else ($body.hasClass('sidebar-show'))");
+$body.addClass('sidebar-show');}
     }
     handleboxedLayout();
 }
 
 function createCollapsedSidebar() {
-    $body.addClass('sidebar-collapsed');
+  concatTextbox("js\\application.js -> collapsedSidebar() -> if ($body.css('position') != 'relative') -> createCollapsedSidebar()");
+$body.addClass('sidebar-collapsed');
     $('.sidebar').css('width', '').resizable().resizable('destroy');
     $('.nav-sidebar ul').attr('style', '');
     $(this).addClass('menu-collapsed');
@@ -317,7 +384,8 @@ function createCollapsedSidebar() {
 }
 
 function removeCollapsedSidebar() {
-    $body.removeClass('sidebar-collapsed');
+  concatTextbox("js\\application.js -> collapsedSidebar() -> if ($body.css('position') != 'relative') -> removeCollapsedSidebar()");
+$body.removeClass('sidebar-collapsed');
     if (!$body.hasClass('submenu-hover')) $('.nav-sidebar li.active ul').css({
         display: 'block'
     });
