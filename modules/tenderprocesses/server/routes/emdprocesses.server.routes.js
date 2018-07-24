@@ -18,6 +18,8 @@ module.exports = function(app) {
 
   app.route('/api/tenderprocesses/emd/upload/:emdId').post(emdprocess.uploadFiles);  
 
+  app.route('/api/tenderprocesses/emd/awaitingemdforms').post(emdprocess.awaitingForEmdApproval); 
+
   // Finish by binding the emdprocess middleware
   app.param('emdId', emdprocess.emdprocessByID);
 };

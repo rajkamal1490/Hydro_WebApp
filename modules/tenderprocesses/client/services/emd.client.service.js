@@ -14,6 +14,17 @@
     }, {
       update: {
         method: 'PUT'
+      },
+      getAwaitingEmdForms: {
+        method: 'POST',
+        isArray: true,
+        url: '/api/tenderprocesses/emd/awaitingemdforms'
+      }
+    });
+
+    angular.extend(EmdProcess, {
+      getEmdAwaitingList: function(emdevents) {
+        return this.getAwaitingEmdForms(emdevents).$promise;
       }
     });
   }

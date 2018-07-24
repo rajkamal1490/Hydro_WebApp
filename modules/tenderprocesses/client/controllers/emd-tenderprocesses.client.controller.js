@@ -6,9 +6,9 @@
     .module('tenderprocesses')
     .controller('TenderprocessesEmdController', TenderprocessesEmdController);
 
-  TenderprocessesEmdController.$inject = ['emdResolve', 'emdprocessesResolve', 'hasCreateEmd', '$scope', '$state', 'Authentication', '$mdpDatePicker', 'NotificationsService', 'Notification', 'PROFILE_MAX_SIZE', 'TenderprocessesEmdService', 'Upload'];
+  TenderprocessesEmdController.$inject = ['emdResolve', 'emdprocessesResolve', 'hasApproval', 'hasCreateEmd', '$scope', '$state', 'Authentication', '$mdpDatePicker', '$mdDialog', 'NotificationsService', 'Notification', 'PROFILE_MAX_SIZE', 'TenderprocessesEmdService', 'Upload'];
 
-  function TenderprocessesEmdController(emdResolve, emdprocessesResolve, hasCreateEmd, $scope, $state, Authentication, $mdpDatePicker, NotificationsService, Notification, PROFILE_MAX_SIZE, TenderprocessesEmdService, Upload) {
+  function TenderprocessesEmdController(emdResolve, emdprocessesResolve, hasApproval, hasCreateEmd, $scope, $state, Authentication, $mdpDatePicker, $mdDialog, NotificationsService, Notification, PROFILE_MAX_SIZE, TenderprocessesEmdService, Upload) {
     var vm = this;
     vm.authentication = Authentication;
     vm.emdprocess = new TenderprocessesEmdService(emdResolve);
@@ -20,6 +20,7 @@
     vm.hasCreateEmd = hasCreateEmd;
     vm.emdDocName = emdResolve ? emdResolve.filename : undefined;
     vm.redirectEmdForm = redirectEmdForm;
+    vm.hasApproval = hasApproval;
 
     $scope.eventTime = {
       mEndClock: emdResolve ? new Date(emdResolve.dueDateTime) : new Date(),
@@ -62,22 +63,12 @@
       }
 
       vm.emdprocess.dueDateTime = $scope.eventTime.mEndToServer;
-
-      // var notification = new NotificationsService({
-      //   notifyTo: [vm.emdprocess.assignee._id],
-      //   user: Authentication.user,
-      //   type: 'tenderEmd',
-      //   hasPopUped: false,
-      //   isDismissed: false
-      // });     
-
       // TODO: move create/update logic to service
       if (vm.emdprocess._id) {
         vm.emdprocess.$update(successCallback, errorCallback);
       } else {
-        // notification.$save().then(function(res) {
+        vm.emdprocess.name = 'EMD' + (emdprocessesResolve.length === undefined ? 1 : emdprocessesResolve.length + 1);
         vm.emdprocess.$save(successCallback, errorCallback);
-        //  });
       }
 
       function successCallback(res) {
@@ -108,11 +99,24 @@
 
     // Called after the user has successfully uploaded a new picture
     function onSuccessItem(response) {
-      var msg = "Emd Form created/updated successfully";
+      if (vm.hasApproval) {
+        var message = "You applied " + vm.emdprocess.name + " has been approved";
+        var notification = new NotificationsService({
+          notifyTo: [vm.emdprocess.user._id],
+          user: Authentication.user._id,
+          type: 'emdapprovalinfo',
+          meetingScheduleDate: new Date(),
+          hasPopUped: false,
+          isDismissed: false,
+          message: message
+        });
+        notification.$save();
+      }
+      var msg = vm.hasApproval ? "Emd form approved successfully" : "Emd Form created/updated successfully";
       $scope.ui.isEmdInProgress = false;
       Notification.success({
         message: '<i class="glyphicon glyphicon-ok"></i> ' + msg
-      });
+      });      
       redirectEmdForm();
     }
 
@@ -145,6 +149,31 @@
       var dtGMT = new Date((new Date(dt)).toUTCString()).toISOString();
 
       return dtGMT;
+    };
+
+     $scope.openCommentsDialog = function(hasNeedInfo) {
+      $mdDialog.show({
+        controller: 'TenderEmdCommentsController',
+        controllerAs: 'vm',
+        templateUrl: '/modules/tenderprocesses/client/views/emd-comments.client.view.html',
+        parent: angular.element(document.body),
+        clickOutsideToClose: false,
+        escapeToClose: false,
+        fullscreen: true,
+        resolve: {
+          hasNeedInfo: function() {
+            return hasNeedInfo;
+          },
+          emdResolve: function() {
+            return emdResolve;
+          }
+        }
+      }).then(function(createdItem) {
+        redirectEmdForm();
+      }, function() {
+        console.log('You cancelled the dialog.');
+      });
+
     };
 
     function redirectEmdForm() {

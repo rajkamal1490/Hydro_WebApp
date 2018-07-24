@@ -157,6 +157,9 @@
           hasCreateEmd: function() {
             return false;
           },
+          hasApproval: function() {
+            return false;
+          },
           emdprocessesResolve: ['$injector', '$q', function($injector, $q) {
             return $injector.invoke(emdProcessData).$promise; // cached, otherwise we would have called IncidentNoteTitle.query().
           }],
@@ -175,12 +178,74 @@
           hasCreateEmd: function() {
             return true;
           },
+          hasApproval: function() {
+            return false;
+          },
           emdprocessesResolve: ['$injector', '$q', function($injector, $q) {
             return $injector.invoke(emdProcessData).$promise; // cached, otherwise we would have called IncidentNoteTitle.query().
           }],
         },
         data: {
           pageTitle: 'NIT Edit Page'
+        }
+      })
+      .state('tenderprocesses.emdapproval', {
+        url: '/:emdId/approval/emd',
+        templateUrl: '/modules/tenderprocesses/client/views/emd-tenderprocess.client.view.html',
+        controller: 'TenderprocessesEmdController',
+        controllerAs: 'vm',
+        resolve: {
+          emdResolve: getEmdprocess,
+          hasCreateEmd: function() {
+            return true;
+          },
+          hasApproval: function() {
+            return true;
+          },
+          emdprocessesResolve: ['$injector', '$q', function($injector, $q) {
+            return $injector.invoke(emdProcessData).$promise; // cached, otherwise we would have called IncidentNoteTitle.query().
+          }],
+        },
+        data: {
+          pageTitle: 'NIT Edit Page'
+        }
+      })
+      .state('tenderprocesses.itemsheet', {
+        url: '/itemsheet',
+        templateUrl: '/modules/tenderprocesses/client/views/item-sheet-tenderprocess.client.view.html',
+        controller: 'TenderprocessesItemSheetController',
+        controllerAs: 'vm',
+        resolve: {
+          itemSheetResolve: function() {
+            return undefined;
+          },
+          hasCreatedItemSheet: function() {
+            return false;
+          },
+          itemSheetsResolve: ['$injector', '$q', function($injector, $q) {
+            return $injector.invoke(itemSheetsData).$promise; // cached, otherwise we would have called IncidentNoteTitle.query().
+          }],
+        },
+        data: {
+          pageTitle: 'Item Sheet Page'
+        }
+      })
+      .state('tenderprocesses.itemsheetedit', {
+        url: '/:itemSheetId/itemsheet',
+        templateUrl: '/modules/tenderprocesses/client/views/item-sheet-tenderprocess.client.view.html',
+        controller: 'TenderprocessesItemSheetController',
+        controllerAs: 'vm',
+        resolve: {
+          itemSheetResolve: getItemSheetProcess,
+          hasCreatedItemSheet: function() {
+            return true;
+          },
+          itemSheetsResolve: ['$injector', '$q', function($injector, $q) {
+            return $injector.invoke(itemSheetsData).$promise; // cached, otherwise we would have called IncidentNoteTitle.query().
+          }],
+        },
+        data: {
+          pageTitle: 'Item Sheet Edit Page'
         }
       })
       .state('tenderprocesses.view', {
@@ -221,6 +286,14 @@
     }).$promise;
   }
 
+  getItemSheetProcess.$inject = ['$stateParams', 'TenderprocessesItemSheetService'];
+
+  function getItemSheetProcess($stateParams, TenderprocessesItemSheetService) {
+    return TenderprocessesItemSheetService.get({
+      itemSheetId: $stateParams.itemSheetId
+    }).$promise;
+  }
+
   newTenderprocess.$inject = ['TenderprocessesService'];
 
   function newTenderprocess(TenderprocessesService) {
@@ -243,6 +316,12 @@
 
   function emdProcessData(TenderprocessesEmdService) {
     return TenderprocessesEmdService.query();
+  }
+
+  itemSheetsData.$inject = ['TenderprocessesItemSheetService'];
+
+  function itemSheetsData(TenderprocessesItemSheetService) {
+    return TenderprocessesItemSheetService.query();
   }
 
 

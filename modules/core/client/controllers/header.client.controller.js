@@ -5,9 +5,9 @@
     .module('core')
     .controller('HeaderController', HeaderController);
 
-  HeaderController.$inject = ['$scope', '$state', '$http', 'AdminService', 'AttendancesService', 'Authentication', 'CheckInAttendancesServices', 'CommonService', 'EmployeeMeetingsService', 'menuService', '$mdDialog', '$interval', 'Notification', 'NotificationsService', 'PERMISSION', 'LEAVE', 'RemindersService', 'TodayReminderService', 'TasksService', 'MeetingsService', 'TenderprocessesNitService'];
+  HeaderController.$inject = ['$scope', '$state', '$http', 'AdminService', 'AttendancesService', 'Authentication', 'CheckInAttendancesServices', 'CommonService', 'EmployeeMeetingsService', 'menuService', '$mdDialog', '$interval', 'Notification', 'NotificationsService', 'PERMISSION', 'LEAVE', 'RemindersService', 'TodayReminderService', 'TasksService', 'MeetingsService', 'TenderprocessesNitService', 'TenderprocessesEmdService'];
 
-  function HeaderController($scope, $state, $http, AdminService, AttendancesService, Authentication, CheckInAttendancesServices, CommonService, EmployeeMeetingsService, menuService, $mdDialog, $interval, Notification, NotificationsService, PERMISSION, LEAVE, RemindersService, TodayReminderService, TasksService, MeetingsService, TenderprocessesNitService) {
+  function HeaderController($scope, $state, $http, AdminService, AttendancesService, Authentication, CheckInAttendancesServices, CommonService, EmployeeMeetingsService, menuService, $mdDialog, $interval, Notification, NotificationsService, PERMISSION, LEAVE, RemindersService, TodayReminderService, TasksService, MeetingsService, TenderprocessesNitService, TenderprocessesEmdService) {
     var vm = this;
 
     vm.accountMenu = menuService.getMenu('account').items[0];
@@ -23,6 +23,7 @@
     vm.reminders = [];
     vm.notifications = [];
     vm.nitEvents = [];
+    vm.emdEvents = [];
 
     $scope.$on('$stateChangeSuccess', stateChangeSuccess);
 
@@ -101,6 +102,17 @@
       });
     }
 
+    var getTenderEmdAwaitingForApproval = function() {
+      TenderprocessesEmdService.getAwaitingEmdForms(function(emdforms) {        
+        emdforms = _.reject(emdforms, function(emdform) {
+          return vm.emdEvents ? _.includes(_.map(vm.emdEvents, '_id'), emdform._id) : false;
+        });
+        angular.forEach(emdforms, function(emdform) {
+          vm.emdEvents.push(emdform);
+        });
+      });
+    }
+
     $scope.inHour = function(startTime) {
       return moment(startTime).fromNow();
     };
@@ -133,8 +145,16 @@
       window.location.href = "/tenderprocesses/"+nitevent._id+"/approval/nit"; 
     };
 
+    $scope.approveEmd = function(emdevent) {      
+      window.location.href = "/tenderprocesses/"+emdevent._id+"/approval/emd"; 
+    };
+
     $scope.redirectToNitForm = function() {
       window.location.href = "/tenderprocesses/nit";      
+    };
+
+    $scope.redirectToEmdForm = function() {
+      window.location.href = "/tenderprocesses/emd";      
     };
 
     $scope.handleMyPersistentNotifications = function(notification) {
@@ -237,7 +257,7 @@
           if(notifications.length > 1) {
             CommonService.sleep(0);
           }
-          if(notification.type !== 'leaveOrPermission' && notification.type !== 'nitapprovalinfo') {
+          if(notification.type !== 'leaveOrPermission' && notification.type !== 'nitapprovalinfo' && notification.type !== 'emdapprovalinfo') {
             buildNotificationContent(notification);
           }
         });
@@ -267,12 +287,14 @@
       getMyNotifications();
       getMyPersistentNotifications();
       getTenderNitAwaitingForApproval();
+      getTenderEmdAwaitingForApproval();
       $interval(getAttendances, 5000);
       $interval(getMyTodayMeetings, 5000);
       $interval(getMyNotifications, 5000);
       $interval(getMyTodayReminders, 5000);
       $interval(getMyPersistentNotifications, 5000);
       $interval(getTenderNitAwaitingForApproval, 5000);
+      $interval(getTenderEmdAwaitingForApproval, 5000);
     }
 
     $scope.logout = function(ev) {

@@ -1,0 +1,71 @@
+<!-- List of Item Sheet's -->
+<section>
+  <div class="row" ng-hide="vm.hasCreatedItemSheet">
+    <div class="col-md-8">
+      <div class="header">
+        <h2>Item Sheet <strong>List</strong></h2>
+        <div class="col-md-3" style="margin-top: 2%">
+          <md-button class="btn btn-primary" ng-click="vm.hasCreatedItemSheet = true" type="submit">Create</md-button>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-12 portlets">
+      <table class="table table-hover dataTable" id="table-editable">
+        <thead>
+          <tr>
+            <th>S.No</th>
+            <th>Item Name</th>
+            <th>Rating</th>
+            <th>UoM</th>
+            <th>Qty</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="itemSheet in vm.itemSheets">
+            <td>{{$index + 1}}</td>
+            <td>{{itemSheet.name}}</td>
+            <td>{{itemSheet.rating}}</td>
+            <td></td>
+            <td></td>
+            <td>
+              <button class="edit btn btn-sm btn-default" ng-click="vm.edit(itemSheet)"><i class="icon-note"></i></button>
+              <button class="delete btn btn-sm btn-danger" ng-click="vm.remove(itemSheet)"><i class="icons-office-52"></i></button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+<!-- Create Item Sheet's -->
+<div class="col-md-12" ng-show="vm.hasCreatedItemSheet">
+  <h2><strong>{{vm.itemsheetprocess._id ? 'Update' : 'Create'}}</strong> Item Sheet</h2>
+  <div class="row">
+    <div class="col-md-12 col-sm-12 col-xs-12">
+      <form name="vm.itemSheetForm" autocomplete="off" novalidate>
+        <div layout="column" flex>
+          <md-input-container flex>
+            <label class="my-label">Name</label>
+            <input required type="text" name="name" ng-model="vm.itemsheetprocess.name" />
+            <div ng-messages="vm.itemSheetForm.name.$error">
+              <div ng-message="required">Name is required.</div>
+            </div>
+          </md-input-container>
+          <md-input-container flex>
+            <label class="my-label">Rating</label>
+            <input required type="text" name="rating" ng-model="vm.itemsheetprocess.rating" />
+            <div ng-messages="vm.itemSheetForm.rating.$error">
+              <div ng-message="required">Rating is required.</div>
+            </div>
+          </md-input-container>
+        </div>
+        <div class="text-center  m-t-20">
+          <button type="submit" class="btn btn-next btn-fill btn-success btn-wd" ng-hide="ui.isItemSheetInProgress" ng-click="vm.save(vm.itemSheetForm.$valid);" type="submit">{{vm.itemsheetprocess._id ? 'Update' : 'Create'}}</button>
+          <button type="submit" class="btn btn-next btn-fill btn-success btn-wd" ng-show="ui.isItemSheetInProgress" ng-disabled="true"><i class="fa fa-spinner fa-spin" style="font-size: 18px"></i>{{vm.itemsheetprocess._id ? 'Updating' : 'Creating'}}</button>
+          <button type="submit" ng-click="vm.redirectItemSheet()" class="btn btn-next btn-fill btn-primary btn-wd">Back</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

@@ -13,9 +13,13 @@
       <div class="col-md-3 col-xs-6 col-sm-5 panel" ng-repeat="emdTenderProcess in vm.emdTenderProcesses | orderBy: '$index'" style="margin: 25px;">
         <div class="row">
           <a ui-sref="tenderprocesses.emdedit({ emdId: emdTenderProcess._id })">
-            <h2 class="name" style="text-align: center;"><b>EMD {{$index + 1}}</b></h2>
+            <h2 class="name" style="text-align: center;"><b>{{emdTenderProcess.name}}</b></h2>
             <div class="clearfix">
               <p style="text-align: center;"> {{emdTenderProcess.dueDateTime | date:'short'}}</p>
+              <p style="text-align: center;" class="text-info" ng-if="emdTenderProcess.hasApproved === 0"><i class="glyphicon glyphicon-time"></i> Awaiting for approval </p>
+              <p style="text-align: center;" class="text-success" ng-if="emdTenderProcess.hasApproved === 1"><i class="fa fa-thumbs-up"></i> Approved </p>
+              <p style="text-align: center;" class="text-warning" ng-if="emdTenderProcess.hasApproved === 2"><i class="fa fa-check-circle-o"></i> Need more clarification </p>
+              <p style="text-align: center;" class="text-danger" ng-if="emdTenderProcess.hasApproved === 3"><i class="fa fa-ban"></i> Rejected </p>
             </div>
           </a>
         </div>        
@@ -25,7 +29,7 @@
 </section>
 <!-- Create EMD's -->
 <div class="col-md-12" ng-show="vm.hasCreateEmd">
-  <h2><strong>Create</strong> EMD</h2>
+ <h2><strong>{{vm.hasApproval ? 'Approval' : vm.emdprocess._id ? 'Update' : 'Create'}}</strong> EMD</h2>
   <div class="row">
     <div class="col-md-12 col-sm-12 col-xs-12">
       <form name="vm.emdForm" autocomplete="off" novalidate>
@@ -91,10 +95,26 @@
             </div>
           </md-input-container>
         </div>
+        <div class="row" ng-if="vm.emdprocess.comments">
+          <b>{{vm.emdprocess.hasApproved === 2 ? 'Find the below clarification' : 'Find the reason for rejection'}}:</b> 
+          <div>
+            <span ng-repeat="comment in vm.emdprocess.comments track by $index">
+              {{comment.comment}} <br />
+            </span>
+          </div>
+        </div>
         <div class="text-center  m-t-20">
-          <button type="submit" class="btn btn-next btn-fill btn-success btn-wd" ng-hide="ui.isEmdInProgress" ng-click="vm.save(vm.emdForm.$valid);" type="submit">{{vm.emdprocess._id ? 'Update' : 'Create'}}</button>
-          <button type="submit" class="btn btn-next btn-fill btn-success btn-wd" ng-show="ui.isEmdInProgress" ng-disabled="true"><i class="fa fa-spinner fa-spin" style="font-size: 18px"></i>{{vm.emdprocess._id ? 'Updating' : 'Creating'}}</button>
-          <button type="submit" ng-click="vm.redirectEmdForm()" class="btn btn-next btn-fill btn-primary btn-wd">Back</button>
+          <span ng-if="!vm.hasApproval">
+            <button type="submit" class="btn btn-next btn-fill btn-success btn-wd" ng-hide="ui.isEmdInProgress" ng-click="vm.save(vm.emdForm.$valid);" type="submit">{{vm.emdprocess._id ? 'Update' : 'Create'}}</button>
+            <button type="submit" class="btn btn-next btn-fill btn-success btn-wd" ng-show="ui.isEmdInProgress" ng-disabled="true"><i class="fa fa-spinner fa-spin" style="font-size: 18px"></i>{{vm.emdprocess._id ? 'Updating' : 'Creating'}}</button>
+            <button type="submit" ng-click="vm.redirectEmdForm()" class="btn btn-next btn-fill btn-primary btn-wd">Back</button>
+          </span>
+          <span ng-if="vm.hasApproval">
+            <button type="submit" class="btn btn-next btn-fill btn-success btn-wd" ng-click="vm.emdprocess.hasApproved = 1; vm.save(vm.emdForm.$valid);" type="submit">Approved</button>           
+            <button type="submit" ng-click="openCommentsDialog(true)" class="btn btn-next btn-fill btn-primary btn-wd">Need Clarification</button>
+
+            <button type="submit" ng-click="openCommentsDialog(false)" class="btn btn-next btn-fill btn-danger btn-wd">Reject</button>
+          </span>
         </div>
       </form>
       </div>

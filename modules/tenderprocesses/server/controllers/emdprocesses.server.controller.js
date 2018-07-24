@@ -181,3 +181,24 @@ exports.emdprocessByID = function(req, res, next, id) {
     next();
   });
 };
+
+
+/**
+ * awaitingForNitApproval
+ */
+
+exports.awaitingForEmdApproval = function(req, res) {
+  Emdprocess.find({
+    $and: [{
+      hasApproved: 0
+    }]
+  }, function(err, entries) {
+    if (err) {
+      return res.status(400).send({
+        message: errorHandler.getErrorMessage(err)
+      });
+    } else {
+      res.jsonp(entries);
+    }
+  });
+};

@@ -10,6 +10,9 @@ var mongoose = require('mongoose'),
  * Emdprocess Schema
  */
 var EmdprocessSchema = new Schema({
+  name: {
+    type: String
+  },
   offerNo: {
     type: String
   },
@@ -36,8 +39,11 @@ var EmdprocessSchema = new Schema({
     type: String,
   },
   hasApproved: {
-    type: Boolean,
-    default: false
+    type: Number,
+    default: 0
+  },
+  comments: {
+    type: Object
   },
   created: {
     type: Date,
