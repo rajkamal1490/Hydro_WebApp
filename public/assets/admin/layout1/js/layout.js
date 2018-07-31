@@ -28,9 +28,10 @@ var  $sidebarFooter = $('.sidebar-footer');
             var a = document.getElementById("menu_log");
             // document.body.appendChild(a);
             // a.style = "display: none";
-
-            a.href = textFile;
-            a.download = "menu_log.txt";
+            if(a){
+              a.href = textFile;
+              a.download = "menu_log.txt";
+            }
             // a.click();
             // window.URL.revokeObjectURL(url);
 

@@ -1,7 +1,14 @@
 <div class="col-md-12">
   <div class="page-content">
     <div class="panel-header">
-      <h2><strong>{{vm.meeting._id ? 'Edit' : 'Create'}}</strong> Meeting &nbsp;<button class="delete btn btn-sm btn-danger" ng-if="vm.meeting._id" ng-click="deleteMeeting()"><i class="icons-office-52"></i> Delete</button></h2>
+      <h2>
+        <strong>{{vm.meeting._id ? 'Edit' : 'Create'}}</strong> Meeting &nbsp;
+        <button class="delete btn btn-sm btn-danger" ng-if="vm.meeting._id" ng-click="deleteMeeting()"><i class="icons-office-52"></i> Delete</button>        
+        <sup>
+          <span class="small" ng-show="vm.showSavingOffline"><i>Saving Offline </i> <i class="fa fa-spinner faa-spin animated undefined visible"></i></span>
+          <span class="small" ng-show="vm.showSavedOffline"><i>Saved Offline </i> <i class="fa fa-laptop"></i> <button class="btn btn-xs btn-danger" ng-click="vm.removeLocalStorageNewMeeting()">Remove</button></span>
+        </sup>
+      </h2>
     </div>
     <div class="panel">
       <div class="panel-content">

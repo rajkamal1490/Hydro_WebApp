@@ -47,41 +47,54 @@
       editMode: editMode,
     };
 
-    // set false where values are initialized by default. this avoids triggering watch during initialiation
+    // set false. this avoids triggering watch during initialiation
     var taskfileds = {
-      'title': true,
-      'description': true,
+      'title': false,
+      'description': false,
       'startDateTime': false,
       'dueDateTime': false,
-      'priority': true,
-      'assignee': true,
+      'priority': false,
+      'assignee': false,
       'hasIndividual': false,
-      'projectCode': true,
-      'orderCode': true,
-      'stateCode': true,
-      'workCode': true,
-      'comment': true
+      'projectCode': false,
+      'orderCode': false,
+      'stateCode': false,
+      'workCode': false,
+      'comment': false
     };
+    var proceedAssigneeAfterAutoCompleteInit = false;
 
-    if(localStorage.getItem('new_task')==null){
-      localStorage.setItem('new_task',JSON.stringify((new_task)));
+    var localStorageName;
+    if(vm.task._id){
+      localStorageName = Authentication.user._id+'_task_id_'+vm.task._id;
+    }
+    else{
+      localStorageName = Authentication.user._id+'_new_task';
+    }
+
+    if(localStorage.getItem(localStorageName)==null){
+      // new_task['createdID'] = Authentication.user._id;
+      localStorage.setItem(localStorageName,JSON.stringify((new_task)));
       vm.showSavedOffline = false;
     }
     else{
-      var temp = JSON.parse(localStorage.getItem('new_task'));
-      console.log("localStorage new_task: " + localStorage.getItem('new_task'));
+      var temp = JSON.parse(localStorage.getItem(localStorageName));
+      // console.log("localStorage new_task: " + localStorage.getItem(localStorageName));
       if(Object.keys(temp).length>0){
         vm.showSavedOffline = true;
         new_task = temp;
         if(new_task['title'] != undefined){
           vm.task.title = new_task['title'];
+          // console.log("title - setting value from localStorage");
         }
         if(new_task['description'] != undefined){
           vm.task.description = new_task['description'];
+          // console.log("description - setting value from localStorage");
         }
         var d = new Date();
         if(new_task['startDateTime'] != undefined){
           vm.task.startDateTime = new_task['startDateTime'];
+          // console.log("startDateTime - setting value from localStorage");
           var startDateTime = new_task['startDateTime'].split(":");
           d.setYear(startDateTime[0]);
           d.setMonth(startDateTime[1]);
@@ -90,6 +103,7 @@
         }
         if(new_task['dueDateTime'] != undefined){
           vm.task.dueDateTime = new_task['dueDateTime'];
+          // console.log("dueDateTime - setting value from localStorage");
           var dueDateTime = new_task['dueDateTime'].split(":");
           d.setYear(dueDateTime[0]);
           d.setMonth(dueDateTime[1]);
@@ -98,30 +112,38 @@
         }
         if(new_task['priority'] != undefined){
           vm.task.priority = new_task['priority'];
+          // console.log("priority - setting value from localStorage");
         }
         if(new_task['assignee'] != undefined){
           vm.task.assignee = new_task['assignee'];
+          // console.log("assignee - setting value from localStorage");
         }
         if(new_task['hasIndividual'] != undefined){
           vm.hasIndividual = new_task['hasIndividual'];
-          // console.log(vm.hasIndividual);
+          // console.log("hasIndividual - setting value from localStorage");
+          // // console.log(vm.hasIndividual);
           if(vm.hasIndividual == 1){
             if(new_task['projectCode'] != undefined){
               vm.task.projectCode = new_task['projectCode'];
+              // console.log("projectCode - setting value from localStorage");
             }
             if(new_task['orderCode'] != undefined){
               vm.task.orderCode = new_task['orderCode'];
+              // console.log("orderCode - setting value from localStorage");
             }
             if(new_task['stateCode'] != undefined){
               vm.task.stateCode = new_task['stateCode'];
+              // console.log("stateCode - setting value from localStorage");
             }
             if(new_task['workCode'] != undefined){
               vm.task.workCode = new_task['workCode'];
+              // console.log("workCode - setting value from localStorage");
             }
           }
         }
         if(new_task['comment'] != undefined){
           vm.task.comment = new_task['comment'];
+          // console.log("comment - setting value from localStorage");
         }
       }
     }
@@ -133,22 +155,70 @@
           if(taskfileds[index]){
             vm.showSavedOffline = false;
             vm.showSavingOffline = true;
-            console.log("before waiting and displaying saved offline for field "+ index);
-            var doShowOfflineInfo = setInterval(function(){
-                                  console.log("end of waiting and displaying saved offline for field "+ index);
-                                  vm.showSavingOffline = false;
-                                  vm.showSavedOffline = true;
-                                  clearInterval(doShowOfflineInfo);
-                                }, 1000);
-            console.log("continuing without waiting for displaying saved offline for field "+ index);
-            if( vm.task[index]==null || vm.task[index].length==0 ){
+            if( vm.hasIndividual==null || vm.hasIndividual.length==0 ){
               delete new_task[index];
             }
             else{
               new_task[index] = vm.hasIndividual;
             }
-            localStorage.setItem('new_task',JSON.stringify(new_task));
-            console.log(localStorage.getItem('new_task'));
+            // console.log("before waiting and displaying saved offline for field "+ index);
+            if(Object.keys(new_task).length>0){
+              var doShowOfflineInfo = setInterval(function(){
+                                  // console.log("end of waiting and displaying saved offline for field "+ index);
+                                  vm.showSavingOffline = false;
+                                  vm.showSavedOffline = true;
+                                  clearInterval(doShowOfflineInfo);
+                                }, 300);
+            }
+            else{
+              var doShowOfflineInfo = setInterval(function(){
+                                  // console.log("end of waiting and not displaying saved offline for field "+ index);
+                                  vm.showSavingOffline = false;
+                                  vm.showSavedOffline = false;
+                                  clearInterval(doShowOfflineInfo);
+                                }, 300);
+            }
+            // console.log("continuing without waiting for displaying saved offline for field "+ index);
+            localStorage.setItem(localStorageName,JSON.stringify(new_task));
+            // console.log(localStorage.getItem(localStorageName));
+          }
+          taskfileds[index] = true;
+        });
+      }
+      else if(index=="assignee"){
+        $scope.$watch('vm.task.'+index, function (newValue, oldValue) {
+          if(taskfileds[index]){
+            if(proceedAssigneeAfterAutoCompleteInit){
+              vm.showSavedOffline = false;
+              vm.showSavingOffline = true;
+              if( vm.task[index]==null || vm.task[index].length==0 ){
+                delete new_task[index];
+              }
+              else{
+                new_task[index] = vm.task[index];
+              }
+              // console.log("before waiting and displaying saved offline for field "+ index);
+              if(Object.keys(new_task).length>0){
+                var doShowOfflineInfo = setInterval(function(){
+                                      // console.log("end of waiting and displaying saved offline for field "+ index);
+                                      vm.showSavingOffline = false;
+                                      vm.showSavedOffline = true;
+                                      clearInterval(doShowOfflineInfo);
+                                    }, 300);
+              }
+              else{
+                var doShowOfflineInfo = setInterval(function(){
+                                    // console.log("end of waiting and not displaying saved offline for field "+ index);
+                                    vm.showSavingOffline = false;
+                                    vm.showSavedOffline = false;
+                                    clearInterval(doShowOfflineInfo);
+                                  }, 300);
+              }
+              // console.log("continuing without waiting for displaying saved offline for field "+ index);
+              localStorage.setItem(localStorageName,JSON.stringify(new_task));
+              // console.log(localStorage.getItem(localStorageName));
+            }
+            proceedAssigneeAfterAutoCompleteInit = true;
           }
           taskfileds[index] = true;
         });
@@ -158,22 +228,32 @@
           if(taskfileds[index]){
             vm.showSavedOffline = false;
             vm.showSavingOffline = true;
-            console.log("before waiting and displaying saved offline for field "+ index);
-            var doShowOfflineInfo = setInterval(function(){
-                                  console.log("end of waiting and displaying saved offline for field "+ index);
-                                  vm.showSavingOffline = false;
-                                  vm.showSavedOffline = true;
-                                  clearInterval(doShowOfflineInfo);
-                                }, 1000);
-            console.log("continuing without waiting for displaying saved offline for field "+ index);
             if( vm.task[index]==null || vm.task[index].length==0 ){
               delete new_task[index];
             }
             else{
               new_task[index] = vm.task[index];
             }
-            localStorage.setItem('new_task',JSON.stringify(new_task));
-            console.log(localStorage.getItem('new_task'));
+            // console.log("before waiting and displaying saved offline for field "+ index);
+            if(Object.keys(new_task).length>0){
+              var doShowOfflineInfo = setInterval(function(){
+                                    // console.log("end of waiting and displaying saved offline for field "+ index);
+                                    vm.showSavingOffline = false;
+                                    vm.showSavedOffline = true;
+                                    clearInterval(doShowOfflineInfo);
+                                  }, 300);
+            }
+            else{
+              var doShowOfflineInfo = setInterval(function(){
+                                  // console.log("end of waiting and not displaying saved offline for field "+ index);
+                                  vm.showSavingOffline = false;
+                                  vm.showSavedOffline = false;
+                                  clearInterval(doShowOfflineInfo);
+                                }, 300);
+            }
+            // console.log("continuing without waiting for displaying saved offline for field "+ index);
+            localStorage.setItem(localStorageName,JSON.stringify(new_task));
+            // console.log(localStorage.getItem(localStorageName));
           }
           taskfileds[index] = true;
         });
@@ -181,12 +261,12 @@
     });
 
     function removeLocalStorageNewTask(){
-      localStorage.removeItem('new_task');
+      localStorage.removeItem(localStorageName);
       new_task = {};
       angular.forEach(taskfileds,function(value,index){
         taskfileds[index] = false;
-        console.log("clearing field "+index);
-        vm.task[index] = "";
+        // console.log("clearing field "+index);
+        vm.task[index] = undefined;
       });
       vm.showSavedOffline = false;
       vm.showSavingOffline = false;
@@ -292,6 +372,7 @@
 
       function successCallback(res) {
         var msg = editMode ? "Task updated successfully" : "Task created successfully"
+        localStorage.removeItem(localStorageName);
         Notification.success({
           message: '<i class="glyphicon glyphicon-ok"></i> ' + msg
         });
