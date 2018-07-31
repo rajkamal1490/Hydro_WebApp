@@ -124,7 +124,7 @@ exports.createMinutesOfMeetingDocx = function(req, res) {
         b: true,
         sz: '24',
         shd: {
-          fill: "FFFFFF",
+          fill: "000000",
         }
       }
     }, {
@@ -135,7 +135,7 @@ exports.createMinutesOfMeetingDocx = function(req, res) {
         b: true,
         sz: '24',
         shd: {
-          fill: "FFFFFF",
+          fill: "000000",
         }
       }
     }, {
@@ -146,7 +146,7 @@ exports.createMinutesOfMeetingDocx = function(req, res) {
         b: true,
         sz: '24',
         shd: {
-          fill: "FFFFFF",
+          fill: "000000",
         }
       }
     }, {
@@ -157,7 +157,7 @@ exports.createMinutesOfMeetingDocx = function(req, res) {
         b: true,
         sz: '24',
         shd: {
-          fill: "FFFFFF",
+          fill: "000000",
         }
       }
     }, {
@@ -168,20 +168,20 @@ exports.createMinutesOfMeetingDocx = function(req, res) {
         b: true,
         sz: '24',
         shd: {
-          fill: "FFFFFF",
+          fill: "000000",
         }
       }
     }]
   ];
   var sn = 0;
   req.body.minutes.agendas.forEach(function(element) {
-    var neededAttributes = _.pick(element, ['agendaTitle', 'agendaSolution', 'agendaActionPlan', 'agendaResponsiblePerson'] );  
+    var neededAttributes = _.pick(element, ['agendaTitle', 'agendaSolution', 'agendaActionPlan', 'agendaResponsiblePerson'] );
     sn += 1;
     var values = _.values(neededAttributes);
     element = [sn].concat(values);
     var array = [];
-    element.forEach(function(ele) {      
-      array.push({val: ele, opts: { shd: {fill: "FFFFFF"} }});
+    element.forEach(function(ele) {
+      array.push({val: ele, opts: { shd: {fill: "000000"} }});
     });
     table.push(array);
   });
@@ -221,7 +221,7 @@ exports.createMinutesOfMeetingDocx = function(req, res) {
   });
   facilator.addText('Facilator: ' + req.body.minutes.facilitator.displayName, {
     bold: true,
-  });  
+  });
 
   var tableStyle = {
     tableColWidth: 1850,
@@ -235,4 +235,3 @@ exports.createMinutesOfMeetingDocx = function(req, res) {
   var split = filePath.split("./");
   res.jsonp([{"filePath": server + split[1]}]);
 }
-
